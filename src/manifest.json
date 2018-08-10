@@ -1,0 +1,36 @@
+{
+  "name": "ADS Beet",
+  "version": "0.1",
+  "description": "__MSG_extDescription__",
+  "author": "https://adshares.net/",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "scripts/background.js"
+    ],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "file://*/**",
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "scripts/content_script.js"
+      ]
+    }
+  ],
+  "default_locale": "en",
+  "options_page": "options.html",
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_title": "ADS Beet"
+  },
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage"
+  ]
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+<div style="width: 20px;height: 20px; background-color: red;"></div>
+<script type="text/javascript">
+
+    window.addEventListener('message', function (event) {
+        console.log('adshares.html: onMessage');
+        console.log(event.data.type);
+        for (let prop in event.data) {
+            console.log(prop + ': ' + event.data[prop]);
+        }
+    }, false);
+
+</script>
+</body>
+</html>

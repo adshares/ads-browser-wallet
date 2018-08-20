@@ -35,52 +35,31 @@
     </table>
     <input type="submit" value="Submit">
 </form>
-<button id="btn_send_one">Send one</button>
-<!--
-<iframe src="chrome-extension://mggldlanffdgafakkmdheppehalbddbi/comm.html"></iframe>
--->
+<button id="btn_send_2">Send two</button>
+
 <script type="text/javascript">
-    let btnSendOne = document.getElementById('btn_send_one');
 
-    btnSendOne.addEventListener('click', function () {
-        let message = {type: 'ads-1', data: '1234', account: '0001-00000000-XXXX', msid: 1};
-        window.postMessage(message, '*');
-        // 'chrome-extension://mggldlanffdgafakkmdheppehalbddbi'
-    }, false);
+    let message = {type: 'ads-1', data: '1234', account: '0001-00000000-XXXX', msid: 1};
 
-    window.addEventListener('message', function (event) {
-        console.log('index.html: onMessage');
-        console.log(event.data.type);
-        // We only accept messages from ourselves
-
-        if (event.source !== window) {
-            return;
-        }
-
-        console.log(event.data.type);
-
-        if (event.data.type && (event.data.type === 'ads-2')) {
-            console.log('Content script received:');
-            for (let prop in event.data) {
-                console.log(prop + ': ' + event.data[prop]);
-            }
-
-        }
+    let btnSend2 = document.getElementById('btn_send_2');
+    btnSend2.addEventListener('click', function () {
+        let callback = function(iframePort) {
+            console.log('callback');
+            let port = iframePort;
+            port.onmessage = function(event) {
+                console.log(event);
+            };
+            console.log(port);
+            port.postMessage(message);
+        };
+        getIframePort(callback);
     }, false);
 
     function getIframePort(callback) {
-        // Create the iframe
-        const iframeOrigin = 'chrome-extension://mggldlanffdgafakkmdheppehalbddbi';
-        let iframe = document.createElement('iframe');
-        iframe.src = iframeOrigin + '/comm.html';
-        // iframe.setAttribute('style', 'display:none');
-        document.body.appendChild(iframe);
-
-        // Prepare a channel
+        // create message channel
         let channel = new MessageChannel();
         let ready = function(message) {
-            // When the iframe is ready to receive U2F messages,
-            // it will send the string 'ready'
+            // when the iframe is ready to receive messages, it will send the string 'ready'
             if (message.data && message.data === 'ready') {
                 channel.port1.removeEventListener('message', ready);
                 callback(channel.port1);
@@ -91,10 +70,16 @@
         channel.port1.addEventListener('message', ready);
         channel.port1.start();
 
+        // create the iframe
+        const iframeOrigin = 'chrome-extension://mggldlanffdgafakkmdheppehalbddbi';
+        let iframe = document.createElement('iframe');
+        iframe.src = iframeOrigin + '/comm.html';
+        // iframe.setAttribute('style', 'display:none');
+        document.body.appendChild(iframe);
+
         iframe.addEventListener('load', function() {
-            // Deliver the port to the iframe and initialize
+            // pass the port of message channel to the iframe
             iframe.contentWindow.postMessage('init', iframeOrigin, [channel.port2]);
-            // iframe.contentWindow.postMessage('init', '*', [channel.port2]);
         });
     }
 

@@ -32,5 +32,9 @@
     "activeTab",
     "declarativeContent",
     "storage"
+  ],
+  "web_accessible_resources": [
+    "comm.html",
+    "scripts/proxy.js"
   ]
 }

@@ -6,16 +6,6 @@
 </head>
 <body>
 <div style="width: 20px;height: 20px; background-color: red;"></div>
-<script type="text/javascript">
-
-    window.addEventListener('message', function (event) {
-        console.log('adshares.html: onMessage');
-        console.log(event.data.type);
-        for (let prop in event.data) {
-            console.log(prop + ': ' + event.data[prop]);
-        }
-    }, false);
-
-</script>
+<script src="chrome-extension://mggldlanffdgafakkmdheppehalbddbi/scripts/proxy.js"></script>
 </body>
 </html>

@@ -19,13 +19,7 @@ chrome.runtime.onConnect.addListener(
     function (port) {
         console.log("background.js: onConnect");
         console.log('connect ' + port.name);
-        if (port.name === 'ads-cs') {// connection with content script
-            port.onMessage.addListener(function (message) {
-                console.log('background.js: onMessage cs');
-                console.log(message);
-                port.postMessage({response: 'yes'});
-            });
-        } else if (port.name === 'ads-proxy') {// connection with proxy script
+        if (port.name === 'ads-proxy') {// connection with proxy script
             port.onMessage.addListener(function (message) {
                 console.log('background.js: onMessage proxy');
                 console.log(message);

@@ -10,18 +10,6 @@
     ],
     "persistent": false
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "file://*/**",
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "scripts/content_script.js"
-      ]
-    }
-  ],
   "default_locale": "en",
   "options_page": "options.html",
   "page_action": {

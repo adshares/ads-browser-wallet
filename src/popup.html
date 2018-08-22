@@ -2,16 +2,71 @@
 <html>
 <head>
     <style>
-        button {
-            height: 30px;
-            width: 30px;
-            outline: none;
+        body {
+            width: 380px;
         }
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        #tx-template {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
-<div id="content"></div>
-<button id="changeColor"></button>
+
+<!-- Tab links -->
+<div class="tab">
+    <button class="tablink" value="tab-tx">Transactions</button>
+    <button class="tablink" value="tab-settings">Settings</button>
+</div>
+
+<!-- Tab content -->
+<div id="tab-tx" class="tabcontent">
+    <h3>Transactions</h3>
+    <p>Transactions to sign</p>
+
+    <div id="tx-template">
+        <div class="tx-data"></div>
+        <button class="btn-accept">Sign</button>
+        <button class="btn-cancel">Reject</button>
+    </div>
+</div>
+
+<div id="tab-settings" class="tabcontent">
+    <h3>Settings</h3>
+    <p>Key selection</p>
+</div>
+
 <script src="scripts/popup.js"></script>
 </body>
 </html>

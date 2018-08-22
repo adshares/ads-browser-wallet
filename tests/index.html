@@ -41,24 +41,33 @@
 
     let message = {type: 'ads-1', data: '1234', account: '0001-00000000-XXXX', msid: 1};
 
+    // port to send messsages to iframe
+    let port;
+
     let btnSend2 = document.getElementById('btn_send_2');
     btnSend2.addEventListener('click', function () {
-        let callback = function(iframePort) {
-            console.log('callback');
-            let port = iframePort;
-            port.onmessage = function(event) {
-                console.log(event);
-            };
-            console.log(port);
+        console.log('index.html: click');
+        console.log(port);
+        if (port) {
             port.postMessage(message);
-        };
-        getIframePort(callback);
+        } else {
+            let callback = function (iframePort) {
+                console.log('callback');
+                port = iframePort;
+                port.onmessage = function (event) {
+                    console.log(event);
+                };
+                console.log(port);
+                port.postMessage(message);
+            };
+            getIframePort(callback);
+        }
     }, false);
 
     function getIframePort(callback) {
         // create message channel
         let channel = new MessageChannel();
-        let ready = function(message) {
+        let ready = function (message) {
             // when the iframe is ready to receive messages, it will send the string 'ready'
             if (message.data && message.data === 'ready') {
                 channel.port1.removeEventListener('message', ready);
@@ -77,7 +86,7 @@
         // iframe.setAttribute('style', 'display:none');
         document.body.appendChild(iframe);
 
-        iframe.addEventListener('load', function() {
+        iframe.addEventListener('load', function () {
             // pass the port of message channel to the iframe
             iframe.contentWindow.postMessage('init', iframeOrigin, [channel.port2]);
         });

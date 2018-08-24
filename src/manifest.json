@@ -1,5 +1,5 @@
 {
-  "name": "ADS Beet",
+  "name": "__MSG_extName__",
   "version": "0.1",
   "description": "__MSG_extDescription__",
   "author": "https://adshares.net/",
@@ -12,9 +12,9 @@
   },
   "default_locale": "en",
   "options_page": "options.html",
-  "page_action": {
+  "browser_action": {
     "default_popup": "popup.html",
-    "default_title": "ADS Beet"
+    "default_title": "__MSG_extName__"
   },
   "permissions": [
     "activeTab",

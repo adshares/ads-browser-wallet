@@ -1,6 +1,6 @@
 'use strict';
 
-console.log('popup.js');
+console.log('popup.js' + new Date());
 
 // let changeColor = document.getElementById('changeColor');
 // chrome.storage.sync.get('color', function (data) {
@@ -27,14 +27,14 @@ console.log('popup.js');
 //     });
 // };
 
-chrome.runtime.onConnect.addListener(function (port) {
-    console.log("popup.js: onConnect");
-    console.log(port);
-});
-
-chrome.runtime.onMessage.addListener(function (v) {
+// TODO remove - script will send single messages to background
+// connection with background script
+let port = chrome.runtime.connect({name:'ads-popup'});
+port.onMessage.addListener(function (v) {
     console.log('popup.js: onMessage');
     console.log(v);
+    // TODO remove - transaction will be added from storage
+    appendTransaction('onMessage');
 });
 
 /**
@@ -56,6 +56,8 @@ function appendTransaction(data) {
     let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
     btnAccept.addEventListener('click', function () {
         console.log('btnAccept: click');
+        // TODO compute signature
+        chrome.runtime.sendMessage({status:'signed', signature:'0123'});
         txElement.remove();
     });
     // assign cancel button
@@ -85,4 +87,8 @@ window.onload = function () {
             document.getElementById(selectedTabId).style.display = 'block';
         });
     }
+
+    //TODO clear when transaction will be displayed
+    // clear icon badge
+    chrome.browserAction.setBadgeText({text: ''});
 };

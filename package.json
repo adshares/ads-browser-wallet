@@ -1,0 +1,32 @@
+{
+  "name": "ads-beet",
+  "version": "0.0.1",
+  "description": "Chrome extension which signs ADS blockchain transactions.",
+  "private": true,
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adshares/ads-beet.git"
+  },
+  "keywords": [],
+  "author": "adshares",
+  "license": "CC BY-ND 4.0",
+  "bugs": {
+    "url": "https://github.com/adshares/ads-beet/issues"
+  },
+  "homepage": "https://github.com/adshares/ads-beet#readme",
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "jest": "^23.5.0"
+  },
+  "dependencies": {
+    "del": "^3.0.0",
+    "tweetnacl": "^1.0.0",
+    "webpack-stream": "^5.1.1"
+  }
+}

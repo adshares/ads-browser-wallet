@@ -1,6 +1,7 @@
 'use strict';
 
 const nacl = require('tweetnacl');
+const sha256 = require('crypto-js/sha256');
 
 String.prototype.sanitizeHex = function () {
     return this.replace(/^0x/, '').toUpperCase();
@@ -38,4 +39,24 @@ function sign(data, secretKey) {
     ).byteToHex().toUpperCase();
 }
 
-module.exports = {sign};
+/**
+ * Returns secret key generated with seed.
+ *
+ * @param seed
+ * @returns secret key
+ */
+function getSecretKey(seed) {
+    return sha256(seed).toString().toUpperCase();
+}
+
+/**
+ * Returns public key derived from secret key.
+ *
+ * @param secretKey secret key
+ * @returns public key
+ */
+function getPublicKey(secretKey) {
+    return nacl.sign.keyPair.fromSeed(secretKey.hexToByte()).publicKey.byteToHex().toUpperCase();
+}
+
+module.exports = {sign, getSecretKey, getPublicKey};

@@ -17,8 +17,6 @@
     "default_title": "__MSG_extName__"
   },
   "permissions": [
-    "activeTab",
-    "declarativeContent",
     "storage"
   ],
   "web_accessible_resources": [

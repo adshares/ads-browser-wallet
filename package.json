@@ -28,13 +28,14 @@
   "devDependencies": {
     "gulp": "^4.0.0",
     "jest": "^23.5.0",
-    "jest-localstorage-mock": "^2.2.0"
+    "jest-localstorage-mock": "^2.2.0",
+    "webpack-stream": "^5.1.1"
   },
   "dependencies": {
+    "bip39": "^2.5.0",
     "crypto-js": "^3.1.9-1",
     "del": "^3.0.0",
     "ed25519-hd-key": "^1.0.0",
-    "tweetnacl": "^1.0.0",
-    "webpack-stream": "^5.1.1"
+    "tweetnacl": "^1.0.0"
   }
 }

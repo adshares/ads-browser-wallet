@@ -1,7 +1,10 @@
 module.exports = {
-    entry: './src/scripts/ads-sign.js',
+    entry: {
+        'ads-sign': './src/scripts/ads-sign.js'
+    },
+    mode: 'production',
     output: {
-        filename: 'ads-sign.js',
+        filename: '[name].js',
         path: __dirname + 'dist'
     }
 };

@@ -3,7 +3,8 @@
 <head>
     <style>
         body {
-            width: 380px;
+            width: 358px;
+            height: 500px;
         }
 
         /* Style the tab */
@@ -43,28 +44,82 @@
     </style>
 </head>
 <body>
+<div id="content">
 
-<!-- Tab links -->
-<div class="tab">
-    <button class="tablink" value="tab-tx">Transactions</button>
-    <button class="tablink" value="tab-settings">Settings</button>
-</div>
-
-<!-- Tab content -->
-<div id="tab-tx" class="tabcontent">
-    <h3>Transactions</h3>
-    <p>Transactions to sign</p>
-
-    <div id="tx-template">
-        <div class="tx-data"></div>
-        <button class="btn-accept">Sign</button>
-        <button class="btn-cancel">Reject</button>
+    <!-- Create account page -->
+    <div id="create-acc-page" class="page">
+        <table>
+            <tr>
+                <td>
+                    <label for="password-new">Password:</label>
+                </td>
+                <td>
+                    <input type="password" id="password-new"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="password-new-confirm">Confirm:</label>
+                </td>
+                <td>
+                    <input type="password" id="password-new-confirm"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="btn-create-acc">OK</button>
+                </td>
+            </tr>
+        </table>
     </div>
-</div>
 
-<div id="tab-settings" class="tabcontent">
-    <h3>Settings</h3>
-    <p>Key selection</p>
+    <!-- Login page -->
+    <div id="login-page" class="page">
+        <table>
+            <tr>
+                <td>
+                    <label for="password">Password:</label>
+                </td>
+                <td>
+                    <input type="password" id="password" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="btn-login">OK</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- User page -->
+    <div id="user-page" class="page">
+        <!-- Tab links -->
+        <div class="tab">
+            <button class="tablink" value="tab-tx">Transactions</button>
+            <button class="tablink" value="tab-settings">Settings</button>
+        </div>
+
+        <!-- Tab content -->
+        <div id="tab-tx" class="tabcontent">
+            <h3>Transactions</h3>
+            <p>Transactions to sign</p>
+
+            <div id="tx-template">
+                <div class="tx-data"></div>
+                <button class="btn-accept">Sign</button>
+                <button class="btn-cancel">Reject</button>
+            </div>
+        </div>
+
+        <div id="tab-settings" class="tabcontent">
+            <h3>Settings</h3>
+            <p>Key selection</p>
+
+            <button id="btn-logout">Log out</button>
+            <button id="btn-del-acc">Delete account</button>
+        </div>
+    </div>
 </div>
 
 <script src="scripts/popup.js"></script>

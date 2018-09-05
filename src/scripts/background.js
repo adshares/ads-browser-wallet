@@ -1,8 +1,9 @@
 'use strict';
 
-console.log('background.js' + new Date());
+console.log('background.js ' + new Date());
 
 let ProxyPort = undefined;
+let PopupPort = undefined;
 
 chrome.runtime.onConnect.addListener(
     function (port) {
@@ -27,16 +28,20 @@ chrome.runtime.onConnect.addListener(
                         }
                         chrome.browserAction.setBadgeText({text: text});
                     });
-
                 });
             }
-            // TODO remove - background script won't communicate using port, it will receive messages (onMessage listener)
             else if (port.name === 'ads-popup') {// connection with popup
-                port.onMessage.addListener(function (message) {
-                    console.log('background.js: onMessage popup');
+                port.postMessage({response: 'connected'});
+                PopupPort = port;
+                PopupPort.onMessage.addListener((message) => {
+                    console.log('background.js: connected with popup');
                     console.log(message);
                 });
-                port.postMessage({response: 'pop'});
+                PopupPort.onDisconnect.addListener((port) => {
+                    console.log('background.js: disconnected with popup');
+                    console.log(port);
+                    PopupPort = undefined;
+                });
             }
         } else {
             console.error('Connection from outside extension.');

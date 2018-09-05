@@ -17,7 +17,8 @@
     "default_title": "__MSG_extName__"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "unlimitedStorage"
   ],
   "web_accessible_resources": [
     "comm.html",

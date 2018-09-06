@@ -8,8 +8,48 @@ BackgroundPort.onMessage.addListener(function (v) {
     console.log('popup.js: onMessage');
     console.log(v);
     // TODO remove - transaction will be added from storage
-    appendTransaction('onMessage');
+    // appendTransaction('onMessage');
+
+    switch (v.type) {
+        case 'page_select':
+            showPage(v.pageId, v.tabId);
+            break;
+        case 'invalid_password':
+            // TODO invalid password - error handling
+            console.error('invalid password');
+            break;
+        default:
+            // TODO
+            console.log('Unknown type');
+    }
 });
+
+function showPage(pageId, tabId) {
+    pageId = pageId || 'create-acc-page';
+    let pages = document.getElementsByClassName('page');
+    for (let j = 0; j < pages.length; j++) {
+        pages[j].style.display = 'none';
+    }
+    document.getElementById(pageId).style.display = 'block';
+
+    if ('user-page' === pageId) {
+        showTab(tabId);
+    }
+}
+
+function showTab(tabId) {
+    tabId = tabId || 'tab-tx';
+    let tabs = document.getElementsByClassName('tabcontent');
+    for (let j = 0; j < tabs.length; j++) {
+        tabs[j].style.display = 'none';
+    }
+    document.getElementById(tabId).style.display = 'block';
+
+    if ('tab-tx' === tabId) {
+        // clear icon badge when awaiting transaction are visible
+        chrome.browserAction.setBadgeText({text: ''});
+    }
+}
 
 /**
  * Appends transaction data to awaiting transaction list.
@@ -44,69 +84,18 @@ function appendTransaction(data) {
     container.appendChild(txElement);
 }
 
-function isPassSet() {
-    const isPass = localStorage.getItem('isPass');
-    return 'true' === isPass;
-}
-function isLogIn() {
-    // TODO
-    return false;
-}
-
 window.onload = function () {
-
-    function showPage(pageId) {
-        let pages = document.getElementsByClassName('page');
-        for (let j = 0; j < pages.length; j++) {
-            pages[j].style.display = 'none';
-        }
-        document.getElementById(pageId).style.display = 'block';
-
-        if (pageId === 'user-page') {
-            showTab();
-        }
-    }
-
-    function showTab(tabId) {
-        const id = tabId || 'tab-tx';
-        let tabs = document.getElementsByClassName('tabcontent');
-        for (let j = 0; j < tabs.length; j++) {
-            tabs[j].style.display = 'none';
-        }
-        document.getElementById(id).style.display = 'block';
-
-        if (id === 'tab-tx') {
-            // clear icon badge when awaiting transaction are visible
-            chrome.browserAction.setBadgeText({text: ''});
-        }
-    }
-
-    // selects active page
-    let pageId;
-    if (isPassSet()) {
-        if (isLogIn()) {
-            pageId = 'user-page';
-        } else {
-            pageId = 'login-page';
-        }
-    } else {
-        pageId = 'create-acc-page';
-    }
-    showPage(pageId);
 
     /*
     Listeners for Create account page
      */
     let btnCreateAcc = document.getElementById('btn-create-acc');
-    btnCreateAcc.addEventListener('click', function() {
+    btnCreateAcc.addEventListener('click', function () {
         const pass = document.getElementById('password-new').value;
         // TODO validate password (length, chars)
         if (pass === document.getElementById('password-new-confirm').value) {
-            // TODO store password
-
-            localStorage.setItem('isPass', 'true');
-            document.getElementById('user-page').classList.add('active');
-            showPage('user-page');
+            // store password
+            BackgroundPort.postMessage({type: 'new_password', data: pass});
         } else {
             // TODO pass not match - error handling
         }
@@ -115,15 +104,10 @@ window.onload = function () {
     Listeners for Login page
      */
     let btnLogIn = document.getElementById('btn-login');
-    btnLogIn.addEventListener('click', function() {
+    btnLogIn.addEventListener('click', function () {
         const pass = document.getElementById('password').value;
-        // TODO validate password (correctness)
-        let isPassValid = true;
-        if (isPassValid) {
-            showPage('user-page');
-        } else {
-            // TODO invalid password - error handling
-        }
+        // validate password (correctness)
+        BackgroundPort.postMessage({type: 'password', data: pass});
     });
     /*
     Listeners for User page
@@ -136,12 +120,11 @@ window.onload = function () {
         });
     }
     let btnLogOut = document.getElementById('btn-logout');
-    btnLogOut.addEventListener('click', function() {
-        showPage('login-page');
+    btnLogOut.addEventListener('click', function () {
+        BackgroundPort.postMessage({type: 'log_out'});
     });
     let btnDeleteAcc = document.getElementById('btn-del-acc');
-    btnDeleteAcc.addEventListener('click', function() {
-        localStorage.removeItem('isPass');
-        showPage('create-acc-page');
+    btnDeleteAcc.addEventListener('click', function () {
+        BackgroundPort.postMessage({type: 'delete_account'});
     });
 };

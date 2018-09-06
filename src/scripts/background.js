@@ -5,6 +5,84 @@ console.log('background.js ' + new Date());
 let ProxyPort = undefined;
 let PopupPort = undefined;
 
+let KeyStore = function () {
+};
+KeyStore.lock = function () {
+    this.isUnlocked = false;
+};
+KeyStore.unlock = function (password) {
+    // TODO get keys from storage
+    this.isUnlocked = true;
+};
+KeyStore.isAccount = function () {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(null, (result) => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError.message);
+            } else {
+                // if there is any entry in storage, account was created
+                let isAccount = Object.getOwnPropertyNames(result).length > 0;
+                resolve(isAccount);
+            }
+        });
+    });
+};
+KeyStore.isLoggedIn = function () {
+    return this.isUnlocked;
+};
+
+async function createPageSelectObject() {
+    let pageId;
+    const isAccount = await KeyStore.isAccount();
+    const isLoggedIn = KeyStore.isLoggedIn();
+    if (isAccount) {
+        if (isLoggedIn) {
+            pageId = 'user-page';
+        } else {
+            pageId = 'login-page';
+        }
+    } else {
+        pageId = 'create-acc-page';
+    }
+
+    return {
+        type: 'page_select',
+        isAccount: isAccount,
+        isLoggedIn: isLoggedIn,
+        pageId: pageId,
+        tabId: undefined
+    };
+}
+
+function onMsgDeleteAccount() {
+    chrome.storage.local.clear();
+    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+}
+
+function onMsgLogOut() {
+    KeyStore.lock();
+    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+}
+
+function onMsgPassword(password) {
+    // TODO check password
+    let correct = true;
+    KeyStore.unlock(password);
+    if (correct) {
+        createPageSelectObject().then((p) => PopupPort.postMessage(p));
+    } else {
+        PopupPort.postMessage({type: 'invalid_password'});
+    }
+}
+
+function onMsgPasswordNew(password) {
+    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+}
+
+function onPopupConnected() {
+    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+}
+
 chrome.runtime.onConnect.addListener(
     function (port) {
         console.log("background.js: onConnect");
@@ -29,13 +107,29 @@ chrome.runtime.onConnect.addListener(
                         chrome.browserAction.setBadgeText({text: text});
                     });
                 });
-            }
-            else if (port.name === 'ads-popup') {// connection with popup
-                port.postMessage({response: 'connected'});
+            } else if (port.name === 'ads-popup') {// connection with popup
                 PopupPort = port;
+                onPopupConnected();
                 PopupPort.onMessage.addListener((message) => {
                     console.log('background.js: connected with popup');
                     console.log(message);
+                    switch (message.type) {
+                        case 'delete_account':
+                            onMsgDeleteAccount();
+                            break;
+                        case 'log_out':
+                            onMsgLogOut();
+                            break;
+                        case 'new_password':
+                            onMsgPasswordNew(message.data);
+                            break;
+                        case 'password':
+                            onMsgPassword(message.data);
+                            break;
+                        default:
+                            // TODO
+                            console.log('Unknown message type');
+                    }
                 });
                 PopupPort.onDisconnect.addListener((port) => {
                     console.log('background.js: disconnected with popup');

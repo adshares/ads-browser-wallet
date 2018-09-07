@@ -41,8 +41,9 @@ function getEncryptedData(key, pass) {
                     const decrypted = CryptoJS.AES.decrypt(encrypted, pass).toString(CryptoJS.enc.Utf8);
                     if (!decrypted) {
                         reject('Invalid pass');
+                    } else {
+                        resolve(JSON.parse(decrypted));
                     }
-                    resolve(JSON.parse(decrypted));
                 }
             }
         });

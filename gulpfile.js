@@ -4,11 +4,11 @@ const gulp = require('gulp');
 const webpackStream = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
 
-// Packs js scripts
+// Bundles js scripts
 gulp.task('bundle-js', () => {
     return gulp.src('.')
         .pipe(webpackStream(webpackConfig))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./dist/scripts'));
 });
 
 // Deletes dist folder
@@ -17,3 +17,20 @@ gulp.task('clean', function clean() {
         console.log('Deleted files and folders:\n', paths.join('\n'));
     });
 });
+
+// Copies static assets (all files except js scripts, which are bundled)
+gulp.task('copy-assets', function copyAssets() {
+    return gulp.src([
+        './src/**/*',
+        '!./src/scripts/*.js',
+    ]).pipe(gulp.dest('./dist'));
+});
+
+// Creates distribution resources
+gulp.task('dist',
+    gulp.series(
+        'clean',
+        'copy-assets',
+        'bundle-js'
+    )
+);

@@ -18,6 +18,10 @@ BackgroundPort.onMessage.addListener(function (v) {
             // TODO invalid password - error handling
             console.error('invalid password');
             break;
+        case 'invalid_new_password':
+            // TODO invalid new password - error handling
+            console.error('invalid new password');
+            break;
         default:
             // TODO
             console.log('Unknown type');
@@ -92,13 +96,14 @@ window.onload = function () {
     let btnCreateAcc = document.getElementById('btn-create-acc');
     btnCreateAcc.addEventListener('click', function () {
         const pass = document.getElementById('password-new').value;
-        // TODO validate password (length, chars)
         if (pass === document.getElementById('password-new-confirm').value) {
-            // store password
             BackgroundPort.postMessage({type: 'new_password', data: pass});
         } else {
             // TODO pass not match - error handling
         }
+        // clear password input
+        document.getElementById('password-new').value = '';
+        document.getElementById('password-new-confirm').value = '';
     });
     /*
     Listeners for Login page
@@ -106,8 +111,9 @@ window.onload = function () {
     let btnLogIn = document.getElementById('btn-login');
     btnLogIn.addEventListener('click', function () {
         const pass = document.getElementById('password').value;
-        // validate password (correctness)
         BackgroundPort.postMessage({type: 'password', data: pass});
+        // clear password input
+        document.getElementById('password').value = '';
     });
     /*
     Listeners for User page

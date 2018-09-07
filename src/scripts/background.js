@@ -1,5 +1,7 @@
 'use strict';
 
+const store = require('./store');
+
 console.log('background.js ' + new Date());
 
 let ProxyPort = undefined;
@@ -8,33 +10,45 @@ let PopupPort = undefined;
 let KeyStore = function () {
 };
 KeyStore.lock = function () {
+    console.log('KeyStore.lock');
+    this.vault = undefined;
     this.isUnlocked = false;
 };
 KeyStore.unlock = function (password) {
-    // TODO get keys from storage
-    this.isUnlocked = true;
+    console.log('KeyStore.unlock');
+    // get keys from storage
+    return store.getEncryptedData('vault', password)
+        .then(val => {
+            this.vault = val;
+            this.isUnlocked = true;
+            console.log('1 isUnlocked ' + this.isUnlocked);
+        })
+        .catch(e => {
+            KeyStore.lock();
+            console.error(e);
+            console.log('2 isUnlocked ' + this.isUnlocked);
+        });
 };
 KeyStore.isAccount = function () {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.get(null, (result) => {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError.message);
-            } else {
-                // if there is any entry in storage, account was created
-                let isAccount = Object.getOwnPropertyNames(result).length > 0;
-                resolve(isAccount);
-            }
-        });
-    });
+    console.log('KeyStore.isAccount');
+    return store.getData('vault').then(val => val !== undefined);
 };
 KeyStore.isLoggedIn = function () {
+    console.log('KeyStore.isLoggedIn');
     return this.isUnlocked;
+};
+KeyStore.createAccount = function (password) {
+    console.log('KeyStore.createAccount');
+    return store.setEncryptedData('vault', {}, password);
 };
 
 async function createPageSelectObject() {
+    console.log('createPageSelectObject');
     let pageId;
     const isAccount = await KeyStore.isAccount();
+    console.log('\tisAccount ' + isAccount);
     const isLoggedIn = KeyStore.isLoggedIn();
+    console.log('\tisLoggedIn ' + isLoggedIn);
     if (isAccount) {
         if (isLoggedIn) {
             pageId = 'user-page';
@@ -56,31 +70,56 @@ async function createPageSelectObject() {
 
 function onMsgDeleteAccount() {
     chrome.storage.local.clear();
-    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+    createPageSelectObject().then(p => PopupPort.postMessage(p));
 }
 
 function onMsgLogOut() {
     KeyStore.lock();
-    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+    createPageSelectObject().then(p => PopupPort.postMessage(p));
 }
 
 function onMsgPassword(password) {
     // TODO check password
     let correct = true;
-    KeyStore.unlock(password);
     if (correct) {
-        createPageSelectObject().then((p) => PopupPort.postMessage(p));
+        // login
+        KeyStore.unlock(password)
+            .then(a => createPageSelectObject())
+            .then(p => PopupPort.postMessage(p));
     } else {
         PopupPort.postMessage({type: 'invalid_password'});
     }
 }
 
 function onMsgPasswordNew(password) {
-    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+    // TODO validate password (length, chars)
+    let isValid = true;
+    if (isValid) {
+        KeyStore.isAccount().then(isAccount => {
+            if (isAccount) {
+                if (KeyStore.isLoggedIn()) {
+                    // change password
+
+                } else {
+                    // reject request
+                    createPageSelectObject().then(p => PopupPort.postMessage(p));
+                }
+            } else {
+                // create new account
+                KeyStore.createAccount(password)
+                    .then(a => KeyStore.unlock(password))
+                    .then(a => createPageSelectObject())
+                    .then(p => PopupPort.postMessage(p))
+                    .catch(e => console.error(e));
+            }
+        });
+    } else {
+        PopupPort.postMessage({type: 'invalid_new_password'});
+    }
 }
 
 function onPopupConnected() {
-    createPageSelectObject().then((p) => PopupPort.postMessage(p));
+    createPageSelectObject().then(p => PopupPort.postMessage(p));
 }
 
 chrome.runtime.onConnect.addListener(

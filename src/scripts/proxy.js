@@ -1,7 +1,11 @@
 'use strict';
 
+const {
+    CONN_ID_PROXY
+} = require('./enums');
+
 // connection with background script
-let port = chrome.runtime.connect(chrome.i18n.getMessage("@@extension_id"), {name: 'ads-proxy'});
+let port = chrome.runtime.connect(chrome.i18n.getMessage("@@extension_id"), {name: CONN_ID_PROXY});
 
 window.addEventListener('message', function (event) {
     console.log('proxy.js: onMessage');

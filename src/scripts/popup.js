@@ -1,9 +1,21 @@
 'use strict';
 
+const {
+    CONN_ID_POPUP,
+    MSG_DELETE_ACCOUNT,
+    MSG_LOG_OUT,
+    MSG_NEW_PASSWORD,
+    MSG_PASSWORD,
+    MSG_PAGE_SELECT,
+    MSG_INVALID_PASSWORD,
+    MSG_INVALID_NEW_PASSWORD
+} = require('./enums');
+
+
 console.log('popup.js' + new Date());
 
 // connection with background script
-let BackgroundPort = chrome.runtime.connect({name: 'ads-popup'});
+let BackgroundPort = chrome.runtime.connect({name: CONN_ID_POPUP});
 BackgroundPort.onMessage.addListener(function (v) {
     console.log('popup.js: onMessage');
     console.log(v);
@@ -11,14 +23,14 @@ BackgroundPort.onMessage.addListener(function (v) {
     // appendTransaction('onMessage');
 
     switch (v.type) {
-        case 'page_select':
+        case MSG_PAGE_SELECT:
             showPage(v.pageId, v.tabId);
             break;
-        case 'invalid_password':
+        case MSG_INVALID_PASSWORD:
             // TODO invalid password - error handling
             console.error('invalid password');
             break;
-        case 'invalid_new_password':
+        case MSG_INVALID_NEW_PASSWORD:
             // TODO invalid new password - error handling
             console.error('invalid new password');
             break;
@@ -97,7 +109,7 @@ window.onload = function () {
     btnCreateAcc.addEventListener('click', function () {
         const pass = document.getElementById('password-new').value;
         if (pass === document.getElementById('password-new-confirm').value) {
-            BackgroundPort.postMessage({type: 'new_password', data: pass});
+            BackgroundPort.postMessage({type: MSG_NEW_PASSWORD, data: pass});
         } else {
             // TODO pass not match - error handling
         }
@@ -111,7 +123,7 @@ window.onload = function () {
     let btnLogIn = document.getElementById('btn-login');
     btnLogIn.addEventListener('click', function () {
         const pass = document.getElementById('password').value;
-        BackgroundPort.postMessage({type: 'password', data: pass});
+        BackgroundPort.postMessage({type: MSG_PASSWORD, data: pass});
         // clear password input
         document.getElementById('password').value = '';
     });
@@ -127,10 +139,10 @@ window.onload = function () {
     }
     let btnLogOut = document.getElementById('btn-logout');
     btnLogOut.addEventListener('click', function () {
-        BackgroundPort.postMessage({type: 'log_out'});
+        BackgroundPort.postMessage({type: MSG_LOG_OUT});
     });
     let btnDeleteAcc = document.getElementById('btn-del-acc');
     btnDeleteAcc.addEventListener('click', function () {
-        BackgroundPort.postMessage({type: 'delete_account'});
+        BackgroundPort.postMessage({type: MSG_DELETE_ACCOUNT});
     });
 };

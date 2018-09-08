@@ -1,6 +1,18 @@
 'use strict';
 
 const store = require('./store');
+const {
+    CONN_ID_POPUP,
+    CONN_ID_PROXY,
+    MSG_DELETE_ACCOUNT,
+    MSG_LOG_OUT,
+    MSG_NEW_PASSWORD,
+    MSG_PASSWORD,
+    MSG_PAGE_SELECT,
+    MSG_INVALID_PASSWORD,
+    MSG_INVALID_NEW_PASSWORD,
+    STORE_KEY_VAULT
+} = require('./enums');
 
 console.log('background.js ' + new Date());
 
@@ -17,7 +29,7 @@ KeyStore.lock = function () {
 KeyStore.unlock = function (password) {
     console.log('KeyStore.unlock');
     // get keys from storage
-    return store.getEncryptedData('vault', password)
+    return store.getEncryptedData(STORE_KEY_VAULT, password)
         .then(val => {
             this.vault = val;
             this.isUnlocked = true;
@@ -31,7 +43,7 @@ KeyStore.unlock = function (password) {
 };
 KeyStore.isAccount = function () {
     console.log('KeyStore.isAccount');
-    return store.getData('vault').then(val => val !== undefined);
+    return store.getData(STORE_KEY_VAULT).then(val => val !== undefined);
 };
 KeyStore.isLoggedIn = function () {
     console.log('KeyStore.isLoggedIn');
@@ -39,7 +51,7 @@ KeyStore.isLoggedIn = function () {
 };
 KeyStore.createAccount = function (password) {
     console.log('KeyStore.createAccount');
-    return store.setEncryptedData('vault', {}, password);
+    return store.setEncryptedData(STORE_KEY_VAULT, {}, password);
 };
 
 async function createPageSelectObject() {
@@ -60,7 +72,7 @@ async function createPageSelectObject() {
     }
 
     return {
-        type: 'page_select',
+        type: MSG_PAGE_SELECT,
         isAccount: isAccount,
         isLoggedIn: isLoggedIn,
         pageId: pageId,
@@ -87,7 +99,7 @@ function onMsgPassword(password) {
             .then(a => createPageSelectObject())
             .then(p => PopupPort.postMessage(p));
     } else {
-        PopupPort.postMessage({type: 'invalid_password'});
+        PopupPort.postMessage({type: MSG_INVALID_PASSWORD});
     }
 }
 
@@ -114,7 +126,7 @@ function onMsgPasswordNew(password) {
             }
         });
     } else {
-        PopupPort.postMessage({type: 'invalid_new_password'});
+        PopupPort.postMessage({type: MSG_INVALID_NEW_PASSWORD});
     }
 }
 
@@ -128,7 +140,7 @@ chrome.runtime.onConnect.addListener(
         console.log('connect ' + port.name);
         console.log(port);
         if (port.sender.id === chrome.i18n.getMessage("@@extension_id")) {
-            if (port.name === 'ads-proxy') {// connection with proxy script
+            if (port.name === CONN_ID_PROXY) {// connection with proxy script
 
                 ProxyPort = port;
                 ProxyPort.onMessage.addListener(function (message) {
@@ -146,23 +158,23 @@ chrome.runtime.onConnect.addListener(
                         chrome.browserAction.setBadgeText({text: text});
                     });
                 });
-            } else if (port.name === 'ads-popup') {// connection with popup
+            } else if (port.name === CONN_ID_POPUP) {// connection with popup
                 PopupPort = port;
                 onPopupConnected();
                 PopupPort.onMessage.addListener((message) => {
                     console.log('background.js: connected with popup');
                     console.log(message);
                     switch (message.type) {
-                        case 'delete_account':
+                        case MSG_DELETE_ACCOUNT:
                             onMsgDeleteAccount();
                             break;
-                        case 'log_out':
+                        case MSG_LOG_OUT:
                             onMsgLogOut();
                             break;
-                        case 'new_password':
+                        case MSG_NEW_PASSWORD:
                             onMsgPasswordNew(message.data);
                             break;
-                        case 'password':
+                        case MSG_PASSWORD:
                             onMsgPassword(message.data);
                             break;
                         default:

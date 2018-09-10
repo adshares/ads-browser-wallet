@@ -11,7 +11,13 @@ const CONN_ID_POPUP = 'ads-popup';
  */
 const CONN_ID_PROXY = 'ads-proxy';
 /**
- * Connection id between background and popup
+ * Message id for add transaction action, proxy -> background
+ *
+ * @type {string}
+ */
+const MSG_ADD_TRANSACTION = 'add_tx';
+/**
+ * Message id for delete account action, popup -> background
  *
  * @type {string}
  */
@@ -78,6 +84,12 @@ const STATUS_SUCCESS = 'st_success';
  */
 const STATUS_FAIL = 'st_fail';
 /**
+ * Storage key for pending transaction
+ *
+ * @type {string}
+ */
+const STORE_KEY_TX = 'tx';
+/**
  * Storage key for vault data (keys)
  *
  * @type {string}
@@ -87,6 +99,7 @@ const STORE_KEY_VAULT = 'vault';
 module.exports = {
     CONN_ID_POPUP,
     CONN_ID_PROXY,
+    MSG_ADD_TRANSACTION,
     MSG_DELETE_ACCOUNT,
     MSG_IMPORT_KEY_REQ,
     MSG_IMPORT_KEY_RES,
@@ -98,5 +111,6 @@ module.exports = {
     MSG_INVALID_NEW_PASSWORD,
     STATUS_SUCCESS,
     STATUS_FAIL,
+    STORE_KEY_TX,
     STORE_KEY_VAULT
 };

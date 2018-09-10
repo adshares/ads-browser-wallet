@@ -1,5 +1,6 @@
 'use strict';
 
+const store = require('./store');
 const {
     CONN_ID_POPUP,
     MSG_DELETE_ACCOUNT,
@@ -12,7 +13,8 @@ const {
     MSG_INVALID_PASSWORD,
     MSG_INVALID_NEW_PASSWORD,
     STATUS_FAIL,
-    STATUS_SUCCESS
+    STATUS_SUCCESS,
+    STORE_KEY_TX
 } = require('./enums');
 
 
@@ -75,42 +77,67 @@ function showTab(tabId) {
     document.getElementById(tabId).style.display = 'block';
 
     if ('tab-tx' === tabId) {
-        // clear icon badge when awaiting transaction are visible
+
+        // refresh transaction list
+        console.log('refresh transaction list');
+        store.getData(STORE_KEY_TX).then(obj => {
+            appendTransaction(obj);
+        });
+
+        // clear icon badge when pending transaction are visible
         chrome.browserAction.setBadgeText({text: ''});
     }
 }
 
 /**
- * Appends transaction data to awaiting transaction list.
+ * Appends transaction data to pending transaction list.
  *
  * @param data transaction data
  */
 function appendTransaction(data) {
-    const container = document.getElementById('tab-tx');
-    // format data
-    data = JSON.stringify(data);
+    const container = document.getElementById('tx-pending');
+    // remove all children
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
 
-    // clone transaction template
-    let txElement = document.getElementById('tx-template').cloneNode(true);
-    txElement.removeAttribute('id');
-    txElement.style.display = 'block';
-    txElement.getElementsByClassName('tx-data')[0].innerHTML = data;
-    // assign accept button
-    let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
-    btnAccept.addEventListener('click', function () {
-        console.log('btnAccept: click');
-        // TODO compute signature
-        chrome.runtime.sendMessage({status: 'signed', signature: '0123'});
-        txElement.remove();
-    });
-    // assign cancel button
-    let btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
-    btnCancel.addEventListener('click', function () {
-        console.log('btnCancel: click');
-        txElement.remove();
-    });
-    // add transaction to list
-    container.appendChild(txElement);
+    console.log(data);
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            let ts = key;
+            let txData = data[key].d;
+            let txAccountHashin = data[key].h;
+
+            console.log(ts, txData, txAccountHashin);
+
+            // clone transaction template
+            let txElement = document.getElementById('tx-template').cloneNode(true);
+            txElement.removeAttribute('id');
+            txElement.style.display = 'block';
+            txElement.getElementsByClassName('tx-date')[0].innerHTML = new Date(parseInt(ts)).toLocaleString();
+            txElement.getElementsByClassName('tx-data')[0].innerHTML = txData + ':' + txAccountHashin;
+
+            // assign accept button
+            let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
+            btnAccept.addEventListener('click', function () {
+                console.log('btnAccept: click');
+                // TODO compute signature
+                chrome.runtime.sendMessage({status: 'signed', signature: '0123'});
+                txElement.remove();
+            });
+
+            // assign cancel button
+            let btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
+            btnCancel.addEventListener('click', function () {
+                // TODO remove from storage
+                console.log('btnCancel: click');
+                txElement.remove();
+            });
+
+            // add transaction to list
+            container.appendChild(txElement);
+        }
+    }
 }
 
 window.onload = function () {

@@ -5,6 +5,7 @@ const store = require('./store');
 const {
     CONN_ID_POPUP,
     CONN_ID_PROXY,
+    MSG_ADD_TRANSACTION,
     MSG_DELETE_ACCOUNT,
     MSG_IMPORT_KEY_REQ,
     MSG_IMPORT_KEY_RES,
@@ -16,6 +17,7 @@ const {
     MSG_INVALID_NEW_PASSWORD,
     STATUS_FAIL,
     STATUS_SUCCESS,
+    STORE_KEY_TX,
     STORE_KEY_VAULT
 } = require('./enums');
 
@@ -84,6 +86,47 @@ async function createPageSelectObject() {
         pageId: pageId,
         tabId: undefined
     };
+}
+
+function onMsgAddTransaction(data) {
+    if (!data || !data.txData || !data.txAccountHashin) {
+        // TODO handle missing data
+        console.error('Invalid tx data');
+        return;
+    }
+    let txData = data.txData.sanitizeHex();
+    let txAccountHashin = data.txAccountHashin.sanitizeHex();
+
+    // TODO validate txData (is hex, can be decoded), txAccountHashin (is hex, length)
+
+    let txObj = {
+        d: txData,
+        h: txAccountHashin
+    };
+
+    store.getData(STORE_KEY_TX)
+        .then(val => {
+            if (!val) {
+                val = {};
+            }
+            let ts = new Date().getTime();
+            val[ts] = txObj;
+            return store.setData(STORE_KEY_TX, val);
+        })
+        .then(a => {
+            // update icon badge
+            chrome.browserAction.getBadgeText({}, function (text) {
+                if (text === '') {
+                    text = '1';
+                } else {
+                    text = (parseInt(text) + 1).toString();
+                }
+                chrome.browserAction.setBadgeText({text: text});
+            });
+        })
+        .catch(
+            e => console.error(e)
+        );
 }
 
 function onMsgDeleteAccount() {
@@ -203,22 +246,19 @@ chrome.runtime.onConnect.addListener(
         console.log(port);
         if (port.sender.id === chrome.i18n.getMessage("@@extension_id")) {
             if (port.name === CONN_ID_PROXY) {// connection with proxy script
-
+                port.postMessage({response: 'yes'});
                 ProxyPort = port;
                 ProxyPort.onMessage.addListener(function (message) {
                     console.log('background.js: onMessage proxy');
                     console.log(message);
-                    port.postMessage({response: 'yes'});
-
-                    // update icon badge
-                    chrome.browserAction.getBadgeText({}, function (text) {
-                        if (text === '') {
-                            text = '1';
-                        } else {
-                            text = (parseInt(text) + 1).toString();
-                        }
-                        chrome.browserAction.setBadgeText({text: text});
-                    });
+                    switch (message.type) {
+                        case MSG_ADD_TRANSACTION:
+                            onMsgAddTransaction(message.data);
+                            break;
+                        default:
+                            // TODO
+                            console.log('Unknown message type');
+                    }
                 });
             } else if (port.name === CONN_ID_POPUP) {// connection with popup
                 PopupPort = port;

@@ -93,16 +93,10 @@ function onMsgDeleteAccount() {
 
 function onMsgImportKey(data) {
     const name = data.name;
-    const sk = data.sk;
-    const pk = data.pk;
-    const sg = data.sg;
+    const sk = data.sk.sanitizeHex();
+    const pk = data.pk.sanitizeHex();
+    const sg = data.sg.sanitizeHex();
     const pass = data.pass;
-    console.log('name ', name);
-    console.log('sk ', sk);
-    console.log('pk ', pk);
-    console.log('sg ', sg);
-
-    // TODO sanitize hex
 
     // validate
     if ((typeof name === 'string') && name.length > 0 && (typeof sk === 'string') && sk.length === 64
@@ -137,6 +131,9 @@ function onMsgImportKey(data) {
                     };
                     return store.setEncryptedData(STORE_KEY_VAULT, KeyStore.vault, pass).then(status = STATUS_SUCCESS);
                 })
+                // Catch is needed, because KeyStore.unlock may throw when KeyStore cannot be unlocked.
+                // If catch is missing error is visible on page.
+                .catch()
                 .finally(() => {
                     PopupPort.postMessage({type: MSG_IMPORT_KEY_RES, status: status});
                 });

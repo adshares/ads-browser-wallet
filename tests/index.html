@@ -5,65 +5,80 @@
     <title>Test</title>
 </head>
 <body>
-<form id="form_send_one" action="javascript:void(0);" method="post">
-    <table>
-        <tr>
-            <td>
-
-                <label for="data">data:</label>
-            </td>
-            <td>
-                <input type="text" id="data" value="data"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="account">Account:</label>
-            </td>
-            <td>
-                <input type="text" id="account" value="0001-00000000-XXXX"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="msid">msid:</label>
-            </td>
-            <td>
-                <input type="text" id="msid" value="1"/>
-            </td>
-        </tr>
-    </table>
-    <input type="submit" value="Submit">
-</form>
-<button id="btn_send_2">Send two</button>
+<table>
+    <tr>
+        <td>
+            <label for="data">tx.data:</label>
+        </td>
+        <td>
+            <input type="text" id="data" value="data12341234"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="hashin">tx.account_hashin:</label>
+        </td>
+        <td>
+            <input type="text" id="hashin" value="hashin56785678"/>
+        </td>
+    </tr>
+</table>
+<button id="btn-add-tx">add transaction</button>
 
 <script type="text/javascript">
 
-    let message = {type: 'ads-1', data: '1234', account: '0001-00000000-XXXX', msid: 1};
+    ////////////////////////////////////////////////////////
+    // Script part
 
-    // port to send messsages to iframe
+    // port to send messages to iframe
     let port;
 
-    let btnSend2 = document.getElementById('btn_send_2');
-    btnSend2.addEventListener('click', function () {
-        console.log('index.html: click');
-        console.log(port);
+    /**
+     * Initializes connection between page and extension.
+     *
+     * @param cb callback for received message
+     */
+    function init(cb) {
         if (port) {
-            port.postMessage(message);
+            port.onmessage = cb;
         } else {
             let callback = function (iframePort) {
                 console.log('callback');
                 port = iframePort;
-                port.onmessage = function (event) {
-                    console.log(event);
-                };
-                console.log(port);
-                port.postMessage(message);
+                port.onmessage = cb;
             };
             getIframePort(callback);
         }
-    }, false);
+    }
 
+    /**
+     * Adds transaction to list of transaction that are to be signed.
+     *
+     * @param {string} txData
+     * @param {string} txAccountHashin
+     */
+    function addTransaction(txData, txAccountHashin) {
+        // create message object
+        let message = {
+            type: 'add_tx',
+            data: {
+                txData: txData,
+                txAccountHashin: txAccountHashin
+            }
+        };
+
+        if (port) {
+            port.postMessage(message);
+        } else {
+            console.error('not initialized');
+        }
+    }
+
+    /**
+     * Creates iframe port and returns it as callback parameter.
+     *
+     * @param callback
+     */
     function getIframePort(callback) {
         // create message channel
         let channel = new MessageChannel();
@@ -83,7 +98,7 @@
         const iframeOrigin = 'chrome-extension://dklckpmcdplhbpfbfonhbjmdhhhamnba';
         let iframe = document.createElement('iframe');
         iframe.src = iframeOrigin + '/comm.html';
-        // iframe.setAttribute('style', 'display:none');
+        iframe.setAttribute('style', 'display:none');
         document.body.appendChild(iframe);
 
         iframe.addEventListener('load', function () {
@@ -91,6 +106,26 @@
             iframe.contentWindow.postMessage('init', iframeOrigin, [channel.port2]);
         });
     }
+
+    ////////////////////////////////////////////////////////
+    // User part
+
+    // Initialization
+    let cb = function (event) {
+        // message data
+        let data = event.data;
+        console.log(data);
+    };
+    init(cb);
+
+    // Call addTransaction function
+    let btnSend2 = document.getElementById('btn-add-tx');
+    btnSend2.addEventListener('click', function () {
+        console.log('index.html: click');
+        const txData = document.getElementById('data').value;
+        const txAccountHashin = document.getElementById('hashin').value;
+        addTransaction(txData, txAccountHashin);
+    }, false);
 
 </script>
 </body>

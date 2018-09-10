@@ -3,12 +3,16 @@
 const {
     CONN_ID_POPUP,
     MSG_DELETE_ACCOUNT,
+    MSG_IMPORT_KEY_REQ,
+    MSG_IMPORT_KEY_RES,
     MSG_LOG_OUT,
     MSG_NEW_PASSWORD,
     MSG_PASSWORD,
     MSG_PAGE_SELECT,
     MSG_INVALID_PASSWORD,
-    MSG_INVALID_NEW_PASSWORD
+    MSG_INVALID_NEW_PASSWORD,
+    STATUS_FAIL,
+    STATUS_SUCCESS
 } = require('./enums');
 
 
@@ -23,6 +27,15 @@ BackgroundPort.onMessage.addListener(function (v) {
     // appendTransaction('onMessage');
 
     switch (v.type) {
+        case MSG_IMPORT_KEY_RES:
+            console.log('todo1 ' + v.type);
+            console.log('todo2 ' + v.status);
+            if (STATUS_SUCCESS === v.status) {
+                // TODO import accepted
+            } else {// STATUS_FAIL
+                // TODO import rejected
+            }
+            break;
         case MSG_PAGE_SELECT:
             showPage(v.pageId, v.tabId);
             break;
@@ -137,10 +150,31 @@ window.onload = function () {
             showTab(evt.srcElement.value);
         });
     }
+    // import key
+    let btnImpKey = document.getElementById('btn-imp-key');
+    btnImpKey.addEventListener('click', function () {
+        const name = document.getElementById('imp-key-name').value;
+        const sk = document.getElementById('imp-key-sk').value;
+        const pk = document.getElementById('imp-key-pk').value;
+        const sg = document.getElementById('imp-key-sg').value;
+        const pass = document.getElementById('imp-key-password').value;
+        BackgroundPort.postMessage({
+            type: MSG_IMPORT_KEY_REQ,
+            data: {
+                name: name,
+                sk: sk,
+                pk: pk,
+                sg: sg,
+                pass: pass
+            }
+        });
+    });
+    // log out
     let btnLogOut = document.getElementById('btn-logout');
     btnLogOut.addEventListener('click', function () {
         BackgroundPort.postMessage({type: MSG_LOG_OUT});
     });
+    // delete account
     let btnDeleteAcc = document.getElementById('btn-del-acc');
     btnDeleteAcc.addEventListener('click', function () {
         BackgroundPort.postMessage({type: MSG_DELETE_ACCOUNT});

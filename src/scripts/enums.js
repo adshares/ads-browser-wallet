@@ -17,6 +17,18 @@ const CONN_ID_PROXY = 'ads-proxy';
  */
 const MSG_DELETE_ACCOUNT = 'delete_account';
 /**
+ * Message id for key import action, popup -> background
+ *
+ * @type {string}
+ */
+const MSG_IMPORT_KEY_REQ = 'imp_key_req';
+/**
+ * Message id for key import response, background -> popup
+ *
+ * @type {string}
+ */
+const MSG_IMPORT_KEY_RES = 'imp_key_res';
+/**
  * Message id for log out action, popup -> background
  *
  * @type {string}
@@ -54,6 +66,18 @@ const MSG_INVALID_PASSWORD = 'invalid_password';
  */
 const MSG_INVALID_NEW_PASSWORD = 'invalid_new_password';
 /**
+ * Status for operation: success
+ *
+ * @type {string}
+ */
+const STATUS_SUCCESS = 'st_success';
+/**
+ * Status for operation: fail
+ *
+ * @type {string}
+ */
+const STATUS_FAIL = 'st_fail';
+/**
  * Storage key for vault data (keys)
  *
  * @type {string}
@@ -64,11 +88,15 @@ module.exports = {
     CONN_ID_POPUP,
     CONN_ID_PROXY,
     MSG_DELETE_ACCOUNT,
+    MSG_IMPORT_KEY_REQ,
+    MSG_IMPORT_KEY_RES,
     MSG_LOG_OUT,
     MSG_NEW_PASSWORD,
     MSG_PASSWORD,
     MSG_PAGE_SELECT,
     MSG_INVALID_PASSWORD,
     MSG_INVALID_NEW_PASSWORD,
+    STATUS_SUCCESS,
+    STATUS_FAIL,
     STORE_KEY_VAULT
 };

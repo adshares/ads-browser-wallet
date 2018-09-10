@@ -36,7 +36,10 @@
             border: 1px solid #ccc;
             border-top: none;
         }
-
+        .section {
+            border: 1px solid #ccc;
+            margin-bottom: 3px;
+        }
         #tx-template {
             display: none;
         }
@@ -100,7 +103,7 @@
             <button class="tablink" value="tab-settings">Settings</button>
         </div>
 
-        <!-- Tab content -->
+        <!-- Tab content: transactions -->
         <div id="tab-tx" class="tabcontent">
             <h3>Transactions</h3>
             <p>Transactions to sign</p>
@@ -112,12 +115,72 @@
             </div>
         </div>
 
+        <!-- Tab content: settings -->
         <div id="tab-settings" class="tabcontent">
             <h3>Settings</h3>
             <p>Key selection</p>
 
-            <button id="btn-logout">Log out</button>
-            <button id="btn-del-acc">Delete account</button>
+            <div class="section">
+                <p>Import key</p>
+                <table>
+                    <tr>
+                        <td>
+                            <label for="imp-key-name">Name:</label>
+                        </td>
+                        <td>
+                            <!-- TODO remove value-->
+                            <input type="text" id="imp-key-name" value="name1" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="imp-key-sk">Secret key:</label>
+                        </td>
+                        <td>
+                            <!-- TODO remove value-->
+                            <input type="text" id="imp-key-sk" value="FF767FC8FAF9CFA8D2C3BD193663E8B8CAC85005AD56E085FAB179B52BD88DD6" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="imp-key-pk">Public key:</label>
+                        </td>
+                        <td>
+                            <!-- TODO remove value-->
+                            <input type="text" id="imp-key-pk" value="D69BCCF69C2D0F6CED025A05FA7F3BA687D1603AC1C8D9752209AC2BBF2C4D17" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="imp-key-sg">Signature [optional]:</label>
+                        </td>
+                        <td>
+                            <!-- TODO remove value-->
+                            <input type="text" id="imp-key-sg" value="7A1CA8AF3246222C2E06D2ADE525A693FD81A2683B8A8788C32B7763DF6037A5DF3105B92FEF398AF1CDE0B92F18FE68DEF301E4BF7DB0ABC0AEA6BE24969006" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="imp-key-password">Confirm plugin password:</label>
+                        </td>
+                        <td>
+                            <!-- TODO remove value-->
+                            <input type="password" id="imp-key-password" value="q" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button id="btn-imp-key">Add to vault</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <p>Account</p>
+                <button id="btn-logout">Log out</button>
+                <button id="btn-del-acc">Delete account</button>
+            </div>
         </div>
     </div>
 </div>

@@ -37,8 +37,15 @@ function getEncryptedData(key, pass) {
                 if (!encrypted) {
                     resolve();
                 } else {
-                    // Encoder CryptoJS.enc.Utf8 below is needed to properly encode decrypted data
-                    const decrypted = CryptoJS.AES.decrypt(encrypted, pass).toString(CryptoJS.enc.Utf8);
+                    let decrypted;
+                    try {
+                        // Encoder CryptoJS.enc.Utf8 below is needed to properly encode decrypted data
+                        decrypted = CryptoJS.AES.decrypt(encrypted, pass).toString(CryptoJS.enc.Utf8);
+                    } catch (err) {
+                        // Error means that data cannot be decrypted with given password.
+                        decrypted = undefined;
+                    }
+
                     if (!decrypted) {
                         reject('Invalid pass');
                     } else {

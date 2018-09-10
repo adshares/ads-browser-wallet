@@ -1,16 +1,21 @@
 'use strict';
 
+const adsSign = require('./ads-sign');
 const store = require('./store');
 const {
     CONN_ID_POPUP,
     CONN_ID_PROXY,
     MSG_DELETE_ACCOUNT,
+    MSG_IMPORT_KEY_REQ,
+    MSG_IMPORT_KEY_RES,
     MSG_LOG_OUT,
     MSG_NEW_PASSWORD,
     MSG_PASSWORD,
     MSG_PAGE_SELECT,
     MSG_INVALID_PASSWORD,
     MSG_INVALID_NEW_PASSWORD,
+    STATUS_FAIL,
+    STATUS_SUCCESS,
     STORE_KEY_VAULT
 } = require('./enums');
 
@@ -37,8 +42,9 @@ KeyStore.unlock = function (password) {
         })
         .catch(e => {
             KeyStore.lock();
-            console.error(e);
             console.log('2 isUnlocked ' + this.isUnlocked);
+            console.error(e);
+            throw e;
         });
 };
 KeyStore.isAccount = function () {
@@ -83,6 +89,65 @@ async function createPageSelectObject() {
 function onMsgDeleteAccount() {
     chrome.storage.local.clear();
     createPageSelectObject().then(p => PopupPort.postMessage(p));
+}
+
+function onMsgImportKey(data) {
+    const name = data.name;
+    const sk = data.sk;
+    const pk = data.pk;
+    const sg = data.sg;
+    const pass = data.pass;
+    console.log('name ', name);
+    console.log('sk ', sk);
+    console.log('pk ', pk);
+    console.log('sg ', sg);
+
+    // TODO sanitize hex
+
+    // validate
+    if ((typeof name === 'string') && name.length > 0 && (typeof sk === 'string') && sk.length === 64
+        && (typeof pk === 'string') && pk.length === 64) {
+
+        let isSignPass = true;
+        // Signature SG is optional. Validate SG, if provided.
+        if (sg) {
+            let isValid = false;
+            if (typeof sg === 'string' && sg.length === 128) {
+                try {
+                    let signed = adsSign.sign('', sk + pk);
+                    isValid = (signed === sg);
+                } catch (err) {
+                    console.error(err.message);
+                }
+            }
+            console.log('is signature valid: ', isValid);
+            isSignPass = isValid;
+        }
+
+        if (isSignPass) {
+            // status of key importing, default: fail
+            let status = STATUS_FAIL;
+
+            KeyStore.unlock(pass)
+                .then(a => {
+                    console.log(a);
+                    KeyStore.vault[name] = {
+                        sk: sk,
+                        pk: pk
+                    };
+                    return store.setEncryptedData(STORE_KEY_VAULT, KeyStore.vault, pass).then(status = STATUS_SUCCESS);
+                })
+                .finally(() => {
+                    PopupPort.postMessage({type: MSG_IMPORT_KEY_RES, status: status});
+                });
+        } else {
+            // invalid signature was passed
+            PopupPort.postMessage({type: MSG_IMPORT_KEY_RES, status: STATUS_FAIL});
+        }
+    } else {
+        // invalid format of keys or missing name
+        PopupPort.postMessage({type: MSG_IMPORT_KEY_RES, status: STATUS_FAIL});
+    }
 }
 
 function onMsgLogOut() {
@@ -167,6 +232,9 @@ chrome.runtime.onConnect.addListener(
                     switch (message.type) {
                         case MSG_DELETE_ACCOUNT:
                             onMsgDeleteAccount();
+                            break;
+                        case MSG_IMPORT_KEY_REQ:
+                            onMsgImportKey(message.data);
                             break;
                         case MSG_LOG_OUT:
                             onMsgLogOut();

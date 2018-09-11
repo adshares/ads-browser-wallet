@@ -39,13 +39,20 @@
      * @param cb callback for received message
      */
     function init(cb) {
+        // wrapper on user callback - passes only selected message types
+        function cbWrap(event) {
+            if (event.data.type === 'tx_signed') {
+                cb(event.data);
+            }
+        }
+
         if (port) {
-            port.onmessage = cb;
+            port.onmessage = cbWrap;
         } else {
             let callback = function (iframePort) {
                 console.log('callback');
                 port = iframePort;
-                port.onmessage = cb;
+                port.onmessage = cbWrap;
             };
             getIframePort(callback);
         }
@@ -60,7 +67,7 @@
     function addTransaction(txData, txAccountHashin) {
         // create message object
         let message = {
-            type: 'add_tx',
+            type: 'tx_add',
             data: {
                 txData: txData,
                 txAccountHashin: txAccountHashin
@@ -80,7 +87,6 @@
      * @param callback
      */
     function getIframePort(callback) {
-        // create message channel
         let channel = new MessageChannel();
         let ready = function (message) {
             // when the iframe is ready to receive messages, it will send the string 'ready'
@@ -111,10 +117,21 @@
     // User part
 
     // Initialization
-    let cb = function (event) {
+    let cb = function (resp) {
+        // message type
+        let type = resp.type;
         // message data
-        let data = event.data;
-        console.log(data);
+        let data = resp.data;
+
+        if ('tx_signed' === type) {
+            let txAccountHashin = data.txAccountHashin;
+            let txData = data.txData;
+            let txSignature = data.txSignature;
+
+            console.log(type, txAccountHashin, txData, txSignature);
+        } else {
+            console.log('unknown type');
+        }
     };
     init(cb);
 

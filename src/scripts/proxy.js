@@ -6,6 +6,11 @@ const {
 
 // connection with background script
 let port = chrome.runtime.connect(chrome.i18n.getMessage("@@extension_id"), {name: CONN_ID_PROXY});
+// TODO remove port.onDisconnect - added for debug purpose
+port.onDisconnect.addListener((port) => {
+    console.log('proxy.js: disconnected with background ' + new Date().toString());
+    console.log(port);
+});
 
 window.addEventListener('message', function (event) {
     console.log('proxy.js: onMessage');

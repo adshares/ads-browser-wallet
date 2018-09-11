@@ -6,12 +6,16 @@ const {
     MSG_DELETE_ACCOUNT,
     MSG_IMPORT_KEY_REQ,
     MSG_IMPORT_KEY_RES,
+    MSG_INVALID_NEW_PASSWORD,
+    MSG_INVALID_PASSWORD,
     MSG_LOG_OUT,
     MSG_NEW_PASSWORD,
     MSG_PASSWORD,
     MSG_PAGE_SELECT,
-    MSG_INVALID_PASSWORD,
-    MSG_INVALID_NEW_PASSWORD,
+    MSG_TX_REJECT_REQ,
+    MSG_TX_REJECT_RES,
+    MSG_TX_SIGN_REQ,
+    MSG_TX_SIGN_RES,
     STATUS_FAIL,
     STATUS_SUCCESS,
     STORE_KEY_TX
@@ -48,6 +52,16 @@ BackgroundPort.onMessage.addListener(function (v) {
         case MSG_INVALID_NEW_PASSWORD:
             // TODO invalid new password - error handling
             console.error('invalid new password');
+            break;
+        case MSG_TX_REJECT_RES:
+        case MSG_TX_SIGN_RES:
+            console.log(v.type + ' status:' + v.status);
+            if (STATUS_SUCCESS === v.status) {
+                let id = 'tx-' + v.data;
+                document.getElementById(id).remove();
+            } else {// STATUS_FAIL
+                // TODO tx reject or sign fail
+            }
             break;
         default:
             // TODO
@@ -112,7 +126,7 @@ function appendTransaction(data) {
 
             // clone transaction template
             let txElement = document.getElementById('tx-template').cloneNode(true);
-            txElement.removeAttribute('id');
+            txElement.setAttribute('id', 'tx-' + ts);
             txElement.style.display = 'block';
             txElement.getElementsByClassName('tx-date')[0].innerHTML = new Date(parseInt(ts)).toLocaleString();
             txElement.getElementsByClassName('tx-data')[0].innerHTML = txData + ':' + txAccountHashin;
@@ -121,17 +135,14 @@ function appendTransaction(data) {
             let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
             btnAccept.addEventListener('click', function () {
                 console.log('btnAccept: click');
-                // TODO compute signature
-                chrome.runtime.sendMessage({status: 'signed', signature: '0123'});
-                txElement.remove();
+                BackgroundPort.postMessage({type: MSG_TX_SIGN_REQ, data: {ts: ts, d: txData, h: txAccountHashin}});
             });
 
             // assign cancel button
             let btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
             btnCancel.addEventListener('click', function () {
-                // TODO remove from storage
                 console.log('btnCancel: click');
-                txElement.remove();
+                BackgroundPort.postMessage({type: MSG_TX_REJECT_REQ, data: ts});
             });
 
             // add transaction to list

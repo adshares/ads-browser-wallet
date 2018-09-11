@@ -5,16 +5,21 @@ const store = require('./store');
 const {
     CONN_ID_POPUP,
     CONN_ID_PROXY,
-    MSG_ADD_TRANSACTION,
     MSG_DELETE_ACCOUNT,
     MSG_IMPORT_KEY_REQ,
     MSG_IMPORT_KEY_RES,
+    MSG_INVALID_NEW_PASSWORD,
+    MSG_INVALID_PASSWORD,
     MSG_LOG_OUT,
     MSG_NEW_PASSWORD,
     MSG_PASSWORD,
     MSG_PAGE_SELECT,
-    MSG_INVALID_PASSWORD,
-    MSG_INVALID_NEW_PASSWORD,
+    MSG_TRANSACTION_ADD,
+    MSG_TRANSACTION_SIGNED,
+    MSG_TX_REJECT_REQ,
+    MSG_TX_REJECT_RES,
+    MSG_TX_SIGN_REQ,
+    MSG_TX_SIGN_RES,
     STATUS_FAIL,
     STATUS_SUCCESS,
     STORE_KEY_TX,
@@ -60,6 +65,17 @@ KeyStore.isLoggedIn = function () {
 KeyStore.createAccount = function (password) {
     console.log('KeyStore.createAccount');
     return store.setEncryptedData(STORE_KEY_VAULT, {}, password);
+};
+KeyStore.sign = function (data, keyId) {
+    console.log('KeyStore.sign');
+    if (this.vault) {
+        let kc = this.vault[keyId];
+        if (kc) {
+            let key = kc.sk + kc.pk;
+            return adsSign.sign(data, key);
+        }
+    }
+    throw new Error('Cannot sign data');
 };
 
 async function createPageSelectObject() {
@@ -235,6 +251,54 @@ function onMsgPasswordNew(password) {
     }
 }
 
+function onMsgTxReject(ts) {
+    // remove from storage
+    let status = STATUS_FAIL;
+    store.getData(STORE_KEY_TX)
+        .then(val => {
+            val[ts] = undefined;
+            return store.setData(STORE_KEY_TX, val);
+        })
+        .then(a => {
+            status = STATUS_SUCCESS;
+        })
+        .catch(e => {
+            console.error(e);
+        })
+        .finally(() => PopupPort.postMessage({type: MSG_TX_REJECT_RES, status: status, data: ts}));
+}
+
+function onMsgTxSign(data) {
+    let ts = data.ts;
+    let txData = data.d;
+    let txAccountHashin = data.h;
+
+    let dataToSign = txAccountHashin + txData;
+    // TODO select key
+    let key = 'name1';
+
+    let signature;
+    try {
+        signature = KeyStore.sign(dataToSign, key);
+    } catch (err) {
+        console.error(err.message);
+    }
+
+    let status = signature ? STATUS_SUCCESS : STATUS_FAIL;
+    PopupPort.postMessage({type: MSG_TX_SIGN_RES, status: status, data: ts});
+    if (STATUS_SUCCESS === status) {
+        let resp = {
+            txAccountHashin: txAccountHashin,
+            txData: txData,
+            txSignature: signature
+        };
+        ProxyPort.postMessage({
+            type: MSG_TRANSACTION_SIGNED,
+            data: resp
+        });
+    }
+}
+
 function onPopupConnected() {
     createPageSelectObject().then(p => PopupPort.postMessage(p));
 }
@@ -252,7 +316,7 @@ chrome.runtime.onConnect.addListener(
                     console.log('background.js: onMessage proxy');
                     console.log(message);
                     switch (message.type) {
-                        case MSG_ADD_TRANSACTION:
+                        case MSG_TRANSACTION_ADD:
                             onMsgAddTransaction(message.data);
                             break;
                         default:
@@ -281,6 +345,12 @@ chrome.runtime.onConnect.addListener(
                             break;
                         case MSG_PASSWORD:
                             onMsgPassword(message.data);
+                            break;
+                        case MSG_TX_REJECT_REQ:
+                            onMsgTxReject(message.data);
+                            break;
+                        case MSG_TX_SIGN_REQ:
+                            onMsgTxSign(message.data);
                             break;
                         default:
                             // TODO

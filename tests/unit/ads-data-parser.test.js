@@ -83,22 +83,125 @@ test('parse get_account', () => {
     expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536911902 * 1000));
 });
 
-test('parse send_many', () => {
-    // {"run":"send_many", "wires":{"0001-00000001-8B4E":"100","0001-00000002-BB2D":"100"}}
-    const data = '050100000000000400000069C0485B020001000100000000A0724E1809000001000200000000A0724E18090000';
+test('parse get_accounts', () => {
+    // {"run":"get_accounts","node":2}
+    const data = '180100000000009EA49B5B60A49B5B0200';
     let parsedData = parser.parseData(data);
-    expect(parsedData[parser.FIELD.TYPE]).toBe('send_many');
-    expect(parsedData[parser.FIELD.WIRE_COUNT]).toBe(2);
-
-    const wires = parsedData[parser.FIELD.WIRES];
-    expect(wires).hasOwnProperty('0001-00000001-8B4E');
-    expect(wires['0001-00000001-8B4E']).toBe(100 * 100000000000);
-    expect(wires).hasOwnProperty('0001-00000002-BB2D');
-    expect(wires['0001-00000002-BB2D']).toBe(100 * 100000000000);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_accounts');
+    expect(parsedData[parser.FIELD.NODE]).toBe('0002');
+    expect(parsedData[parser.FIELD.BLOCK_ID]).toBe('5B9BA460');
     // sender
     expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
-    expect(parsedData[parser.FIELD.MSID]).toBe(4);
-    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531494505 * 1000));
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536926878 * 1000));
+});
+
+test('parse get_block', () => {
+    // {"run":"get_block"}
+    const data = '1701000000000000AC9B5B27AC9B5B';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_block');
+    expect(parsedData[parser.FIELD.BLOCK_ID]).toBe('5B9BAC00');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536928807 * 1000));
+});
+
+test('parse get_blocks', () => {
+    // {"run":"get_blocks"}
+    const data = '130100000000003AAD9B5B20AD9B5B00000000';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_blocks');
+    expect(parsedData[parser.FIELD.BLOCK_ID_FROM]).toBe('5B9BAD20');
+    expect(parsedData[parser.FIELD.BLOCK_ID_TO]).toBe('00000000');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536929082 * 1000));
+});
+
+test('parse get_broadcast', () => {
+    // {"run":"get_broadcast"}
+    const data = '12010000000000000000006FC39B5B';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_broadcast');
+    expect(parsedData[parser.FIELD.BLOCK_ID]).toBe('00000000');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536934767 * 1000));
+});
+
+test('parse get_fields', () => {
+    // {"run":"get_fields","type":"get_broadcast"}
+    const data = '1B';
+    expect(() => {
+        parser.parseData(data)
+    }).toThrow('Not parsable');
+});
+
+test('parse get_log', () => {
+    // {"run":"get_log"}
+    const data = '11010000000000E3C59B5B';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_log');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536935395 * 1000));
+});
+
+test('parse get_message', () => {
+    // {"run":"get_message", "block":"5B4893C0", "node":2, "node_msid":73}
+    const data = '1A020001000000E693485BC093485B020049000000';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_message');
+    expect(parsedData[parser.FIELD.BLOCK_ID]).toBe('5B4893C0');
+    expect(parsedData[parser.FIELD.NODE]).toBe('0002');
+    expect(parsedData[parser.FIELD.NODE_MSID]).toBe(73);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0002-00000001-659C');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531483110 * 1000));
+});
+
+test('parse get_message_list', () => {
+    // {"run":"get_message_list", "block":"5B4893C0"}
+    const data = '19020001000000E693485BC093485B';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_message_list');
+    expect(parsedData[parser.FIELD.BLOCK_ID]).toBe('5B4893C0');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0002-00000001-659C');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531483110 * 1000));
+});
+
+test('parse get_signatures', () => {
+    // {"run":"get_signatures","block":"5B9BBF20"}
+    const data = '1601000000000005CF9B5B20BF9B5B';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_signatures');
+    expect(parsedData[parser.FIELD.BLOCK_ID]).toBe('5B9BBF20');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536937733 * 1000));
+});
+
+test('parse get_transaction', () => {
+    // {"run":"get_transaction", "txid":"0001:00000007:0002"}
+    const data = '140100000000009253475B0100070000000200';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_transaction');
+    expect(parsedData[parser.FIELD.TX_ID]).toBe('0001:00000007:0002');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531401106 * 1000));
+});
+
+test('parse get_vipkeys', () => {
+    // {"run":"get_vipkeys", "viphash":"2A4831F1459C42E2CCF5C4E202C3301F94C381B6FB253DFED21DD015180D9507"}
+    const data = '150100000000008ECD9B5B2A4831F1459C42E2CCF5C4E202C3301F94C381B6FB253DFED21DD015180D9507';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('get_vipkeys');
+    expect(parsedData[parser.FIELD.VIP_HASH]).toBe('2A4831F1459C42E2CCF5C4E202C3301F94C381B6FB253DFED21DD015180D9507');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536937358 * 1000));
 });
 
 test('parse log_account', () => {
@@ -124,6 +227,24 @@ test('parse retrieve_funds', () => {
     expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
     expect(parsedData[parser.FIELD.MSID]).toBe(2);
     expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531495611 * 1000));
+});
+
+test('parse send_many', () => {
+    // {"run":"send_many", "wires":{"0001-00000001-8B4E":"100","0001-00000002-BB2D":"100"}}
+    const data = '050100000000000400000069C0485B020001000100000000A0724E1809000001000200000000A0724E18090000';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('send_many');
+    expect(parsedData[parser.FIELD.WIRE_COUNT]).toBe(2);
+
+    const wires = parsedData[parser.FIELD.WIRES];
+    expect(wires).hasOwnProperty('0001-00000001-8B4E');
+    expect(wires['0001-00000001-8B4E']).toBe(100 * 100000000000);
+    expect(wires).hasOwnProperty('0001-00000002-BB2D');
+    expect(wires['0001-00000002-BB2D']).toBe(100 * 100000000000);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(4);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531494505 * 1000));
 });
 
 test('parse send_one', () => {

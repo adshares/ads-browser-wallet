@@ -10,6 +10,12 @@ const FIELD = {
     ADDRESS_SRC: 'srcAddress',
     /** transaction amount */
     AMOUNT: 'amount',
+    /** block id */
+    BLOCK_ID: 'block_id',
+    /** block id */
+    BLOCK_ID_FROM: 'block_id_from',
+    /** block id */
+    BLOCK_ID_TO: 'block_id_to',
     /** transaction date */
     DATE: 'date',
     /** message */
@@ -20,14 +26,20 @@ const FIELD = {
     MSID: 'msid',
     /** node */
     NODE: 'node',
+    /** number of node message */
+    NODE_MSID: 'node_msid',
     /** public key */
     PUBLIC_KEY: 'public_key',
     /** account */
     STATUS_ACCOUNT: 'account_status',
     /** node status */
     STATUS_NODE: 'node_status',
+    /** transaction id */
+    TX_ID: 'txid',
     /** transaction type */
     TYPE: 'type',
+    /** vip hash */
+    VIP_HASH: 'vip_hash',
     /** number of wires */
     WIRE_COUNT: 'wire_count',
     /** wires */
@@ -118,17 +130,17 @@ function formatAddress(node, user) {
     return (node + '-' + user + '-' + crc16(node + user)).toUpperCase();
 }
 
-function formatMoney(amount, precision, decimal, thousand) {
-    let n = amount,
-        c = isNaN(precision = Math.abs(precision)) ? 2 : precision,
-        d = typeof decimal === 'undefined' ? "." : decimal,
-        t = typeof thousand === 'undefined' ? "," : thousand,
-        s = n < 0 ? "-" : "",
-        i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
-        j = i.length > 3 ? i.length % 3 : 0;
-
-    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-}
+// function formatMoney(amount, precision, decimal, thousand) {
+//     let n = amount,
+//         c = isNaN(precision = Math.abs(precision)) ? 2 : precision,
+//         d = typeof decimal === 'undefined' ? "." : decimal,
+//         t = typeof thousand === 'undefined' ? "," : thousand,
+//         s = n < 0 ? "-" : "",
+//         i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+//         j = i.length > 3 ? i.length % 3 : 0;
+//
+//     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+// }
 
 class Parser {
 
@@ -157,6 +169,15 @@ class Parser {
                 this.data = this.data.substr(16);
                 break;
 
+            case FIELD.BLOCK_ID:
+            case FIELD.BLOCK_ID_FROM:
+            case FIELD.BLOCK_ID_TO:
+                this.validateLength(8);
+                parsed = fixByteOrder(this.data.substr(0, 8));
+                // parsed = new Date(parseInt(parsed, 16) * 1000);
+                this.data = this.data.substr(8);
+                break;
+
             case FIELD.DATE:
                 this.validateLength(8);
                 let time = fixByteOrder(this.data.substr(0, 8));
@@ -179,6 +200,7 @@ class Parser {
                 break;
 
             case FIELD.MSID:
+            case FIELD.NODE_MSID:
                 this.validateLength(8);
                 parsed = fixByteOrder(this.data.substr(0, 8));
                 parsed = parseInt(parsed, 16);
@@ -192,11 +214,13 @@ class Parser {
                 break;
 
             case FIELD.PUBLIC_KEY:
+            case FIELD.VIP_HASH: {
                 this.validateLength(64);
-                // intentional lack of reverse - key is not reversed
+                // intentional lack of reverse - key and hash are not reversed
                 parsed = this.data.substr(0, 64);
                 this.data = this.data.substr(64);
                 break;
+            }
 
             case FIELD.STATUS_ACCOUNT:
                 this.validateLength(4);
@@ -212,6 +236,16 @@ class Parser {
                 parsed = ~~('0x' + parsed);
                 this.data = this.data.substr(8);
                 break;
+
+            case FIELD.TX_ID: {
+                this.validateLength(16);
+                let node = fixByteOrder(this.data.substr(0, 4));
+                let msgId = fixByteOrder(this.data.substr(4, 8));
+                let txOffset = fixByteOrder(this.data.substr(12, 4));
+                parsed = node + ':' + msgId + ':' + txOffset;
+                this.data = this.data.substr(16);
+                break;
+            }
 
             case FIELD.TYPE:
                 this.validateLength(2);
@@ -244,6 +278,7 @@ class Parser {
                 }
                 break;
             }
+
             default:
                 throw new Error('Invalid type');
         }
@@ -332,36 +367,67 @@ function parseData(data) {
             break;
 
         case 'get_accounts':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE)
+                .parse(FIELD.BLOCK_ID)// previous block id
+                .parse(FIELD.NODE);
             break;
 
         case 'get_block':
-            break;
-
-        case 'get_broadcast':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.BLOCK_ID)// previous block id
+                .parse(FIELD.DATE);
             break;
 
         case 'get_blocks':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE)
+                .parse(FIELD.BLOCK_ID_FROM)
+                .parse(FIELD.BLOCK_ID_TO);
             break;
 
-        case 'get_fields':
+        case 'get_broadcast':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.BLOCK_ID)
+                .parse(FIELD.DATE);
             break;
 
         case 'get_log':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE);
             break;
 
         case 'get_message':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE)
+                .parse(FIELD.BLOCK_ID)
+                .parse(FIELD.NODE)
+                .parse(FIELD.NODE_MSID);
             break;
 
         case 'get_message_list':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE)
+                .parse(FIELD.BLOCK_ID)
+                .parse(FIELD.NODE);
             break;
 
         case 'get_signatures':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE)
+                .parse(FIELD.BLOCK_ID);
             break;
 
         case 'get_transaction':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE)
+                .parse(FIELD.TX_ID);
             break;
 
         case 'get_vipkeys':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.DATE)
+                .parse(FIELD.VIP_HASH);
             break;
 
         case 'log_account':
@@ -411,6 +477,9 @@ function parseData(data) {
                 .parse(FIELD.NODE)
                 .parse(FIELD.STATUS_NODE);
             break;
+
+        case 'get_fields':// function `get_fields` does not return `tx.data`
+            throw new Error('Not parsable');
 
         default:
             throw new Error('Unknown type');

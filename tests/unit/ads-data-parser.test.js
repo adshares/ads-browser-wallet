@@ -61,6 +61,18 @@ test('parse send_many', () => {
     expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531494505 * 1000));
 });
 
+test('parse log_account', () => {
+    // {"run":"log_account"}
+    const data = '0F02000100000001000000D99E485B000000000000000000000000000000000000000000000000000000000000000000' +
+        '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' +
+        '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+    let parsedData = parser.parseData(data);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0002-00000001-659C');
+    expect(parsedData[parser.FIELD.MSID]).toBe(1);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531485913 * 1000));
+});
+
 test('parse send_one', () => {
     // {"run":"send_one","address":"0001-00000001-8B4E","amount":"100000"}
     const data = '04010000000000010000006F0A645B0100010000000000C16FF2862300000' +

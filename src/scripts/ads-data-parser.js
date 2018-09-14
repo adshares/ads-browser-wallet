@@ -345,6 +345,9 @@ function parseData(data) {
             break;
 
         case 'log_account':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE);
             break;
 
         case 'retrieve_funds':

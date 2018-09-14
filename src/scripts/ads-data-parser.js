@@ -253,6 +253,12 @@ class Parser {
         return this;
     }
 
+    skip(charCount) {
+        this.parsed = this.data.substr(0, charCount);
+        this.data = this.data.substr(charCount);
+        return this;
+    }
+
     get lastParsedField() {
         return this.parsed;
     }
@@ -297,12 +303,26 @@ function parseData(data) {
             break;
 
         case 'change_node_key':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE)
+                .parse(FIELD.NODE)
+                .parse(FIELD.PUBLIC_KEY);
             break;
 
         case 'create_account':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE)
+                .parse(FIELD.NODE)
+                .skip(8)
+                .parse(FIELD.PUBLIC_KEY);
             break;
 
         case 'create_node':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE);
             break;
 
         case 'get_account':
@@ -351,6 +371,10 @@ function parseData(data) {
             break;
 
         case 'retrieve_funds':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE)
+                .parse(FIELD.ADDRESS_DEST);
             break;
 
         case 'send_many':

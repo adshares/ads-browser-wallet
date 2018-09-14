@@ -32,6 +32,46 @@ test('parse change_account_key', () => {
     expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531498103 * 1000));
 });
 
+test('parse change_node_key', () => {
+    // {"run":"change_node_key", "public_key":"EAE1C8793B5597C4B3F490E76AC31172C439690F8EE14142BB851A61F9A49F0E"}
+    const data = '0A010000000000010000005CC2485B0000EAE1C8793B5597C4B3F490E76AC31172C439690F8EE14142BB851A61F9A49F0E';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('change_node_key');
+    expect(parsedData[parser.FIELD.PUBLIC_KEY]).toBe(
+        'EAE1C8793B5597C4B3F490E76AC31172C439690F8EE14142BB851A61F9A49F0E'
+    );
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(1);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531495004 * 1000));
+});
+
+test('parse create_account', () => {
+    // {"run":"create_account"}
+    const data = '0601000000000004000000AB989B5B' +
+        '010000000000A9C0D972D8AAB73805EC4A28291E052E3B5FAFE0ADC9D724917054E5E2690363';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('create_account');
+    expect(parsedData[parser.FIELD.PUBLIC_KEY]).toBe(
+        'A9C0D972D8AAB73805EC4A28291E052E3B5FAFE0ADC9D724917054E5E2690363'
+    );
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(4);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536923819 * 1000));
+});
+
+test('parse create_node', () => {
+    // {"run":"create_node"}
+    const data = '070100000000000100000047C9485B';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('create_node');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(1);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531496775 * 1000));
+});
+
 test('parse get_account', () => {
     // {"run":"get_account","address":"0001-00000000-9B6F"}
     const data = '100100000000000100010000001E6A9B5B';
@@ -67,10 +107,23 @@ test('parse log_account', () => {
         '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' +
         '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
     let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('log_account');
     // sender
     expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0002-00000001-659C');
     expect(parsedData[parser.FIELD.MSID]).toBe(1);
     expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531485913 * 1000));
+});
+
+test('parse retrieve_funds', () => {
+    // {"run":"retrieve_funds", "address":"0002-00000001-659C"}
+    const data = '0801000000000002000000BBC4485B020001000000';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('retrieve_funds');
+    expect(parsedData[parser.FIELD.ADDRESS_DEST]).toBe('0002-00000001-659C');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(2);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531495611 * 1000));
 });
 
 test('parse send_one', () => {

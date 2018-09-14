@@ -4,18 +4,43 @@ const parser = require('../../src/scripts/ads-data-parser');
 
 test('parse broadcast', () => {
     // {"run":"broadcast","message":"00"}
-    const data = '030100000000001300000066639A5B010000';
+    const data = '0301000000000001000000A1679B5B010000';
     let parsedData = parser.parseData(data);
     expect(parsedData[parser.FIELD.TYPE]).toBe('broadcast');
     expect(parsedData[parser.FIELD.MSG]).toBe('00');
+    expect(parsedData[parser.FIELD.MSG_LEN]).toBe(1);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(1);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536911265 * 1000));
+});
+
+test('parse change_account_key', () => {
+    // {"run":"change_account_key", "public_key":"EAE1C8793B5597C4B3F490E76AC31172C439690F8EE14142BB851A61F9A49F0E",
+    // "confirm":
+    // "1F0571D30661FB1D50BE0D61A0A0E97BAEFF8C030CD0269ADE49438A4AD4CF897
+    // 367E21B100C694F220D922200B3AB852A377D8857A64C36CB1569311760F303"}
+    const data = '090100000000000500000077CE485BEAE1C8793B5597C4B3F490E76AC31172C439690F8EE14142BB851A61F9A49F0E';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('change_account_key');
+    expect(parsedData[parser.FIELD.PUBLIC_KEY]).toBe(
+        'EAE1C8793B5597C4B3F490E76AC31172C439690F8EE14142BB851A61F9A49F0E'
+    );
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(5);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531498103 * 1000));
 });
 
 test('parse get_account', () => {
     // {"run":"get_account","address":"0001-00000000-9B6F"}
-    const data = '100100000000000100010000004D7B9A5B';
+    const data = '100100000000000100010000001E6A9B5B';
     let parsedData = parser.parseData(data);
     expect(parsedData[parser.FIELD.TYPE]).toBe('get_account');
     expect(parsedData[parser.FIELD.ADDRESS_DEST]).toBe('0001-00000001-8B4E');
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1536911902 * 1000));
 });
 
 test('parse send_many', () => {
@@ -30,6 +55,10 @@ test('parse send_many', () => {
     expect(wires['0001-00000001-8B4E']).toBe(100 * 100000000000);
     expect(wires).hasOwnProperty('0001-00000002-BB2D');
     expect(wires['0001-00000002-BB2D']).toBe(100 * 100000000000);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(4);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1531494505 * 1000));
 });
 
 test('parse send_one', () => {
@@ -40,4 +69,69 @@ test('parse send_one', () => {
     expect(parsedData[parser.FIELD.TYPE]).toBe('send_one');
     expect(parsedData[parser.FIELD.ADDRESS_DEST]).toBe('0001-00000001-8B4E');
     expect(parsedData[parser.FIELD.AMOUNT]).toBe(100000 * 100000000000);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(1);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1533282927 * 1000));
+});
+
+test('parse set_account_status', () => {
+    // {"run":"set_account_status", "address":"0001-00000000-9B6F", "status":"2"}
+    const data = '0B01000000000001000000A1B2285B0100000000000200' +
+        '4C7D7B93EC55730811B964E7C6FCF5C75BE470055882BE9C66E233EF4301DFD0' +
+        '28352509B105513E8AFC5873407D1A0F53D726A3832E5CFC5342020EE463FD0F';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('set_account_status');
+    expect(parsedData[parser.FIELD.ADDRESS_DEST]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.STATUS_ACCOUNT]).toBe(2);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(1);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1529393825 * 1000));
+});
+
+
+test('parse set_node_status', () => {
+    // {"run":"set_node_status", "node":"14", "status":"-2147483648"}
+    const data = '0C0100000000007900000084B4285B0E0000000080F420' +
+        'AAD99C27B8B7417612B1164F7085D2D6F85E428A78B6BEFEA512D8297F0980E2' +
+        '8ED1CF4FFE89C3027F762D21F10FFF644B9ED34FAF155791E6B62128E208';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('set_node_status');
+    expect(parsedData[parser.FIELD.NODE]).toBe('000E');
+    expect(parsedData[parser.FIELD.STATUS_NODE]).toBe(-2147483648);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(121);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1529394308 * 1000));
+});
+
+test('parse unset_account_status', () => {
+    // {"run":"unset_account_status", "address":"0001-00000000-9B6F", "status":"32"}
+    const data = '0D0100000000000A000000A4B2285B0100000000002000' +
+        'E5A516C58BEB3A4E15B4599883D15C8DD80552B64421574D4B1091BBA705FA61' +
+        '02B7AEDDCE09B6BB41C68E20845340EB8D1F7E5DB8EC371343D0692AC7C07E0F';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('unset_account_status');
+    expect(parsedData[parser.FIELD.ADDRESS_DEST]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.STATUS_ACCOUNT]).toBe(32);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000000-9B6F');
+    expect(parsedData[parser.FIELD.MSID]).toBe(10);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1529393828 * 1000));
+});
+
+test('parse set_node_status', () => {
+    // {"run":"unset_node_status", "node":"3", "status":"2"}
+    const data = '0E01000100000025000000C7B4285B030002000000' +
+        '51A32652D45A4C9A48C9821BE2B24BA2CB384D6E47A7BDD229E7F5B3DE06CF3B' +
+        '4821C581A1B325BA53A7F7E626008EA47B3F181A8E409B38794A77FEA84A720F';
+    let parsedData = parser.parseData(data);
+    expect(parsedData[parser.FIELD.TYPE]).toBe('unset_node_status');
+    expect(parsedData[parser.FIELD.NODE]).toBe('0003');
+    expect(parsedData[parser.FIELD.STATUS_NODE]).toBe(2);
+    // sender
+    expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000001-8B4E');
+    expect(parsedData[parser.FIELD.MSID]).toBe(37);
+    expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1529394375 * 1000));
 });

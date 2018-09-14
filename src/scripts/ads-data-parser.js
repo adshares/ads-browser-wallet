@@ -18,6 +18,14 @@ const FIELD = {
     MSG_LEN: 'message_length',
     /** number of sender transactions */
     MSID: 'msid',
+    /** node */
+    NODE: 'node',
+    /** public key */
+    PUBLIC_KEY: 'public_key',
+    /** account */
+    STATUS_ACCOUNT: 'account_status',
+    /** node status */
+    STATUS_NODE: 'node_status',
     /** transaction type */
     TYPE: 'type',
     /** number of wires */
@@ -138,7 +146,6 @@ class Parser {
                 let node = fixByteOrder(this.data.substr(0, 4));
                 let user = fixByteOrder(this.data.substr(4, 8));
                 parsed = formatAddress(node, user);
-                this.resp[dataType] = parsed;
                 this.data = this.data.substr(12);
                 break;
 
@@ -147,7 +154,6 @@ class Parser {
                 parsed = fixByteOrder(this.data.substr(0, 16));
                 // parsed = formatMoney(parseInt(parsed, 16) / 100000000000, 11);
                 parsed = parseInt(parsed, 16);
-                this.resp[dataType] = parsed;
                 this.data = this.data.substr(16);
                 break;
 
@@ -155,7 +161,6 @@ class Parser {
                 this.validateLength(8);
                 let time = fixByteOrder(this.data.substr(0, 8));
                 parsed = new Date(parseInt(time, 16) * 1000);
-                this.resp[dataType] = parsed;
                 this.data = this.data.substr(8);
                 break;
 
@@ -163,39 +168,63 @@ class Parser {
                 const expectedLength = (this.resp[FIELD.TYPE] === 'send_one') ? 64 : this.resp[FIELD.MSG_LEN] * 2;
                 this.validateLength(expectedLength);
                 parsed = this.data;
-                this.resp[dataType] = parsed;
                 this.data = '';
                 break;
 
             case FIELD.MSG_LEN:
                 this.validateLength(4);
                 parsed = fixByteOrder(this.data.substr(0, 4));
-                parsed = parseInt(parsed, 10);
-                this.resp[dataType] = parsed;
+                parsed = parseInt(parsed, 16);
                 this.data = this.data.substr(4);
                 break;
 
             case FIELD.MSID:
                 this.validateLength(8);
                 parsed = fixByteOrder(this.data.substr(0, 8));
-                parsed = parseInt(parsed, 10);
-                this.resp[dataType] = parsed;
+                parsed = parseInt(parsed, 16);
+                this.data = this.data.substr(8);
+                break;
+
+            case FIELD.NODE:
+                this.validateLength(4);
+                parsed = fixByteOrder(this.data.substr(0, 4));
+                this.data = this.data.substr(4);
+                break;
+
+            case FIELD.PUBLIC_KEY:
+                this.validateLength(64);
+                // intentional lack of reverse - key is not reversed
+                parsed = this.data.substr(0, 64);
+                this.data = this.data.substr(64);
+                break;
+
+            case FIELD.STATUS_ACCOUNT:
+                this.validateLength(4);
+                parsed = fixByteOrder(this.data.substr(0, 4));
+                parsed = parseInt(parsed, 16);
+                this.data = this.data.substr(4);
+                break;
+
+            case FIELD.STATUS_NODE:
+                this.validateLength(8);
+                parsed = fixByteOrder(this.data.substr(0, 8));
+                // operator ~~ is used to convert value to 32 bit integer
+                parsed = ~~('0x' + parsed);
                 this.data = this.data.substr(8);
                 break;
 
             case FIELD.TYPE:
                 this.validateLength(2);
+                // intentional lack of reverse - 1 byte does not need to be reversed
                 let type = this.data.substr(0, 2);
                 parsed = TX_TYPE[type];
-                this.resp[dataType] = parsed;
                 this.data = this.data.substr(2);
                 break;
 
             case FIELD.WIRE_COUNT:
                 this.validateLength(4);
                 let count = fixByteOrder(this.data.substr(0, 4));
-                parsed = parseInt(count, 10);
-                this.resp[dataType] = parsed;
+                parsed = parseInt(count, 16);
                 this.data = this.data.substr(4);
                 break;
 
@@ -213,13 +242,13 @@ class Parser {
                     parsed[address] = parseInt(amount, 16);
                     this.data = this.data.substr(28);
                 }
-                this.resp[dataType] = parsed;
                 break;
             }
             default:
                 throw new Error('Invalid type');
         }
 
+        this.resp[dataType] = parsed;
         this.parsed = parsed;
         return this;
     }
@@ -229,6 +258,7 @@ class Parser {
     }
 
     get parsedData() {
+        console.log('left: ', this.data);
         return this.resp;
     }
 
@@ -260,6 +290,10 @@ function parseData(data) {
             break;
 
         case 'change_account_key':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE)
+                .parse(FIELD.PUBLIC_KEY);
             break;
 
         case 'change_node_key':
@@ -334,22 +368,27 @@ function parseData(data) {
             break;
 
         case 'set_account_status':
+        case 'unset_account_status':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE)
+                .parse(FIELD.ADDRESS_DEST)
+                .parse(FIELD.STATUS_ACCOUNT);
             break;
 
         case 'set_node_status':
-            break;
-
-        case 'unset_account_status':
-            break;
-
         case 'unset_node_status':
+            parser.parse(FIELD.ADDRESS_SRC)
+                .parse(FIELD.MSID)
+                .parse(FIELD.DATE)
+                .parse(FIELD.NODE)
+                .parse(FIELD.STATUS_NODE);
             break;
 
         default:
             throw new Error('Unknown type');
     }
 
-    console.log(parser.parsedData);
     return parser.parsedData;
 }
 

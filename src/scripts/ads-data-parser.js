@@ -299,7 +299,6 @@ class Parser {
     }
 
     get parsedData() {
-        console.log('left: ', this.data);
         return this.resp;
     }
 
@@ -319,7 +318,6 @@ class Parser {
 function parseData(data) {
     let parser = new Parser(data).parse(FIELD.TYPE);
     let type = parser.lastParsedField;
-    console.log(type, data);
 
     switch (type) {
         case 'broadcast':
@@ -408,8 +406,7 @@ function parseData(data) {
         case 'get_message_list':
             parser.parse(FIELD.ADDRESS_SRC)
                 .parse(FIELD.DATE)
-                .parse(FIELD.BLOCK_ID)
-                .parse(FIELD.NODE);
+                .parse(FIELD.BLOCK_ID);
             break;
 
         case 'get_signatures':

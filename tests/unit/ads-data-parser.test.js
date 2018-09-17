@@ -263,9 +263,7 @@ test('parse send_one', () => {
 
 test('parse set_account_status', () => {
     // {"run":"set_account_status", "address":"0001-00000000-9B6F", "status":"2"}
-    const data = '0B01000000000001000000A1B2285B0100000000000200' +
-        '4C7D7B93EC55730811B964E7C6FCF5C75BE470055882BE9C66E233EF4301DFD0' +
-        '28352509B105513E8AFC5873407D1A0F53D726A3832E5CFC5342020EE463FD0F';
+    const data = '0B01000000000001000000A1B2285B0100000000000200';
     let parsedData = parser.parseData(data);
     expect(parsedData[parser.FIELD.TYPE]).toBe('set_account_status');
     expect(parsedData[parser.FIELD.ADDRESS_DEST]).toBe('0001-00000000-9B6F');
@@ -279,9 +277,7 @@ test('parse set_account_status', () => {
 
 test('parse set_node_status', () => {
     // {"run":"set_node_status", "node":"14", "status":"-2147483648"}
-    const data = '0C0100000000007900000084B4285B0E0000000080F420' +
-        'AAD99C27B8B7417612B1164F7085D2D6F85E428A78B6BEFEA512D8297F0980E2' +
-        '8ED1CF4FFE89C3027F762D21F10FFF644B9ED34FAF155791E6B62128E208';
+    const data = '0C0100000000007900000084B4285B0E0000000080';
     let parsedData = parser.parseData(data);
     expect(parsedData[parser.FIELD.TYPE]).toBe('set_node_status');
     expect(parsedData[parser.FIELD.NODE]).toBe('000E');
@@ -294,9 +290,7 @@ test('parse set_node_status', () => {
 
 test('parse unset_account_status', () => {
     // {"run":"unset_account_status", "address":"0001-00000000-9B6F", "status":"32"}
-    const data = '0D0100000000000A000000A4B2285B0100000000002000' +
-        'E5A516C58BEB3A4E15B4599883D15C8DD80552B64421574D4B1091BBA705FA61' +
-        '02B7AEDDCE09B6BB41C68E20845340EB8D1F7E5DB8EC371343D0692AC7C07E0F';
+    const data = '0D0100000000000A000000A4B2285B0100000000002000';
     let parsedData = parser.parseData(data);
     expect(parsedData[parser.FIELD.TYPE]).toBe('unset_account_status');
     expect(parsedData[parser.FIELD.ADDRESS_DEST]).toBe('0001-00000000-9B6F');
@@ -309,9 +303,7 @@ test('parse unset_account_status', () => {
 
 test('parse set_node_status', () => {
     // {"run":"unset_node_status", "node":"3", "status":"2"}
-    const data = '0E01000100000025000000C7B4285B030002000000' +
-        '51A32652D45A4C9A48C9821BE2B24BA2CB384D6E47A7BDD229E7F5B3DE06CF3B' +
-        '4821C581A1B325BA53A7F7E626008EA47B3F181A8E409B38794A77FEA84A720F';
+    const data = '0E01000100000025000000C7B4285B030002000000';
     let parsedData = parser.parseData(data);
     expect(parsedData[parser.FIELD.TYPE]).toBe('unset_node_status');
     expect(parsedData[parser.FIELD.NODE]).toBe('0003');
@@ -320,4 +312,18 @@ test('parse set_node_status', () => {
     expect(parsedData[parser.FIELD.ADDRESS_SRC]).toBe('0001-00000001-8B4E');
     expect(parsedData[parser.FIELD.MSID]).toBe(37);
     expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1529394375 * 1000));
+});
+
+test('error `Unknown type`', () => {
+    const data = 'FF00';
+    expect(() => {
+        parser.parseData(data)
+    }).toThrow('Unknown type');
+});
+
+test('error `Invalid data length`', () => {
+    const data = '0E0100010000';
+    expect(() => {
+        parser.parseData(data)
+    }).toThrow('Invalid data length');
 });

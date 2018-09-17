@@ -11,7 +11,8 @@
             <label for="data">tx.data:</label>
         </td>
         <td>
-            <input type="text" id="data" value="data12341234"/>
+            <input type="text" id="data"
+                   value="050100000000000400000069C0485B020001000100000000A0724E1809000001000200000000A0724E18090000"/>
         </td>
     </tr>
     <tr>
@@ -19,7 +20,7 @@
             <label for="hashin">tx.account_hashin:</label>
         </td>
         <td>
-            <input type="text" id="hashin" value="hashin56785678"/>
+            <input type="text" id="hashin" value="AFB2FAACA5CB0C41A9F60AC84FA6D1A39C2D875F70FEEC3EEC70319962874FEC"/>
         </td>
     </tr>
 </table>
@@ -41,7 +42,7 @@
     function init(cb) {
         // wrapper on user callback - passes only selected message types
         function cbWrap(event) {
-            if (event.data.type === 'tx_signed') {
+            if (event.data && event.data.type === 'tx_signed') {
                 cb(event.data);
             }
         }
@@ -122,13 +123,23 @@
         let type = resp.type;
         // message data
         let data = resp.data;
+        // status
+        let status = resp.status;
+
+        // operation successfully
+        const STATUS_SUCCESS = 'st_success';
+        // operation failed
+        // const STATUS_FAIL = 'st_fail';
 
         if ('tx_signed' === type) {
-            let txAccountHashin = data.txAccountHashin;
-            let txData = data.txData;
-            let txSignature = data.txSignature;
-
-            console.log(type, txAccountHashin, txData, txSignature);
+            if (STATUS_SUCCESS === status) {
+                let txAccountHashin = data.txAccountHashin;
+                let txData = data.txData;
+                let txSignature = data.txSignature;
+                console.log(type, txAccountHashin, txData, txSignature);
+            } else { //STATUS_FAIL
+                console.error(data);
+            }
         } else {
             console.log('unknown type');
         }

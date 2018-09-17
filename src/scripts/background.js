@@ -1,6 +1,7 @@
 'use strict';
 
 const adsSign = require('./ads-sign');
+const parser = require('./ads-data-parser');
 const store = require('./store');
 const {
     CONN_ID_POPUP,
@@ -25,6 +26,12 @@ const {
     STORE_KEY_TX,
     STORE_KEY_VAULT
 } = require('./enums');
+/**
+ * Regular expression for hex string.
+ *
+ * @type {RegExp}
+ */
+const HEX_REGEXP = /^[0-9A-Fa-f]+$/;
 
 console.log('background.js ' + new Date());
 
@@ -104,45 +111,74 @@ async function createPageSelectObject() {
     };
 }
 
-function onMsgAddTransaction(data) {
+function prepareTransactionData(data) {
     if (!data || !data.txData || !data.txAccountHashin) {
-        // TODO handle missing data
-        console.error('Invalid tx data');
-        return;
+        throw new Error('Missing tx data');
     }
     let txData = data.txData.sanitizeHex();
     let txAccountHashin = data.txAccountHashin.sanitizeHex();
 
-    // TODO validate txData (is hex, can be decoded), txAccountHashin (is hex, length)
+    // validate txAccountHashin - is hex, length is 64 chars (32 bytes)
+    if (!txAccountHashin.match(HEX_REGEXP) || txAccountHashin.length !== 64) {
+        throw new Error('Invalid hash format');
+    }
 
-    let txObj = {
+    // validate txData - is hex, length is even (each byte takes two chars)
+    if (!txData.match(HEX_REGEXP) || (txData.length % 2 !== 0)) {
+        throw new Error('Invalid data format');
+    }
+
+    // validate txData - is parsable
+    try {
+        parser.parseData(txData);
+    } catch (err) {
+        throw new Error('Parse error: ' + err.message);
+    }
+
+    return {
         d: txData,
         h: txAccountHashin
     };
+}
 
-    store.getData(STORE_KEY_TX)
-        .then(val => {
-            if (!val) {
-                val = {};
-            }
-            let ts = new Date().getTime();
-            val[ts] = txObj;
-            return store.setData(STORE_KEY_TX, val);
-        })
-        .then(a => {
-            // update icon badge
-            chrome.browserAction.getBadgeText({}, function (text) {
-                if (text === '') {
-                    text = '1';
-                } else {
-                    text = (parseInt(text) + 1).toString();
+function onMsgAddTransaction(data) {
+    let txObj;
+    try {
+        txObj = prepareTransactionData(data);
+    } catch (err) {
+        console.error(err.message);
+        ProxyPort.postMessage({
+            type: MSG_TRANSACTION_SIGNED,
+            status: STATUS_FAIL,
+            data: err.message
+        });
+    }
+
+    if (txObj) {
+        store.getData(STORE_KEY_TX)
+            .then(val => {
+                if (!val) {
+                    val = {};
                 }
-                chrome.browserAction.setBadgeText({text: text});
-            });
-        })
-        .catch(
-            e => console.error(e)
-        );
+                let ts = new Date().getTime();
+                val[ts] = txObj;
+                return store.setData(STORE_KEY_TX, val);
+            })
+            .then(a => {
+                // update icon badge
+                chrome.browserAction.getBadgeText({}, function (text) {
+                    if (text === '') {
+                        text = '1';
+                    } else {
+                        text = (parseInt(text) + 1).toString();
+                    }
+                    chrome.browserAction.setBadgeText({text: text});
+                });
+            })
+            .catch(
+                e => console.error(e)
+            );
+    }
 }
 
 function onMsgDeleteAccount() {
@@ -294,8 +330,19 @@ function onMsgTxSign(data) {
         };
         ProxyPort.postMessage({
             type: MSG_TRANSACTION_SIGNED,
+            status: STATUS_SUCCESS,
             data: resp
         });
+
+        // remove from store
+        store.getData(STORE_KEY_TX)
+            .then(val => {
+                val[ts] = undefined;
+                return store.setData(STORE_KEY_TX, val);
+            })
+            .catch(
+                e => console.error(e)
+            );
     }
 }
 
@@ -310,6 +357,7 @@ chrome.runtime.onConnect.addListener(
         console.log(port);
         if (port.sender.id === chrome.i18n.getMessage("@@extension_id")) {
             if (port.name === CONN_ID_PROXY) {// connection with proxy script
+                // TODO remove line below = it was added for testing purpose
                 port.postMessage({response: 'yes'});
                 ProxyPort = port;
                 ProxyPort.onMessage.addListener(function (message) {
@@ -369,20 +417,20 @@ chrome.runtime.onConnect.addListener(
     }
 );
 
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        console.log("background.js: onMessage");
-        console.log(request);
-        console.log(sender);
-        console.log(sendResponse);
-
-        if (sender.id === chrome.i18n.getMessage("@@extension_id")) {
-            console.log('message from extension');
-            if (ProxyPort) {
-                ProxyPort.postMessage(request);
-            } else {
-                console.error('ProxyPort is undefined');
-            }
-        }
-    }
-);
+// chrome.runtime.onMessage.addListener(
+//     function (request, sender, sendResponse) {
+//         console.log("background.js: onMessage");
+//         console.log(request);
+//         console.log(sender);
+//         console.log(sendResponse);
+//
+//         if (sender.id === chrome.i18n.getMessage("@@extension_id")) {
+//             console.log('message from extension');
+//             if (ProxyPort) {
+//                 ProxyPort.postMessage(request);
+//             } else {
+//                 console.error('ProxyPort is undefined');
+//             }
+//         }
+//     }
+// );

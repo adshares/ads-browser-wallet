@@ -16,7 +16,7 @@ const {
     MSG_TX_REJECT_RES,
     MSG_TX_SIGN_REQ,
     MSG_TX_SIGN_RES,
-    STATUS_FAIL,
+    // STATUS_FAIL,
     STATUS_SUCCESS,
     STORE_KEY_TX
 } = require('./enums');
@@ -119,6 +119,7 @@ function appendTransaction(data) {
     for (let key in data) {
         if (data.hasOwnProperty(key)) {
             let ts = key;
+            let mid = data[key].m;
             let txData = data[key].d;
             let txAccountHashin = data[key].h;
 
@@ -135,7 +136,15 @@ function appendTransaction(data) {
             let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
             btnAccept.addEventListener('click', function () {
                 console.log('btnAccept: click');
-                BackgroundPort.postMessage({type: MSG_TX_SIGN_REQ, data: {ts: ts, d: txData, h: txAccountHashin}});
+                BackgroundPort.postMessage({
+                    type: MSG_TX_SIGN_REQ,
+                    data: {
+                        ts: ts,
+                        d: txData,
+                        h: txAccountHashin,
+                        m: mid
+                    }
+                });
             });
 
             // assign cancel button

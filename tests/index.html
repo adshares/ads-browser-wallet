@@ -62,14 +62,16 @@
     /**
      * Adds transaction to list of transaction that are to be signed.
      *
-     * @param {string} txData
-     * @param {string} txAccountHashin
+     * @param {string} mid transaction id assigned by client
+     * @param {string} txData transaction data
+     * @param {string} txAccountHashin account hash
      */
-    function addTransaction(txData, txAccountHashin) {
+    function addTransaction(mid, txData, txAccountHashin) {
         // create message object
         let message = {
             type: 'tx_add',
             data: {
+                mid: mid,
                 txData: txData,
                 txAccountHashin: txAccountHashin
             }
@@ -133,10 +135,11 @@
 
         if ('tx_signed' === type) {
             if (STATUS_SUCCESS === status) {
+                let mid = data.mid;
                 let txAccountHashin = data.txAccountHashin;
                 let txData = data.txData;
                 let txSignature = data.txSignature;
-                console.log(type, txAccountHashin, txData, txSignature);
+                console.log(type, mid, txAccountHashin, txData, txSignature);
             } else { //STATUS_FAIL
                 console.error(data);
             }
@@ -150,9 +153,10 @@
     let btnSend2 = document.getElementById('btn-add-tx');
     btnSend2.addEventListener('click', function () {
         console.log('index.html: click');
+        const mid = new Date().getTime();
         const txData = document.getElementById('data').value;
         const txAccountHashin = document.getElementById('hashin').value;
-        addTransaction(txData, txAccountHashin);
+        addTransaction(mid, txData, txAccountHashin);
     }, false);
 
 </script>

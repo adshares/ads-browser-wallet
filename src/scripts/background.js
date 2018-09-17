@@ -112,9 +112,10 @@ async function createPageSelectObject() {
 }
 
 function prepareTransactionData(data) {
-    if (!data || !data.txData || !data.txAccountHashin) {
+    if (!data || !data.mid | !data.txData || !data.txAccountHashin) {
         throw new Error('Missing tx data');
     }
+    let mid = data.mid;
     let txData = data.txData.sanitizeHex();
     let txAccountHashin = data.txAccountHashin.sanitizeHex();
 
@@ -137,7 +138,8 @@ function prepareTransactionData(data) {
 
     return {
         d: txData,
-        h: txAccountHashin
+        h: txAccountHashin,
+        m: mid
     };
 }
 
@@ -319,6 +321,7 @@ function onMsgTxSign(data) {
     PopupPort.postMessage({type: MSG_TX_SIGN_RES, status: status, data: ts});
     if (STATUS_SUCCESS === status) {
         let resp = {
+            mid: data.m,
             txAccountHashin: txAccountHashin,
             txData: txData,
             txSignature: signature

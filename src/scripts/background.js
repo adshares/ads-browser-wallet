@@ -248,16 +248,11 @@ function onMsgLogOut() {
 }
 
 function onMsgPassword(password) {
-    // TODO check password
-    let correct = true;
-    if (correct) {
-        // login
-        KeyStore.unlock(password)
-            .then(a => createPageSelectObject())
-            .then(p => PopupPort.postMessage(p));
-    } else {
-        PopupPort.postMessage({type: MSG_INVALID_PASSWORD});
-    }
+    // login - password is checked within unlock function
+    KeyStore.unlock(password)
+        .then(a => createPageSelectObject())
+        .then(p => PopupPort.postMessage(p))
+        .catch(e => PopupPort.postMessage({type: MSG_INVALID_PASSWORD}));
 }
 
 function onMsgPasswordNew(password) {

@@ -7,7 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest"
+    "test": "npm run test-unit",
+    "test-unit": "jest ./tests/unit/",
+    "test-e2e": "jest ./tests/e2e/"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
     "gulp": "^4.0.0",
     "jest": "^23.5.0",
     "jest-localstorage-mock": "^2.2.0",
+    "selenium-webdriver": "^4.0.0-alpha.1",
     "webpack-stream": "^5.1.1"
   },
   "dependencies": {

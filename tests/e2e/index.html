@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <label for="data">tx.data:</label>
+        </td>
+        <td>
+            <input type="text" id="data"
+                   value="050100000000000400000069C0485B020001000100000000A0724E1809000001000200000000A0724E18090000"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="hashin">tx.account_hashin:</label>
+        </td>
+        <td>
+            <input type="text" id="hashin" value="AFB2FAACA5CB0C41A9F60AC84FA6D1A39C2D875F70FEEC3EEC70319962874FEC"/>
+        </td>
+    </tr>
+</table>
+<button id="btn-add-tx">add transaction</button>
+
+<script type="text/javascript">
+
+    ////////////////////////////////////////////////////////
+    // Script part
+
+    // port to send messages to iframe
+    let port;
+
+    /**
+     * Initializes connection between page and extension.
+     *
+     * @param cb callback for received message
+     */
+    function init(cb) {
+        // wrapper on user callback - passes only selected message types
+        function cbWrap(event) {
+            if (event.data && event.data.type === 'tx_signed') {
+                cb(event.data);
+            }
+        }
+
+        if (port) {
+            port.onmessage = cbWrap;
+        } else {
+            let callback = function (iframePort) {
+                console.log('callback');
+                port = iframePort;
+                port.onmessage = cbWrap;
+            };
+            getIframePort(callback);
+        }
+    }
+
+    /**
+     * Adds transaction to list of transaction that are to be signed.
+     *
+     * @param {string} mid transaction id assigned by client
+     * @param {string} txData transaction data
+     * @param {string} txAccountHashin account hash
+     */
+    function addTransaction(mid, txData, txAccountHashin) {
+        // create message object
+        let message = {
+            type: 'tx_add',
+            data: {
+                mid: mid,
+                txData: txData,
+                txAccountHashin: txAccountHashin
+            }
+        };
+
+        if (port) {
+            port.postMessage(message);
+        } else {
+            console.error('not initialized');
+        }
+    }
+
+    /**
+     * Creates iframe port and returns it as callback parameter.
+     *
+     * @param callback
+     */
+    function getIframePort(callback) {
+        let channel = new MessageChannel();
+        let ready = function (message) {
+            // when the iframe is ready to receive messages, it will send the string 'ready'
+            if (message.data && message.data === 'ready') {
+                channel.port1.removeEventListener('message', ready);
+                callback(channel.port1);
+            } else {
+                console.error('First event on iframe port was not "ready"');
+            }
+        };
+        channel.port1.addEventListener('message', ready);
+        channel.port1.start();
+
+        // create the iframe
+        const iframeOrigin = 'chrome-extension://pnachadjmfaheoabmimdgilkilghjaga';
+        let iframe = document.createElement('iframe');
+        iframe.src = iframeOrigin + '/comm.html';
+        iframe.setAttribute('style', 'display:none');
+        document.body.appendChild(iframe);
+
+        iframe.addEventListener('load', function () {
+            // pass the port of message channel to the iframe
+            iframe.contentWindow.postMessage('init', iframeOrigin, [channel.port2]);
+        });
+    }
+
+    ////////////////////////////////////////////////////////
+    // User part
+
+    // Initialization
+    let cb = function (resp) {
+        // message type
+        let type = resp.type;
+        // message data
+        let data = resp.data;
+        // status
+        let status = resp.status;
+
+        // operation successfully
+        const STATUS_SUCCESS = 'st_success';
+        // operation failed
+        // const STATUS_FAIL = 'st_fail';
+
+        if ('tx_signed' === type) {
+            if (STATUS_SUCCESS === status) {
+                let mid = data.mid;
+                let txAccountHashin = data.txAccountHashin;
+                let txData = data.txData;
+                let txSignature = data.txSignature;
+                console.log(type, mid, txAccountHashin, txData, txSignature);
+            } else { //STATUS_FAIL
+                console.error(data);
+            }
+        } else {
+            console.log('unknown type');
+        }
+    };
+    init(cb);
+
+    // Call addTransaction function
+    let btnSend2 = document.getElementById('btn-add-tx');
+    btnSend2.addEventListener('click', function () {
+        console.log('index.html: click');
+        const mid = new Date().getTime();
+        const txData = document.getElementById('data').value;
+        const txAccountHashin = document.getElementById('hashin').value;
+        addTransaction(mid, txData, txAccountHashin);
+    }, false);
+
+</script>
+</body>
+</html>

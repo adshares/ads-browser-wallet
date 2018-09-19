@@ -127,12 +127,13 @@
             <div class="section">
                 <p>Import key</p>
                 <table>
-                    <tr>
+                    <!-- TODO key name is reserved for future use, when multiple key could be used.
+                     Currently name1 is hardcoded both for write to and read from KeyStore -->
+                    <tr style="display: none;">
                         <td>
                             <label for="imp-key-name">Name:</label>
                         </td>
                         <td>
-                            <!-- TODO remove value-->
                             <input type="text" id="imp-key-name" value="name1"/>
                         </td>
                     </tr>
@@ -141,9 +142,7 @@
                             <label for="imp-key-sk">Secret key:</label>
                         </td>
                         <td>
-                            <!-- TODO remove value-->
-                            <input type="text" id="imp-key-sk"
-                                   value="FF767FC8FAF9CFA8D2C3BD193663E8B8CAC85005AD56E085FAB179B52BD88DD6"/>
+                            <input type="text" id="imp-key-sk" value=""/>
                         </td>
                     </tr>
                     <tr>
@@ -151,9 +150,7 @@
                             <label for="imp-key-pk">Public key:</label>
                         </td>
                         <td>
-                            <!-- TODO remove value-->
-                            <input type="text" id="imp-key-pk"
-                                   value="D69BCCF69C2D0F6CED025A05FA7F3BA687D1603AC1C8D9752209AC2BBF2C4D17"/>
+                            <input type="text" id="imp-key-pk" value=""/>
                         </td>
                     </tr>
                     <tr>
@@ -161,9 +158,7 @@
                             <label for="imp-key-sg">Signature [optional]:</label>
                         </td>
                         <td>
-                            <!-- TODO remove value-->
-                            <input type="text" id="imp-key-sg"
-                                   value="7A1CA8AF3246222C2E06D2ADE525A693FD81A2683B8A8788C32B7763DF6037A5DF3105B92FEF398AF1CDE0B92F18FE68DEF301E4BF7DB0ABC0AEA6BE24969006"/>
+                            <input type="text" id="imp-key-sg" value=""/>
                         </td>
                     </tr>
                     <tr>
@@ -171,8 +166,7 @@
                             <label for="imp-key-password">Confirm plugin password:</label>
                         </td>
                         <td>
-                            <!-- TODO remove value-->
-                            <input type="password" id="imp-key-password" value="q"/>
+                            <input type="password" id="imp-key-password" value=""/>
                         </td>
                     </tr>
                     <tr>

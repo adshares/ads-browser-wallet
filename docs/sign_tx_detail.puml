@@ -1,0 +1,54 @@
+@startuml
+hide footbox
+
+actor User  as user
+
+participant "Page JS" as client
+'box "Plugin external" #LightBlue
+    participant iFrame as frame
+    participant "Proxy\nscript" as proxy
+'end box
+box "Plugin internal" #LightBlue
+    participant "Background\nscript" as back
+    participant "Popup\nscript" as popup
+end box
+
+== Initialization ==
+
+client -> client: init(callback)
+client -> frame: create iFrame
+activate frame
+frame --> proxy: load proxy script
+proxy -> back: connect
+proxy <-- back: connected
+frame -> proxy: create channel
+hnote over proxy: bind iFrame\nwith plugin
+deactivate frame
+frame <- proxy: channel ready
+client <- frame: iFrame created
+
+== Signing ==
+
+user ->client: request tx
+client -> client: addTransaction()
+note right: id, data, hash
+client -> frame: postMessage(tx)
+frame -> proxy: postMessage(tx)
+proxy -> back: postMessage(tx)
+hnote over back: save tx\nto storage
+user <-- back: tx needs acceptation
+user -> popup: show tx
+hnote over popup: get tx\nfrom storage
+user <-- popup: display tx
+user -> popup: confirm tx
+back <- popup: sign tx
+hnote over back: sign tx
+back -> popup: tx signed
+proxy <- back: postMessage(sign)
+frame <- proxy: postMessage(sign)
+client <- frame: postMessage(sign)
+client -> client: callback()
+note right: id, data, hash,\nsignature
+hnote over client : send tx\nto network
+client->user: tx status
+@enduml

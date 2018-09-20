@@ -37,6 +37,14 @@ BackgroundPort.onMessage.addListener(function (v) {
             console.log('todo1 ' + v.type);
             console.log('todo2 ' + v.status);
             if (STATUS_SUCCESS === v.status) {
+                // clear form
+                // name field is not clear, because user has no access to it (it is hidden)
+                // field was created for (future) use case with multiple keys
+                // document.getElementById('imp-key-name').value = '';
+                document.getElementById('imp-key-sk').value = '';
+                document.getElementById('imp-key-pk').value = '';
+                document.getElementById('imp-key-sg').value = '';
+                document.getElementById('imp-key-password').value = '';
                 // TODO import accepted
             } else {// STATUS_FAIL
                 // TODO import rejected

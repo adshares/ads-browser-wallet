@@ -1,5 +1,3 @@
-'use strict';
-
 const CryptoJS = require('crypto-js');
 
 /**
@@ -38,4 +36,4 @@ function set(key, value, pass) {
   localStorage.setItem(key, encrypted);
 }
 
-module.exports = {get, set};
+module.exports = { get, set };

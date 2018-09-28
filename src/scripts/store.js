@@ -1,5 +1,3 @@
-'use strict';
-
 const CryptoJS = require('crypto-js');
 
 /**
@@ -65,7 +63,7 @@ function getEncryptedData(key, pass) {
  * @returns {Promise}
  */
 function setData(key, data) {
-  let dataObject = {};
+  const dataObject = {};
   dataObject[key] = data;
   return new Promise((resolve, reject) => {
     chrome.storage.local.set(dataObject, () => {
@@ -88,7 +86,7 @@ function setData(key, data) {
  */
 function setEncryptedData(key, data, pass) {
   const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), pass).toString();
-  let dataObject = {};
+  const dataObject = {};
   dataObject[key] = encrypted;
   return new Promise((resolve, reject) => {
     chrome.storage.local.set(dataObject, () => {
@@ -101,4 +99,6 @@ function setEncryptedData(key, data, pass) {
   });
 }
 
-module.exports = {getData, getEncryptedData, setData, setEncryptedData};
+module.exports = {
+  getData, getEncryptedData, setData, setEncryptedData,
+};

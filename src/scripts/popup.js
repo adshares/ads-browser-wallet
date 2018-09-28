@@ -1,5 +1,3 @@
-'use strict';
-
 const store = require('./store');
 const {
   CONN_ID_POPUP,
@@ -18,15 +16,15 @@ const {
   MSG_TX_SIGN_RES,
   // STATUS_FAIL,
   STATUS_SUCCESS,
-  STORE_KEY_TX
+  STORE_KEY_TX,
 } = require('./enums');
 
 
-console.log('popup.js' + new Date());
+console.log(`popup.js${new Date()}`);
 
 // connection with background script
-let BackgroundPort = chrome.runtime.connect({name: CONN_ID_POPUP});
-BackgroundPort.onMessage.addListener(function (v) {
+const BackgroundPort = chrome.runtime.connect({ name: CONN_ID_POPUP });
+BackgroundPort.onMessage.addListener((v) => {
   console.log('popup.js: onMessage');
   console.log(v);
   // TODO remove - transaction will be added from storage
@@ -34,8 +32,8 @@ BackgroundPort.onMessage.addListener(function (v) {
 
   switch (v.type) {
     case MSG_IMPORT_KEY_RES:
-      console.log('todo1 ' + v.type);
-      console.log('todo2 ' + v.status);
+      console.log(`todo1 ${v.type}`);
+      console.log(`todo2 ${v.status}`);
       if (STATUS_SUCCESS === v.status) {
         // clear form
         // name field is not clear, because user has no access to it (it is hidden)
@@ -46,7 +44,7 @@ BackgroundPort.onMessage.addListener(function (v) {
         document.getElementById('imp-key-sg').value = '';
         document.getElementById('imp-key-password').value = '';
         // TODO import accepted
-      } else {// STATUS_FAIL
+      } else { // STATUS_FAIL
         // TODO import rejected
       }
       break;
@@ -63,11 +61,11 @@ BackgroundPort.onMessage.addListener(function (v) {
       break;
     case MSG_TX_REJECT_RES:
     case MSG_TX_SIGN_RES:
-      console.log(v.type + ' status:' + v.status);
+      console.log(`${v.type} status:${v.status}`);
       if (STATUS_SUCCESS === v.status) {
-        let id = 'tx-' + v.data;
+        const id = `tx-${v.data}`;
         document.getElementById(id).remove();
-      } else {// STATUS_FAIL
+      } else { // STATUS_FAIL
         // TODO tx reject or sign fail
       }
       break;
@@ -79,35 +77,34 @@ BackgroundPort.onMessage.addListener(function (v) {
 
 function showPage(pageId, tabId) {
   pageId = pageId || 'create-acc-page';
-  let pages = document.getElementsByClassName('page');
+  const pages = document.getElementsByClassName('page');
   for (let j = 0; j < pages.length; j++) {
     pages[j].style.display = 'none';
   }
   document.getElementById(pageId).style.display = 'block';
 
-  if ('user-page' === pageId) {
+  if (pageId === 'user-page') {
     showTab(tabId);
   }
 }
 
 function showTab(tabId) {
   tabId = tabId || 'tab-tx';
-  let tabs = document.getElementsByClassName('tabcontent');
+  const tabs = document.getElementsByClassName('tabcontent');
   for (let j = 0; j < tabs.length; j++) {
     tabs[j].style.display = 'none';
   }
   document.getElementById(tabId).style.display = 'block';
 
-  if ('tab-tx' === tabId) {
-
+  if (tabId === 'tab-tx') {
     // refresh transaction list
     console.log('refresh transaction list');
-    store.getData(STORE_KEY_TX).then(obj => {
+    store.getData(STORE_KEY_TX).then((obj) => {
       appendTransaction(obj);
     });
 
     // clear icon badge when pending transaction are visible
-    chrome.browserAction.setBadgeText({text: ''});
+    chrome.browserAction.setBadgeText({ text: '' });
   }
 }
 
@@ -124,42 +121,42 @@ function appendTransaction(data) {
   }
 
   console.log(data);
-  for (let key in data) {
+  for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      let ts = key;
-      let mid = data[key].m;
-      let txData = data[key].d;
-      let txAccountHashin = data[key].h;
+      const ts = key;
+      const mid = data[key].m;
+      const txData = data[key].d;
+      const txAccountHashin = data[key].h;
 
       console.log(ts, txData, txAccountHashin);
 
       // clone transaction template
-      let txElement = document.getElementById('tx-template').cloneNode(true);
-      txElement.setAttribute('id', 'tx-' + ts);
+      const txElement = document.getElementById('tx-template').cloneNode(true);
+      txElement.setAttribute('id', `tx-${ts}`);
       txElement.style.display = 'block';
       txElement.getElementsByClassName('tx-date')[0].innerHTML = new Date(parseInt(ts)).toLocaleString();
-      txElement.getElementsByClassName('tx-data')[0].innerHTML = txData + ':' + txAccountHashin;
+      txElement.getElementsByClassName('tx-data')[0].innerHTML = `${txData}:${txAccountHashin}`;
 
       // assign accept button
-      let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
-      btnAccept.addEventListener('click', function () {
+      const btnAccept = txElement.getElementsByClassName('btn-accept')[0];
+      btnAccept.addEventListener('click', () => {
         console.log('btnAccept: click');
         BackgroundPort.postMessage({
           type: MSG_TX_SIGN_REQ,
           data: {
-            ts: ts,
+            ts,
             d: txData,
             h: txAccountHashin,
-            m: mid
-          }
+            m: mid,
+          },
         });
       });
 
       // assign cancel button
-      let btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
-      btnCancel.addEventListener('click', function () {
+      const btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
+      btnCancel.addEventListener('click', () => {
         console.log('btnCancel: click');
-        BackgroundPort.postMessage({type: MSG_TX_REJECT_REQ, data: ts});
+        BackgroundPort.postMessage({ type: MSG_TX_REJECT_REQ, data: ts });
       });
 
       // add transaction to list
@@ -168,16 +165,15 @@ function appendTransaction(data) {
   }
 }
 
-window.onload = function () {
-
+window.onload = () => {
   /*
   Listeners for Create account page
    */
-  let btnCreateAcc = document.getElementById('btn-create-acc');
-  btnCreateAcc.addEventListener('click', function () {
+  const btnCreateAcc = document.getElementById('btn-create-acc');
+  btnCreateAcc.addEventListener('click', () => {
     const pass = document.getElementById('password-new').value;
     if (pass === document.getElementById('password-new-confirm').value) {
-      BackgroundPort.postMessage({type: MSG_NEW_PASSWORD, data: pass});
+      BackgroundPort.postMessage({ type: MSG_NEW_PASSWORD, data: pass });
     } else {
       // TODO pass not match - error handling
     }
@@ -188,10 +184,10 @@ window.onload = function () {
   /*
   Listeners for Login page
    */
-  let btnLogIn = document.getElementById('btn-login');
-  btnLogIn.addEventListener('click', function () {
+  const btnLogIn = document.getElementById('btn-login');
+  btnLogIn.addEventListener('click', () => {
     const pass = document.getElementById('password').value;
-    BackgroundPort.postMessage({type: MSG_PASSWORD, data: pass});
+    BackgroundPort.postMessage({ type: MSG_PASSWORD, data: pass });
     // clear password input
     document.getElementById('password').value = '';
   });
@@ -199,15 +195,15 @@ window.onload = function () {
   Listeners for User page
    */
   // switching between tabs
-  let tabLinks = document.getElementsByClassName('tablink');
+  const tabLinks = document.getElementsByClassName('tablink');
   for (let i = 0; i < tabLinks.length; i++) {
-    tabLinks[i].addEventListener('click', function (evt) {
+    tabLinks[i].addEventListener('click', (evt) => {
       showTab(evt.srcElement.value);
     });
   }
   // import key
-  let btnImpKey = document.getElementById('btn-imp-key');
-  btnImpKey.addEventListener('click', function () {
+  const btnImpKey = document.getElementById('btn-imp-key');
+  btnImpKey.addEventListener('click', () => {
     const name = document.getElementById('imp-key-name').value;
     const sk = document.getElementById('imp-key-sk').value;
     const pk = document.getElementById('imp-key-pk').value;
@@ -216,22 +212,22 @@ window.onload = function () {
     BackgroundPort.postMessage({
       type: MSG_IMPORT_KEY_REQ,
       data: {
-        name: name,
-        sk: sk,
-        pk: pk,
-        sg: sg,
-        pass: pass
-      }
+        name,
+        sk,
+        pk,
+        sg,
+        pass,
+      },
     });
   });
   // log out
-  let btnLogOut = document.getElementById('btn-logout');
-  btnLogOut.addEventListener('click', function () {
-    BackgroundPort.postMessage({type: MSG_LOG_OUT});
+  const btnLogOut = document.getElementById('btn-logout');
+  btnLogOut.addEventListener('click', () => {
+    BackgroundPort.postMessage({ type: MSG_LOG_OUT });
   });
   // delete account
-  let btnDeleteAcc = document.getElementById('btn-del-acc');
-  btnDeleteAcc.addEventListener('click', function () {
-    BackgroundPort.postMessage({type: MSG_DELETE_ACCOUNT});
+  const btnDeleteAcc = document.getElementById('btn-del-acc');
+  btnDeleteAcc.addEventListener('click', () => {
+    BackgroundPort.postMessage({ type: MSG_DELETE_ACCOUNT });
   });
 };

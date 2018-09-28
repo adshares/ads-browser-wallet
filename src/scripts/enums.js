@@ -147,5 +147,5 @@ module.exports = {
   STATUS_SUCCESS,
   STATUS_FAIL,
   STORE_KEY_TX,
-  STORE_KEY_VAULT
+  STORE_KEY_VAULT,
 };

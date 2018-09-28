@@ -301,7 +301,7 @@ test('parse unset_account_status', () => {
   expect(parsedData[parser.FIELD.DATE]).toEqual(new Date(1529393828 * 1000));
 });
 
-test('parse set_node_status', () => {
+test('parse unset_node_status', () => {
   // {"run":"unset_node_status", "node":"3", "status":"2"}
   const data = '0E01000100000025000000C7B4285B030002000000';
   let parsedData = parser.parseData(data);

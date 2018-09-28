@@ -1,5 +1,4 @@
-'use strict';
-
+const { hexToByte } = require('./util');
 /**
  * Response field names
  */
@@ -62,16 +61,16 @@ const TX_TYPE = {
   '0D': 'unset_account_status',
   '0E': 'unset_node_status',
   '0F': 'log_account',
-  '10': 'get_account',
-  '11': 'get_log',
-  '12': 'get_broadcast',
-  '13': 'get_blocks',
-  '14': 'get_transaction',
-  '15': 'get_vipkeys',
-  '16': 'get_signatures',
-  '17': 'get_block',
-  '18': 'get_accounts',
-  '19': 'get_message_list',
+  10: 'get_account',
+  11: 'get_log',
+  12: 'get_broadcast',
+  13: 'get_blocks',
+  14: 'get_transaction',
+  15: 'get_vipkeys',
+  16: 'get_signatures',
+  17: 'get_block',
+  18: 'get_accounts',
+  19: 'get_message_list',
   '1A': 'get_message',
   '1B': 'get_fields',
 };
@@ -90,23 +89,6 @@ function fixByteOrder(data) {
 }
 
 /**
- * Converts hexadecimal string to Uint8Array.
- *
- * @param {string} data hexadecimal string without leading '0x'
- * @returns {Uint8Array} converted data
- */
-function hexToByte(data) {
-  if (!data) {
-    return new Uint8Array(0);
-  }
-  let a = [];
-  for (let i = 0, len = data.length; i < len; i += 2) {
-    a.push(parseInt(data.substr(i, 2), 16));
-  }
-  return new Uint8Array(a);
-}
-
-/**
  * Calculates CRC16.
  *
  * @param {string} data hexadecimal string without leading '0x'
@@ -116,103 +98,90 @@ function crc16(data) {
   const binData = hexToByte(data);
 
   let crc = 0x1d0f;
-  for (let b of binData) {
+  for (const b of binData) {
     let x = (crc >> 8) ^ b;
     x ^= x >> 4;
     crc = ((crc << 8) ^ ((x << 12)) ^ ((x << 5)) ^ (x)) & 0xFFFF;
   }
-  const result = '0000' + crc.toString(16);
+  const result = `0000${crc.toString(16)}`;
 
-  return result.substr(result.length - 4)
+  return result.substr(result.length - 4);
 }
 
 function formatAddress(node, user) {
-  return (node + '-' + user + '-' + crc16(node + user)).toUpperCase();
+  return (`${node}-${user}-${crc16(node + user)}`).toUpperCase();
 }
 
-// function formatMoney(amount, precision, decimal, thousand) {
-//     let n = amount,
-//         c = isNaN(precision = Math.abs(precision)) ? 2 : precision,
-//         d = typeof decimal === 'undefined' ? "." : decimal,
-//         t = typeof thousand === 'undefined' ? "," : thousand,
-//         s = n < 0 ? "-" : "",
-//         i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
-//         j = i.length > 3 ? i.length % 3 : 0;
-//
-//     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-// }
-
 class Parser {
-
   constructor(data) {
     this.data = data;
     this.resp = {};
   }
 
   parse(dataType) {
-    let parsed = undefined;
+    let parsed;
     switch (dataType) {
       case FIELD.ADDRESS_DEST:
-      case FIELD.ADDRESS_SRC:
+      case FIELD.ADDRESS_SRC: {
         this.validateLength(12);
-        let node = fixByteOrder(this.data.substr(0, 4));
-        let user = fixByteOrder(this.data.substr(4, 8));
+        const node = fixByteOrder(this.data.substr(0, 4));
+        const user = fixByteOrder(this.data.substr(4, 8));
         parsed = formatAddress(node, user);
         this.data = this.data.substr(12);
         break;
-
-      case FIELD.AMOUNT:
+      }
+      case FIELD.AMOUNT: {
         this.validateLength(16);
         parsed = fixByteOrder(this.data.substr(0, 16));
         // parsed = formatMoney(parseInt(parsed, 16) / 100000000000, 11);
         parsed = parseInt(parsed, 16);
         this.data = this.data.substr(16);
         break;
-
+      }
       case FIELD.BLOCK_ID:
       case FIELD.BLOCK_ID_FROM:
-      case FIELD.BLOCK_ID_TO:
+      case FIELD.BLOCK_ID_TO: {
         this.validateLength(8);
         parsed = fixByteOrder(this.data.substr(0, 8));
         // parsed = new Date(parseInt(parsed, 16) * 1000);
         this.data = this.data.substr(8);
         break;
-
-      case FIELD.DATE:
+      }
+      case FIELD.DATE: {
         this.validateLength(8);
-        let time = fixByteOrder(this.data.substr(0, 8));
+        const time = fixByteOrder(this.data.substr(0, 8));
         parsed = new Date(parseInt(time, 16) * 1000);
         this.data = this.data.substr(8);
         break;
-
-      case FIELD.MSG:
+      }
+      case FIELD.MSG: {
         const expectedLength = (this.resp[FIELD.TYPE] === 'send_one') ? 64 : this.resp[FIELD.MSG_LEN] * 2;
         this.validateLength(expectedLength);
         parsed = this.data;
         this.data = '';
         break;
-
-      case FIELD.MSG_LEN:
+      }
+      case FIELD.MSG_LEN: {
         this.validateLength(4);
         parsed = fixByteOrder(this.data.substr(0, 4));
         parsed = parseInt(parsed, 16);
         this.data = this.data.substr(4);
         break;
-
+      }
       case FIELD.MSID:
-      case FIELD.NODE_MSID:
+      case FIELD.NODE_MSID: {
         this.validateLength(8);
         parsed = fixByteOrder(this.data.substr(0, 8));
         parsed = parseInt(parsed, 16);
         this.data = this.data.substr(8);
         break;
-
-      case FIELD.NODE:
+      }
+      case FIELD.NODE: {
         this.validateLength(4);
         parsed = fixByteOrder(this.data.substr(0, 4));
         this.data = this.data.substr(4);
         break;
-
+      }
       case FIELD.PUBLIC_KEY:
       case FIELD.VIP_HASH: {
         this.validateLength(64);
@@ -221,58 +190,58 @@ class Parser {
         this.data = this.data.substr(64);
         break;
       }
-
-      case FIELD.STATUS_ACCOUNT:
+      case FIELD.STATUS_ACCOUNT: {
         this.validateLength(4);
         parsed = fixByteOrder(this.data.substr(0, 4));
         parsed = parseInt(parsed, 16);
         this.data = this.data.substr(4);
         break;
-
-      case FIELD.STATUS_NODE:
+      }
+      case FIELD.STATUS_NODE: {
         this.validateLength(8);
         parsed = fixByteOrder(this.data.substr(0, 8));
-        // operator ~~ is used to convert value to 32 bit integer
-        parsed = ~~('0x' + parsed);
+        // node status has 32 bits
+        // operation ' | 0' changes parsed type to int32
+        /* eslint no-bitwise: ["error", { "int32Hint": true }] */
+        parsed = parseInt(parsed, 16) | 0;
         this.data = this.data.substr(8);
         break;
-
+      }
       case FIELD.TX_ID: {
         this.validateLength(16);
-        let node = fixByteOrder(this.data.substr(0, 4));
-        let msgId = fixByteOrder(this.data.substr(4, 8));
-        let txOffset = fixByteOrder(this.data.substr(12, 4));
-        parsed = node + ':' + msgId + ':' + txOffset;
+        const node = fixByteOrder(this.data.substr(0, 4));
+        const msgId = fixByteOrder(this.data.substr(4, 8));
+        const txOffset = fixByteOrder(this.data.substr(12, 4));
+        parsed = `${node}:${msgId}:${txOffset}`;
         this.data = this.data.substr(16);
         break;
       }
-
-      case FIELD.TYPE:
+      case FIELD.TYPE: {
         this.validateLength(2);
         // intentional lack of reverse - 1 byte does not need to be reversed
-        let type = this.data.substr(0, 2);
+        const type = this.data.substr(0, 2);
         parsed = TX_TYPE[type];
         this.data = this.data.substr(2);
         break;
-
-      case FIELD.WIRE_COUNT:
+      }
+      case FIELD.WIRE_COUNT: {
         this.validateLength(4);
-        let count = fixByteOrder(this.data.substr(0, 4));
+        const count = fixByteOrder(this.data.substr(0, 4));
         parsed = parseInt(count, 16);
         this.data = this.data.substr(4);
         break;
-
+      }
       case FIELD.WIRES: {
         const count = this.resp[FIELD.WIRE_COUNT];
-        const expLength = count * 28;//4+8+16(node+user+amount)
+        const expLength = count * 28;// 4+8+16(node+user+amount)
         this.validateLength(expLength);
 
         parsed = {};
-        for (let i = 0; i < count; i++) {
-          let node = fixByteOrder(this.data.substr(0, 4));
-          let user = fixByteOrder(this.data.substr(4, 8));
-          let amount = fixByteOrder(this.data.substr(12, 16));
-          let address = formatAddress(node, user);
+        for (let i = 0; i < count; i += 1) {
+          const node = fixByteOrder(this.data.substr(0, 4));
+          const user = fixByteOrder(this.data.substr(4, 8));
+          const amount = fixByteOrder(this.data.substr(12, 16));
+          const address = formatAddress(node, user);
           parsed[address] = parseInt(amount, 16);
           this.data = this.data.substr(28);
         }
@@ -316,8 +285,8 @@ class Parser {
  * @returns {object} decoded data as json
  */
 function parseData(data) {
-  let parser = new Parser(data).parse(FIELD.TYPE);
-  let type = parser.lastParsedField;
+  const parser = new Parser(data).parse(FIELD.TYPE);
+  const type = parser.lastParsedField;
 
   switch (type) {
     case 'broadcast':
@@ -485,4 +454,4 @@ function parseData(data) {
   return parser.parsedData;
 }
 
-module.exports = {FIELD, parseData};
+module.exports = { FIELD, parseData };

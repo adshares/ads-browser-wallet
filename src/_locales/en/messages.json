@@ -1,10 +1,10 @@
 {
-  "extName" : {
-    "message":"ADS Beet",
-    "description":"Name of extension"
+  "extName": {
+    "message": "ADS Beet",
+    "description": "Name of extension"
   },
-  "extDescription" : {
-    "message":"ADS Beet extension signs ADS blockchain transactions.",
-    "description":"Description of extension"
+  "extDescription": {
+    "message": "ADS Beet extension signs ADS blockchain transactions.",
+    "description": "Description of extension"
   }
 }

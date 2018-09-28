@@ -1,10 +1,10 @@
 {
-  "extName" : {
-    "message":"ADS Beet",
-    "description":"Nazwa rozszerzenia"
+  "extName": {
+    "message": "ADS Beet",
+    "description": "Nazwa rozszerzenia"
   },
-  "extDescription" : {
-    "message":"Rozszerzenie ADS Beet podpisuje transakcje ADS blockchain.",
-    "description":"Opis rozszerzenia"
+  "extDescription": {
+    "message": "Rozszerzenie ADS Beet podpisuje transakcje ADS blockchain.",
+    "description": "Opis rozszerzenia"
   }
 }

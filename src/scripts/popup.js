@@ -2,23 +2,23 @@
 
 const store = require('./store');
 const {
-    CONN_ID_POPUP,
-    MSG_DELETE_ACCOUNT,
-    MSG_IMPORT_KEY_REQ,
-    MSG_IMPORT_KEY_RES,
-    MSG_INVALID_NEW_PASSWORD,
-    MSG_INVALID_PASSWORD,
-    MSG_LOG_OUT,
-    MSG_NEW_PASSWORD,
-    MSG_PASSWORD,
-    MSG_PAGE_SELECT,
-    MSG_TX_REJECT_REQ,
-    MSG_TX_REJECT_RES,
-    MSG_TX_SIGN_REQ,
-    MSG_TX_SIGN_RES,
-    // STATUS_FAIL,
-    STATUS_SUCCESS,
-    STORE_KEY_TX
+  CONN_ID_POPUP,
+  MSG_DELETE_ACCOUNT,
+  MSG_IMPORT_KEY_REQ,
+  MSG_IMPORT_KEY_RES,
+  MSG_INVALID_NEW_PASSWORD,
+  MSG_INVALID_PASSWORD,
+  MSG_LOG_OUT,
+  MSG_NEW_PASSWORD,
+  MSG_PASSWORD,
+  MSG_PAGE_SELECT,
+  MSG_TX_REJECT_REQ,
+  MSG_TX_REJECT_RES,
+  MSG_TX_SIGN_REQ,
+  MSG_TX_SIGN_RES,
+  // STATUS_FAIL,
+  STATUS_SUCCESS,
+  STORE_KEY_TX
 } = require('./enums');
 
 
@@ -27,88 +27,88 @@ console.log('popup.js' + new Date());
 // connection with background script
 let BackgroundPort = chrome.runtime.connect({name: CONN_ID_POPUP});
 BackgroundPort.onMessage.addListener(function (v) {
-    console.log('popup.js: onMessage');
-    console.log(v);
-    // TODO remove - transaction will be added from storage
-    // appendTransaction('onMessage');
+  console.log('popup.js: onMessage');
+  console.log(v);
+  // TODO remove - transaction will be added from storage
+  // appendTransaction('onMessage');
 
-    switch (v.type) {
-        case MSG_IMPORT_KEY_RES:
-            console.log('todo1 ' + v.type);
-            console.log('todo2 ' + v.status);
-            if (STATUS_SUCCESS === v.status) {
-                // clear form
-                // name field is not clear, because user has no access to it (it is hidden)
-                // field was created for (future) use case with multiple keys
-                // document.getElementById('imp-key-name').value = '';
-                document.getElementById('imp-key-sk').value = '';
-                document.getElementById('imp-key-pk').value = '';
-                document.getElementById('imp-key-sg').value = '';
-                document.getElementById('imp-key-password').value = '';
-                // TODO import accepted
-            } else {// STATUS_FAIL
-                // TODO import rejected
-            }
-            break;
-        case MSG_PAGE_SELECT:
-            showPage(v.pageId, v.tabId);
-            break;
-        case MSG_INVALID_PASSWORD:
-            // TODO invalid password - error handling
-            console.error('invalid password');
-            break;
-        case MSG_INVALID_NEW_PASSWORD:
-            // TODO invalid new password - error handling
-            console.error('invalid new password');
-            break;
-        case MSG_TX_REJECT_RES:
-        case MSG_TX_SIGN_RES:
-            console.log(v.type + ' status:' + v.status);
-            if (STATUS_SUCCESS === v.status) {
-                let id = 'tx-' + v.data;
-                document.getElementById(id).remove();
-            } else {// STATUS_FAIL
-                // TODO tx reject or sign fail
-            }
-            break;
-        default:
-            // TODO
-            console.log('Unknown type');
-    }
+  switch (v.type) {
+    case MSG_IMPORT_KEY_RES:
+      console.log('todo1 ' + v.type);
+      console.log('todo2 ' + v.status);
+      if (STATUS_SUCCESS === v.status) {
+        // clear form
+        // name field is not clear, because user has no access to it (it is hidden)
+        // field was created for (future) use case with multiple keys
+        // document.getElementById('imp-key-name').value = '';
+        document.getElementById('imp-key-sk').value = '';
+        document.getElementById('imp-key-pk').value = '';
+        document.getElementById('imp-key-sg').value = '';
+        document.getElementById('imp-key-password').value = '';
+        // TODO import accepted
+      } else {// STATUS_FAIL
+        // TODO import rejected
+      }
+      break;
+    case MSG_PAGE_SELECT:
+      showPage(v.pageId, v.tabId);
+      break;
+    case MSG_INVALID_PASSWORD:
+      // TODO invalid password - error handling
+      console.error('invalid password');
+      break;
+    case MSG_INVALID_NEW_PASSWORD:
+      // TODO invalid new password - error handling
+      console.error('invalid new password');
+      break;
+    case MSG_TX_REJECT_RES:
+    case MSG_TX_SIGN_RES:
+      console.log(v.type + ' status:' + v.status);
+      if (STATUS_SUCCESS === v.status) {
+        let id = 'tx-' + v.data;
+        document.getElementById(id).remove();
+      } else {// STATUS_FAIL
+        // TODO tx reject or sign fail
+      }
+      break;
+    default:
+      // TODO
+      console.log('Unknown type');
+  }
 });
 
 function showPage(pageId, tabId) {
-    pageId = pageId || 'create-acc-page';
-    let pages = document.getElementsByClassName('page');
-    for (let j = 0; j < pages.length; j++) {
-        pages[j].style.display = 'none';
-    }
-    document.getElementById(pageId).style.display = 'block';
+  pageId = pageId || 'create-acc-page';
+  let pages = document.getElementsByClassName('page');
+  for (let j = 0; j < pages.length; j++) {
+    pages[j].style.display = 'none';
+  }
+  document.getElementById(pageId).style.display = 'block';
 
-    if ('user-page' === pageId) {
-        showTab(tabId);
-    }
+  if ('user-page' === pageId) {
+    showTab(tabId);
+  }
 }
 
 function showTab(tabId) {
-    tabId = tabId || 'tab-tx';
-    let tabs = document.getElementsByClassName('tabcontent');
-    for (let j = 0; j < tabs.length; j++) {
-        tabs[j].style.display = 'none';
-    }
-    document.getElementById(tabId).style.display = 'block';
+  tabId = tabId || 'tab-tx';
+  let tabs = document.getElementsByClassName('tabcontent');
+  for (let j = 0; j < tabs.length; j++) {
+    tabs[j].style.display = 'none';
+  }
+  document.getElementById(tabId).style.display = 'block';
 
-    if ('tab-tx' === tabId) {
+  if ('tab-tx' === tabId) {
 
-        // refresh transaction list
-        console.log('refresh transaction list');
-        store.getData(STORE_KEY_TX).then(obj => {
-            appendTransaction(obj);
-        });
+    // refresh transaction list
+    console.log('refresh transaction list');
+    store.getData(STORE_KEY_TX).then(obj => {
+      appendTransaction(obj);
+    });
 
-        // clear icon badge when pending transaction are visible
-        chrome.browserAction.setBadgeText({text: ''});
-    }
+    // clear icon badge when pending transaction are visible
+    chrome.browserAction.setBadgeText({text: ''});
+  }
 }
 
 /**
@@ -117,121 +117,121 @@ function showTab(tabId) {
  * @param data transaction data
  */
 function appendTransaction(data) {
-    const container = document.getElementById('tx-pending');
-    // remove all children
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
+  const container = document.getElementById('tx-pending');
+  // remove all children
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+
+  console.log(data);
+  for (let key in data) {
+    if (data.hasOwnProperty(key)) {
+      let ts = key;
+      let mid = data[key].m;
+      let txData = data[key].d;
+      let txAccountHashin = data[key].h;
+
+      console.log(ts, txData, txAccountHashin);
+
+      // clone transaction template
+      let txElement = document.getElementById('tx-template').cloneNode(true);
+      txElement.setAttribute('id', 'tx-' + ts);
+      txElement.style.display = 'block';
+      txElement.getElementsByClassName('tx-date')[0].innerHTML = new Date(parseInt(ts)).toLocaleString();
+      txElement.getElementsByClassName('tx-data')[0].innerHTML = txData + ':' + txAccountHashin;
+
+      // assign accept button
+      let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
+      btnAccept.addEventListener('click', function () {
+        console.log('btnAccept: click');
+        BackgroundPort.postMessage({
+          type: MSG_TX_SIGN_REQ,
+          data: {
+            ts: ts,
+            d: txData,
+            h: txAccountHashin,
+            m: mid
+          }
+        });
+      });
+
+      // assign cancel button
+      let btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
+      btnCancel.addEventListener('click', function () {
+        console.log('btnCancel: click');
+        BackgroundPort.postMessage({type: MSG_TX_REJECT_REQ, data: ts});
+      });
+
+      // add transaction to list
+      container.appendChild(txElement);
     }
-
-    console.log(data);
-    for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-            let ts = key;
-            let mid = data[key].m;
-            let txData = data[key].d;
-            let txAccountHashin = data[key].h;
-
-            console.log(ts, txData, txAccountHashin);
-
-            // clone transaction template
-            let txElement = document.getElementById('tx-template').cloneNode(true);
-            txElement.setAttribute('id', 'tx-' + ts);
-            txElement.style.display = 'block';
-            txElement.getElementsByClassName('tx-date')[0].innerHTML = new Date(parseInt(ts)).toLocaleString();
-            txElement.getElementsByClassName('tx-data')[0].innerHTML = txData + ':' + txAccountHashin;
-
-            // assign accept button
-            let btnAccept = txElement.getElementsByClassName('btn-accept')[0];
-            btnAccept.addEventListener('click', function () {
-                console.log('btnAccept: click');
-                BackgroundPort.postMessage({
-                    type: MSG_TX_SIGN_REQ,
-                    data: {
-                        ts: ts,
-                        d: txData,
-                        h: txAccountHashin,
-                        m: mid
-                    }
-                });
-            });
-
-            // assign cancel button
-            let btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
-            btnCancel.addEventListener('click', function () {
-                console.log('btnCancel: click');
-                BackgroundPort.postMessage({type: MSG_TX_REJECT_REQ, data: ts});
-            });
-
-            // add transaction to list
-            container.appendChild(txElement);
-        }
-    }
+  }
 }
 
 window.onload = function () {
 
-    /*
-    Listeners for Create account page
-     */
-    let btnCreateAcc = document.getElementById('btn-create-acc');
-    btnCreateAcc.addEventListener('click', function () {
-        const pass = document.getElementById('password-new').value;
-        if (pass === document.getElementById('password-new-confirm').value) {
-            BackgroundPort.postMessage({type: MSG_NEW_PASSWORD, data: pass});
-        } else {
-            // TODO pass not match - error handling
-        }
-        // clear password input
-        document.getElementById('password-new').value = '';
-        document.getElementById('password-new-confirm').value = '';
-    });
-    /*
-    Listeners for Login page
-     */
-    let btnLogIn = document.getElementById('btn-login');
-    btnLogIn.addEventListener('click', function () {
-        const pass = document.getElementById('password').value;
-        BackgroundPort.postMessage({type: MSG_PASSWORD, data: pass});
-        // clear password input
-        document.getElementById('password').value = '';
-    });
-    /*
-    Listeners for User page
-     */
-    // switching between tabs
-    let tabLinks = document.getElementsByClassName('tablink');
-    for (let i = 0; i < tabLinks.length; i++) {
-        tabLinks[i].addEventListener('click', function (evt) {
-            showTab(evt.srcElement.value);
-        });
+  /*
+  Listeners for Create account page
+   */
+  let btnCreateAcc = document.getElementById('btn-create-acc');
+  btnCreateAcc.addEventListener('click', function () {
+    const pass = document.getElementById('password-new').value;
+    if (pass === document.getElementById('password-new-confirm').value) {
+      BackgroundPort.postMessage({type: MSG_NEW_PASSWORD, data: pass});
+    } else {
+      // TODO pass not match - error handling
     }
-    // import key
-    let btnImpKey = document.getElementById('btn-imp-key');
-    btnImpKey.addEventListener('click', function () {
-        const name = document.getElementById('imp-key-name').value;
-        const sk = document.getElementById('imp-key-sk').value;
-        const pk = document.getElementById('imp-key-pk').value;
-        const sg = document.getElementById('imp-key-sg').value;
-        const pass = document.getElementById('imp-key-password').value;
-        BackgroundPort.postMessage({
-            type: MSG_IMPORT_KEY_REQ,
-            data: {
-                name: name,
-                sk: sk,
-                pk: pk,
-                sg: sg,
-                pass: pass
-            }
-        });
+    // clear password input
+    document.getElementById('password-new').value = '';
+    document.getElementById('password-new-confirm').value = '';
+  });
+  /*
+  Listeners for Login page
+   */
+  let btnLogIn = document.getElementById('btn-login');
+  btnLogIn.addEventListener('click', function () {
+    const pass = document.getElementById('password').value;
+    BackgroundPort.postMessage({type: MSG_PASSWORD, data: pass});
+    // clear password input
+    document.getElementById('password').value = '';
+  });
+  /*
+  Listeners for User page
+   */
+  // switching between tabs
+  let tabLinks = document.getElementsByClassName('tablink');
+  for (let i = 0; i < tabLinks.length; i++) {
+    tabLinks[i].addEventListener('click', function (evt) {
+      showTab(evt.srcElement.value);
     });
-    // log out
-    let btnLogOut = document.getElementById('btn-logout');
-    btnLogOut.addEventListener('click', function () {
-        BackgroundPort.postMessage({type: MSG_LOG_OUT});
+  }
+  // import key
+  let btnImpKey = document.getElementById('btn-imp-key');
+  btnImpKey.addEventListener('click', function () {
+    const name = document.getElementById('imp-key-name').value;
+    const sk = document.getElementById('imp-key-sk').value;
+    const pk = document.getElementById('imp-key-pk').value;
+    const sg = document.getElementById('imp-key-sg').value;
+    const pass = document.getElementById('imp-key-password').value;
+    BackgroundPort.postMessage({
+      type: MSG_IMPORT_KEY_REQ,
+      data: {
+        name: name,
+        sk: sk,
+        pk: pk,
+        sg: sg,
+        pass: pass
+      }
     });
-    // delete account
-    let btnDeleteAcc = document.getElementById('btn-del-acc');
-    btnDeleteAcc.addEventListener('click', function () {
-        BackgroundPort.postMessage({type: MSG_DELETE_ACCOUNT});
-    });
+  });
+  // log out
+  let btnLogOut = document.getElementById('btn-logout');
+  btnLogOut.addEventListener('click', function () {
+    BackgroundPort.postMessage({type: MSG_LOG_OUT});
+  });
+  // delete account
+  let btnDeleteAcc = document.getElementById('btn-del-acc');
+  btnDeleteAcc.addEventListener('click', function () {
+    BackgroundPort.postMessage({type: MSG_DELETE_ACCOUNT});
+  });
 };

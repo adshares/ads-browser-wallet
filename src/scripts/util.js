@@ -3,7 +3,11 @@
  * @returns {*}
  */
 function byteToHex(byteArray) {
-  return byteArray.reduce((output, elem) => (output + (`0${elem.toString(16)}`).slice(-2)), '');
+  // parseInt is needed for eliminating invalid number of arguments warning for toString function
+  return byteArray.reduce(
+    (output, elem) => (output + (`0${parseInt(elem, 10)
+      .toString(16)}`).slice(-2)), '',
+  );
 }
 
 /**
@@ -28,7 +32,12 @@ function hexToByte(str) {
  * @returns {string}
  */
 function sanitizeHex(str) {
-  return str.replace(/^0x/, '').toUpperCase();
+  return str.replace(/^0x/, '')
+    .toUpperCase();
 }
 
-module.exports = { byteToHex, hexToByte, sanitizeHex };
+module.exports = {
+  byteToHex,
+  hexToByte,
+  sanitizeHex,
+};

@@ -1,7 +1,6 @@
-'use strict';
-
-const {ChromeStorage} = require('./mock-chrome-store-local');
+const { ChromeStorage } = require('./mock-chrome-store-local');
 const store = require('../../src/scripts/store');
+
 global.chrome = {};
 global.chrome.storage = {};
 global.chrome.storage.local = ChromeStorage;
@@ -20,7 +19,7 @@ test('r/w encrypted store', () => {
   // read data
   expect(store.getEncryptedData(key, pass)).resolves.toEqual(value);
   // fail-safe read data
-  expect(store.getEncryptedData(key, pass)).resolves.not.toEqual('a' + value);
+  expect(store.getEncryptedData(key, pass)).resolves.not.toEqual(`a${value}`);
 });
 
 test('read encrypted with invalid pass', () => {
@@ -35,7 +34,7 @@ test('read encrypted with invalid pass', () => {
   expect(store.setEncryptedData(key, value, pass)).resolves.toBeUndefined();
 
   // read data
-  store.getEncryptedData(key, pass2).catch(e => expect(e).toEqual('Invalid pass'));
+  store.getEncryptedData(key, pass2).catch(e => expect(e.message).toEqual('Invalid pass'));
 });
 
 test('read encrypted with invalid key', () => {
@@ -60,7 +59,7 @@ test('r/w store', () => {
   // read data
   expect(store.getData(key)).resolves.toEqual(value);
   // fail-safe read data
-  expect(store.getData(key)).resolves.not.toEqual('a' + value);
+  expect(store.getData(key)).resolves.not.toEqual(`a${value}`);
 });
 
 test('read with invalid key', () => {

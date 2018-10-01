@@ -24,11 +24,112 @@ console.log(`popup.js${new Date()}`);
 
 // connection with background script
 const BackgroundPort = chrome.runtime.connect({ name: CONN_ID_POPUP });
+
+/**
+ * Appends transaction data to pending transaction list.
+ *
+ * @param data transaction data
+ */
+function appendTransaction(data) {
+  const container = document.getElementById('tx-pending');
+  // remove all children
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+
+  /*
+   Cannot change for loop to Object.{keys, values, entries}, because it gives an error:
+  `Uncaught TypeError: Cannot convert undefined or null to object`
+   during e2e tests.
+   */
+  /* eslint-disable no-restricted-syntax */
+  for (const key in data) {
+    /* eslint-enable no-restricted-syntax */
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const ts = key;
+      const mid = data[key].m;
+      const txData = data[key].d;
+      const txAccountHashin = data[key].h;
+
+      console.log(ts, txData, txAccountHashin);
+
+      // clone transaction template
+      const txElement = document.getElementById('tx-template')
+        .cloneNode(true);
+      txElement.setAttribute('id', `tx-${ts}`);
+      txElement.style.display = 'block';
+      txElement.getElementsByClassName('tx-date')[0].innerHTML = new Date(parseInt(ts, 10))
+        .toLocaleString();
+      txElement.getElementsByClassName('tx-data')[0].innerHTML = `${txData}:${txAccountHashin}`;
+
+      // assign accept button
+      const btnAccept = txElement.getElementsByClassName('btn-accept')[0];
+      btnAccept.addEventListener('click', () => {
+        console.log('btnAccept: click');
+        BackgroundPort.postMessage({
+          type: MSG_TX_SIGN_REQ,
+          data: {
+            ts,
+            d: txData,
+            h: txAccountHashin,
+            m: mid,
+          },
+        });
+      });
+
+      // assign cancel button
+      const btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
+      btnCancel.addEventListener('click', () => {
+        console.log('btnCancel: click');
+        BackgroundPort.postMessage({
+          type: MSG_TX_REJECT_REQ,
+          data: ts,
+        });
+      });
+
+      // add transaction to list
+      container.appendChild(txElement);
+    }
+  }
+}
+
+function showTab(tabId) {
+  const tId = tabId || 'tab-tx';
+  const tabs = document.getElementsByClassName('tabcontent');
+  for (let j = 0; j < tabs.length; j += 1) {
+    tabs[j].style.display = 'none';
+  }
+  document.getElementById(tId).style.display = 'block';
+
+  if (tId === 'tab-tx') {
+    // refresh transaction list
+    console.log('refresh transaction list');
+    store.getData(STORE_KEY_TX)
+      .then((obj) => {
+        appendTransaction(obj);
+      });
+
+    // clear icon badge when pending transaction are visible
+    chrome.browserAction.setBadgeText({ text: '' });
+  }
+}
+
+function showPage(pageId, tabId) {
+  const pId = pageId || 'create-acc-page';
+  const pages = document.getElementsByClassName('page');
+  for (let j = 0; j < pages.length; j += 1) {
+    pages[j].style.display = 'none';
+  }
+  document.getElementById(pId).style.display = 'block';
+
+  if (pId === 'user-page') {
+    showTab(tabId);
+  }
+}
+
 BackgroundPort.onMessage.addListener((v) => {
   console.log('popup.js: onMessage');
   console.log(v);
-  // TODO remove - transaction will be added from storage
-  // appendTransaction('onMessage');
 
   switch (v.type) {
     case MSG_IMPORT_KEY_RES:
@@ -64,7 +165,8 @@ BackgroundPort.onMessage.addListener((v) => {
       console.log(`${v.type} status:${v.status}`);
       if (STATUS_SUCCESS === v.status) {
         const id = `tx-${v.data}`;
-        document.getElementById(id).remove();
+        document.getElementById(id)
+          .remove();
       } else { // STATUS_FAIL
         // TODO tx reject or sign fail
       }
@@ -75,95 +177,6 @@ BackgroundPort.onMessage.addListener((v) => {
   }
 });
 
-function showPage(pageId, tabId) {
-  pageId = pageId || 'create-acc-page';
-  const pages = document.getElementsByClassName('page');
-  for (let j = 0; j < pages.length; j++) {
-    pages[j].style.display = 'none';
-  }
-  document.getElementById(pageId).style.display = 'block';
-
-  if (pageId === 'user-page') {
-    showTab(tabId);
-  }
-}
-
-function showTab(tabId) {
-  tabId = tabId || 'tab-tx';
-  const tabs = document.getElementsByClassName('tabcontent');
-  for (let j = 0; j < tabs.length; j++) {
-    tabs[j].style.display = 'none';
-  }
-  document.getElementById(tabId).style.display = 'block';
-
-  if (tabId === 'tab-tx') {
-    // refresh transaction list
-    console.log('refresh transaction list');
-    store.getData(STORE_KEY_TX).then((obj) => {
-      appendTransaction(obj);
-    });
-
-    // clear icon badge when pending transaction are visible
-    chrome.browserAction.setBadgeText({ text: '' });
-  }
-}
-
-/**
- * Appends transaction data to pending transaction list.
- *
- * @param data transaction data
- */
-function appendTransaction(data) {
-  const container = document.getElementById('tx-pending');
-  // remove all children
-  while (container.firstChild) {
-    container.removeChild(container.firstChild);
-  }
-
-  console.log(data);
-  for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      const ts = key;
-      const mid = data[key].m;
-      const txData = data[key].d;
-      const txAccountHashin = data[key].h;
-
-      console.log(ts, txData, txAccountHashin);
-
-      // clone transaction template
-      const txElement = document.getElementById('tx-template').cloneNode(true);
-      txElement.setAttribute('id', `tx-${ts}`);
-      txElement.style.display = 'block';
-      txElement.getElementsByClassName('tx-date')[0].innerHTML = new Date(parseInt(ts)).toLocaleString();
-      txElement.getElementsByClassName('tx-data')[0].innerHTML = `${txData}:${txAccountHashin}`;
-
-      // assign accept button
-      const btnAccept = txElement.getElementsByClassName('btn-accept')[0];
-      btnAccept.addEventListener('click', () => {
-        console.log('btnAccept: click');
-        BackgroundPort.postMessage({
-          type: MSG_TX_SIGN_REQ,
-          data: {
-            ts,
-            d: txData,
-            h: txAccountHashin,
-            m: mid,
-          },
-        });
-      });
-
-      // assign cancel button
-      const btnCancel = txElement.getElementsByClassName('btn-cancel')[0];
-      btnCancel.addEventListener('click', () => {
-        console.log('btnCancel: click');
-        BackgroundPort.postMessage({ type: MSG_TX_REJECT_REQ, data: ts });
-      });
-
-      // add transaction to list
-      container.appendChild(txElement);
-    }
-  }
-}
 
 window.onload = () => {
   /*
@@ -173,7 +186,10 @@ window.onload = () => {
   btnCreateAcc.addEventListener('click', () => {
     const pass = document.getElementById('password-new').value;
     if (pass === document.getElementById('password-new-confirm').value) {
-      BackgroundPort.postMessage({ type: MSG_NEW_PASSWORD, data: pass });
+      BackgroundPort.postMessage({
+        type: MSG_NEW_PASSWORD,
+        data: pass,
+      });
     } else {
       // TODO pass not match - error handling
     }
@@ -187,7 +203,10 @@ window.onload = () => {
   const btnLogIn = document.getElementById('btn-login');
   btnLogIn.addEventListener('click', () => {
     const pass = document.getElementById('password').value;
-    BackgroundPort.postMessage({ type: MSG_PASSWORD, data: pass });
+    BackgroundPort.postMessage({
+      type: MSG_PASSWORD,
+      data: pass,
+    });
     // clear password input
     document.getElementById('password').value = '';
   });
@@ -196,7 +215,7 @@ window.onload = () => {
    */
   // switching between tabs
   const tabLinks = document.getElementsByClassName('tablink');
-  for (let i = 0; i < tabLinks.length; i++) {
+  for (let i = 0; i < tabLinks.length; i += 1) {
     tabLinks[i].addEventListener('click', (evt) => {
       showTab(evt.srcElement.value);
     });

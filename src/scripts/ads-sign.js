@@ -3,6 +3,29 @@ const sha256 = require('crypto-js/sha256');
 const { byteToHex, hexToByte, sanitizeHex } = require('./util');
 
 /**
+ * Returns public key derived from secret key.
+ *
+ * @param secretKey secret key
+ * @returns public key
+ */
+function getPublicKey(secretKey) {
+  return byteToHex(nacl.sign.keyPair.fromSeed(hexToByte(secretKey)).publicKey)
+    .toUpperCase();
+}
+
+/**
+ * Returns secret key generated with seed.
+ *
+ * @param seed
+ * @returns secret key
+ */
+function getSecretKey(seed) {
+  return sha256(seed)
+    .toString()
+    .toUpperCase();
+}
+
+/**
  * Signs data with secret key.
  *
  * @param data data; in case of transaction: `tx.account_hashin` + `tx.data`
@@ -13,27 +36,12 @@ function sign(data, secretKey) {
   return byteToHex(nacl.sign.detached(
     hexToByte(sanitizeHex(data)),
     hexToByte(sanitizeHex(secretKey)),
-  )).toUpperCase();
+  ))
+    .toUpperCase();
 }
 
-/**
- * Returns secret key generated with seed.
- *
- * @param seed
- * @returns secret key
- */
-function getSecretKey(seed) {
-  return sha256(seed).toString().toUpperCase();
-}
-
-/**
- * Returns public key derived from secret key.
- *
- * @param secretKey secret key
- * @returns public key
- */
-function getPublicKey(secretKey) {
-  return byteToHex(nacl.sign.keyPair.fromSeed(hexToByte(secretKey)).publicKey).toUpperCase();
-}
-
-module.exports = { sign, getSecretKey, getPublicKey };
+module.exports = {
+  getPublicKey,
+  getSecretKey,
+  sign,
+};

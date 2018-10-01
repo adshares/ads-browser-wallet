@@ -68,7 +68,8 @@ class KeyStore {
 
   static isAccount() {
     console.log('KeyStore.isAccount');
-    return store.getData(STORE_KEY_VAULT).then(val => val !== undefined);
+    return store.getData(STORE_KEY_VAULT)
+      .then(val => val !== undefined);
   }
 
   isLoggedIn() {
@@ -123,10 +124,10 @@ async function createPageSelectObject() {
 }
 
 function prepareTransactionData(data) {
-  if (!data || !data.mid | !data.txData || !data.txAccountHashin) {
+  if (!data || !data.mid || !data.txData || !data.txAccountHashin) {
     throw new Error('Missing tx data');
   }
-  const mid = data.mid;
+  const { mid } = data;
   const txData = sanitizeHex(data.txData);
   const txAccountHashin = sanitizeHex(data.txAccountHashin);
 
@@ -169,9 +170,12 @@ function onMsgAddTransaction(data) {
 
   if (txObj) {
     store.getData(STORE_KEY_TX)
-      .then((val) => {
-        if (!val) {
+      .then((v) => {
+        let val;
+        if (!v) {
           val = {};
+        } else {
+          val = v;
         }
         const ts = new Date().getTime();
         val[ts] = txObj;
@@ -179,11 +183,12 @@ function onMsgAddTransaction(data) {
       })
       .then((a) => {
         // update icon badge
-        chrome.browserAction.getBadgeText({}, (text) => {
-          if (text === '') {
+        chrome.browserAction.getBadgeText({}, (t) => {
+          let text;
+          if (t === '') {
             text = '1';
           } else {
-            text = (parseInt(text) + 1).toString();
+            text = (parseInt(t, 10) + 1).toString();
           }
           chrome.browserAction.setBadgeText({ text });
         });
@@ -196,15 +201,15 @@ function onMsgAddTransaction(data) {
 
 function onMsgDeleteAccount() {
   chrome.storage.local.clear();
-  createPageSelectObject().then(p => PopupPort.postMessage(p));
+  createPageSelectObject()
+    .then(p => PopupPort.postMessage(p));
 }
 
 function onMsgImportKey(data) {
-  const name = data.name;
+  const { name, pass } = data;
   const sk = sanitizeHex(data.sk);
   const pk = sanitizeHex(data.pk);
   const sg = sanitizeHex(data.sg);
-  const pass = data.pass;
 
   // validate
   if ((typeof name === 'string') && name.length > 0 && (typeof sk === 'string') && sk.length === 64
@@ -237,27 +242,41 @@ function onMsgImportKey(data) {
             sk,
             pk,
           };
-          return store.setEncryptedData(STORE_KEY_VAULT, keyStore.vault, pass).then(status = STATUS_SUCCESS);
+          return store
+            .setEncryptedData(STORE_KEY_VAULT, keyStore.vault, pass)
+            .then(() => {
+              status = STATUS_SUCCESS;
+            });
         })
         // Catch is needed, because keyStore.unlock may throw when KeyStore cannot be unlocked.
         // If catch is missing error is visible on page.
         .catch()
         .finally(() => {
-          PopupPort.postMessage({ type: MSG_IMPORT_KEY_RES, status });
+          PopupPort.postMessage({
+            type: MSG_IMPORT_KEY_RES,
+            status,
+          });
         });
     } else {
       // invalid signature was passed
-      PopupPort.postMessage({ type: MSG_IMPORT_KEY_RES, status: STATUS_FAIL });
+      PopupPort.postMessage({
+        type: MSG_IMPORT_KEY_RES,
+        status: STATUS_FAIL,
+      });
     }
   } else {
     // invalid format of keys or missing name
-    PopupPort.postMessage({ type: MSG_IMPORT_KEY_RES, status: STATUS_FAIL });
+    PopupPort.postMessage({
+      type: MSG_IMPORT_KEY_RES,
+      status: STATUS_FAIL,
+    });
   }
 }
 
 function onMsgLogOut() {
   keyStore.lock();
-  createPageSelectObject().then(p => PopupPort.postMessage(p));
+  createPageSelectObject()
+    .then(p => PopupPort.postMessage(p));
 }
 
 function onMsgPassword(password) {
@@ -272,24 +291,26 @@ function onMsgPasswordNew(password) {
   // TODO validate password (length, chars)
   const isValid = true;
   if (isValid) {
-    KeyStore.isAccount().then((isAccount) => {
-      if (isAccount) {
-        if (keyStore.isLoggedIn()) {
-          // change password
+    KeyStore.isAccount()
+      .then((isAccount) => {
+        if (isAccount) {
+          if (keyStore.isLoggedIn()) {
+            // change password
 
+          } else {
+            // reject request
+            createPageSelectObject()
+              .then(p => PopupPort.postMessage(p));
+          }
         } else {
-          // reject request
-          createPageSelectObject().then(p => PopupPort.postMessage(p));
+          // create new account
+          KeyStore.createAccount(password)
+            .then(a => keyStore.unlock(password))
+            .then(a => createPageSelectObject())
+            .then(p => PopupPort.postMessage(p))
+            .catch(e => console.error(e));
         }
-      } else {
-        // create new account
-        KeyStore.createAccount(password)
-          .then(a => keyStore.unlock(password))
-          .then(a => createPageSelectObject())
-          .then(p => PopupPort.postMessage(p))
-          .catch(e => console.error(e));
-      }
-    });
+      });
   } else {
     PopupPort.postMessage({ type: MSG_INVALID_NEW_PASSWORD });
   }
@@ -299,7 +320,8 @@ function onMsgTxReject(ts) {
   // remove from storage
   let status = STATUS_FAIL;
   store.getData(STORE_KEY_TX)
-    .then((val) => {
+    .then((v) => {
+      const val = v;
       val[ts] = undefined;
       return store.setData(STORE_KEY_TX, val);
     })
@@ -309,13 +331,19 @@ function onMsgTxReject(ts) {
     .catch((e) => {
       console.error(e);
     })
-    .finally(() => PopupPort.postMessage({ type: MSG_TX_REJECT_RES, status, data: ts }));
+    .finally(() => PopupPort.postMessage({
+      type: MSG_TX_REJECT_RES,
+      status,
+      data: ts,
+    }));
 }
 
 function onMsgTxSign(data) {
-  const ts = data.ts;
-  const txData = data.d;
-  const txAccountHashin = data.h;
+  const {
+    ts,
+    d: txData,
+    h: txAccountHashin,
+  } = data;
 
   const dataToSign = txAccountHashin + txData;
   // TODO select key
@@ -329,7 +357,11 @@ function onMsgTxSign(data) {
   }
 
   const status = signature ? STATUS_SUCCESS : STATUS_FAIL;
-  PopupPort.postMessage({ type: MSG_TX_SIGN_RES, status, data: ts });
+  PopupPort.postMessage({
+    type: MSG_TX_SIGN_RES,
+    status,
+    data: ts,
+  });
   if (STATUS_SUCCESS === status) {
     const resp = {
       mid: data.m,
@@ -345,7 +377,8 @@ function onMsgTxSign(data) {
 
     // remove from store
     store.getData(STORE_KEY_TX)
-      .then((val) => {
+      .then((v) => {
+        const val = v;
         val[ts] = undefined;
         return store.setData(STORE_KEY_TX, val);
       })
@@ -356,7 +389,8 @@ function onMsgTxSign(data) {
 }
 
 function onPopupConnected() {
-  createPageSelectObject().then(p => PopupPort.postMessage(p));
+  createPageSelectObject()
+    .then(p => PopupPort.postMessage(p));
 }
 
 chrome.runtime.onConnect.addListener(

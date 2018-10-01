@@ -85,7 +85,9 @@ function fixByteOrder(data) {
   // match - splits string to array of 2 characters
   // reverse - changes order of chunks
   // join - combines chunks to string
-  return data.match(/.{1,2}/g).reverse().join('');
+  return data.match(/.{1,2}/g)
+    .reverse()
+    .join('');
 }
 
 /**
@@ -98,11 +100,14 @@ function crc16(data) {
   const binData = hexToByte(data);
 
   let crc = 0x1d0f;
-  for (const b of binData) {
+  binData.forEach((b) => {
+    // binary operations for crc calculation
+    /* eslint-disable no-bitwise */
     let x = (crc >> 8) ^ b;
     x ^= x >> 4;
     crc = ((crc << 8) ^ ((x << 12)) ^ ((x << 5)) ^ (x)) & 0xFFFF;
-  }
+    /* eslint-enable no-bitwise */
+  });
   const result = `0000${crc.toString(16)}`;
 
   return result.substr(result.length - 4);
@@ -454,4 +459,7 @@ function parseData(data) {
   return parser.parsedData;
 }
 
-module.exports = { FIELD, parseData };
+module.exports = {
+  FIELD,
+  parseData,
+};

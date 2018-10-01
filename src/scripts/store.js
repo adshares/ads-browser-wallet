@@ -38,14 +38,15 @@ function getEncryptedData(key, pass) {
           let decrypted;
           try {
             // Encoder CryptoJS.enc.Utf8 below is needed to properly encode decrypted data
-            decrypted = CryptoJS.AES.decrypt(encrypted, pass).toString(CryptoJS.enc.Utf8);
+            decrypted = CryptoJS.AES.decrypt(encrypted, pass)
+              .toString(CryptoJS.enc.Utf8);
           } catch (err) {
             // Error means that data cannot be decrypted with given password.
             decrypted = undefined;
           }
 
           if (!decrypted) {
-            reject('Invalid pass');
+            reject(new Error('Invalid pass'));
           } else {
             resolve(JSON.parse(decrypted));
           }
@@ -85,7 +86,8 @@ function setData(key, data) {
  * @returns {Promise}
  */
 function setEncryptedData(key, data, pass) {
-  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), pass).toString();
+  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), pass)
+    .toString();
   const dataObject = {};
   dataObject[key] = encrypted;
   return new Promise((resolve, reject) => {
@@ -100,5 +102,8 @@ function setEncryptedData(key, data, pass) {
 }
 
 module.exports = {
-  getData, getEncryptedData, setData, setEncryptedData,
+  getData,
+  getEncryptedData,
+  setData,
+  setEncryptedData,
 };

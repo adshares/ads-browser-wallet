@@ -13,12 +13,13 @@ const CryptoJS = require('crypto-js');
 function get(key, pass) {
   const encrypted = localStorage.getItem(key);
   if (!encrypted) {
-    throw 'No value matching key';
+    throw new Error('No value matching key');
   }
   // Encoder CryptoJS.enc.Utf8 below is needed to properly encode decrypted data
-  const decrypted = CryptoJS.AES.decrypt(encrypted, pass).toString(CryptoJS.enc.Utf8);
+  const decrypted = CryptoJS.AES.decrypt(encrypted, pass)
+    .toString(CryptoJS.enc.Utf8);
   if (!decrypted) {
-    throw 'Invalid pass';
+    throw new Error('Invalid pass');
   }
 
   return JSON.parse(decrypted);
@@ -32,8 +33,12 @@ function get(key, pass) {
  * @param pass password to encrypt data
  */
 function set(key, value, pass) {
-  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(value), pass).toString();
+  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(value), pass)
+    .toString();
   localStorage.setItem(key, encrypted);
 }
 
-module.exports = { get, set };
+module.exports = {
+  get,
+  set,
+};

@@ -1,5 +1,3 @@
-'use strict';
-
 const store = require('../../src/scripts/encrypted-store');
 
 test('r/w store', () => {
@@ -12,7 +10,8 @@ test('r/w store', () => {
 
   // read data
   const readValue = store.get(key, pass);
-  expect(readValue).toBe(value);
+  expect(readValue)
+    .toBe(value);
 });
 
 test('read with invalid pass', () => {
@@ -26,8 +25,9 @@ test('read with invalid pass', () => {
 
   // read data
   expect(() => {
-    store.get(key, pass2)
-  }).toThrow('Invalid pass');
+    store.get(key, pass2);
+  })
+    .toThrow('Invalid pass');
 });
 
 test('read invalid key', () => {
@@ -36,6 +36,7 @@ test('read invalid key', () => {
 
   // read data
   expect(() => {
-    store.get(key, pass)
-  }).toThrow('No value matching key');
+    store.get(key, pass);
+  })
+    .toThrow('No value matching key');
 });

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial version of plugin which can sign transactions, one key is supported
+- ESLint
 - Changelog
 - License
 - Readme

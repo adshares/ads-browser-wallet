@@ -2,14 +2,11 @@ const { By, logging } = require('selenium-webdriver');
 const { setupBrowser } = require('./setup');
 
 let driver;
-// let extensionId;
 let popupUri;
 
 beforeAll(async () => {
   const result = await setupBrowser();
-  driver = result.driver;
-  // extensionId = result.extensionId;
-  popupUri = result.popupUri;
+  ({ driver, popupUri } = result);
 });
 
 describe('positive path test', () => {

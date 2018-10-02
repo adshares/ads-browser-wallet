@@ -39,7 +39,7 @@ We use [SemVer](http://semver.org/) for versioning.
 
 ### Authors
 
-- **Paweł Podkalicki** - _main programmer_ - [PawelPodkalicki](https://github.com/PawelPodkalicki)
+* **[Paweł Podkalicki](https://github.com/PawelPodkalicki)** - _main programmer_
 
 See also the list of [contributors](https://github.com/adshares/ads-beet/contributors) who participated in this project.
 

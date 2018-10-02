@@ -1,4 +1,4 @@
-const {Builder} = require('selenium-webdriver');
+const { Builder } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const fs = require('fs');
 
@@ -11,8 +11,8 @@ const WINDOW_WIDTH = 1920;
 const WINDOW_HEIGHT = 1080;
 
 function encodeBase64(file) {
-  let stream = fs.readFileSync(file);
-  return new Buffer(stream).toString('base64');
+  const stream = fs.readFileSync(file);
+  return Buffer.from(stream).toString('base64');
 }
 
 /**
@@ -25,10 +25,10 @@ async function getExtensionId(driver) {
   // extension id is read from extensions page
   await driver.get('chrome://extensions/');
   // selector 'extensions-item:first-child' is used, because extension is first on extension list
-  return await driver.executeScript(
-    'return document.querySelector("extensions-manager").shadowRoot' +
-    '.querySelector("extensions-view-manager extensions-item-list").shadowRoot' +
-    '.querySelector("extensions-item:first-child").getAttribute("id")'
+  return driver.executeScript(
+    'return document.querySelector("extensions-manager").shadowRoot'
+    + '.querySelector("extensions-view-manager extensions-item-list").shadowRoot'
+    + '.querySelector("extensions-item:first-child").getAttribute("id")',
   );
 }
 
@@ -37,19 +37,18 @@ async function getExtensionId(driver) {
  * @returns {Promise<{driver: !ThenableWebDriver, extensionId: void, popupUri: string}>}
  */
 async function setupBrowser() {
-  let driver = new Builder().forBrowser('chrome')
+  const driver = new Builder().forBrowser('chrome')
     .setChromeOptions(
       new chrome.Options()
         .addExtensions([encodeBase64(EXTENSION)])
         // .headless() chrome does not allow to use extension in headless mode
-        .windowSize({width: WINDOW_WIDTH, height: WINDOW_HEIGHT})
+        .windowSize({ width: WINDOW_WIDTH, height: WINDOW_HEIGHT }),
     )
     .build();
-  let extensionId = await getExtensionId(driver);
-  let popupUri = `chrome-extension://${extensionId}/popup.html`;
+  const extensionId = await getExtensionId(driver);
+  const popupUri = `chrome-extension://${extensionId}/popup.html`;
 
-  return {driver, extensionId, popupUri};
+  return { driver, extensionId, popupUri };
 }
 
-module.exports = {setupBrowser};
-
+module.exports = { setupBrowser };

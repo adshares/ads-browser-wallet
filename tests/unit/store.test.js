@@ -2,8 +2,7 @@ const { ChromeStorage } = require('./mock-chrome-store-local');
 const store = require('../../src/scripts/store');
 
 global.chrome = {};
-global.chrome.storage = {};
-global.chrome.storage.local = ChromeStorage;
+global.chrome.storage = { local: ChromeStorage };
 global.chrome.runtime = {};
 
 test('r/w encrypted store', () => {
@@ -14,12 +13,19 @@ test('r/w encrypted store', () => {
   const value = '0123456789';
 
   // write data
-  expect(store.setEncryptedData(key, value, pass)).resolves.toBeUndefined();
+  expect(store.setEncryptedData(key, value, pass))
+    .resolves
+    .toBeUndefined();
 
   // read data
-  expect(store.getEncryptedData(key, pass)).resolves.toEqual(value);
+  expect(store.getEncryptedData(key, pass))
+    .resolves
+    .toEqual(value);
   // fail-safe read data
-  expect(store.getEncryptedData(key, pass)).resolves.not.toEqual(`a${value}`);
+  expect(store.getEncryptedData(key, pass))
+    .resolves
+    .not
+    .toEqual(`a${value}`);
 });
 
 test('read encrypted with invalid pass', () => {
@@ -31,10 +37,14 @@ test('read encrypted with invalid pass', () => {
   const value = '0123456789';
 
   // write data
-  expect(store.setEncryptedData(key, value, pass)).resolves.toBeUndefined();
+  expect(store.setEncryptedData(key, value, pass))
+    .resolves
+    .toBeUndefined();
 
   // read data
-  store.getEncryptedData(key, pass2).catch(e => expect(e.message).toEqual('Invalid pass'));
+  store.getEncryptedData(key, pass2)
+    .catch(e => expect(e.message)
+      .toEqual('Invalid pass'));
 });
 
 test('read encrypted with invalid key', () => {
@@ -44,7 +54,9 @@ test('read encrypted with invalid key', () => {
   const key = '3';
 
   // read data
-  expect(store.getEncryptedData(key, pass)).resolves.toBeUndefined();
+  expect(store.getEncryptedData(key, pass))
+    .resolves
+    .toBeUndefined();
 });
 
 test('r/w store', () => {
@@ -54,12 +66,19 @@ test('r/w store', () => {
   const value = '0123456789';
 
   // write data
-  expect(store.setData(key, value)).resolves.toBeUndefined();
+  expect(store.setData(key, value))
+    .resolves
+    .toBeUndefined();
 
   // read data
-  expect(store.getData(key)).resolves.toEqual(value);
+  expect(store.getData(key))
+    .resolves
+    .toEqual(value);
   // fail-safe read data
-  expect(store.getData(key)).resolves.not.toEqual(`a${value}`);
+  expect(store.getData(key))
+    .resolves
+    .not
+    .toEqual(`a${value}`);
 });
 
 test('read with invalid key', () => {
@@ -68,5 +87,7 @@ test('read with invalid key', () => {
   const key = '3';
 
   // read data
-  expect(store.getData(key)).resolves.toBeUndefined();
+  expect(store.getData(key))
+    .resolves
+    .toBeUndefined();
 });

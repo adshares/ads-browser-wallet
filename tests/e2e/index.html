@@ -153,7 +153,7 @@
   let btnSend2 = document.getElementById('btn-add-tx');
   btnSend2.addEventListener('click', function () {
     console.log('index.html: click');
-    const mid = new Date().getTime();
+    const mid = (new Date().getTime()).toString(10);
     const txData = document.getElementById('data').value;
     const txAccountHashin = document.getElementById('hashin').value;
     addTransaction(mid, txData, txAccountHashin);

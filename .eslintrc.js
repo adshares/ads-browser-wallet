@@ -3,6 +3,6 @@ module.exports = {
   'env': {
     'browser': true,
     'jest': true,
-    "webextensions": true,
+    'webextensions': true,
   }
 };

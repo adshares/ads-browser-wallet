@@ -11,24 +11,25 @@ port.onDisconnect.addListener((p) => {
 });
 
 window.addEventListener('message', (event) => {
+  const evt = event;
   console.log('proxy.js: onMessage');
-  console.log(event);
-  if (event.data && event.data === 'init') {
+  console.log(evt);
+  if (evt.data && evt.data === 'init') {
     // redirect messages from background to page
     port.onMessage.addListener((message) => {
       console.log('background -> page');
       console.log(message);
-      event.ports[0].postMessage(message);
+      evt.ports[0].postMessage(message);
     });
 
     // redirect messages from page to background
-    event.ports[0].onmessage = (message) => {
+    evt.ports[0].onmessage = (message) => {
       console.log('page -> background');
       console.log(message.data);
       port.postMessage(message.data);
     };
 
     // accept connection from page
-    event.ports[0].postMessage('ready');
+    evt.ports[0].postMessage('ready');
   }
 }, false);

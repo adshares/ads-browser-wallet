@@ -181,7 +181,7 @@ function onMsgAddTransaction(data) {
         val[ts] = txObj;
         return store.setData(STORE_KEY_TX, val);
       })
-      .then((a) => {
+      .then(() => {
         // update icon badge
         chrome.browserAction.getBadgeText({}, (t) => {
           let text;
@@ -282,9 +282,9 @@ function onMsgLogOut() {
 function onMsgPassword(password) {
   // login - password is checked within unlock function
   keyStore.unlock(password)
-    .then(a => createPageSelectObject())
+    .then(() => createPageSelectObject())
     .then(p => PopupPort.postMessage(p))
-    .catch(e => PopupPort.postMessage({ type: MSG_INVALID_PASSWORD }));
+    .catch(() => PopupPort.postMessage({ type: MSG_INVALID_PASSWORD }));
 }
 
 function onMsgPasswordNew(password) {
@@ -305,8 +305,8 @@ function onMsgPasswordNew(password) {
         } else {
           // create new account
           KeyStore.createAccount(password)
-            .then(a => keyStore.unlock(password))
-            .then(a => createPageSelectObject())
+            .then(() => keyStore.unlock(password))
+            .then(() => createPageSelectObject())
             .then(p => PopupPort.postMessage(p))
             .catch(e => console.error(e));
         }
@@ -325,7 +325,7 @@ function onMsgTxReject(ts) {
       val[ts] = undefined;
       return store.setData(STORE_KEY_TX, val);
     })
-    .then((a) => {
+    .then(() => {
       status = STATUS_SUCCESS;
     })
     .catch((e) => {

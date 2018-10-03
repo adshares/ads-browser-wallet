@@ -1,53 +1,93 @@
+const CryptoJS = require('crypto-js');
 const { By, logging } = require('selenium-webdriver');
 const { setupBrowser } = require('./setup');
+const {
+  STORE_KEY_VAULT,
+} = require('../../src/scripts/enums');
 
+/**
+ * Plugin account password
+ * @type {string}
+ */
+const password = 'asdf';
+/**
+ * Secret key
+ * @type {string}
+ */
+const secretKey = 'FF767FC8FAF9CFA8D2C3BD193663E8B8CAC85005AD56E085FAB179B52BD88DD6';
+/**
+ * Public key
+ * @type {string}
+ */
+const publicKey = 'D69BCCF69C2D0F6CED025A05FA7F3BA687D1603AC1C8D9752209AC2BBF2C4D17';
+/**
+ * Signature of empty string created with secret key
+ * @type {string}
+ */
+const signature = '7A1CA8AF3246222C2E06D2ADE525A693FD81A2683B8A8788C32B7763DF6037A5'
+  + 'DF3105B92FEF398AF1CDE0B92F18FE68DEF301E4BF7DB0ABC0AEA6BE24969006';
+
+/**
+ * Selenium WebDriver
+ */
 let driver;
+/**
+ * Popup page URI
+ */
 let popupUri;
 
+/**
+ * Returns data from store.
+ *
+ * @param key
+ * @returns {Promise<void>}
+ */
+async function getStoreDataByKey(key) {
+  return (await driver.executeAsyncScript(`chrome.storage.local.get('${key}', arguments[arguments.length - 1]);`))[key];
+}
+
+async function getPendingTxCount() {
+  const txElementArray = await driver.findElements(By.css('#tx-pending > div'));
+  return txElementArray.length;
+}
+
+async function isElementDisplayed(pageId) {
+  return driver.findElement(By.id(pageId))
+    .isDisplayed();
+}
+
+async function isPageCreateAccount() {
+  return isElementDisplayed('create-acc-page');
+}
+
+async function isPageLogin() {
+  return isElementDisplayed('login-page');
+}
+
+async function isPageUser() {
+  return isElementDisplayed('user-page');
+}
+
+async function isTabTransactions() {
+  return isElementDisplayed('tab-tx');
+}
+
+async function isTabSettings() {
+  return isElementDisplayed('tab-settings');
+}
+
+// Tests initialization
 beforeAll(async () => {
   const result = await setupBrowser();
-  ({ driver, popupUri } = result);
+  ({
+    driver,
+    popupUri,
+  } = result);
 });
 
 describe('positive path test', () => {
-  const password = 'asdf';
-  const secretKey = 'FF767FC8FAF9CFA8D2C3BD193663E8B8CAC85005AD56E085FAB179B52BD88DD6';
-  const publicKey = 'D69BCCF69C2D0F6CED025A05FA7F3BA687D1603AC1C8D9752209AC2BBF2C4D17';
-  const signature = '7A1CA8AF3246222C2E06D2ADE525A693FD81A2683B8A8788C32B7763DF6037A5'
-    + 'DF3105B92FEF398AF1CDE0B92F18FE68DEF301E4BF7DB0ABC0AEA6BE24969006';
-
-  async function getPendingTxCount() {
-    const txElementArray = await driver.findElements(By.css('#tx-pending > div'));
-    return txElementArray.length;
-  }
-
-  async function isElementDisplayed(pageId) {
-    return driver.findElement(By.id(pageId))
-      .isDisplayed();
-  }
-
-  async function isPageCreateAccount() {
-    return isElementDisplayed('create-acc-page');
-  }
-
-  async function isPageLogin() {
-    return isElementDisplayed('login-page');
-  }
-
-  async function isPageUser() {
-    return isElementDisplayed('user-page');
-  }
-
-  async function isTabTransactions() {
-    return isElementDisplayed('tab-tx');
-  }
-
-  async function isTabSettings() {
-    return isElementDisplayed('tab-settings');
-  }
-
   test('create account and login', async () => {
-    expect.assertions(3);
+    expect.assertions(4);
 
     // open popup
     await driver.get(popupUri);
@@ -62,6 +102,14 @@ describe('positive path test', () => {
     // create account button
     await driver.findElement(By.id('btn-create-acc'))
       .click();
+
+    // check if account was created
+    const encrypted = await getStoreDataByKey(STORE_KEY_VAULT);
+    const decrypted = CryptoJS.AES.decrypt(encrypted, password)
+      .toString(CryptoJS.enc.Utf8);
+    expect(decrypted)
+      .toBe('{}');
+
     expect(await isPageUser())
       .toBeTruthy();
     // default tab is tx tab

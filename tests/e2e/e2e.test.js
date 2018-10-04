@@ -47,9 +47,46 @@ async function getStoreDataByKey(key) {
 }
 
 /**
+ * Returns data from store.
+ *
+ * @param key
+ * @param pass
+ * @returns {Promise<void>}
+ */
+async function getEncryptedStoreDataByKey(key, pass) {
+  const encrypted = (await driver.executeAsyncScript(`chrome.storage.local.get('${key}', arguments[arguments.length - 1]);`))[key];
+  let decrypted;
+  if (encrypted) {
+    decrypted = CryptoJS.AES.decrypt(encrypted, pass)
+      .toString(CryptoJS.enc.Utf8);
+  } else {
+    decrypted = encrypted;
+  }
+  return decrypted;
+}
+
+/**
+ * Saves data to store.
+ *
+ * @param key
+ * @param data
+ * @param pass
+ * @returns {Promise<void>}
+ */
+async function setEncryptedStoreDataByKey(key, data, pass) {
+  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), pass)
+    .toString();
+  const dataObject = {};
+  dataObject[key] = encrypted;
+  const dataString = JSON.stringify(dataObject);
+  const script = `chrome.storage.local.set(${dataString}, arguments[arguments.length - 1]);`;
+  return driver.executeAsyncScript(script);
+}
+
+/**
  * Clears store.
  *
- * @returns {Promise<!IThenable<T>>}
+ * @returns {Promise}
  */
 async function clearStore() {
   return driver.executeAsyncScript('chrome.storage.local.clear( arguments[arguments.length - 1]);');
@@ -85,16 +122,13 @@ async function isTabSettings() {
   return isElementDisplayed('tab-settings');
 }
 
-// Tests initialization
-beforeAll(async () => {
-  const result = await setupBrowser();
-  ({
-    driver,
-    popupUri,
-  } = result);
-});
-
 describe('create account', () => {
+  beforeAll(async () => {
+    ({
+      driver,
+      popupUri,
+    } = await setupBrowser());
+  });
   beforeEach(async () => {
     // open popup
     await driver.get(popupUri);
@@ -103,6 +137,9 @@ describe('create account', () => {
   });
   afterEach(async () => {
     await clearStore();
+  });
+  afterAll(async () => {
+    await driver.quit();
   });
 
   test('create account and login', async () => {
@@ -118,9 +155,7 @@ describe('create account', () => {
       .click();
 
     // check if account was created
-    const encrypted = await getStoreDataByKey(STORE_KEY_VAULT);
-    const decrypted = CryptoJS.AES.decrypt(encrypted, password)
-      .toString(CryptoJS.enc.Utf8);
+    const decrypted = await getEncryptedStoreDataByKey(STORE_KEY_VAULT, password);
     expect(decrypted)
       .toBe('{}');
 
@@ -180,7 +215,196 @@ describe('create account', () => {
   });
 });
 
+describe('log in', () => {
+  beforeAll(async () => {
+    ({
+      driver,
+      popupUri,
+    } = await setupBrowser());
+    // create account
+    await driver.get(popupUri);
+    const data = {};
+    await setEncryptedStoreDataByKey(STORE_KEY_VAULT, data, password);
+  });
+  beforeEach(async () => {
+    // open popup
+    await driver.get(popupUri);
+    expect(await isPageLogin())
+      .toBeTruthy();
+  });
+  afterAll(async () => {
+    await driver.quit();
+  });
+
+  test('log in with valid credentials, then logout', async () => {
+    expect.assertions(5);
+    /**
+     * Login
+     */
+    // input password
+    await driver.findElement(By.id('password'))
+      .sendKeys(password);
+    // log in button
+    await driver.findElement(By.id('btn-login'))
+      .click();
+    expect(await isPageUser())
+      .toBeTruthy();
+    /**
+     * Logout
+     */
+    // switch to settings tab
+    await driver.findElement(By.xpath('//button[@value="tab-settings"]'))
+      .click();
+    expect(await isPageUser())
+      .toBeTruthy();
+    expect(await isTabSettings())
+      .toBeTruthy();
+
+    // log out button
+    await driver.findElement(By.id('btn-logout'))
+      .click();
+    expect(await isPageLogin())
+      .toBeTruthy();
+  });
+
+  test('log in with invalid credentials', async () => {
+    expect.assertions(2);
+
+    const invalidPassword = 'sdfgsdfgsdfgsdfg';
+    // input password
+    await driver.findElement(By.id('password'))
+      .sendKeys(invalidPassword);
+    // log in button
+    await driver.findElement(By.id('btn-login'))
+      .click();
+    expect(await isPageUser())
+      .not
+      .toBeTruthy();
+  });
+});
+
+describe('import key', () => {
+  beforeAll(async () => {
+    ({
+      driver,
+      popupUri,
+    } = await setupBrowser());
+    // create account
+    await driver.get(popupUri);
+    const data = {};
+    await setEncryptedStoreDataByKey(STORE_KEY_VAULT, data, password);
+    await driver.get(popupUri);
+    // log in
+    await driver.findElement(By.id('password'))
+      .sendKeys(password);
+    await driver.findElement(By.id('btn-login'))
+      .click();
+    await driver.findElement(By.xpath('//button[@value="tab-settings"]'))
+      .click();
+  });
+  beforeEach(async () => {
+    expect(await isPageUser())
+      .toBeTruthy();
+    expect(await isTabSettings())
+      .toBeTruthy();
+  });
+  afterEach(async () => {
+    await driver.findElement(By.id('imp-key-sk'))
+      .clear();
+    await driver.findElement(By.id('imp-key-pk'))
+      .clear();
+    await driver.findElement(By.id('imp-key-sg'))
+      .clear();
+    await driver.findElement(By.id('imp-key-password'))
+      .clear();
+  });
+  afterAll(async () => {
+    await driver.quit();
+  });
+  test('import valid key', async () => {
+    expect.assertions(6);
+
+    // input secret key
+    await driver.findElement(By.id('imp-key-sk'))
+      .sendKeys(secretKey);
+    // input public key
+    await driver.findElement(By.id('imp-key-pk'))
+      .sendKeys(publicKey);
+    // input signature
+    await driver.findElement(By.id('imp-key-sg'))
+      .sendKeys(signature);
+    // input password
+    await driver.findElement(By.id('imp-key-password'))
+      .sendKeys(password);
+    // import key button
+    await driver.findElement(By.id('btn-imp-key'))
+      .click();
+
+    // check if form fields are empty - key was imported
+    expect(await driver.findElement(By.id('imp-key-sk'))
+      .getAttribute('value'))
+      .toBe('');
+    expect(await driver.findElement(By.id('imp-key-pk'))
+      .getAttribute('value'))
+      .toBe('');
+    expect(await driver.findElement(By.id('imp-key-sg'))
+      .getAttribute('value'))
+      .toBe('');
+    expect(await driver.findElement(By.id('imp-key-password'))
+      .getAttribute('value'))
+      .toBe('');
+  });
+  test('import key with invalid signature', async () => {
+    expect.assertions(6);
+
+    const invalidSignature = '3523C65D4296455FCD3E07055F43C71872699558DD73A94BBD16C77852155FAE'
+      + '0EF46E87AB3D8F86EDAC26A65BEE7B90AFFE7E0F8C592927475A66805F128509';
+    // input secret key
+    await driver.findElement(By.id('imp-key-sk'))
+      .sendKeys(secretKey);
+    // input public key
+    await driver.findElement(By.id('imp-key-pk'))
+      .sendKeys(publicKey);
+    // input signature
+    await driver.findElement(By.id('imp-key-sg'))
+      .sendKeys(invalidSignature);
+    // input password
+    await driver.findElement(By.id('imp-key-password'))
+      .sendKeys(password);
+    // import key button
+    await driver.findElement(By.id('btn-imp-key'))
+      .click();
+
+    // check if form fields are empty - key was imported
+    expect(await driver.findElement(By.id('imp-key-sk'))
+      .getAttribute('value'))
+      .not
+      .toBe('');
+    expect(await driver.findElement(By.id('imp-key-pk'))
+      .getAttribute('value'))
+      .not
+      .toBe('');
+    expect(await driver.findElement(By.id('imp-key-sg'))
+      .getAttribute('value'))
+      .not
+      .toBe('');
+    expect(await driver.findElement(By.id('imp-key-password'))
+      .getAttribute('value'))
+      .not
+      .toBe('');
+  });
+});
+
 describe('positive path test', () => {
+  beforeAll(async () => {
+    ({
+      driver,
+      popupUri,
+    } = await setupBrowser());
+  });
+  afterAll(async () => {
+    await driver.quit();
+  });
   test('create account and login', async () => {
     expect.assertions(4);
 
@@ -276,7 +500,7 @@ describe('positive path test', () => {
     expect.assertions(1);
 
     // open test page
-    await driver.get(`file:///${__dirname}/index.html`);
+    await driver.get(`file:///${__dirname}/../index.html`);
     // add transaction
     await driver.findElement(By.id('btn-add-tx'))
       .click();
@@ -326,8 +550,4 @@ describe('positive path test', () => {
     expect(await getPendingTxCount())
       .toBe(0);
   });
-});
-
-afterAll(async () => {
-  await driver.quit();
 });

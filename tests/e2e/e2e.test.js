@@ -46,6 +46,15 @@ async function getStoreDataByKey(key) {
   return (await driver.executeAsyncScript(`chrome.storage.local.get('${key}', arguments[arguments.length - 1]);`))[key];
 }
 
+/**
+ * Clears store.
+ *
+ * @returns {Promise<!IThenable<T>>}
+ */
+async function clearStore() {
+  return driver.executeAsyncScript('chrome.storage.local.clear( arguments[arguments.length - 1]);');
+}
+
 async function getPendingTxCount() {
   const txElementArray = await driver.findElements(By.css('#tx-pending > div'));
   return txElementArray.length;
@@ -83,6 +92,92 @@ beforeAll(async () => {
     driver,
     popupUri,
   } = result);
+});
+
+describe('create account', () => {
+  beforeEach(async () => {
+    // open popup
+    await driver.get(popupUri);
+    expect(await isPageCreateAccount())
+      .toBeTruthy();
+  });
+  afterEach(async () => {
+    await clearStore();
+  });
+
+  test('create account and login', async () => {
+    expect.assertions(4);
+
+    // input password for new account
+    await driver.findElement(By.id('password-new'))
+      .sendKeys(password);
+    await driver.findElement(By.id('password-new-confirm'))
+      .sendKeys(password);
+    // create account button
+    await driver.findElement(By.id('btn-create-acc'))
+      .click();
+
+    // check if account was created
+    const encrypted = await getStoreDataByKey(STORE_KEY_VAULT);
+    const decrypted = CryptoJS.AES.decrypt(encrypted, password)
+      .toString(CryptoJS.enc.Utf8);
+    expect(decrypted)
+      .toBe('{}');
+
+    expect(await isPageUser())
+      .toBeTruthy();
+    // default tab is tx tab
+    expect(await isTabTransactions())
+      .toBeTruthy();
+  });
+
+  test('create account with invalid password', async () => {
+    expect.assertions(4);
+
+    const invalidPassword = '';
+
+    // input password for new account
+    await driver.findElement(By.id('password-new'))
+      .sendKeys(invalidPassword);
+    await driver.findElement(By.id('password-new-confirm'))
+      .sendKeys(invalidPassword);
+    // create account button
+    await driver.findElement(By.id('btn-create-acc'))
+      .click();
+
+    // check if account was created
+    expect(await getStoreDataByKey(STORE_KEY_VAULT))
+      .toBeUndefined();
+
+    expect(await isPageUser())
+      .toBeFalsy();
+    // default tab is tx tab
+    expect(await isTabTransactions())
+      .toBeFalsy();
+  });
+
+  test('create account with not matching passwords', async () => {
+    expect.assertions(4);
+
+    // input password for new account
+    await driver.findElement(By.id('password-new'))
+      .sendKeys('asdfasdfasdf1');
+    await driver.findElement(By.id('password-new-confirm'))
+      .sendKeys('asdfasdfasdf2');
+    // create account button
+    await driver.findElement(By.id('btn-create-acc'))
+      .click();
+
+    // check if account was created
+    expect(await getStoreDataByKey(STORE_KEY_VAULT))
+      .toBeUndefined();
+
+    expect(await isPageUser())
+      .toBeFalsy();
+    // default tab is tx tab
+    expect(await isTabTransactions())
+      .toBeFalsy();
+  });
 });
 
 describe('positive path test', () => {

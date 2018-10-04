@@ -287,9 +287,18 @@ function onMsgPassword(password) {
     .catch(() => PopupPort.postMessage({ type: MSG_INVALID_PASSWORD }));
 }
 
-function onMsgPasswordNew(password) {
+/**
+ * Checks if provided string can be used as password.
+ * @param p proposed password
+ * @returns {boolean} true if p can be used as password
+ */
+function isValidPassword(p) {
   // TODO validate password (length, chars)
-  const isValid = true;
+  return (typeof p === 'string' && p.length > 0);
+}
+
+function onMsgPasswordNew(password) {
+  const isValid = isValidPassword(password);
   if (isValid) {
     KeyStore.isAccount()
       .then((isAccount) => {

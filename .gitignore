@@ -1,2 +1,5 @@
-.dist/
 .idea/
+dist/
+dist.crx
+dist.pem
+node_modules/

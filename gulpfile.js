@@ -1,6 +1,8 @@
 const { exec } = require('child_process');
 const del = require('del');
+const fs = require('fs');
 const gulp = require('gulp');
+const log = require('fancy-log');
 
 const webpackStream = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
@@ -25,6 +27,15 @@ function createBundleJsTask({ devMode = false }) {
 }
 
 /**
+ * Checks if file exists.
+ * @param file
+ * @returns {Promise<any>}
+ */
+async function doesFileExist(file) {
+  return new Promise(resolve => fs.access(file, fs.constants.F_OK, err => resolve(err === null)));
+}
+
+/**
  * Bundles js files
  */
 gulp.task('bundle-js', createBundleJsTask({}));
@@ -40,9 +51,13 @@ gulp.task('bundle-js:dev', createBundleJsTask({
  * Deletes dist folder
  */
 gulp.task('clean',
-  () => del(['./dist/**'])
+  () => del(['./dist/**', './dist.crx'])
     .then((paths) => {
-      console.log('Deleted files and folders:\n', paths.join('\n'));
+      if (paths && paths.length > 0) {
+        log('Deleted files and folders:\n', paths.join('\n '));
+      } else {
+        log('No files to remove');
+      }
     }));
 
 /**
@@ -58,9 +73,15 @@ gulp.task('copy-assets',
 /**
  * Packs distribution resources into plugin binary
  */
-gulp.task('pack', (cb) => {
+gulp.task('pack', async (cb) => {
   const path = `${__dirname}/dist`;
-  const command = `google-chrome --pack-extension="${path}"`;
+  let command = `google-chrome --pack-extension="${path}"`;
+
+  const keyFile = `${__dirname}/dist.pem`;
+  const isKeyFileAvailable = await doesFileExist(keyFile);
+  if ((isKeyFileAvailable)) {
+    command = `${command} --pack-extension-key="${keyFile}"`;
+  }
 
   exec(command, (err) => {
     /**

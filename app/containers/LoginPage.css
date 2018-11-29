@@ -1,0 +1,22 @@
+.page {
+    text-align: center;
+    padding: 0 50px;
+}
+
+.logo {
+    margin: 50px auto 75px auto;
+}
+
+.logo img {
+    width: 140px;
+}
+
+.logo h1 {
+    margin-top: 0px;
+}
+
+.restore {
+    text-align: right;
+    margin-top: 50px;
+    font-size: var(--font-smaller);
+}

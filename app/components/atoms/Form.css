@@ -1,0 +1,29 @@
+.form > div {
+    margin-bottom: 15px;
+}
+
+.form input, .form textarea {
+    height: 50px;
+    background-color: var(--white);
+    font-size: var(--font-small);
+    transition: all 250ms ease;
+}
+
+.form input:focus, .form textarea:focus {
+    border-color: var(--blue-dark);
+}
+
+.form input {
+    border: 1px solid var(--gray-dark);
+    line-height: 50px;
+    border-radius: 3px !important;
+    text-indent: 15px;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    outline: 0;
+}
+
+.form textarea {
+
+}

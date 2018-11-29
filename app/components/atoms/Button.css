@@ -1,0 +1,22 @@
+.button {
+    height: 45px;
+    line-height: 42px;
+    margin: 0 10px 10px 0;
+    padding: 0 20px;
+    font-size: var(--font-small);
+    display: inline-block;
+    text-align: center;
+    transition: all 250ms ease;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 3px;
+    outline:none;
+    color: var(--white);
+    background-color: var(--blue-dark);
+    border: 2px solid var(--blue-dark);
+}
+
+.button:hover {
+    background-color: var(--blue);
+    border: 2px solid var(--blue);
+}

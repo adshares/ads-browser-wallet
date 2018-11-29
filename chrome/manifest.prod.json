@@ -1,0 +1,24 @@
+{
+  "version": "0.0.1",
+  "name": "ADS Wallet",
+  "manifest_version": 2,
+  "description": "Chrome extension which can be used to sign ADS blockchain transactions",
+  "author": "https://adshares.net/",
+  "browser_action": {
+    "default_title": "ADS Wallet",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "img/icon-16.png",
+    "48": "img/icon-48.png",
+    "128": "img/icon-128.png"
+  },
+  "web_accessible_resources": [
+    "inject.html"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "permissions": [ "storage", "unlimitedStorage" ],
+  "content_security_policy": "default-src 'self'; script-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:;"
+}

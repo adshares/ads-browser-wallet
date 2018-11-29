@@ -1,7 +1,7 @@
-const adsSign = require('./ads-sign');
-const parser = require('./ads-data-parser');
-const store = require('./store');
-const { sanitizeHex } = require('./util');
+const adsSign = require('ads-sign');
+const parser = require('ads-data-parser');
+const store = require('store');
+const { sanitizeHex } = require('util');
 const {
   CONN_ID_POPUP,
   CONN_ID_PROXY,

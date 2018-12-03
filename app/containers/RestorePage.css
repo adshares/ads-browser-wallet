@@ -1,0 +1,24 @@
+.page {
+    text-align: center;
+    padding: 0 10px;
+}
+
+.page header {
+    margin-bottom: 50px;
+}
+
+.page form {
+    margin-top: 40px;
+}
+
+.page textarea {
+    height: 83px;
+}
+
+.page .buttons {
+    margin-top: 40px;
+}
+
+.page .cancel {
+    margin-right: 50px;
+}

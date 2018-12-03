@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
 import HomePage from './HomePage';
+import RestorePage from './RestorePage';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import style from './App.css';
@@ -28,7 +29,7 @@ export default function App() {
         <Route
           exact
           path="/restore"
-          component={ErrorPage}
+          component={RestorePage}
         />
         <Route
           exact

@@ -1,3 +1,5 @@
+const passwordMinLength = 1;
+
 const regulations =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
   'Sed porttitor non erat a aliquet. Pellentesque vulputate lacus at mauris congue ultricies. Lorem ipsum dolor sit ' +
@@ -17,5 +19,6 @@ const regulations =
 ;
 
 export default {
-  regulations
+  passwordMinLength,
+  regulations,
 };

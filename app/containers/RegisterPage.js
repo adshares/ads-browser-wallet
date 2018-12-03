@@ -1,6 +1,7 @@
 import React from 'react';
+import bip39 from 'bip39';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
@@ -15,7 +16,7 @@ export default class RegisterPage extends React.PureComponent {
     this.state = {
       password: '',
       password2: '',
-      seedPhrase: this.randSeedPhrase(),
+      seedPhrase: this.generateSeedPhrase(),
     };
     // This binding is necessary to make `this` work in the callback
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -25,19 +26,8 @@ export default class RegisterPage extends React.PureComponent {
     this.handleSeedPhraseSubmit = this.handleSeedPhraseSubmit.bind(this);
   }
 
-  randSeedPhrase() {
-    const seedPhrase = 'test' + Math.random();
-    return seedPhrase;
-  }
-
-  handleInputChange(event, callback) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    }, callback);
+  generateSeedPhrase() {
+    return bip39.generateMnemonic();
   }
 
   validatePasswords() {
@@ -49,6 +39,16 @@ export default class RegisterPage extends React.PureComponent {
 
     password2.setCustomValidity('');
     return true;
+  }
+
+  handleInputChange(event, callback) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    }, callback);
   }
 
   handlePasswordChange(event) {
@@ -67,7 +67,7 @@ export default class RegisterPage extends React.PureComponent {
     event.preventDefault();
     event.stopPropagation();
     this.setState({
-      seedPhrase: this.randSeedPhrase()
+      seedPhrase: this.generateSeedPhrase()
     }, callback);
   }
 
@@ -116,7 +116,7 @@ export default class RegisterPage extends React.PureComponent {
               autoFocus
               required
               placeholder="Password"
-              minLength="1"
+              minLength={config.passwordMinLength}
               name="password"
               value={this.state.password}
               onChange={this.handlePasswordChange}
@@ -128,17 +128,17 @@ export default class RegisterPage extends React.PureComponent {
               autoFocus
               required
               placeholder="Confirm password"
-              minLength="1"
+              minLength={config.passwordMinLength}
               name="password2"
               value={this.state.password2}
               onChange={this.handlePasswordChange}
             />
           </div>
-          <Button type="subbmit">Save</Button>
+          <div className={style.buttons}>
+            <ButtonLink to={'/register'} inverse>Back</ButtonLink>
+            <Button type="subbmit">Save</Button>
+          </div>
         </Form>
-        <div className={style.backLink}>
-          <Link to={'/register'}>Back</Link>
-        </div>
       </div>
     );
   }
@@ -150,9 +150,9 @@ export default class RegisterPage extends React.PureComponent {
           <h1>Terms and conditions</h1>
         </header>
         <div className={style.regulations}>{config.regulations}</div>
-        <ButtonLink to={'/register/seed'}>Accept</ButtonLink>
-        <div className={style.backLink}>
-          <Link to={'/register/password'}>Back</Link>
+        <div className={style.buttons}>
+          <ButtonLink to={'/register/password'} inverse>Back</ButtonLink>
+          <ButtonLink to={'/register/seed'}>Accept</ButtonLink>
         </div>
       </div>
     );
@@ -184,11 +184,11 @@ export default class RegisterPage extends React.PureComponent {
               readOnly
             />
           </div>
-          <Button type="submit">Save</Button>
+          <div className={style.buttons}>
+            <ButtonLink to={'/register/regulations'} inverse>Back</ButtonLink>
+            <Button type="submit">Save</Button>
+          </div>
         </Form>
-        <div className={style.backLink}>
-          <Link to={'/register/regulations'}>Back</Link>
-        </div>
       </div>
     );
   }

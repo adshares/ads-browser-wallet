@@ -29,14 +29,14 @@ export default class LoginPage extends React.PureComponent {
           <img alt="Adshares" src="img/logo.svg" />
           <h1>Live by ADS</h1>
         </div>
-        <Form action={this.handleLogin}>
+        <Form onSubmit={this.handleLogin}>
           <div>
-            <input type="password" autoFocus placeholder="Password" />
+            <input type="password" name="password" autoFocus required placeholder="Password" />
           </div>
           <Button type="subbmit">Log{this.state.isToggleOn ? 'in' : 'out'}</Button>
         </Form>
         <div className={style.restore}>
-          <Link to={'/restore'}>Restore account from seed</Link>
+          <Link to={'/restore'}>Restore the account from a seed</Link>
         </div>
       </div>
     );

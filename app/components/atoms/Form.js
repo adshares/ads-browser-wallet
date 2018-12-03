@@ -1,22 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import style from './Form.css';
 
 export default class Form extends React.Component {
   render() {
+    const { className, children, ...rest } = { ...this.props };
     return (
       <form
-        className={`${style.form} ${this.props.className}`}
-        onSubmit={this.props.action}
+        className={`${style.form} ${className || ''}`}
+        {...rest}
       >
-        {this.props.children}
+        {children}
       </form>
     );
   }
 }
-
-Form.propTypes = {
-  children: PropTypes.any,
-  className: PropTypes.strig,
-  action: PropTypes.func,
-};

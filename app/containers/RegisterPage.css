@@ -1,0 +1,77 @@
+.welcomePage {
+    text-align: center;
+    padding: 0 20px;
+}
+
+.welcomePage .logo {
+    margin: 50px auto 50px auto;
+}
+
+.welcomePage .logo img {
+    width: 200px;
+}
+
+.welcomePage .logo h1 {
+    margin-top: 0px;
+}
+
+.welcomePage .restore {
+    margin-top: 50px;
+    font-size: var(--font-smaller);
+}
+
+.newPasswordPage {
+    text-align: center;
+    padding: 0 50px;
+}
+
+.newPasswordPage p {
+    margin: 30px 0;
+}
+
+.regulationsPage {
+    text-align: center;
+    padding: 0 10px;
+}
+
+.regulationsPage .regulations {
+    width: 328px;
+    overflow: auto;
+    height: 390px;
+    text-align: justify;
+    border: 1px solid var(--gray);
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    white-space: pre-line;
+}
+
+.seedPhrasePage {
+    text-align: center;
+    padding: 0 10px;
+}
+
+.seedPhrasePage header {
+    margin-bottom: 50px;
+}
+
+.seedPhrasePage form {
+    margin-top: 60px;
+}
+
+.seedPhrasePage .refresh {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.seedPhrasePage textarea {
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.backLink {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    height: 25px;
+    text-align: left;
+}

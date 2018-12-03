@@ -3,10 +3,15 @@
 }
 
 .form input, .form textarea {
-    height: 50px;
     background-color: var(--white);
     font-size: var(--font-small);
     transition: all 250ms ease;
+    border: 1px solid var(--gray-dark);
+    border-radius: 3px !important;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    outline: 0;
 }
 
 .form input:focus, .form textarea:focus {
@@ -14,16 +19,11 @@
 }
 
 .form input {
-    border: 1px solid var(--gray-dark);
     line-height: 50px;
-    border-radius: 3px !important;
     text-indent: 15px;
-    box-sizing: border-box;
-    display: block;
-    width: 100%;
-    outline: 0;
+    height: 50px;
 }
 
 .form textarea {
-
+    padding: 15px;
 }

@@ -1,0 +1,59 @@
+.box {
+    color: var(--white);
+    padding: 15px;
+    margin: 0 0 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--blue-dark);
+}
+
+.box.success {
+    background-color: var(--green-dark);
+}
+
+.box.warning {
+    background-color: var(--yellow-dark);
+}
+
+.box.danger {
+    background-color: var(--red-dark);
+}
+
+.box > p {
+    color: var(--white);
+    margin: 0;
+    line-height: 24px;
+}
+
+.box.large > p {
+     opacity: 0.8;
+ }
+
+.box > h2 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 0 5px 0;
+    line-height: 24px;
+}
+
+.box > .icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    background-color: rgba(0,0,0,.05);
+}
+
+.box > .icon i {
+    position: absolute;
+    width: 60px;
+    height: 50px;
+    top: 50%;
+    margin-top: -25px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 24px;
+    color: var(--white);
+}

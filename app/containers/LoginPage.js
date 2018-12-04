@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
+import Logo from '../components/Logo';
 import style from './LoginPage.css';
 
 export default class LoginPage extends React.PureComponent {
@@ -26,7 +27,7 @@ export default class LoginPage extends React.PureComponent {
     return (
       <div className={style.page}>
         <div className={style.logo}>
-          <img alt="Adshares" src="img/logo.svg" />
+          <Logo />
           <h1>Live by ADS</h1>
         </div>
         <Form onSubmit={this.handleLogin}>

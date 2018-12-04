@@ -6,6 +6,7 @@ import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
+import Logo from '../components/Logo';
 import config from './../config';
 import style from './RegisterPage.css';
 
@@ -84,7 +85,7 @@ export default class RegisterPage extends React.PureComponent {
     return (
       <div className={style.welcomePage}>
         <header className={style.logo}>
-          <img alt="Adshares" src="img/logo.svg" />
+          <Logo />
           <h1>Live by ADS</h1>
         </header>
         <p>

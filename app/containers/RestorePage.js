@@ -1,5 +1,6 @@
 import React from 'react';
 import bip39 from 'bip39';
+import PropTypes from 'prop-types';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
@@ -71,8 +72,8 @@ export default class RestorePage extends React.PureComponent {
     if (this.validateSeedPhrase() && this.validatePasswords()) {
       event.preventDefault();
       event.stopPropagation();
-
-      console.debug(this.state);
+      this.props.restoreAction(this.state.password, this.state.seedPhrase);
+      this.props.history.push('/');
     }
   }
 
@@ -131,3 +132,8 @@ export default class RestorePage extends React.PureComponent {
     );
   }
 }
+
+RestorePage.propTypes = {
+  restoreAction: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+};

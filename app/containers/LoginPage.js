@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
@@ -10,17 +11,28 @@ export default class LoginPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isToggleOn: true
+      password: '',
     };
     // This binding is necessary to make `this` work in the callback
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
+  handleInputChange(event, callback) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    }, callback);
+  }
+
   handleLogin(event) {
-    this.setState(state => ({
-      isToggleOn: !state.isToggleOn
-    }));
     event.preventDefault();
+    event.stopPropagation();
+    this.props.loginAction(this.state.password);
+    this.props.history.push('/');
   }
 
   render() {
@@ -32,9 +44,17 @@ export default class LoginPage extends React.PureComponent {
         </div>
         <Form onSubmit={this.handleLogin}>
           <div>
-            <input type="password" name="password" autoFocus required placeholder="Password" />
+            <input
+              type="password"
+              autoFocus
+              required
+              placeholder="Password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleInputChange}
+            />
           </div>
-          <Button type="subbmit">Log{this.state.isToggleOn ? 'in' : 'out'}</Button>
+          <Button type="subbmit">Login</Button>
         </Form>
         <div className={style.restore}>
           <Link to={'/restore'}>Restore the account from a seed</Link>
@@ -43,3 +63,8 @@ export default class LoginPage extends React.PureComponent {
     );
   }
 }
+
+LoginPage.propTypes = {
+  loginAction: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+};

@@ -12,7 +12,7 @@ export default function (initialState, history) {
 
   const enhancer = composeEnhancers(
     applyMiddleware(thunk, routerMiddleware(history)),
-    storage(),
+    // storage(),
   );
 
   const store = createStore(createRootReducer(history), initialState, enhancer);

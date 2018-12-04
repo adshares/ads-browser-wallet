@@ -75,10 +75,8 @@ export default class RegisterPage extends React.PureComponent {
   handleSeedPhraseSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
-
-    console.debug(this.state);
-
-    // this.props.history.push('/');
+    this.props.registerAction(this.state.password, this.state.seedPhrase);
+    this.props.history.push('/');
   }
 
   renderWelcomePage() {
@@ -211,6 +209,7 @@ export default class RegisterPage extends React.PureComponent {
 }
 
 RegisterPage.propTypes = {
-  match: PropTypes.object,
-  history: PropTypes.object,
+  registerAction: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
-import bip39 from 'bip39';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import KeyBox from '../utils/keybox';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
@@ -17,7 +17,7 @@ export default class RegisterPage extends React.PureComponent {
     this.state = {
       password: '',
       password2: '',
-      seedPhrase: this.generateSeedPhrase(),
+      seedPhrase: KeyBox.generateSeedPhrase(),
     };
     // This binding is necessary to make `this` work in the callback
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -25,10 +25,6 @@ export default class RegisterPage extends React.PureComponent {
     this.handlePasswordSubmit = this.handlePasswordSubmit.bind(this);
     this.handleSeedPhraseRefresh = this.handleSeedPhraseRefresh.bind(this);
     this.handleSeedPhraseSubmit = this.handleSeedPhraseSubmit.bind(this);
-  }
-
-  generateSeedPhrase() {
-    return bip39.generateMnemonic();
   }
 
   validatePasswords() {
@@ -68,7 +64,7 @@ export default class RegisterPage extends React.PureComponent {
     event.preventDefault();
     event.stopPropagation();
     this.setState({
-      seedPhrase: this.generateSeedPhrase()
+      seedPhrase: KeyBox.generateSeedPhrase()
     }, callback);
   }
 
@@ -124,7 +120,6 @@ export default class RegisterPage extends React.PureComponent {
           <div>
             <input
               type="password"
-              autoFocus
               required
               placeholder="Confirm password"
               minLength={config.passwordMinLength}

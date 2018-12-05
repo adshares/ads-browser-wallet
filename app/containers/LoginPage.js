@@ -15,6 +15,7 @@ export default class LoginPage extends React.PureComponent {
     };
     // This binding is necessary to make `this` work in the callback
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
@@ -28,11 +29,23 @@ export default class LoginPage extends React.PureComponent {
     }, callback);
   }
 
+  handlePasswordChange(event) {
+    this.handleInputChange(event, () => {
+      document.querySelector('[name=password]').setCustomValidity('');
+    });
+  }
+
   handleLogin(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.props.loginAction(this.state.password);
-    this.props.history.push('/');
+    try {
+      this.props.loginAction(this.state.password);
+      this.props.history.push('/');
+    } catch (err) {
+      const password = document.querySelector('[name=password]');
+      password.setCustomValidity('Invalid password');
+      password.reportValidity();
+    }
   }
 
   render() {
@@ -51,7 +64,7 @@ export default class LoginPage extends React.PureComponent {
               placeholder="Password"
               name="password"
               value={this.state.password}
-              onChange={this.handleInputChange}
+              onChange={this.handlePasswordChange}
             />
           </div>
           <Button type="subbmit">Login</Button>

@@ -8,7 +8,7 @@ import RestorePage from './RestorePage';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import style from './App.css';
-import * as ValutActions from '../actions/valut';
+import * as VaultActions from '../actions/vault';
 
 function NotFoundErrorPage(props) {
   return (
@@ -38,7 +38,7 @@ function PrivateRoute({ ...params }) {
     router: state.router,
   }),
   dispatch => ({
-    actions: bindActionCreators(ValutActions, dispatch)
+    actions: bindActionCreators(VaultActions, dispatch)
   })
 )
 export default class App extends Component {
@@ -62,11 +62,11 @@ export default class App extends Component {
             path="/restore"
             render={props => <RestorePage restoreAction={actions.create} {...props} />}
           />
-          <Route
+          { !vault.empty ? <Route
             exact
             path="/login"
             render={props => <LoginPage loginAction={actions.unseal} {...props} />}
-          />
+          /> : '' }
           { vault.empty ? <Route
             exact
             path="/register/:step([a-z]+)?"

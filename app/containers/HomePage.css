@@ -1,0 +1,5 @@
+.page .tableWrapper {
+    width: 100%;
+    overflow: auto;
+    margin: 20px 0;
+}

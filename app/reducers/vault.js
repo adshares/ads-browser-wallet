@@ -1,30 +1,46 @@
 import * as ActionTypes from '../constants/ActionTypes';
+import KeyBox from '../utils/keybox';
+import VaultCrypt from '../utils/vaultcrypt';
+import config from '../config';
 
 const initialState = {
   empty: true,
   sealed: true,
-  seed: '',
-  keys: []
+  secrets: '',
 };
 
 const actionsMap = {
-  [ActionTypes.CREATE_VALUT](state, action) {
-    console.debug(action);
+
+  [ActionTypes.CREATE_VAULT](state, action) {
+    const unsealedVault = {
+      empty: false,
+      sealed: false,
+      seedPhrase: action.seedPhrase,
+      keys: KeyBox.generateKeys(action.seedPhrase, config.initKeysQuantity),
+    };
+    unsealedVault.secret = VaultCrypt.encrypt(unsealedVault, action.password);
+
+    return unsealedVault;
+  },
+
+  [ActionTypes.UNSEAL_VAULT](state, action) {
+    const unsealedVault = VaultCrypt.decrypt(state, action.password);
     return {
       ...state,
-      empty: false
+      ...unsealedVault,
     };
   },
-  [ActionTypes.UNSEAL_VALUT](state, action) {
-    console.debug(action);
+
+  [ActionTypes.SEAL_VAULT](state, action) {
     return {
       ...state,
-      sealed: false
+      sealed: true,
+      secret: VaultCrypt.encrypt(state, action.password)
     };
   },
 };
 
-export default function valut(state = initialState, action) {
+export default function vault(state = initialState, action) {
   const reduceFn = actionsMap[action.type];
   if (!reduceFn) return state;
   return reduceFn(state, action);

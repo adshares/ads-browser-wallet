@@ -65,6 +65,9 @@ const baseDevConfig = () => ({
         }
       ]
     }]
+  },
+  node: {
+    fs: 'empty'
   }
 });
 

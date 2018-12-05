@@ -6,7 +6,7 @@ import './adswallet.css';
 
 chrome.storage.local.get('state', (obj) => {
   const { state } = obj;
-  const initialState = JSON.parse(state || '{}');
+  const initialState = JSON.parse(state || '{"vault":{}}');
   initialState.vault.sealed = true;
   initialState.vault.empty = !initialState.vault.secret || !initialState.vault.secret.length === 0;
   console.debug('initialState', initialState);

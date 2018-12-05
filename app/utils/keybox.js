@@ -22,20 +22,21 @@ function generateMasterKey(seedPhrase) {
 
 function generateNextKey(seedPhrase, index) {
   const seed = bip39.mnemonicToSeedHex(seedPhrase);
-  return generateKeyPair(seed, `m/0'/${index}'`);
+  return generateKeyPair(seed, `m/${index}'`);
 }
 
 function generateKeys(seedPhrase, quantity) {
+  const seed = bip39.mnemonicToSeedHex(seedPhrase);
   const keys = [];
   keys.push({
     name: 'master',
-    ...generateMasterKey(seedPhrase)
+    ...generateKeyPair(seed)
   });
   for (let i = 1; i <= quantity; i++) {
-    const n = i.toString().padStart(3, '0');
+    const n = i.toString().padStart(2, '0');
     keys.push({
       name: `N${n}`,
-      ...generateNextKey(seedPhrase, i)
+      ...generateKeyPair(seed, `m/${i}'`)
     });
   }
 

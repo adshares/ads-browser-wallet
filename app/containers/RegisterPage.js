@@ -71,7 +71,9 @@ export default class RegisterPage extends React.PureComponent {
   handleSeedPhraseSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
+    event.target.disabled = true;
     this.props.registerAction(this.state.password, this.state.seedPhrase);
+    event.target.disabled = false;
     this.props.history.push('/');
   }
 

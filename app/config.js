@@ -1,6 +1,6 @@
 const passwordMinLength = 1;
 
-const initKeysQuantity = 1;
+const initKeysQuantity = 10;
 
 const regulations =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +

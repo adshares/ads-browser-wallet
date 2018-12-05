@@ -72,7 +72,9 @@ export default class RestorePage extends React.PureComponent {
     if (this.validateSeedPhrase() && this.validatePasswords()) {
       event.preventDefault();
       event.stopPropagation();
+      event.target.disabled = true;
       this.props.restoreAction(this.state.password, this.state.seedPhrase);
+      event.target.disabled = false;
       this.props.history.push('/');
     }
   }
@@ -111,7 +113,6 @@ export default class RestorePage extends React.PureComponent {
           <div>
             <input
               type="password"
-              autoFocus
               required
               placeholder="Confirm password"
               minLength={config.passwordMinLength}

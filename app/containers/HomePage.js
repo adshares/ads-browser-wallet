@@ -17,9 +17,7 @@ export default class HomePage extends React.PureComponent {
           <h1>
             Home
           </h1>
-          <Link to={'/login'}>Login</Link>&nbsp;
-          <Link to={'/restore'}>Restore</Link>&nbsp;
-          <Link to={'/register'}>Register</Link>
+          <Link to={'/login'}>Login</Link>
         </section>
         <hr />
         <div className={style.tableWrapper}>

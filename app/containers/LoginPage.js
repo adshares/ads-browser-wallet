@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import Logo from '../components/Logo';
@@ -67,7 +69,9 @@ export default class LoginPage extends React.PureComponent {
               onChange={this.handlePasswordChange}
             />
           </div>
-          <Button type="subbmit">Login</Button>
+          <Button type="submit" icon="right">
+            Login <FontAwesomeIcon icon={faChevronRight} />
+          </Button>
         </Form>
         <div className={style.restore}>
           <Link to={'/restore'}>Restore the account from a seed</Link>

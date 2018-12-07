@@ -5,6 +5,7 @@
     border-radius: 12px;
     overflow: hidden;
     background: var(--blue-dark);
+    position: relative;
 }
 
 .box.success {
@@ -37,6 +38,10 @@
     line-height: 24px;
 }
 
+.box.hasIcon {
+    padding-left: 80px;
+}
+
 .box > .icon {
     position: absolute;
     top: 0;
@@ -46,11 +51,12 @@
     background-color: rgba(0,0,0,.05);
 }
 
-.box > .icon i {
+.box > .icon svg {
     position: absolute;
     width: 60px;
     height: 50px;
     top: 50%;
+    left: 0;
     margin-top: -25px;
     line-height: 50px;
     text-align: center;

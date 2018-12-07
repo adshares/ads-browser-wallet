@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faExclamation } from '@fortawesome/free-solid-svg-icons';
 import KeyBox from '../utils/keybox';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
@@ -172,7 +172,7 @@ export default class RegisterPage extends React.PureComponent {
         <header>
           <h1>Mnemonic seed phrase</h1>
         </header>
-        <Box title="Warning" type="danger">
+        <Box title="Warning" type="danger" icon={faExclamation}>
           A seed phrase includes all the information needed to recover a wallet.
           Please write it down on paper and store safely.
         </Box>

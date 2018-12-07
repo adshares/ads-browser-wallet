@@ -1,4 +1,5 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Box.css';
 
 export default class Box extends React.Component {
@@ -6,6 +7,7 @@ export default class Box extends React.Component {
     const {
       type,
       title,
+      icon,
       className,
       children,
       ...rest
@@ -19,6 +21,9 @@ export default class Box extends React.Component {
     if (type) {
       classNames.push(style[type]);
     }
+    if (icon) {
+      classNames.push(style.hasIcon);
+    }
     if (className) {
       classNames.push(className);
     }
@@ -26,6 +31,9 @@ export default class Box extends React.Component {
 
     return (
       <div className={styleClassName} {...rest}>
+        {icon ? <div className={style.icon}>
+          <FontAwesomeIcon icon={icon} />
+        </div> : ''}
         {title ? <h2>{title}</h2> : ''}
         <p>{children}</p>
       </div>

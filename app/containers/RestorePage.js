@@ -1,6 +1,8 @@
 import React from 'react';
 import bip39 from 'bip39';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faTimes, faExclamation } from '@fortawesome/free-solid-svg-icons';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
@@ -85,7 +87,7 @@ export default class RestorePage extends React.PureComponent {
         <header>
           <h1>Restore the account</h1>
         </header>
-        <Box type="warning">
+        <Box type="warning" icon={faExclamation}>
           Restoring your account will overwrite all current data.
         </Box>
         <Form onSubmit={this.handleRestoreSubmit}>
@@ -122,13 +124,14 @@ export default class RestorePage extends React.PureComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink className={style.cancel} to={'/'} inverse>Cancel</ButtonLink>
-            <Button type="subbmit">Restore</Button>
+            <ButtonLink className={style.cancel} to={'/'} inverse icon="left">
+              <FontAwesomeIcon icon={faTimes} /> Cancel
+            </ButtonLink>
+            <Button type="subbmit" icon="right">
+              Restore <FontAwesomeIcon icon={faChevronRight} />
+            </Button>
           </div>
         </Form>
-        <div className={style.restore}>
-
-        </div>
       </div>
     );
   }

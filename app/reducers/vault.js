@@ -25,6 +25,18 @@ const actionsMap = {
     return vault;
   },
 
+  [ActionTypes.EREASE_VAULT]() {
+    console.debug('EREASE_VAULT');
+    const vault = {
+      empty: true,
+      sealed: true,
+      secret: '',
+    };
+    VaultCrypt.save(vault);
+
+    return vault;
+  },
+
   [ActionTypes.UNSEAL_VAULT](vault, action) {
     console.debug('UNSEAL_VAULT');
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);

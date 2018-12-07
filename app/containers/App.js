@@ -76,7 +76,7 @@ export default class App extends Component {
             exact
             path="/(popup.html)?"
             vault={vault}
-            render={props => <HomePage vault={vault} logoutAction={actions.seal} {...props} />}
+            render={props => <HomePage vault={vault} logoutAction={actions.seal} ereaseAction={actions.erease} {...props} />}
           />
           <PrivateRoute
             exact

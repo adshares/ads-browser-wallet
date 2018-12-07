@@ -4,8 +4,24 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import style from './HomePage.css';
+import * as VaultActions from '../actions/vault';
+import KeyBox from '../utils/keybox'
 
 export default class HomePage extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    // This binding is necessary to make `this` work in the callback
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+  }
+
+
+  handleLogoutClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    console.debug('handleLOgoutClick');
+    this.props.logoutAction();
+  }
 
   render() {
     const vault = this.props.vault;
@@ -17,7 +33,7 @@ export default class HomePage extends React.PureComponent {
           <h1>
             Home
           </h1>
-          <Link to={'/login'}>Login</Link>
+          <Link to={'/'} onClick={this.handleLogoutClick} >Logout</Link>
         </section>
         <hr />
         <div className={style.tableWrapper}>
@@ -49,4 +65,5 @@ export default class HomePage extends React.PureComponent {
 HomePage.propTypes = {
   history: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
+  logoutAction: PropTypes.func.isRequired,
 };

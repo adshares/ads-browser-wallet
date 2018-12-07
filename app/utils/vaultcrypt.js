@@ -1,5 +1,20 @@
 const CryptoJS = require('crypto-js');
 
+function loadVault(callback) {
+  chrome.storage.sync.get('vault', (result) => {
+    const vault = {
+      secret: result.vault || '',
+      sealed: true,
+      empty: !result.vault || result.vault.length === 0,
+    };
+    callback(vault);
+  });
+}
+
+function saveVault(vault, callback) {
+  chrome.storage.sync.set({ vault: vault.secret || '' }, callback);
+}
+
 function encryptVault(vault, password) {
   const data = { ...vault };
   delete data.secret;
@@ -25,6 +40,8 @@ function decryptVault(vault, password) {
 }
 
 export default {
+  load: loadVault,
+  save: saveVault,
   encrypt: encryptVault,
   decrypt: decryptVault,
 };

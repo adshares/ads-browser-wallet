@@ -1,10 +1,6 @@
 function saveState(state) {
-  const sealedState = {
-    ...state,
-    vault: {
-      secret: state.vault && state.vault.secret ? state.vault.secret : null
-    }
-  };
+  const sealedState = { ...state };
+  delete sealedState.vault;
   chrome.storage.local.set({ state: JSON.stringify(sealedState) });
 }
 

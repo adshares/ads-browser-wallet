@@ -12,35 +12,47 @@ const initialState = {
 const actionsMap = {
 
   [ActionTypes.CREATE_VAULT](state, action) {
-    const unsealedVault = {
+    console.debug('CREATE_VAULT');
+    const vault = {
       empty: false,
       sealed: false,
       seedPhrase: action.seedPhrase,
       keys: KeyBox.generateKeys(action.seedPhrase, config.initKeysQuantity),
     };
-    unsealedVault.secret = VaultCrypt.encrypt(unsealedVault, action.password);
+    vault.secret = VaultCrypt.encrypt(vault, action.password);
+    VaultCrypt.save(vault);
 
-    return unsealedVault;
+    return vault;
   },
 
-  [ActionTypes.UNSEAL_VAULT](state, action) {
-    const unsealedVault = VaultCrypt.decrypt(state, action.password);
+  [ActionTypes.UNSEAL_VAULT](vault, action) {
+    console.debug('UNSEAL_VAULT');
+    const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
-      ...state,
+      ...vault,
       ...unsealedVault,
     };
   },
 
-  [ActionTypes.SEAL_VAULT](state, action) {
+  [ActionTypes.SEAL_VAULT](vault) {
+    console.debug('SEAL_VAULT');
     return {
-      ...state,
+      secret: vault.secret,
+      empty: vault.empty,
       sealed: true,
-      secret: VaultCrypt.encrypt(state, action.password)
+    };
+  },
+
+  [ActionTypes.SYNC_VAULT](vault, action) {
+    console.debug('SYNC_VAULT');
+    return {
+      ...vault,
+      secret: VaultCrypt.encrypt(vault, action.password)
     };
   },
 };
 
-export default function vault(state = initialState, action) {
+export default function (state = initialState, action) {
   const reduceFn = actionsMap[action.type];
   if (!reduceFn) return state;
   return reduceFn(state, action);

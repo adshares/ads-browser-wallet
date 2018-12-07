@@ -20,5 +20,5 @@
     "page": "background.html"
   },
   "permissions": [ "storage", "unlimitedStorage" ],
-  "content_security_policy": "default-src 'self'; script-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:;"
+  "content_security_policy": "default-src 'self'; script-src 'self'; style-src * 'unsafe-inline';font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' data:"
 }

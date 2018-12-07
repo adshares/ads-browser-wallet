@@ -16,10 +16,11 @@ function saveVault(vault, callback) {
 }
 
 function encryptVault(vault, password) {
-  const data = { ...vault };
-  delete data.secret;
-
-  return CryptoJS.AES.encrypt(JSON.stringify(data), password).toString();
+  return CryptoJS.AES.encrypt(JSON.stringify({
+    seedPhrase: vault.seedPhrase,
+    seed: vault.seed,
+    keyCount: vault.keys.length,
+  }), password).toString();
 }
 
 function decryptVault(vault, password) {

@@ -17,8 +17,9 @@ const actionsMap = {
       empty: false,
       sealed: false,
       seedPhrase: action.seedPhrase,
-      keys: KeyBox.generateKeys(action.seedPhrase, config.initKeysQuantity),
     };
+    vault.seed = KeyBox.seedPhraseToHex(action.seedPhrase);
+    vault.keys = KeyBox.generateKeys(vault.seed, config.initKeysQuantity);
     vault.secret = VaultCrypt.encrypt(vault, action.password);
     VaultCrypt.save(vault);
 
@@ -43,6 +44,8 @@ const actionsMap = {
     return {
       ...vault,
       ...unsealedVault,
+      keys: KeyBox.generateKeys(unsealedVault.seed, unsealedVault.keyCount || config.initKeysQuantity),
+      sealed: false,
     };
   },
 

@@ -15,28 +15,25 @@ function generateKeyPair(seed, path) {
   };
 }
 
-function generateMasterKey(seedPhrase) {
-  const seed = bip39.mnemonicToSeedHex(seedPhrase);
-  return generateKeyPair(seed);
+function seedPhraseToHex(seedPhrase) {
+  return bip39.mnemonicToSeedHex(seedPhrase);
 }
 
-function generateNextKey(seedPhrase, index) {
-  const seed = bip39.mnemonicToSeedHex(seedPhrase);
+function generateNextKey(seed, index) {
   return generateKeyPair(seed, `m/${index}'`);
 }
 
-function generateKeys(seedPhrase, quantity) {
-  const seed = bip39.mnemonicToSeedHex(seedPhrase);
+function generateKeys(seed, quantity) {
   const keys = [];
   keys.push({
     name: 'master',
     ...generateKeyPair(seed)
   });
-  for (let i = 1; i <= quantity; i++) {
+  for (let i = 1; i < quantity; i++) {
     const n = i.toString().padStart(2, '0');
     keys.push({
       name: `N${n}`,
-      ...generateKeyPair(seed, `m/${i}'`)
+      ...generateNextKey(seed, i)
     });
   }
 
@@ -48,8 +45,8 @@ function generateSeedPhrase() {
 }
 
 export default {
+  seedPhraseToHex,
   generateKeys,
-  generateMasterKey,
   generateNextKey,
   generateSeedPhrase
 };

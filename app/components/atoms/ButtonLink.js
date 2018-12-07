@@ -10,6 +10,7 @@ export default class ButtonLink extends React.Component {
       type,
       size,
       inverse,
+      icon,
       ...rest
     } = { ...this.props };
 
@@ -23,6 +24,9 @@ export default class ButtonLink extends React.Component {
     }
     if (inverse) {
       classNames.push(style.inverse);
+    }
+    if (icon) {
+      classNames.push(style[`icon-${icon}`]);
     }
     if (className) {
       classNames.push(className);

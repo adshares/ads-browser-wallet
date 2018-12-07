@@ -9,11 +9,12 @@
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 3px;
-    outline:none;
+    outline: none;
     color: var(--white);
     background: var(--blue-dark);
     border: 1px solid var(--blue-dark);
     text-decoration: none;
+    vertical-align: middle;
 }
 
 .button.success {
@@ -78,4 +79,20 @@
 
 .button.inverse:hover {
     color: var(--white);
+}
+
+.button.icon-left {
+    padding-left: 10px;
+}
+
+.button.icon-right {
+    padding-right: 10px;
+}
+
+.button.icon-left svg {
+    margin-right: 5px;
+}
+
+.button.icon-right svg {
+    margin-left: 5px;
 }

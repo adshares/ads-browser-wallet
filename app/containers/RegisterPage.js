@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import KeyBox from '../utils/keybox';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
@@ -89,7 +91,9 @@ export default class RegisterPage extends React.PureComponent {
           Suspendisse ultricies suscipit volutpat. Nulla a dui suscipit, vehicula metus sed,
           molestie nibh.
         </p>
-        <ButtonLink to="/register/password">Start</ButtonLink>
+        <ButtonLink to="/register/password" icon="right">
+          Start <FontAwesomeIcon icon={faChevronRight} />
+        </ButtonLink>
         <div className={style.restore}>
           <Link to={'/restore'}>Restore the account from a seed</Link>
         </div>
@@ -131,8 +135,12 @@ export default class RegisterPage extends React.PureComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink to={'/register'} inverse>Back</ButtonLink>
-            <Button type="subbmit">Save</Button>
+            <ButtonLink to={'/register'} inverse icon="left">
+              <FontAwesomeIcon icon={faChevronLeft} /> Back
+            </ButtonLink>
+            <Button type="subbmit" icon="right">
+              Next <FontAwesomeIcon icon={faChevronRight} />
+            </Button>
           </div>
         </Form>
       </div>
@@ -147,8 +155,12 @@ export default class RegisterPage extends React.PureComponent {
         </header>
         <div className={style.regulations}>{config.regulations}</div>
         <div className={style.buttons}>
-          <ButtonLink to={'/register/password'} inverse>Back</ButtonLink>
-          <ButtonLink to={'/register/seed'}>Accept</ButtonLink>
+          <ButtonLink to={'/register/password'} inverse icon="left">
+            <FontAwesomeIcon icon={faChevronLeft} /> Back
+          </ButtonLink>
+          <ButtonLink to={'/register/seed'} icon="right">
+            Accept <FontAwesomeIcon icon={faChevronRight} />
+          </ButtonLink>
         </div>
       </div>
     );
@@ -181,8 +193,12 @@ export default class RegisterPage extends React.PureComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink to={'/register/regulations'} inverse>Back</ButtonLink>
-            <Button type="submit">Save</Button>
+            <ButtonLink to={'/register/regulations'} inverse icon="left">
+              <FontAwesomeIcon icon={faChevronLeft} /> Back
+            </ButtonLink>
+            <Button type="submit" icon="right">
+              Save <FontAwesomeIcon icon={faChevronRight} />
+            </Button>
           </div>
         </Form>
       </div>

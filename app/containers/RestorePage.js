@@ -18,6 +18,7 @@ export default class RestorePage extends React.PureComponent {
       password: '',
       password2: '',
       seedPhrase: '',
+      showLoader: false,
     };
     // This binding is necessary to make `this` work in the callback
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -71,17 +72,30 @@ export default class RestorePage extends React.PureComponent {
   }
 
   handleRestoreSubmit(event) {
+    console.group('handleRestoreSubmit')
+    console.log('condition', (this.validateSeedPhrase() && this.validatePasswords()));
+    console.log('this', this);
+    console.log('this.state.showLoader', this.state.showLoader);
     if (this.validateSeedPhrase() && this.validatePasswords()) {
       event.preventDefault();
       event.stopPropagation();
-      event.target.disabled = true;
-      this.props.restoreAction(this.state.password, this.state.seedPhrase);
-      event.target.disabled = false;
-      this.props.history.push('/');
+      this.setState({
+        showLoader: true
+      }, () => {
+        event.target.disabled = true;
+        this.props.restoreAction(this.state.password, this.state.seedPhrase);
+        event.target.disabled = false;
+        this.props.history.push('/');
+        console.log('showLoader is true');
+      });
     }
+    console.log('this.state.showLoader', this.state.showLoader);
+    console.groupEnd()
   }
 
   render() {
+    console.log('render', this.state.showLoader)
+
     return (
       <div className={style.page}>
         <header>

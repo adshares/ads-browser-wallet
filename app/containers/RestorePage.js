@@ -90,7 +90,7 @@ export default class RestorePage extends React.PureComponent {
         <header>
           <h1>Restore the account</h1>
         </header>
-        <Box type="warning" icon={faExclamation}>
+        <Box layout="warning" icon={faExclamation}>
           Restoring your account will overwrite all current data.
         </Box>
         <Form onSubmit={this.handleRestoreSubmit}>

@@ -172,7 +172,7 @@ export default class RegisterPage extends React.PureComponent {
         <header>
           <h1>Mnemonic seed phrase</h1>
         </header>
-        <Box title="Warning" type="danger" icon={faExclamation}>
+        <Box title="Warning" layout="danger" icon={faExclamation}>
           A seed phrase includes all the information needed to recover a wallet.
           Please write it down on paper and store safely.
         </Box>

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 import style from './HomePage.css';
 
 export default class HomePage extends React.PureComponent {

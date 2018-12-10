@@ -1,0 +1,15 @@
+.select {
+    width: 20px;
+    margin: 5em auto;
+    color: var(--purple);
+    text-transform: uppercase;
+    position: relative;
+    transition: width 0.5s;
+    will-change: width;
+}
+
+.option {
+    padding: 1em;
+    cursor: pointer;
+    background-color: #485761;
+}

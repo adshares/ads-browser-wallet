@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
-import Logo from '../components/Logo';
+import Logo from '../components/Logo/Logo';
 import style from './LoginPage.css';
 
 export default class LoginPage extends React.PureComponent {

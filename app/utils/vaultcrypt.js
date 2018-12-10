@@ -1,5 +1,15 @@
 const CryptoJS = require('crypto-js');
 
+function checkPassword(vault, password) {
+  try {
+    CryptoJS.AES.decrypt(vault.secret, password).toString(CryptoJS.enc.Utf8);
+    return true;
+  } catch (err) {
+    // Error means that data cannot be decrypted with given password.
+    return false;
+  }
+}
+
 function loadVault(callback) {
   chrome.storage.sync.get('vault', (result) => {
     const vault = {
@@ -25,23 +35,11 @@ function encryptVault(vault, password) {
 }
 
 function decryptVault(vault, password) {
-  let decrypted;
-  try {
-    // Encoder CryptoJS.enc.Utf8 below is needed to properly encode decrypted data
-    decrypted = CryptoJS.AES.decrypt(vault.secret, password).toString(CryptoJS.enc.Utf8);
-  } catch (err) {
-    // Error means that data cannot be decrypted with given password.
-    decrypted = undefined;
-  }
-
-  if (!decrypted) {
-    throw new Error('Invalid password');
-  } else {
-    return JSON.parse(decrypted);
-  }
+  return JSON.parse(CryptoJS.AES.decrypt(vault.secret, password).toString(CryptoJS.enc.Utf8));
 }
 
 export default {
+  checkPassword,
   load: loadVault,
   save: saveVault,
   encrypt: encryptVault,

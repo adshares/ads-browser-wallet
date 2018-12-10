@@ -8,6 +8,7 @@ import RestorePage from './RestorePage';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import SettingsPage from './SettingsPage';
+import ImportAccountPage from './ImportAccountPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 
@@ -84,6 +85,12 @@ export default class App extends Component {
             path="/settings"
             vault={vault}
             render={props => <SettingsPage vault={vault} ereaseAction={actions.erease} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/accounts/import"
+            vault={vault}
+            render={props => <ImportAccountPage vault={vault} importAction={actions.erease} {...props} />}
           />
           <PrivateRoute
             exact

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { InvalidPasswordError } from '../actions/errors';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import Logo from '../components/Logo';
@@ -44,9 +45,13 @@ export default class LoginPage extends React.PureComponent {
       this.props.loginAction(this.state.password);
       this.props.history.push('/');
     } catch (err) {
-      const password = document.querySelector('[name=password]');
-      password.setCustomValidity('Invalid password');
-      password.reportValidity();
+      if (err instanceof InvalidPasswordError) {
+        const password = document.querySelector('[name=password]');
+        password.setCustomValidity('Invalid password');
+        password.reportValidity();
+      } else {
+        throw err;
+      }
     }
   }
 

@@ -1,13 +1,10 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
+import { InvalidPasswordError } from '../actions/errors';
 import config from '../config';
 
-const initialState = {
-  empty: true,
-  sealed: true,
-  secrets: '',
-};
+const initialState = {};
 
 const actionsMap = {
 
@@ -46,6 +43,9 @@ const actionsMap = {
 
   [ActionTypes.UNSEAL_VAULT](vault, action) {
     console.debug('UNSEAL_VAULT');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
       accounts: [],
@@ -68,12 +68,22 @@ const actionsMap = {
     };
   },
 
-  [ActionTypes.SYNC_VAULT](vault, action) {
-    console.debug('SYNC_VAULT');
-    return {
-      ...vault,
-      secret: VaultCrypt.encrypt(vault, action.password)
-    };
+  [ActionTypes.ADD_ACCOUNT](vault, action) {
+    console.debug('ADD_ACCOUNT');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
+
+    const updatedVault = { ...vault };
+    updatedVault.accounts.push({
+      name: action.name,
+      id: action.accountId,
+      publicKey: action.publicKey,
+    });
+    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
+    VaultCrypt.save(updatedVault, action.callback);
+
+    return updatedVault;
   },
 };
 

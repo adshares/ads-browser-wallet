@@ -20,6 +20,7 @@ function encryptVault(vault, password) {
     seedPhrase: vault.seedPhrase,
     seed: vault.seed,
     keyCount: vault.keys.length,
+    accounts: vault.accounts,
   }), password).toString();
 }
 

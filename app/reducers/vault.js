@@ -20,6 +20,7 @@ const actionsMap = {
     };
     vault.seed = KeyBox.seedPhraseToHex(action.seedPhrase);
     vault.keys = KeyBox.generateKeys(vault.seed, config.initKeysQuantity);
+    vault.accounts = [];
     vault.secret = VaultCrypt.encrypt(vault, action.password);
 
     if (action.callback) {
@@ -47,9 +48,13 @@ const actionsMap = {
     console.debug('UNSEAL_VAULT');
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
+      accounts: [],
       ...vault,
       ...unsealedVault,
-      keys: KeyBox.generateKeys(unsealedVault.seed, unsealedVault.keyCount || config.initKeysQuantity),
+      keys: KeyBox.generateKeys(
+        unsealedVault.seed,
+        unsealedVault.keyCount || config.initKeysQuantity
+      ),
       sealed: false,
     };
   },

@@ -6,7 +6,7 @@ export default class Button extends React.Component {
     const {
       className,
       children,
-      type,
+      layout,
       size,
       inverse,
       icon,
@@ -15,8 +15,8 @@ export default class Button extends React.Component {
 
     const classNames = [];
     classNames.push(style.button);
-    if (type) {
-      classNames.push(style[type]);
+    if (layout) {
+      classNames.push(style[layout]);
     }
     if (size) {
       classNames.push(style[size]);

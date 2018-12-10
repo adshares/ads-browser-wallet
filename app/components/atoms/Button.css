@@ -61,6 +61,10 @@
     padding: 0 10px;
 }
 
+.button.wide {
+    width: 100%;
+}
+
 .button:hover {
     background-color: var(--blue);
     border-color: var(--blue);

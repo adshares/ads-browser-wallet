@@ -1,0 +1,29 @@
+@keyframes rotate {
+    to {
+        transform: rotate(90deg);
+    }
+}
+@keyframes scale {
+    to {
+        transform: scale(1);
+    }
+}
+
+.loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0);
+    pointer-events: all;
+}
+
+.spinner {
+  height: 60px;
+  width: 60px;
+  animation: rotate 2s linear;
+}

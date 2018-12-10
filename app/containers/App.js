@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ErrorPage from './ErrorPage';
 import HomePage from './HomePage';
 import RestorePage from './RestorePage';
@@ -9,6 +12,8 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
+
+library.add(faSpinner);
 
 function NotFoundErrorPage(props) {
   return (

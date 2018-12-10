@@ -9,6 +9,7 @@ import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
 import config from '../config';
 import style from './RestorePage.css';
+import LoaderOverlay from '../components/atoms/LoaderOverlay';
 
 export default class RestorePage extends React.PureComponent {
 
@@ -90,7 +91,7 @@ export default class RestorePage extends React.PureComponent {
       });
     }
     console.log('this.state.showLoader', this.state.showLoader);
-    console.groupEnd()
+    console.groupEnd();
   }
 
   render() {
@@ -104,6 +105,7 @@ export default class RestorePage extends React.PureComponent {
         <Box type="warning" icon={faExclamation}>
           Restoring your account will overwrite all current data.
         </Box>
+        <LoaderOverlay />
         <Form onSubmit={this.handleRestoreSubmit}>
           <div>
             <textarea

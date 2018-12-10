@@ -1,11 +1,12 @@
 @keyframes rotate {
     to {
-        transform: rotate(90deg);
+        transform: rotate(360deg);
     }
 }
-@keyframes scale {
+
+@keyframes fade-in {
     to {
-        transform: scale(1);
+        opacity: 1;
     }
 }
 
@@ -13,17 +14,22 @@
     position: absolute;
     top: 0;
     left: 0;
+    opacity: 0;
     width: 100%;
     height: 100%;
     display: flex;
+    z-index: 10;
     justify-content: center;
     align-items: center;
-    transform: scale(0);
     pointer-events: all;
+    background-color: rgba(255, 255, 255, 0.7);
+    animation: fade-in 0.1s linear;
+    animation-fill-mode: forwards;
 }
 
 .spinner {
-  height: 60px;
-  width: 60px;
-  animation: rotate 2s linear;
+    min-height: 60px;
+    min-width: 60px;
+    animation: rotate 1s linear infinite;
+    color: var(--slate-dark);
 }

@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
-export function create(password, seedPhrase) {
-  return { type: types.CREATE_VAULT, password, seedPhrase };
+export function create(password, seedPhrase, callback) {
+  return { type: types.CREATE_VAULT, password, seedPhrase, callback };
 }
 
 export function erease() {

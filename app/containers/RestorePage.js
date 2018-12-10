@@ -9,6 +9,7 @@ import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
 import config from '../config';
 import style from './RestorePage.css';
+import LoaderOverlay from '../components/atoms/LoaderOverlay';
 
 export default class RestorePage extends React.PureComponent {
 
@@ -18,12 +19,8 @@ export default class RestorePage extends React.PureComponent {
       password: '',
       password2: '',
       seedPhrase: '',
+      isSubmitted: false,
     };
-    // This binding is necessary to make `this` work in the callback
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSeedPhraseChange = this.handleSeedPhraseChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleRestoreSubmit = this.handleRestoreSubmit.bind(this);
   }
 
   validateSeedPhrase() {
@@ -44,7 +41,7 @@ export default class RestorePage extends React.PureComponent {
   validatePasswords() {
     const password2 = document.querySelector('[name=password2]');
     if (this.state.password !== this.state.password2) {
-      password2.setCustomValidity("Passwords don't match");
+      password2.setCustomValidity('Passwords don\'t match');
       return false;
     }
 
@@ -52,7 +49,7 @@ export default class RestorePage extends React.PureComponent {
     return true;
   }
 
-  handleInputChange(event, callback) {
+  handleInputChange = (event, callback) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -60,30 +57,36 @@ export default class RestorePage extends React.PureComponent {
     this.setState({
       [name]: value
     }, callback);
-  }
+  };
 
-  handleSeedPhraseChange(event) {
+  handleSeedPhraseChange = (event) => {
     this.handleInputChange(event, this.validateSeedPhrase);
-  }
+  };
 
-  handlePasswordChange(event) {
+  handlePasswordChange = (event) => {
     this.handleInputChange(event, this.validatePasswords);
-  }
+  };
 
-  handleRestoreSubmit(event) {
+  handleRestoreSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (this.validateSeedPhrase() && this.validatePasswords()) {
-      event.preventDefault();
-      event.stopPropagation();
-      event.target.disabled = true;
-      this.props.restoreAction(this.state.password, this.state.seedPhrase);
-      event.target.disabled = false;
-      this.props.history.push('/');
+      this.setState({
+        isSubmitted: true
+      }, () => {
+        setTimeout(() => {
+          this.props.restoreAction(this.state.password, this.state.seedPhrase, this.props.history.push('/'));
+        }, 100);
+      });
     }
-  }
+  };
 
   render() {
     return (
       <div className={style.page}>
+        {this.state.isSubmitted && <LoaderOverlay />}
+
         <header>
           <h1>Restore the account</h1>
         </header>
@@ -124,10 +127,16 @@ export default class RestorePage extends React.PureComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink className={style.cancel} to={'/'} inverse icon="left">
+            <ButtonLink
+              className={style.cancel} to={'/'} inverse icon="left"
+              disabled={this.state.isSubmitted}
+            >
               <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
-            <Button type="subbmit" icon="right">
+            <Button
+              type="submit" icon="right"
+              disabled={this.state.isSubmitted}
+            >
               Restore <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>

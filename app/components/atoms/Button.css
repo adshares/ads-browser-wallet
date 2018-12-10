@@ -17,6 +17,11 @@
     vertical-align: middle;
 }
 
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .button.success {
     background-color: var(--green-dark);
     border-color: var(--green-dark);

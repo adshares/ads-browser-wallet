@@ -21,7 +21,12 @@ const actionsMap = {
     vault.seed = KeyBox.seedPhraseToHex(action.seedPhrase);
     vault.keys = KeyBox.generateKeys(vault.seed, config.initKeysQuantity);
     vault.secret = VaultCrypt.encrypt(vault, action.password);
-    VaultCrypt.save(vault);
+
+    if (action.callback) {
+      VaultCrypt.save(vault, action.callback);
+    } else {
+      VaultCrypt.save(vault);
+    }
 
     return vault;
   },

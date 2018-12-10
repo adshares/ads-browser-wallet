@@ -1,0 +1,25 @@
+.page {
+    padding-left: 10px;
+    text-align: right;
+}
+
+.page .close {
+    margin-bottom: 5px;
+}
+
+.page .contentWrapper {
+    padding-right: 10px;
+    padding-bottom: 10px;
+    text-align: left;
+    height: 450px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.page .contentWrapper h3 {
+    margin-top: 40px;
+}
+
+.page .contentWrapper h3:first-of-type {
+    margin-top: 0px;
+}

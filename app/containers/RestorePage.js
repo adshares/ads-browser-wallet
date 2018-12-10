@@ -7,9 +7,9 @@ import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
+import LoaderOverlay from '../components/atoms/LoaderOverlay';
 import config from '../config';
 import style from './RestorePage.css';
-import LoaderOverlay from '../components/atoms/LoaderOverlay';
 
 export default class RestorePage extends React.PureComponent {
 

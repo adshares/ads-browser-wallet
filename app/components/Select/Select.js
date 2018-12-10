@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import style from './Select.css';
 
 export default class Select extends React.Component {
@@ -7,26 +9,55 @@ export default class Select extends React.Component {
     super(props);
 
     this.state = {
-      activeOption: '',
+      activeOption: this.props.options[0],
       showOptions: false,
     };
   }
 
+  setActiveOption(option) {
+    this.setState({
+      activeOption: option,
+      showOptions: false,
+    });
+  }
+
+  toggleShowOptions(state) {
+    this.setState({
+      showOptions: state
+    });
+  }
+
   render() {
     const { activeOption, showOptions } = this.state;
-    const options = this.props.options.map((option, index) => (
-      <div key={index} className={style.option} data-value={option}>
-        {option}
-      </div>
-    ));
+
+    const options = this.props.options.map((option, index) => {
+      if (option !== this.state.activeOption) {
+        return (
+          <div
+            key={index} className={style.option} data-value={option}
+            onClick={() => this.setActiveOption(option)}
+          >
+            {option}
+          </div>
+        );
+      }
+    }
+    );
 
     return (
-      <select className={style.select} >
-        <div className={style.option}>
-          { activeOption || this.props.options[0]}
+      <div className={style.select}>
+        <div
+          role="button"
+          className={style.option, style.optionActive}
+          onClick={() => this.toggleShowOptions(!showOptions)}
+        >
+          {activeOption || this.props.options[0]}
+          {showOptions ?
+            <FontAwesomeIcon icon={faAngleUp} /> :
+            <FontAwesomeIcon icon={faAngleDown} />}
         </div>
-        { showOptions && options }
-      </select>
+        {showOptions && options}
+      </div>
     );
   }
 }

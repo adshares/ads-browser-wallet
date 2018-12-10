@@ -9,8 +9,9 @@ export default class Header extends React.Component {
   render() {
     return (
       <header className={style.header} >
-        <Select options={['publisher', 'advertiser']} />
         <Logo className={style.headerLogo} />
+        <Select options={['publisher', 'advertiser']} />
+
         <button className={style.iconButton}>
           <FontAwesomeIcon icon={faBars} />
         </button>

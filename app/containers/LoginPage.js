@@ -19,12 +19,6 @@ export default class LoginPage extends FormPage {
     };
   }
 
-  handlePasswordChange = (event) => {
-    this.handleInputChange(event, () => {
-      document.querySelector('[name=password]').setCustomValidity('');
-    });
-  }
-
   handleLogin = (event) => {
     event.preventDefault();
     event.stopPropagation();

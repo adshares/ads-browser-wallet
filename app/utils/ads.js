@@ -55,6 +55,22 @@ function validateAddress(address) {
 }
 
 /**
+ * Checks if ADS public or private key is valid.
+ *
+ * @param key e.g. BE907B4BAC84FEE5CE8811DB2DEFC9BF0B2A2A2BBC3D54D8A2257ECD70441962
+ * @returns {boolean}
+ */
+function validateKey(key) {
+  if (!key) {
+    return false;
+  }
+
+  const keyRegexp = /^[0-9a-fA-F]{64}$/;
+  return keyRegexp.test(key);
+}
+
+
+/**
  * Signs data with a secret key.
  *
  * @param data data; in case of transaction: `tx.account_hashin` + `tx.data`
@@ -71,5 +87,6 @@ function sign(data, secretKey) {
 export default {
   addressChecksum,
   validateAddress,
+  validateKey,
   sign,
 };

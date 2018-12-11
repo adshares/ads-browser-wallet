@@ -90,7 +90,7 @@ export default class App extends Component {
             exact
             path="/accounts/import"
             vault={vault}
-            render={props => <EditAccountPage vault={vault} saveAction={actions.erease} {...props} />}
+            render={props => <EditAccountPage vault={vault} saveAction={actions.addAccount} {...props} />}
           />
           <PrivateRoute
             exact

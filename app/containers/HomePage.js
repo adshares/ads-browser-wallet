@@ -30,14 +30,16 @@ export default class HomePage extends React.PureComponent {
           <table>
             <thead>
               <tr>
-                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
                 <th>PK</th>
               </tr>
             </thead>
             <tbody>
               {vault.accounts.map((account, index) =>
                 <tr key={index}>
-                  <td>{account.id}</td>
+                  <td>{account.name}</td>
+                  <td>{account.address}</td>
                   <td>{account.publicKey}</td>
                 </tr>
               )}

@@ -17,26 +17,21 @@ const initialVault = {
 
 const actionsMap = {
 
-  [ActionTypes.CREATE_VAULT](initialVault, action) {
+  [ActionTypes.CREATE_VAULT](vault, action) {
     console.debug('CREATE_VAULT');
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
-    const vault = {
-      ...initialVault,
+    const newVault = {
+      ...vault,
       empty: false,
       sealed: false,
       seedPhrase: action.seedPhrase,
       seed,
       keys: KeyBox.generateKeys(seed, config.initKeysQuantity),
     };
-    vault.secret = VaultCrypt.encrypt(vault, action.password);
+    newVault.secret = VaultCrypt.encrypt(newVault, action.password);
+    VaultCrypt.save(newVault, action.callback);
 
-    if (action.callback) {
-      VaultCrypt.save(vault, action.callback);
-    } else {
-      VaultCrypt.save(vault);
-    }
-
-    return vault;
+    return newVault;
   },
 
   [ActionTypes.EREASE_VAULT]() {
@@ -66,6 +61,7 @@ const actionsMap = {
   [ActionTypes.SEAL_VAULT](vault) {
     console.debug('SEAL_VAULT');
     return {
+      ...initialVault,
       secret: vault.secret,
       empty: vault.empty,
       sealed: true,
@@ -80,8 +76,8 @@ const actionsMap = {
 
     const updatedVault = { ...vault };
     updatedVault.accounts.push({
+      address: action.address,
       name: action.name,
-      id: action.accountId,
       publicKey: action.publicKey,
     });
     updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);

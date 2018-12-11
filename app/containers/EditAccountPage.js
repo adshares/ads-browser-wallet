@@ -6,22 +6,48 @@ import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
+import LoaderOverlay from '../components/atoms/LoaderOverlay';
 import ADS from '../utils/ads';
 import style from './EditAccountPage.css';
+import { InvalidPasswordError } from '../actions/errors'
 
 export default class EditAccountPage extends FormPage {
 
   constructor(props) {
     super(props);
 
-    const { address } = this.props.match.params;
+    let selectedAccount = {};
+    const { accountAddress } = this.props.match.params;
+
+    if (accountAddress) {
+      selectedAccount = this.props.vault.accounts.find(a => a.address === accountAddress);
+      if (!selectedAccount) {
+        throw new Error('Account doesn\'t exist');
+      }
+    }
 
     this.state = {
-      name: '',
-      address: '',
-      publicKey: '',
+      accountAddress,
+      name: selectedAccount.name || '',
+      address: selectedAccount.address || '',
+      publicKey: selectedAccount.publicKey || '',
+      password: '',
       isSubmitted: false,
     };
+  }
+
+  validateName() {
+    const nameInput = document.querySelector('[name=name]');
+
+    if (this.props.vault.accounts.find(
+      a => a.name === this.state.name && a.address !== this.state.accountAddress
+    )) {
+      nameInput.setCustomValidity(`Name ${this.state.name} already exists`);
+      return false;
+    }
+
+    nameInput.setCustomValidity('');
+    return true;
   }
 
   validateAddress() {
@@ -31,34 +57,80 @@ export default class EditAccountPage extends FormPage {
       return false;
     }
 
+    if (this.props.vault.accounts.find(a => a.address === this.state.address)) {
+      addressInput.setCustomValidity(`Account ${this.state.address} already exists`);
+      return false;
+    }
+
     addressInput.setCustomValidity('');
     return true;
   }
 
+  validatePublicKey() {
+    const publicKeyInput = document.querySelector('[name=publicKey]');
+    if (!ADS.validateKey(this.state.publicKey)) {
+      publicKeyInput.setCustomValidity('Please provide an valid public key');
+      return false;
+    }
+
+    publicKeyInput.setCustomValidity('');
+    return true;
+  }
+
+  handleNameChange = (event) => {
+    this.handleInputChange(event, this.validateName);
+  };
+
   handleAddressChange = (event) => {
     this.handleInputChange(event, this.validateAddress);
+  };
+
+  handlePublicKeyChange = (event) => {
+    this.handleInputChange(event, this.validatePublicKey);
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    // if (this.validateSeedPhrase() && this.validatePasswords()) {
-    //   this.setState({
-    //     isSubmitted: true
-    //   }, () => {
-    //     setTimeout(() => {
-    //       this.props.restoreAction(this.state.password, this.state.seedPhrase, this.props.history.push('/'));
-    //     }, 100);
-    //   });
-    // }
+    if (this.validateName() && this.validateAddress() && this.validatePublicKey()) {
+      this.setState({
+        isSubmitted: true
+      }, () => {
+        setTimeout(() => {
+          try {
+            this.props.saveAction(
+              this.state.address,
+              this.state.name,
+              this.state.publicKey,
+              this.state.password,
+              this.props.history.push('/'));
+          } catch (err) {
+            if (err instanceof InvalidPasswordError) {
+              this.setState({
+                isSubmitted: false
+              }, () => {
+                const password = document.querySelector('[name=password]');
+                password.setCustomValidity(err.message);
+                password.reportValidity();
+              });
+            } else {
+              throw err;
+            }
+          }
+        }, 100);
+      });
+    }
   };
 
   render() {
     return (
       <div className={style.page}>
+        {this.state.isSubmitted && <LoaderOverlay />}
         <header>
-          <h1>Import new account</h1>
+          <h1>
+            {this.state.accountAddress ? `Edit account ${this.state.address}` : 'Import new account'}
+          </h1>
         </header>
         <Form onSubmit={this.handleSubmit}>
           <div>
@@ -67,7 +139,7 @@ export default class EditAccountPage extends FormPage {
               placeholder="Account name"
               name="name"
               value={this.state.name}
-              onChange={this.handleInputChange}
+              onChange={this.handleNameChange}
             />
           </div>
           <div>
@@ -86,7 +158,18 @@ export default class EditAccountPage extends FormPage {
               placeholder="Account public key"
               name="publicKey"
               value={this.state.publicKey}
-              onChange={this.handleInputChange}
+              onChange={this.handlePublicKeyChange}
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              autoFocus
+              required
+              placeholder="Password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handlePasswordChange}
             />
           </div>
           <div className={style.buttons}>
@@ -100,7 +183,8 @@ export default class EditAccountPage extends FormPage {
               type="submit" icon="right"
               disabled={this.state.isSubmitted}
             >
-              Save <FontAwesomeIcon icon={faChevronRight} />
+              {this.state.accountAddress ? 'Save' : 'Import'}
+              <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>
         </Form>

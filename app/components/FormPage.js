@@ -10,4 +10,10 @@ export default class FormPage extends React.PureComponent {
       [name]: value
     }, callback);
   };
+
+  handlePasswordChange = (event) => {
+    this.handleInputChange(event, () => {
+      document.querySelector('[name=password]').setCustomValidity('');
+    });
+  };
 }

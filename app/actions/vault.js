@@ -16,6 +16,6 @@ export function seal() {
   return { type: types.SEAL_VAULT };
 }
 
-export function addAccount(password) {
-  return { type: types.ADD_ACCOUNT, password };
+export function addAccount(address, name, publicKey, password, callback) {
+  return { type: types.ADD_ACCOUNT, address, name, publicKey, password, callback };
 }

@@ -1,28 +1,95 @@
-.header {
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+.hamburgerWrapper {
+    height: 50px;
+    width: 50px;
 }
 
 .headerLogo {
     height: 40px;
 }
 
+/* HAMBURGER BUTTON ANIMATION */
+
 .iconButton {
-    font-size: 35px;
-    display: flex;
-    align-items: center;
-    color: var(--blue);
-    border: none;
-    background: none;
+    background: transparent;
+    position: relative;
+    height: 30px;
+    width: 50px;
 }
 
-.iconButton:hover {
-    color: var(--blue);
+.iconButton:before,
+.iconButton:after {
+    background: var(--blue);
+    backface-visibility: hidden;
+    content: "";
+    height: 2px;
+    left: 0;
+    transition: 0.75s;
+    width: 50px;
 }
-.iconButton:focus {
-    color: var(--blue);
-    outline: none;
+
+.iconButton:before {
+    box-shadow: var(--blue) 0 14px 0 0;
+    position: absolute;
+    top: 0;
+}
+.iconButton:after {
+    position: absolute;
+    top: calc(100% - 2px);
+}
+
+.iconButtonActive.iconButton:before {
+    box-shadow: transparent 0 0 0 0;
+    top: 50%;
+    transform: rotate(225deg);
+}
+
+.iconButtonActive.iconButton:after {
+    top: 50%;
+    transform: rotate(315deg);
+}
+
+/* MENU + MENU ANIMATION */
+
+.menu {
+    display: block;
+    margin: 20px auto;
+    width: 30%;
+    background-color: var(--white);
+    padding: 15px;
+    opacity: 0;
+    transition: all ease-in 0.5s;
+    transform: translateY(-200%);
+    min-width: 200px;
+    border-radius: 3px;
+    list-style: none;
+    position: absolute;
+    right: 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.menuActive {
+    opacity: 1;
+    transition: all ease-in 0.5s;
+    transform: translateY(0%);
+}
+
+.menuItem {
+    padding: 8px 16px;
+    color: var(--black);
+    list-style: none;
+    border-bottom: 1px solid transparent;
+}
+
+.menuItem:after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    margin-top: 2px;
+    background: var(--blue-dark);
+    transition: width .3s;
+}
+
+.menuItem:hover:after {
+    width: 100%;
 }

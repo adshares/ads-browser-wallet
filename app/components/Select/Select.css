@@ -1,24 +1,25 @@
 .select {
-    width: 180px;
     background: var(--white);
     border: 1px solid var(--blue-dark);
+    border-radius: 3px;
     text-transform: uppercase;
     transition: width 0.5s;
     will-change: width;
     position: absolute;
     left: 25%;
     right: 25%;
-    top: 20px;
+    top: 22px;
 }
 
 .option {
     padding: 8px 16px;
+    font-size: 16px;
     cursor: pointer;
     background-color: var(--white);
 }
 
 .option:not(.optionActive):hover {
-    background: var(--gray);
+    background: rgba(240, 240, 240, 0.5);
 }
 
 .optionActive {

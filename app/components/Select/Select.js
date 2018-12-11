@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import style from './Select.css';
+import ButtonLink from '../atoms/ButtonLink';
+import Link from 'react-router-dom/es/Link';
 
 export default class Select extends React.Component {
   constructor(props) {
@@ -45,18 +45,21 @@ export default class Select extends React.Component {
     );
 
     return (
-      <div className={style.select}>
+      <div className={style.select} onMouseLeave={() => this.toggleShowOptions(false)}>
         <div
           role="button"
           className={style.option, style.optionActive}
           onClick={() => this.toggleShowOptions(!showOptions)}
         >
           {activeOption || this.props.options[0]}
-          {showOptions ?
-            <FontAwesomeIcon icon={faAngleUp} /> :
-            <FontAwesomeIcon icon={faAngleDown} />}
+
         </div>
         {showOptions && options}
+        {showOptions && (<Link
+          className={style.option}
+          onClick={() => this.setActiveOption('')}
+        > Add new account </Link>)}
+
       </div>
     );
   }

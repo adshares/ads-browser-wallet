@@ -1,15 +1,35 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import style from './HamburgerMenu.css';
 
 export default class HamburgerMenu extends React.PureComponent {
+  state = {
+    menuOpened: false,
+  };
+
+  toggleMenu(status) {
+    this.setState({
+      menuOpened: status
+    });
+  }
+
   render() {
     return (
-      <div className={style.header} >
-        <button className={style.iconButton}>
-          <FontAwesomeIcon icon={faBars} />
-        </button>
+      <div
+        className={style.hamburgerWrapper}
+        onMouseEnter={() => this.toggleMenu(true)}
+      >
+        <div
+          role="button"
+          className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
+          onClick={() => this.toggleMenu(!this.state.menuOpened)}
+        />
+        <ul
+          className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}
+          onMouseLeave={() => this.toggleMenu(false)}
+        >
+          <li className={style.menuItem}> Settings </li>
+          <li className={style.menuItem}> Settings </li>
+        </ul>
       </div>
     );
   }

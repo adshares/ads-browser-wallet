@@ -7,7 +7,7 @@ import { InvalidPasswordError } from '../actions/errors';
 import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
-import Logo from '../components/Logo';
+import Logo from '../components/Logo/Logo';
 import style from './LoginPage.css';
 
 export default class LoginPage extends FormPage {

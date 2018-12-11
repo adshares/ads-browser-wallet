@@ -1,0 +1,27 @@
+.header {
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerLogo {
+    height: 40px;
+}
+
+.iconButton {
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    color: var(--blue);
+    border: none;
+    background: none;
+}
+
+.iconButton:hover {
+    color: var(--blue);
+}
+.iconButton:focus {
+    color: var(--blue);
+    outline: none;
+}

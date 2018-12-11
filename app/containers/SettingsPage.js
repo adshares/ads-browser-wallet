@@ -7,8 +7,8 @@ import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 import style from './SettingsPage.css';
 
 export default class SettingsPage extends FormPage {

@@ -7,6 +7,7 @@ import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
+import LoaderOverlay from '../components/atoms/LoaderOverlay';
 import config from '../config';
 import style from './RestorePage.css';
 import LoaderOverlay from '../components/atoms/LoaderOverlay';
@@ -90,7 +91,7 @@ export default class RestorePage extends React.PureComponent {
         <header>
           <h1>Restore the account</h1>
         </header>
-        <Box type="warning" icon={faExclamation}>
+        <Box layout="warning" icon={faExclamation}>
           Restoring your account will overwrite all current data.
         </Box>
         <Form onSubmit={this.handleRestoreSubmit}>

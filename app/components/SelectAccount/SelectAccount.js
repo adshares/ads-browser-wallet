@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Link from 'react-router-dom/es/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import style from './Select.css';
+import style from './SelectAccount.css';
 
-export default class Select extends React.Component {
+export default class SelectAccount extends React.Component {
   constructor(props) {
     super(props);
 
@@ -81,6 +81,6 @@ export default class Select extends React.Component {
   }
 }
 
-Select.propTypes = {
+SelectAccount.propTypes = {
   options: PropTypes.array.isRequired,
 };

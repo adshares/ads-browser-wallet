@@ -5,7 +5,7 @@ import style from './Box.css';
 export default class Box extends React.Component {
   render() {
     const {
-      type,
+      layout,
       title,
       icon,
       className,
@@ -18,8 +18,8 @@ export default class Box extends React.Component {
     if (title) {
       classNames.push(style.large);
     }
-    if (type) {
-      classNames.push(style[type]);
+    if (layout) {
+      classNames.push(style[layout]);
     }
     if (icon) {
       classNames.push(style.hasIcon);

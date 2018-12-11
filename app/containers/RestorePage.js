@@ -10,7 +10,6 @@ import Box from '../components/atoms/Box';
 import LoaderOverlay from '../components/atoms/LoaderOverlay';
 import config from '../config';
 import style from './RestorePage.css';
-import LoaderOverlay from '../components/atoms/LoaderOverlay';
 
 export default class RestorePage extends React.PureComponent {
 

@@ -1,0 +1,90 @@
+.select {
+    background: var(--white);
+    border-radius: 3px;
+    transition: width 0.5s, border 0.5s ease-out ;
+    will-change: width;
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    top: 22px;
+    border: 1px solid transparent;
+}
+
+.selectActive {
+    border: 1px solid var(--blue);
+}
+
+.scrollableList {
+    height: auto;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.optionList {
+    padding: 0;
+    margin: 2px;
+    transform: translateY(-64px);
+    transition: transform 0.2s linear;
+}
+
+.optionListActive {
+    transform: translateY(0);
+}
+
+.option {
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--white);
+    border: 1px solid transparent;
+    padding: 8px 0;
+    list-style: none;
+    text-transform: capitalize;
+}
+
+.option:not(.optionActive):hover {
+    background: rgba(240, 240, 240, 0.3);
+}
+
+.optionActive {
+    margin: 0;
+    padding: 8px 0;
+    display: flex;
+    position: relative;
+    z-index: 11;
+    justify-content: space-between;
+}
+
+.optionName {
+  color: var(--slate-dark);
+
+}
+.optionAccount {
+    font-size: 12px;
+    color: var(--slate);
+}
+
+.optionAdd {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--blue);
+}
+
+.optionLink {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-transform: none;
+}
+
+.optionLink:hover {
+    text-decoration: none;
+}
+
+.optionIcon {
+    color: var(--blue);
+}

@@ -1,5 +1,5 @@
 .hamburgerWrapper {
-    height: 50px;
+    height: 35px;
     width: 50px;
 }
 
@@ -24,7 +24,7 @@
     height: 2px;
     left: 0;
     transition: 0.75s;
-    width: 50px;
+    width: 40px;
 }
 
 .iconButton:before {
@@ -64,7 +64,7 @@
     list-style: none;
     position: absolute;
     right: 0;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(126,126,126,0.16), 0 3px 6px rgba(126,126,126,0.23);
 }
 
 .menuActive {
@@ -75,7 +75,7 @@
 
 .menuItem {
     padding: 8px 16px;
-    color: var(--black);
+    color: var(--slate-dark);
     list-style: none;
     border-bottom: 1px solid transparent;
 }
@@ -85,9 +85,9 @@
     display: block;
     width: 0;
     height: 2px;
-    margin-top: 2px;
-    background: var(--blue-dark);
-    transition: width .3s;
+    margin-top: 8px;
+    background: var(--blue);
+    transition: width .3s ease-out;
 }
 
 .menuItem:hover:after {

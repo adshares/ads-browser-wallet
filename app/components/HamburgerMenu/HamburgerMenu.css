@@ -64,6 +64,7 @@
     list-style: none;
     position: absolute;
     right: 0;
+    z-index: 999;
     box-shadow: 0 3px 6px rgba(126,126,126,0.16), 0 3px 6px rgba(126,126,126,0.23);
 }
 

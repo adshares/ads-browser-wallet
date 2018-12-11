@@ -22,8 +22,30 @@ export default class HomePage extends React.PureComponent {
           <Link to={'/'} onClick={this.props.ereaseAction} >Erase storage</Link>
           &nbsp;|&nbsp;
           <Link to={'/settings'}>Settings</Link>
+          &nbsp;|&nbsp;
+          <Link to={'/accounts/import'}>Add account</Link>
         </section>
         <hr />
+        <div className={style.tableWrapper}>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>PK</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vault.accounts.map((account, index) =>
+                <tr key={index}>
+                  <td>{account.name}</td>
+                  <td>{account.address}</td>
+                  <td>{account.publicKey}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
         <div className={style.tableWrapper}>
           <table>
             <thead>

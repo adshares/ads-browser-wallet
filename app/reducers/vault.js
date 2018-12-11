@@ -1,55 +1,59 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
+import { InvalidPasswordError } from '../actions/errors';
 import config from '../config';
 
-const initialState = {
+const initialVault = {
   empty: true,
   sealed: true,
-  secrets: '',
+  secret: '',
+  seedPhrase: '',
+  seed: '',
+  keys: [],
+  accounts: [],
+  selectedAccount: null,
 };
 
 const actionsMap = {
 
-  [ActionTypes.CREATE_VAULT](state, action) {
+  [ActionTypes.CREATE_VAULT](vault, action) {
     console.debug('CREATE_VAULT');
-    const vault = {
+    const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
+    const newVault = {
+      ...vault,
       empty: false,
       sealed: false,
       seedPhrase: action.seedPhrase,
+      seed,
+      keys: KeyBox.generateKeys(seed, config.initKeysQuantity),
     };
-    vault.seed = KeyBox.seedPhraseToHex(action.seedPhrase);
-    vault.keys = KeyBox.generateKeys(vault.seed, config.initKeysQuantity);
-    vault.secret = VaultCrypt.encrypt(vault, action.password);
+    newVault.secret = VaultCrypt.encrypt(newVault, action.password);
+    VaultCrypt.save(newVault, action.callback);
 
-    if (action.callback) {
-      VaultCrypt.save(vault, action.callback);
-    } else {
-      VaultCrypt.save(vault);
-    }
-
-    return vault;
+    return newVault;
   },
 
   [ActionTypes.EREASE_VAULT]() {
     console.debug('EREASE_VAULT');
-    const vault = {
-      empty: true,
-      sealed: true,
-      secret: '',
-    };
-    VaultCrypt.save(vault);
+    VaultCrypt.save(initialVault);
 
-    return vault;
+    return initialVault;
   },
 
   [ActionTypes.UNSEAL_VAULT](vault, action) {
     console.debug('UNSEAL_VAULT');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
       ...vault,
       ...unsealedVault,
-      keys: KeyBox.generateKeys(unsealedVault.seed, unsealedVault.keyCount || config.initKeysQuantity),
+      keys: KeyBox.generateKeys(
+        unsealedVault.seed,
+        unsealedVault.keyCount || config.initKeysQuantity
+      ),
       sealed: false,
     };
   },
@@ -57,23 +61,34 @@ const actionsMap = {
   [ActionTypes.SEAL_VAULT](vault) {
     console.debug('SEAL_VAULT');
     return {
+      ...initialVault,
       secret: vault.secret,
       empty: vault.empty,
       sealed: true,
     };
   },
 
-  [ActionTypes.SYNC_VAULT](vault, action) {
-    console.debug('SYNC_VAULT');
-    return {
-      ...vault,
-      secret: VaultCrypt.encrypt(vault, action.password)
-    };
+  [ActionTypes.ADD_ACCOUNT](vault, action) {
+    console.debug('ADD_ACCOUNT');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
+
+    const updatedVault = { ...vault };
+    updatedVault.accounts.push({
+      address: action.address,
+      name: action.name,
+      publicKey: action.publicKey,
+    });
+    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
+    VaultCrypt.save(updatedVault, action.callback);
+
+    return updatedVault;
   },
 };
 
-export default function (state = initialState, action) {
+export default function (vault = initialVault, action) {
   const reduceFn = actionsMap[action.type];
-  if (!reduceFn) return state;
-  return reduceFn(state, action);
+  if (!reduceFn) return vault;
+  return reduceFn(vault, action);
 }

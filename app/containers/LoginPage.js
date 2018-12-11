@@ -3,50 +3,36 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { InvalidPasswordError } from '../actions/errors';
+import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import Logo from '../components/Logo';
 import style from './LoginPage.css';
 
-export default class LoginPage extends React.PureComponent {
+export default class LoginPage extends FormPage {
 
   constructor(props) {
     super(props);
     this.state = {
       password: '',
     };
-    // This binding is necessary to make `this` work in the callback
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
   }
 
-  handleInputChange(event, callback) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    }, callback);
-  }
-
-  handlePasswordChange(event) {
-    this.handleInputChange(event, () => {
-      document.querySelector('[name=password]').setCustomValidity('');
-    });
-  }
-
-  handleLogin(event) {
+  handleLogin = (event) => {
     event.preventDefault();
     event.stopPropagation();
     try {
       this.props.loginAction(this.state.password);
       this.props.history.push('/');
     } catch (err) {
-      const password = document.querySelector('[name=password]');
-      password.setCustomValidity('Invalid password');
-      password.reportValidity();
+      if (err instanceof InvalidPasswordError) {
+        const password = document.querySelector('[name=password]');
+        password.setCustomValidity(err.message);
+        password.reportValidity();
+      } else {
+        throw err;
+      }
     }
   }
 

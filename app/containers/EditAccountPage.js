@@ -97,28 +97,27 @@ export default class EditAccountPage extends FormPage {
       this.setState({
         isSubmitted: true
       }, () => {
-        setTimeout(() => {
-          try {
-            this.props.saveAction(
-              this.state.address,
-              this.state.name,
-              this.state.publicKey,
-              this.state.password,
-              this.props.history.push('/'));
-          } catch (err) {
-            if (err instanceof InvalidPasswordError) {
-              this.setState({
-                isSubmitted: false
-              }, () => {
-                const password = document.querySelector('[name=password]');
-                password.setCustomValidity(err.message);
-                password.reportValidity();
-              });
-            } else {
-              throw err;
-            }
+        try {
+          const location = this.props.location.state.referrer || '/';
+          this.props.saveAction(
+            this.state.address,
+            this.state.name,
+            this.state.publicKey,
+            this.state.password,
+            this.props.history.push(location));
+        } catch (err) {
+          if (err instanceof InvalidPasswordError) {
+            this.setState({
+              isSubmitted: false
+            }, () => {
+              const password = document.querySelector('[name=password]');
+              password.setCustomValidity(err.message);
+              password.reportValidity();
+            });
+          } else {
+            throw err;
           }
-        }, 100);
+        }
       });
     }
   };

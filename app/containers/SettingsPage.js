@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShieldAlt, faTimes, faTrashAlt, faSave, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import {
+  faShieldAlt,
+  faTimes,
+  faTrashAlt,
+  faSave,
+  faExclamation,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons';
 import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
@@ -33,6 +40,8 @@ export default class SettingsPage extends FormPage {
   };
 
   render() {
+    const vault = this.props.vault;
+
     return (
       <div className={style.page}>
         <Header />
@@ -40,6 +49,27 @@ export default class SettingsPage extends FormPage {
           <FontAwesomeIcon icon={faTimes} />
         </ButtonLink>
         <div className={style.contentWrapper}>
+          <h3>Accounts</h3>
+          {vault.accounts.length &&
+            <ul>
+              {vault.accounts.map((account, index) =>
+                <li key={index}>
+                  {account.address}
+                  <small>{account.name}</small>
+                </li>
+              )}
+            </ul>
+          }
+          <ButtonLink
+            to={{
+              pathname: '/accounts/import',
+              state: { referrer: this.props.location }
+            }}
+            icon="left"
+            size="wide"
+          >
+            <FontAwesomeIcon icon={faPlus} /> Add account
+          </ButtonLink>
           <h3>RPC server</h3>
           <Form onSubmit={this.handleRpcServerSave}>
             <div>

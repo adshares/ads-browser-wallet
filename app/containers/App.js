@@ -27,7 +27,14 @@ function PrivateRoute({ ...params }) {
     return <Redirect to="/register" />;
   }
   if (params.vault.sealed) {
-    return <Redirect to="/login" />;
+    return (
+      <Redirect
+        to={{
+          pathname: '/login',
+          state: { referrer: params.location }
+        }}
+      />
+    );
   }
   return (
     <Route {...params} />

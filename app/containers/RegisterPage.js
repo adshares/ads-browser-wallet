@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faExclamation, faInfo } from '@fortawesome/free-solid-svg-icons';
 import KeyBox from '../utils/keybox';
 import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
@@ -92,9 +92,9 @@ export default class RegisterPage extends FormPage {
         <header>
           <h1>Setup password</h1>
         </header>
-        <p>
+        <Box icon={faInfo}>
           Your password should be obscure and must be at least 8 characters long.
-        </p>
+        </Box>
         <Form onSubmit={this.handlePasswordSubmit}>
           <div>
             <input

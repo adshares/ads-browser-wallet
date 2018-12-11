@@ -24,7 +24,8 @@ export default class LoginPage extends FormPage {
     event.stopPropagation();
     try {
       this.props.loginAction(this.state.password);
-      this.props.history.push('/');
+      const location = this.props.location.state.referrer || '/';
+      this.props.history.push(location);
     } catch (err) {
       if (err instanceof InvalidPasswordError) {
         const password = document.querySelector('[name=password]');

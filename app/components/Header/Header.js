@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './Header.css';
-import Logo from '../Logo/Logo';
+import logo from '../../assets/logo_blue.svg';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 
@@ -22,7 +22,7 @@ export default class Header extends React.Component {
   render() {
     return (
       <header className={style.header}>
-        <Logo className={style.headerLogo} />
+        <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
         <SelectAccount options={TEST_ACCOUNTS} />
         <HamburgerMenu />
       </header>

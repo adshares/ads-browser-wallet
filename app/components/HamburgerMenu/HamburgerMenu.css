@@ -1,6 +1,6 @@
 .hamburgerWrapper {
-    height: 35px;
-    width: 50px;
+    height: 25px;
+    width: 30px;
 }
 
 .headerLogo {
@@ -13,7 +13,7 @@
     background: transparent;
     position: relative;
     height: 30px;
-    width: 50px;
+    width: 30px;
 }
 
 .iconButton:before,
@@ -24,17 +24,17 @@
     height: 2px;
     left: 0;
     transition: 0.75s;
-    width: 40px;
+    width: 30px;
 }
 
 .iconButton:before {
     box-shadow: var(--blue) 0 14px 0 0;
     position: absolute;
-    top: 0;
+    top: 3px;
 }
 .iconButton:after {
     position: absolute;
-    top: calc(100% - 2px);
+    top: calc(100% - 20px);
 }
 
 .iconButtonActive.iconButton:before {

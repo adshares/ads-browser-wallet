@@ -20,6 +20,7 @@ const actionsMap = {
   [ActionTypes.CREATE_VAULT](vault, action) {
     console.debug('CREATE_VAULT');
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
+
     const newVault = {
       ...vault,
       empty: false,
@@ -46,8 +47,10 @@ const actionsMap = {
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
+
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
+      ...initialVault,
       ...vault,
       ...unsealedVault,
       keys: KeyBox.generateKeys(

@@ -4,20 +4,30 @@ import VaultCrypt from '../utils/vaultcrypt';
 import { InvalidPasswordError } from '../actions/errors';
 import config from '../config';
 
-const initialState = {};
+const initialVault = {
+  empty: true,
+  sealed: true,
+  secret: '',
+  seedPhrase: '',
+  seed: '',
+  keys: [],
+  accounts: [],
+  selectedAccount: null,
+};
 
 const actionsMap = {
 
-  [ActionTypes.CREATE_VAULT](state, action) {
+  [ActionTypes.CREATE_VAULT](initialVault, action) {
     console.debug('CREATE_VAULT');
+    const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
     const vault = {
+      ...initialVault,
       empty: false,
       sealed: false,
       seedPhrase: action.seedPhrase,
+      seed,
+      keys: KeyBox.generateKeys(seed, config.initKeysQuantity),
     };
-    vault.seed = KeyBox.seedPhraseToHex(action.seedPhrase);
-    vault.keys = KeyBox.generateKeys(vault.seed, config.initKeysQuantity);
-    vault.accounts = [];
     vault.secret = VaultCrypt.encrypt(vault, action.password);
 
     if (action.callback) {
@@ -31,14 +41,9 @@ const actionsMap = {
 
   [ActionTypes.EREASE_VAULT]() {
     console.debug('EREASE_VAULT');
-    const vault = {
-      empty: true,
-      sealed: true,
-      secret: '',
-    };
-    VaultCrypt.save(vault);
+    VaultCrypt.save(initialVault);
 
-    return vault;
+    return initialVault;
   },
 
   [ActionTypes.UNSEAL_VAULT](vault, action) {
@@ -48,7 +53,6 @@ const actionsMap = {
     }
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
-      accounts: [],
       ...vault,
       ...unsealedVault,
       keys: KeyBox.generateKeys(
@@ -87,8 +91,8 @@ const actionsMap = {
   },
 };
 
-export default function (state = initialState, action) {
+export default function (vault = initialVault, action) {
   const reduceFn = actionsMap[action.type];
-  if (!reduceFn) return state;
-  return reduceFn(state, action);
+  if (!reduceFn) return vault;
+  return reduceFn(vault, action);
 }

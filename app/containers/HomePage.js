@@ -22,6 +22,8 @@ export default class HomePage extends React.PureComponent {
           <Link to={'/'} onClick={this.props.ereaseAction} >Erase storage</Link>
           &nbsp;|&nbsp;
           <Link to={'/settings'}>Settings</Link>
+          &nbsp;|&nbsp;
+          <Link to={'/accounts/import'}>Add account</Link>
         </section>
         <hr />
         <div className={style.tableWrapper}>

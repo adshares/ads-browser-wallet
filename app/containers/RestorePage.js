@@ -3,6 +3,7 @@ import bip39 from 'bip39';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
@@ -11,7 +12,7 @@ import LoaderOverlay from '../components/atoms/LoaderOverlay';
 import config from '../config';
 import style from './RestorePage.css';
 
-export default class RestorePage extends React.PureComponent {
+export default class RestorePage extends FormPage {
 
   constructor(props) {
     super(props);
@@ -48,16 +49,6 @@ export default class RestorePage extends React.PureComponent {
     password2.setCustomValidity('');
     return true;
   }
-
-  handleInputChange = (event, callback) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    }, callback);
-  };
 
   handleSeedPhraseChange = (event) => {
     this.handleInputChange(event, this.validateSeedPhrase);

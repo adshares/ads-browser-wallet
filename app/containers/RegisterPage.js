@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faExclamation } from '@fortawesome/free-solid-svg-icons';
 import KeyBox from '../utils/keybox';
+import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
@@ -12,7 +13,7 @@ import Logo from '../components/Logo';
 import config from './../config';
 import style from './RegisterPage.css';
 
-export default class RegisterPage extends React.PureComponent {
+export default class RegisterPage extends FormPage {
 
   constructor(props) {
     super(props);
@@ -21,12 +22,6 @@ export default class RegisterPage extends React.PureComponent {
       password2: '',
       seedPhrase: KeyBox.generateSeedPhrase(),
     };
-    // This binding is necessary to make `this` work in the callback
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handlePasswordSubmit = this.handlePasswordSubmit.bind(this);
-    this.handleSeedPhraseRefresh = this.handleSeedPhraseRefresh.bind(this);
-    this.handleSeedPhraseSubmit = this.handleSeedPhraseSubmit.bind(this);
   }
 
   validatePasswords() {
@@ -40,21 +35,11 @@ export default class RegisterPage extends React.PureComponent {
     return true;
   }
 
-  handleInputChange(event, callback) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    }, callback);
-  }
-
-  handlePasswordChange(event) {
+  handlePasswordChange = (event) => {
     this.handleInputChange(event, this.validatePasswords);
   }
 
-  handlePasswordSubmit(event) {
+  handlePasswordSubmit = (event) => {
     if (this.validatePasswords()) {
       event.preventDefault();
       event.stopPropagation();
@@ -62,7 +47,7 @@ export default class RegisterPage extends React.PureComponent {
     }
   }
 
-  handleSeedPhraseRefresh(event, callback) {
+  handleSeedPhraseRefresh = (event, callback) => {
     event.preventDefault();
     event.stopPropagation();
     this.setState({
@@ -70,7 +55,7 @@ export default class RegisterPage extends React.PureComponent {
     }, callback);
   }
 
-  handleSeedPhraseSubmit(event) {
+  handleSeedPhraseSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     event.target.disabled = true;

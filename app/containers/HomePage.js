@@ -73,7 +73,6 @@ export default class HomePage extends React.PureComponent {
 }
 
 HomePage.propTypes = {
-  history: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
   logoutAction: PropTypes.func.isRequired,
   ereaseAction: PropTypes.func.isRequired,

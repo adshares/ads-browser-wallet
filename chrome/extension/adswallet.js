@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import Root from '../../app/containers/Root';
 import VaultCrypt from '../../app/utils/vaultcrypt';
 import './adswallet.css';
@@ -11,9 +11,12 @@ chrome.storage.local.get('state', (obj) => {
   VaultCrypt.load((vault) => {
     initialState.vault = vault;
     console.debug('initialState', initialState);
-    const history = createHistory();
-    const createStore = require('../../app/store/configureStore');
+    const history = createBrowserHistory();
+    if (initialState.router && initialState.router.location) {
+      history.push(initialState.router.location);
+    }
 
+    const createStore = require('../../app/store/configureStore');
     ReactDOM.render(
       <Root history={history} store={createStore(initialState, history)} />,
       document.querySelector('#root')

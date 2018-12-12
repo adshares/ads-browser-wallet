@@ -9,6 +9,7 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import SettingsPage from './SettingsPage';
 import EditAccountPage from './EditAccountPage';
+import AccountKeysPage from './AccountKeysPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 
@@ -27,7 +28,14 @@ function PrivateRoute({ ...params }) {
     return <Redirect to="/register" />;
   }
   if (params.vault.sealed) {
-    return <Redirect to="/login" />;
+    return (
+      <Redirect
+        to={{
+          pathname: '/login',
+          state: { referrer: params.location }
+        }}
+      />
+    );
   }
   return (
     <Route {...params} />
@@ -84,13 +92,25 @@ export default class App extends Component {
             exact
             path="/settings"
             vault={vault}
-            render={props => <SettingsPage vault={vault} ereaseAction={actions.erease} {...props} />}
+            render={props => <SettingsPage vault={vault} actions={actions} {...props} />}
           />
           <PrivateRoute
             exact
             path="/accounts/import"
             vault={vault}
             render={props => <EditAccountPage vault={vault} saveAction={actions.addAccount} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/accounts/:address([0-9A-F-]+)/edit"
+            vault={vault}
+            render={props => <EditAccountPage vault={vault} saveAction={actions.updateAccount} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/accounts/:address([0-9A-F-]+)/keys"
+            vault={vault}
+            render={props => <AccountKeysPage vault={vault} {...props} />}
           />
           <PrivateRoute
             exact

@@ -1,13 +1,32 @@
 .page {
     padding-left: 10px;
-    text-align: right;
 }
 
-.page .close {
+.header {
+    position: relative;
+}
+
+.header h1 {
+    font-size: 1.4em;
+    line-height: 1.25em;
+    display: inline-block;
+    margin: 0;
     margin-bottom: 5px;
+    margin-right: 10px;
+    width: 329px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-bottom: 1px dashed var(--gray);
 }
 
-.page .contentWrapper {
+.header a {
+    margin-bottom: 5px;
+    vertical-align: middle;
+}
+
+.contentWrapper {
     padding-right: 10px;
     padding-bottom: 10px;
     text-align: left;
@@ -16,10 +35,59 @@
     overflow-y: scroll;
 }
 
-.page .contentWrapper h3 {
+.contentWrapper h3 {
     margin-top: 40px;
 }
 
-.page .contentWrapper h3:first-of-type {
-    margin-top: 0px;
+.contentWrapper div:first-of-type h3 {
+    margin-top: 5px;
+}
+
+.infoBox {
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+
+.dangerContent {
+    color: var(--red-dark);
+}
+
+.dangerContent input, .dangerContent textarea {
+    border-color: var(--red-dark);
+    color: var(--red-dark);
+}
+
+.accounts {
+    list-style-type: none;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.accounts li {
+    border-bottom: 1px dashed var(--gray);
+}
+
+.accountLabel {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 226px;
+}
+
+.accountLabel * {
+    display: block;
+}
+
+.accountLabel small {
+    color: var(--blue-dark);
+}
+
+.accountActions {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.accountActions > * {
+    margin-left: 5px;
+    margin-bottom: 5px;
 }

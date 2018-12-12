@@ -56,8 +56,8 @@ export default class SelectAccount extends React.Component {
           tabIndex="0"
           role="button"
           className={`${style.option} ${style.optionActive}`}
-          onFocus={() => this.toggleShowOptions(true)}
           onClick={() => this.toggleShowOptions(!showOptions)}
+          onKeyDown={() => this.toggleShowOptions(true)}
         >
           <span className={style.optionName}> {activeOption.name} </span>
           <span className={style.optionAccount}> {activeOption.account} </span>

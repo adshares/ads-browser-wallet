@@ -10,6 +10,7 @@ import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
 import style from './ImportKeysPage.css';
 import { InvalidPasswordError } from '../../actions/errors';
+import ConfirmDialog from '../../components/confirmPopup/confirmDialog';
 
 export default class ImportKeysPage extends FormPage {
 
@@ -36,31 +37,32 @@ export default class ImportKeysPage extends FormPage {
       this.setState({
         isSubmitted: true
       }, () => {
-        setTimeout(() => {
-          try {
-            this.props.saveAction(
-              this.nameInput.current.value,
-              this.publicKeyInput.current.value,
-              this.secretKeyInput.current.value,
-              this.signatureInput.current.value,
-              this.props.history.push('/'));
-          } catch (err) {
-            if (err instanceof InvalidPasswordError) {
-              this.setState({
-                isSubmitted: false
-              }, () => {
-                const password = document.querySelector('[name=password]');
-                password.setCustomValidity(err.message);
-                password.reportValidity();
-              });
-            } else {
-              throw err;
-            }
-          }
-        }, 100);
+        // setTimeout(() => {
+        //   try {
+        //     this.props.saveAction(
+        //       this.nameInput.current.value,
+        //       this.publicKeyInput.current.value,
+        //       this.secretKeyInput.current.value,
+        //       this.signatureInput.current.value,
+        //       console.log('dupa'));
+        //   } catch (err) {
+        //     if (err instanceof InvalidPasswordError) {
+        //       this.setState({
+        //         isSubmitted: false
+        //       }, () => {
+        //         const password = document.querySelector('[name=password]');
+        //         password.setCustomValidity(err.message);
+        //         password.reportValidity();
+        //       });
+        //     } else {
+        //       throw err;
+        //     }
+        //   }
+        // }, 100);
       });
     }
   };
+
 
   constructor(props) {
     super(props);
@@ -122,12 +124,13 @@ export default class ImportKeysPage extends FormPage {
   render() {
     return (
       <div className={style.page}>
-        {this.state.isSubmitted && <LoaderOverlay />}
+        {/*{this.state.isSubmitted && <LoaderOverlay />}*/}
         <header>
           <h1>
             Import key
           </h1>
         </header>
+        <ConfirmDialog showDialog={this.state.isSubmitted} action={this.props.saveAction} vault={this.props.vault}/>
         <Form onSubmit={this.handleSubmit}>
           <div>
             <input

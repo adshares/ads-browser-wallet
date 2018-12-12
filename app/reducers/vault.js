@@ -86,9 +86,9 @@ const actionsMap = {
     const address = action.address.toUpperCase();
     const name = action.name;
     const publicKey = action.publicKey.toUpperCase();
-    const privateKey = vault.keys.find(k => k.publicKey === publicKey);
+    const key = vault.keys.find(k => k.publicKey === publicKey);
 
-    if (!privateKey) {
+    if (!key) {
       throw new UnknownPublicKeyError(action.publicKey);
     }
 
@@ -100,7 +100,7 @@ const actionsMap = {
       address,
       name,
       publicKey,
-      privateKey,
+      secretKey: key.secretKey,
     });
     updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
@@ -116,9 +116,9 @@ const actionsMap = {
     const address = action.address.toUpperCase();
     const name = action.name;
     const publicKey = action.publicKey.toUpperCase();
-    const privateKey = vault.keys.find(k => k.publicKey === publicKey);
+    const key = vault.keys.find(k => k.publicKey === publicKey);
 
-    if (!privateKey) {
+    if (!key) {
       throw new UnknownPublicKeyError(action.publicKey);
     }
 
@@ -129,12 +129,34 @@ const actionsMap = {
 
     account.name = name;
     account.publicKey = publicKey;
-    account.privateKey = privateKey;
+    account.secretKey = key.secretKey;
 
     const updatedVault = {
       ...initialVault,
       ...vault,
     };
+    updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+
+    return updatedVault;
+  },
+
+  [ActionTypes.REMOVE_ACCOUNT](vault, action) {
+    console.debug('REMOVE_ACCOUNT');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
+
+    const address = action.address.toUpperCase();
+    const account = vault.accounts.find(a => a.address === address);
+    if (!account) {
+      throw new ItemNotFound('account', action.address);
+    }
+
+    const updatedVault = {
+      ...initialVault,
+      ...vault,
+    };
+    updatedVault.accounts = vault.accounts.filter(a => a.address !== address);
     updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
     return updatedVault;

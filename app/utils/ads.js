@@ -1,4 +1,4 @@
-import NaCl from 'js-nacl';
+import NaCl from 'tweetnacl';
 import { byteToHex, hexToByte, sanitizeHex } from './utils';
 
 /**
@@ -55,7 +55,7 @@ function validateAddress(address) {
 }
 
 /**
- * Checks if ADS public or private key is valid.
+ * Checks if ADS public or secret key is valid.
  *
  * @param key e.g. BE907B4BAC84FEE5CE8811DB2DEFC9BF0B2A2A2BBC3D54D8A2257ECD70441962
  * @returns {boolean}
@@ -74,13 +74,14 @@ function validateKey(key) {
  * Signs data with a secret key.
  *
  * @param data data; in case of transaction: `tx.account_hashin` + `tx.data`
- * @param secretKey secret key 64 bytes: concatenation of secret and public key
+ * @param publicKey public key 32 bytes
+ * @param secretKey secret key 32 bytes
  * @returns {string} signature 64 bytes
  */
-function sign(data, secretKey) {
-  return byteToHex(NaCl.crypto_sign_detached(
+function sign(data, publicKey, secretKey) {
+  return byteToHex(NaCl.sign.detached(
     hexToByte(sanitizeHex(data)),
-    hexToByte(sanitizeHex(secretKey)),
+    hexToByte(sanitizeHex(secretKey + publicKey)),
   )).toUpperCase();
 }
 

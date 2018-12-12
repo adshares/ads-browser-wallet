@@ -25,7 +25,7 @@ export function UnknownPublicKeyError(publicKey) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.data = { publicKey };
-  this.message = 'Cannot find a key in storage. Please import private key first.';
+  this.message = 'Cannot find a key in storage. Please import secret key first.';
 }
 
 export function ItemNotFound(name, id) {

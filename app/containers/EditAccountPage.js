@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes, faInfo, faCheck } from '@fortawesome/free-solid-svg-icons/index';
-import { InvalidPasswordError, AccountsLimitError, UnknownPublicKeyError } from '../actions/errors';
+import { InvalidPasswordError, UnknownPublicKeyError } from '../actions/errors';
 import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
@@ -156,6 +156,7 @@ export default class EditAccountPage extends FormPage {
     return (
       <Form onSubmit={this.handleSubmit}>
         <div>
+          Address:
           <input
             required
             placeholder="Account address"
@@ -166,6 +167,7 @@ export default class EditAccountPage extends FormPage {
           />
         </div>
         <div>
+          Name:
           <input
             required
             maxLength={config.accountNameMaxLength}
@@ -176,6 +178,7 @@ export default class EditAccountPage extends FormPage {
           />
         </div>
         <div>
+          Public key:
           <textarea
             required
             pattern="[0-9a-fA-F]{64}"
@@ -186,6 +189,7 @@ export default class EditAccountPage extends FormPage {
           />
         </div>
         <div>
+          Password:
           <input
             type="password"
             autoFocus

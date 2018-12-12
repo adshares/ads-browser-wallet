@@ -9,6 +9,7 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import SettingsPage from './SettingsPage';
 import EditAccountPage from './EditAccountPage';
+import AccountKeysPage from './AccountKeysPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 
@@ -91,7 +92,7 @@ export default class App extends Component {
             exact
             path="/settings"
             vault={vault}
-            render={props => <SettingsPage vault={vault} ereaseAction={actions.erease} {...props} />}
+            render={props => <SettingsPage vault={vault} actions={actions} {...props} />}
           />
           <PrivateRoute
             exact
@@ -104,6 +105,12 @@ export default class App extends Component {
             path="/accounts/:id([0-9A-F-]+)/edit"
             vault={vault}
             render={props => <EditAccountPage vault={vault} saveAction={actions.updateAccount} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/accounts/:id([0-9A-F-]+)/keys"
+            vault={vault}
+            render={props => <AccountKeysPage vault={vault} {...props} />}
           />
           <PrivateRoute
             exact

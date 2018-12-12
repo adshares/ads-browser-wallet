@@ -7,8 +7,13 @@
     margin-bottom: 50px;
 }
 
+.page form {
+    text-align: left;
+}
+
 .buttons {
     margin-top: 40px;
+    text-align: center;
 }
 
 .cancel {

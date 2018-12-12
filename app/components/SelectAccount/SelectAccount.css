@@ -44,6 +44,11 @@
     text-transform: capitalize;
 }
 
+.option:focus,
+.optionLink:focus {
+    outline-color: var(--blue);
+}
+
 .option:not(.optionActive):hover {
     background: rgba(240, 240, 240, 0.3);
 }

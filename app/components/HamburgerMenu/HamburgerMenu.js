@@ -21,9 +21,11 @@ export default class HamburgerMenu extends React.PureComponent {
         onMouseEnter={() => this.toggleMenu(true)}
       >
         <div
+          tabIndex="0"
           role="button"
           className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
           onClick={() => this.toggleMenu(!this.state.menuOpened)}
+          onFocus={() => this.toggleMenu(true)}
         />
         <ul
           className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}
@@ -34,13 +36,16 @@ export default class HamburgerMenu extends React.PureComponent {
           </li>
           <li>
             <Link to={'/'} className={style.menuItem} onClick={this.props.ereaseAction} >Erase storage</Link>
-
           </li>
           <li>
             <Link to="/accounts/import" className={style.menuItem}> Add account </Link>
           </li>
           <li>
-            <Link to={'/'} onClick={this.props.logoutAction} className={style.menuItem}>Logout</Link>
+            <Link
+              to={'/'} onClick={this.props.logoutAction} className={style.menuItem}
+              onBlur={() => this.toggleMenu(false)}
+            >
+              Logout</Link>
           </li>
         </ul>
       </div>

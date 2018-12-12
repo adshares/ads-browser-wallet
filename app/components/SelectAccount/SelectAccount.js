@@ -35,6 +35,7 @@ export default class SelectAccount extends React.Component {
       if (option.account !== this.state.activeOption.account) {
         return (
           <li
+            tabIndex="0"
             key={index} className={style.option} data-value={option.account}
             onClick={() => this.setActiveOption(option)}
           >
@@ -52,8 +53,10 @@ export default class SelectAccount extends React.Component {
         onMouseLeave={() => this.toggleShowOptions(false)}
       >
         <div
+          tabIndex="0"
           role="button"
           className={`${style.option} ${style.optionActive}`}
+          onFocus={() => this.toggleShowOptions(true)}
           onClick={() => this.toggleShowOptions(!showOptions)}
         >
           <span className={style.optionName}> {activeOption.name} </span>
@@ -67,6 +70,7 @@ export default class SelectAccount extends React.Component {
           {showOptions && (
             <li className={`${style.option} ${style.optionAdd}`}>
               <Link
+                onBlur={() => this.toggleShowOptions(false)}
                 className={style.optionLink}
                 to="/accounts/import"
               >

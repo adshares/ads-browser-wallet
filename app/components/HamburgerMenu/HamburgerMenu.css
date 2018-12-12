@@ -16,6 +16,10 @@
     width: 30px;
 }
 
+.iconButton:focus {
+    outline-color: var(--blue);
+}
+
 .iconButton:before,
 .iconButton:after {
     background: var(--blue);
@@ -93,10 +97,13 @@
     transition: width .3s ease-out;
 }
 
-.menuItem:hover {
+.menuItem:hover,
+.menuItem:focus {
     text-decoration: none;
+    outline: none;
 }
 
-.menuItem:hover:after {
+.menuItem:hover:after,
+.menuItem:focus:after {
     width: 100%;
 }

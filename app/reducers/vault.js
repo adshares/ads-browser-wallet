@@ -1,7 +1,12 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
-import { InvalidPasswordError, AccountsLimitError, UnknownPublicKeyError } from '../actions/errors';
+import {
+  InvalidPasswordError,
+  AccountsLimitError,
+  UnknownPublicKeyError,
+  ItemNotFound,
+} from '../actions/errors';
 import config from '../config';
 
 const initialVault = {
@@ -77,7 +82,12 @@ const actionsMap = {
     if (vault.accounts.length >= config.accountsLimit) {
       throw new AccountsLimitError(config.accountsLimit);
     }
-    const privateKey = vault.keys.find(k => k.publicKey === action.publicKey);
+
+    const address = action.address.toUpperCase();
+    const name = action.name;
+    const publicKey = action.publicKey.toUpperCase();
+    const privateKey = vault.keys.find(k => k.publicKey === publicKey);
+
     if (!privateKey) {
       throw new UnknownPublicKeyError(action.publicKey);
     }
@@ -87,11 +97,44 @@ const actionsMap = {
       ...vault,
     };
     updatedVault.accounts.push({
-      address: action.address,
-      name: action.name,
-      publicKey: action.publicKey,
+      address,
+      name,
+      publicKey,
       privateKey,
     });
+    updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+
+    return updatedVault;
+  },
+
+  [ActionTypes.UPDATE_ACCOUNT](vault, action) {
+    console.debug('UPDATE_ACCOUNT');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
+
+    const address = action.address.toUpperCase();
+    const name = action.name;
+    const publicKey = action.publicKey.toUpperCase();
+    const privateKey = vault.keys.find(k => k.publicKey === publicKey);
+
+    if (!privateKey) {
+      throw new UnknownPublicKeyError(action.publicKey);
+    }
+
+    const account = vault.accounts.find(a => a.address === address);
+    if (!account) {
+      throw new ItemNotFound('account', action.address);
+    }
+
+    account.name = name;
+    account.publicKey = publicKey;
+    account.privateKey = privateKey;
+
+    const updatedVault = {
+      ...initialVault,
+      ...vault,
+    };
     updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
     return updatedVault;

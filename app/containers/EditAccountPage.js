@@ -19,17 +19,17 @@ export default class EditAccountPage extends FormPage {
     super(props);
 
     let selectedAccount = {};
-    const { accountAddress } = this.props.match.params;
+    const { id } = this.props.match.params;
 
-    if (accountAddress) {
-      selectedAccount = this.props.vault.accounts.find(a => a.address === accountAddress);
+    if (id) {
+      selectedAccount = this.props.vault.accounts.find(a => a.address === id);
       if (!selectedAccount) {
         throw new Error('Account doesn\'t exist');
       }
     }
 
     this.state = {
-      accountAddress,
+      accountAddress: id,
       name: selectedAccount.name || '',
       address: selectedAccount.address || '',
       publicKey: selectedAccount.publicKey || '',
@@ -46,7 +46,9 @@ export default class EditAccountPage extends FormPage {
       return false;
     }
 
-    if (this.props.vault.accounts.find(a => a.address === this.state.address)) {
+    if (this.props.vault.accounts.find(
+      a => a.address === this.state.address.toUpperCase() && a.address !== this.state.accountAddress
+    )) {
       addressInput.setCustomValidity(`Account ${this.state.address} already exists`);
       return false;
     }
@@ -157,6 +159,7 @@ export default class EditAccountPage extends FormPage {
           <input
             required
             placeholder="Account address"
+            readOnly={this.state.accountAddress}
             name="address"
             value={this.state.address}
             onChange={this.handleAddressChange}
@@ -222,7 +225,7 @@ export default class EditAccountPage extends FormPage {
         {this.state.isSubmitted && <LoaderOverlay />}
         <header>
           <h1>
-            {this.state.accountAddress ? `Edit account ${this.state.address}` : 'Import new account'}
+            {this.state.accountAddress ? 'Edit account' : 'Import new account'}
           </h1>
         </header>
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}

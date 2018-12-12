@@ -8,6 +8,8 @@ import {
   faSave,
   faExclamation,
   faPlus,
+  faPencilAlt,
+  faKey,
 } from '@fortawesome/free-solid-svg-icons';
 import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
@@ -39,6 +41,14 @@ export default class SettingsPage extends FormPage {
     });
   };
 
+  showAccountKeys = () => {
+    console.debug('show');
+  };
+
+  removeAccount = () => {
+    console.debug('remove');
+  };
+
   render() {
     const vault = this.props.vault;
 
@@ -54,8 +64,23 @@ export default class SettingsPage extends FormPage {
             <ul>
               {vault.accounts.map((account, index) =>
                 <li key={index}>
-                  {account.address}
+                  <span>{account.address}</span>
                   <small>{account.name}</small>
+                  <Button onClick={this.showAccountKeys} size="small">
+                    <FontAwesomeIcon icon={faKey} />
+                  </Button>
+                  <ButtonLink
+                    to={{
+                      pathname: `/accounts/${account.address}/edit`,
+                      state: { referrer: this.props.location }
+                    }}
+                    size="small"
+                  >
+                    <FontAwesomeIcon icon={faPencilAlt} />
+                  </ButtonLink>
+                  <Button onClick={this.removeAccount} size="small" layout="danger">
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </Button>
                 </li>
               )}
             </ul>

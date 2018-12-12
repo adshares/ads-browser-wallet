@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import style from './Header.css';
 import logo from '../../assets/logo_blue.svg';
 import SelectAccount from '../SelectAccount/SelectAccount';
@@ -20,12 +21,20 @@ const TEST_ACCOUNTS = [
 
 export default class Header extends React.Component {
   render() {
+    const { logoutAction, ereaseAction } = this.props;
     return (
       <header className={style.header}>
         <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
         <SelectAccount options={TEST_ACCOUNTS} />
-        <HamburgerMenu />
+        <HamburgerMenu logoutAction={logoutAction} ereaseAction={ereaseAction} />
       </header>
     );
   }
 }
+
+
+Header.propTypes = {
+  logoutAction: PropTypes.func.isRequired,
+  ereaseAction: PropTypes.func.isRequired,
+};
+

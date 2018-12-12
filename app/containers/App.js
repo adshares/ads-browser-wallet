@@ -11,6 +11,7 @@ import SettingsPage from './SettingsPage';
 import EditAccountPage from './EditAccountPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
+import Header from '../components/Header/Header';
 
 function NotFoundErrorPage(props) {
   return (
@@ -64,40 +65,53 @@ export default class App extends Component {
             path="/restore"
             render={props => <RestorePage restoreAction={actions.create} {...props} />}
           />
-          { !vault.empty ? <Route
+          {!vault.empty ? <Route
             exact
             path="/login"
             render={props => <LoginPage loginAction={actions.unseal} {...props} />}
-          /> : '' }
-          { vault.empty ? <Route
+          /> : ''}
+          {vault.empty ? <Route
             exact
             path="/register/:step([a-z]+)?"
             render={props => <RegisterPage registerAction={actions.create} {...props} />}
-          /> : '' }
-          <PrivateRoute
-            exact
-            path="/(popup.html)?"
-            vault={vault}
-            render={props => <HomePage vault={vault} logoutAction={actions.seal} ereaseAction={actions.erease} {...props} />}
-          />
-          <PrivateRoute
-            exact
-            path="/settings"
-            vault={vault}
-            render={props => <SettingsPage vault={vault} ereaseAction={actions.erease} {...props} />}
-          />
-          <PrivateRoute
-            exact
-            path="/accounts/import"
-            vault={vault}
-            render={props => <EditAccountPage vault={vault} saveAction={actions.addAccount} {...props} />}
-          />
-          <PrivateRoute
-            exact
-            path="/sign"
-            vault={vault}
-            render={props => <HomePage vault={vault} {...props} />}
-          />
+          /> : ''}
+
+          <div>
+            <Header logoutAction={actions.seal} ereaseAction={actions.erease} />
+            <PrivateRoute
+              exact
+              path="/(popup.html)?"
+              vault={vault}
+              render={props => <HomePage
+                vault={vault} logoutAction={actions.seal}
+                ereaseAction={actions.erease} {...props}
+              />}
+            />
+            <PrivateRoute
+              exact
+              path="/settings"
+              vault={vault}
+              render={props => <SettingsPage
+                vault={vault}
+                ereaseAction={actions.erease} {...props}
+              />}
+            />
+            <PrivateRoute
+              exact
+              path="/accounts/import"
+              vault={vault}
+              render={props => <EditAccountPage
+                vault={vault}
+                saveAction={actions.addAccount} {...props}
+              />}
+            />
+            <PrivateRoute
+              exact
+              path="/sign"
+              vault={vault}
+              render={props => <HomePage vault={vault} {...props} />}
+            />
+          </div>
           <Route component={NotFoundErrorPage} />
         </Switch>
       </div>

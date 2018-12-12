@@ -35,7 +35,6 @@ export default class SettingsPage extends FormPage {
   render() {
     return (
       <div className={style.page}>
-        <Header />
         <ButtonLink to="/" size="small" inverse className={style.close}>
           <FontAwesomeIcon icon={faTimes} />
         </ButtonLink>

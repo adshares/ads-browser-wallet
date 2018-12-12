@@ -68,7 +68,6 @@ export default class SelectAccount extends React.Component {
             <li className={`${style.option} ${style.optionAdd}`}>
               <Link
                 className={style.optionLink}
-                onClick={() => this.setActiveOption('')}
                 to="/accounts/import"
               >
                 Add new account

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'react-router-dom/es/Link';
 import style from './Header.css';
 import logo from '../../assets/logo_blue.svg';
 import SelectAccount from '../SelectAccount/SelectAccount';
@@ -24,7 +25,9 @@ export default class Header extends React.Component {
     const { logoutAction, ereaseAction } = this.props;
     return (
       <header className={style.header}>
-        <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
+        <Link to="/">
+          <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
+        </Link>
         <SelectAccount options={TEST_ACCOUNTS} />
         <HamburgerMenu logoutAction={logoutAction} ereaseAction={ereaseAction} />
       </header>

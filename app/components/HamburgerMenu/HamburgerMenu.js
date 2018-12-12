@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'react-router-dom/es/Link';
 import style from './HamburgerMenu.css';
-import PropTypes from 'prop-types';
 
 export default class HamburgerMenu extends React.PureComponent {
   state = {

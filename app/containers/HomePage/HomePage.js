@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Footer from '../components/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 import style from './HomePage.css';
 
 export default class HomePage extends React.PureComponent {

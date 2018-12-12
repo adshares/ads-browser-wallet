@@ -22,6 +22,7 @@ const actionsMap = {
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
 
     const newVault = {
+      ...initialVault,
       ...vault,
       empty: false,
       sealed: false,
@@ -83,6 +84,27 @@ const actionsMap = {
       name: action.name,
       publicKey: action.publicKey,
     });
+    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
+    VaultCrypt.save(updatedVault, action.callback);
+
+    return updatedVault;
+  },
+
+  [ActionTypes.ADD_KEY](vault, action) {
+    console.debug('ADD_KEY');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
+
+    const updatedVault = { ...vault };
+    updatedVault.keys.push({
+      name: action.name,
+      secretKey: action.secretKey,
+      publicKey: action.publicKey,
+      signature: action.signature,
+    });
+
+    console.log('-', updatedVault.keys)
     updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
     VaultCrypt.save(updatedVault, action.callback);
 

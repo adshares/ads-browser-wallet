@@ -41,6 +41,9 @@ export default class HamburgerMenu extends React.PureComponent {
             <Link to="/accounts/import" className={style.menuItem}> Add account </Link>
           </li>
           <li>
+            <Link to="/keys/import" className={style.menuItem}> Import keys </Link>
+          </li>
+          <li>
             <Link
               to={'/'} onClick={this.props.logoutAction} className={style.menuItem}
               onBlur={() => this.toggleMenu(false)}

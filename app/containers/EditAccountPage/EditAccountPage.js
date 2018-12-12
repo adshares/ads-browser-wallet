@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
-import FormPage from '../components/FormPage';
-import Form from '../components/atoms/Form';
-import Button from '../components/atoms/Button';
-import ButtonLink from '../components/atoms/ButtonLink';
-import LoaderOverlay from '../components/atoms/LoaderOverlay';
-import ADS from '../utils/ads';
+import FormPage from '../../components/FormPage';
+import Form from '../../components/atoms/Form';
+import Button from '../../components/atoms/Button';
+import ButtonLink from '../../components/atoms/ButtonLink';
+import LoaderOverlay from '../../components/atoms/LoaderOverlay';
+import ADS from '../../utils/ads';
 import style from './EditAccountPage.css';
-import { InvalidPasswordError } from '../actions/errors'
+import { InvalidPasswordError } from '../../actions/errors';
 
 export default class EditAccountPage extends FormPage {
 

@@ -1,17 +1,20 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import ErrorPage from './ErrorPage';
-import HomePage from './HomePage';
-import RestorePage from './RestorePage';
-import RegisterPage from './RegisterPage';
-import LoginPage from './LoginPage';
-import SettingsPage from './SettingsPage';
-import EditAccountPage from './EditAccountPage';
+import ErrorPage from './ErrorPage/ErrorPage';
+import HomePage from './HomePage/HomePage';
+import RestorePage from './RestorePage/RestorePage';
+import RegisterPage from './RegisterPage/RegisterPage';
+import LoginPage from './LoginPage/LoginPage';
+import SettingsPage from './SettingsPage/SettingsPage';
+import EditAccountPage from './EditAccountPage/EditAccountPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 import Header from '../components/Header/Header';
+import ImportKeysPage from './ImportKeysPage/ImportKeysPage';
 
 function NotFoundErrorPage(props) {
   return (
@@ -103,6 +106,15 @@ export default class App extends Component {
               render={props => <EditAccountPage
                 vault={vault}
                 saveAction={actions.addAccount} {...props}
+              />}
+            />
+            <PrivateRoute
+              exact
+              path="/keys/import"
+              vault={vault}
+              render={props => <ImportKeysPage
+                vault={vault}
+                saveAction={actions.addKey} {...props}
               />}
             />
             <PrivateRoute

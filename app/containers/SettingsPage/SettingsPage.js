@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShieldAlt, faTimes, faTrashAlt, faSave, faExclamation } from '@fortawesome/free-solid-svg-icons';
-import FormPage from '../components/FormPage';
-import Form from '../components/atoms/Form';
-import Button from '../components/atoms/Button';
-import ButtonLink from '../components/atoms/ButtonLink';
-import Box from '../components/atoms/Box';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import FormPage from '../../components/FormPage';
+import Form from '../../components/atoms/Form';
+import Button from '../../components/atoms/Button';
+import ButtonLink from '../../components/atoms/ButtonLink';
+import Box from '../../components/atoms/Box';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import style from './SettingsPage.css';
 
 export default class SettingsPage extends FormPage {

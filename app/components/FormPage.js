@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class FormPage extends React.PureComponent {
+export default class FormPage extends React.Component {
   handleInputChange = (event, callback) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;

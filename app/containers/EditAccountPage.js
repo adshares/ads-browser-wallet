@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
+import { faChevronRight, faTimes, faInfo, faCheck } from '@fortawesome/free-solid-svg-icons/index';
+import { InvalidPasswordError, AccountsLimitError, UnknownPublicKeyError } from '../actions/errors';
 import FormPage from '../components/FormPage';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
+import Box from '../components/atoms/Box';
 import LoaderOverlay from '../components/atoms/LoaderOverlay';
 import ADS from '../utils/ads';
+import config from './../config';
 import style from './EditAccountPage.css';
-import { InvalidPasswordError } from '../actions/errors'
 
 export default class EditAccountPage extends FormPage {
 
@@ -36,23 +38,10 @@ export default class EditAccountPage extends FormPage {
     };
   }
 
-  validateName() {
-    const nameInput = document.querySelector('[name=name]');
-
-    if (this.props.vault.accounts.find(
-      a => a.name === this.state.name && a.address !== this.state.accountAddress
-    )) {
-      nameInput.setCustomValidity(`Name ${this.state.name} already exists`);
-      return false;
-    }
-
-    nameInput.setCustomValidity('');
-    return true;
-  }
-
   validateAddress() {
     const addressInput = document.querySelector('[name=address]');
-    if (!ADS.validateAddress(this.state.address)) {
+
+    if (!this.state.address || !ADS.validateAddress(this.state.address)) {
       addressInput.setCustomValidity('Please provide an valid account address');
       return false;
     }
@@ -66,9 +55,29 @@ export default class EditAccountPage extends FormPage {
     return true;
   }
 
+  validateName() {
+    const nameInput = document.querySelector('[name=name]');
+
+    if (!this.state.name || this.state.name.length > config.accountNameMaxLength) {
+      nameInput.setCustomValidity('Please provide a valid account name');
+      return false;
+    }
+
+    if (this.props.vault.accounts.find(
+      a => a.name === this.state.name && a.address !== this.state.accountAddress
+    )) {
+      nameInput.setCustomValidity(`Name ${this.state.name} already exists`);
+      return false;
+    }
+
+    nameInput.setCustomValidity('');
+    return true;
+  }
+
   validatePublicKey() {
     const publicKeyInput = document.querySelector('[name=publicKey]');
-    if (!ADS.validateKey(this.state.publicKey)) {
+
+    if (!this.state.publicKey || !ADS.validateKey(this.state.publicKey)) {
       publicKeyInput.setCustomValidity('Please provide an valid public key');
       return false;
     }
@@ -77,12 +86,12 @@ export default class EditAccountPage extends FormPage {
     return true;
   }
 
-  handleNameChange = (event) => {
-    this.handleInputChange(event, this.validateName);
-  };
-
   handleAddressChange = (event) => {
     this.handleInputChange(event, this.validateAddress);
+  };
+
+  handleNameChange = (event) => {
+    this.handleInputChange(event, this.validateName);
   };
 
   handlePublicKeyChange = (event) => {
@@ -98,31 +107,116 @@ export default class EditAccountPage extends FormPage {
         isSubmitted: true
       }, () => {
         try {
-          const location = this.props.location.state.referrer || '/';
           this.props.saveAction(
             this.state.address,
             this.state.name,
             this.state.publicKey,
             this.state.password,
-            this.props.history.push(location));
+          );
+          this.props.history.push(this.getReferrer('/'));
         } catch (err) {
+          let input;
           if (err instanceof InvalidPasswordError) {
-            this.setState({
-              isSubmitted: false
-            }, () => {
-              const password = document.querySelector('[name=password]');
-              password.setCustomValidity(err.message);
-              password.reportValidity();
-            });
+            input = document.querySelector('[name=password]');
+          } else if (err instanceof UnknownPublicKeyError) {
+            input = document.querySelector('[name=publicKey]');
           } else {
-            throw err;
+            input = document.querySelector('[name=address]');
           }
+
+          this.setState({
+            isSubmitted: false
+          }, () => {
+            input.setCustomValidity(err.message);
+            input.reportValidity();
+          });
         }
       });
     }
   };
 
+  renderLimitWarning() {
+    return (
+      <div>
+        <Box layout="warning" icon={faInfo}>
+          Maximum account limit has been reached. Please remove unused accounts.
+        </Box>
+        <ButtonLink
+          className={style.cancel} to={this.getReferrer()} icon="left" size="wide"
+        >
+          <FontAwesomeIcon icon={faCheck} /> OK
+        </ButtonLink>
+      </div>
+    );
+  }
+
+  renderForm() {
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <div>
+          <input
+            required
+            placeholder="Account address"
+            name="address"
+            value={this.state.address}
+            onChange={this.handleAddressChange}
+          />
+        </div>
+        <div>
+          <input
+            required
+            maxLength={config.accountNameMaxLength}
+            placeholder="Account name"
+            name="name"
+            value={this.state.name}
+            onChange={this.handleNameChange}
+          />
+        </div>
+        <div>
+          <textarea
+            required
+            pattern="[0-9a-fA-F]{64}"
+            placeholder="Account public key"
+            name="publicKey"
+            value={this.state.publicKey}
+            onChange={this.handlePublicKeyChange}
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            autoFocus
+            required
+            placeholder="Password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handlePasswordChange}
+          />
+        </div>
+        <div className={style.buttons}>
+          <ButtonLink
+            className={style.cancel} to={this.getReferrer()} inverse icon="left"
+            disabled={this.state.isSubmitted}
+          >
+            <FontAwesomeIcon icon={faTimes} /> Cancel
+          </ButtonLink>
+          <Button name="button"
+            type="submit" icon="right"
+            disabled={this.state.isSubmitted}
+          >
+            {this.state.accountAddress ? 'Save' : 'Import'}
+            <FontAwesomeIcon icon={faChevronRight} />
+          </Button>
+        </div>
+      </Form>
+    );
+  }
+
   render() {
+    const limitWarning =
+      !this.state.accountAddress &&
+      this.props.vault.accounts.length >= config.accountsLimit;
+
     return (
       <div className={style.page}>
         {this.state.isSubmitted && <LoaderOverlay />}
@@ -131,62 +225,7 @@ export default class EditAccountPage extends FormPage {
             {this.state.accountAddress ? `Edit account ${this.state.address}` : 'Import new account'}
           </h1>
         </header>
-        <Form onSubmit={this.handleSubmit}>
-          <div>
-            <input
-              required
-              placeholder="Account name"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleNameChange}
-            />
-          </div>
-          <div>
-            <input
-              required
-              placeholder="Account address"
-              name="address"
-              value={this.state.address}
-              onChange={this.handleAddressChange}
-            />
-          </div>
-          <div>
-            <textarea
-              required
-              pattern="[0-9a-fA-F]{64}"
-              placeholder="Account public key"
-              name="publicKey"
-              value={this.state.publicKey}
-              onChange={this.handlePublicKeyChange}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              autoFocus
-              required
-              placeholder="Password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-            />
-          </div>
-          <div className={style.buttons}>
-            <ButtonLink
-              className={style.cancel} to={'/'} inverse icon="left"
-              disabled={this.state.isSubmitted}
-            >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
-            </ButtonLink>
-            <Button
-              type="submit" icon="right"
-              disabled={this.state.isSubmitted}
-            >
-              {this.state.accountAddress ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight} />
-            </Button>
-          </div>
-        </Form>
+        {limitWarning ? this.renderLimitWarning() : this.renderForm()}
       </div>
     );
   }

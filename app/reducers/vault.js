@@ -1,7 +1,7 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
-import { InvalidPasswordError } from '../actions/errors';
+import { InvalidPasswordError, AccountsLimitError, UnknownPublicKeyError } from '../actions/errors';
 import config from '../config';
 
 const initialVault = {
@@ -29,16 +29,15 @@ const actionsMap = {
       seed,
       keys: KeyBox.generateKeys(seed, config.initKeysQuantity),
     };
-    newVault.secret = VaultCrypt.encrypt(newVault, action.password);
-    VaultCrypt.save(newVault, action.callback);
+    newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);
 
     return newVault;
   },
 
   [ActionTypes.EREASE_VAULT]() {
     console.debug('EREASE_VAULT');
-    VaultCrypt.save(initialVault);
-
+    //TODO check password
+    VaultCrypt.erase();
     return initialVault;
   },
 
@@ -75,6 +74,13 @@ const actionsMap = {
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
+    if (vault.accounts.length >= config.accountsLimit) {
+      throw new AccountsLimitError(config.accountsLimit);
+    }
+    const privateKey = vault.keys.find(k => k.publicKey === action.publicKey);
+    if (!privateKey) {
+      throw new UnknownPublicKeyError(action.publicKey);
+    }
 
     const updatedVault = {
       ...initialVault,
@@ -84,9 +90,9 @@ const actionsMap = {
       address: action.address,
       name: action.name,
       publicKey: action.publicKey,
+      privateKey,
     });
-    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
-    VaultCrypt.save(updatedVault, action.callback);
+    updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
     return updatedVault;
   },

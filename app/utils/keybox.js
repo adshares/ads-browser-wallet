@@ -48,5 +48,5 @@ export default {
   seedPhraseToHex,
   generateKeys,
   generateNextKey,
-  generateSeedPhrase
+  generateSeedPhrase,
 };

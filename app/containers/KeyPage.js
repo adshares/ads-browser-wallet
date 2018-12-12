@@ -8,41 +8,42 @@ import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import ADS from '../utils/ads';
 import style from './SettingsPage.css';
 
-export default class AccountKeysPage extends FormPage {
+export default class KeyPage extends FormPage {
 
   render() {
-    const { address } = this.props.match.params;
-    const account = this.props.vault.accounts.find(a => a.address === address);
+    const { id } = this.props.match.params;
+    const account = this.props.vault.accounts.find(a => a.address === id);
+    const signature = ADS.sign('', account.publicKey, account.secretKey);
 
     return (
       <div className={style.page}>
         <Header />
         <div className={style.header}>
-          <h1>{account.name} keys</h1>
+          <h1>{account.address}</h1>
           <ButtonLink to={this.getReferrer()} size="small" inverse>
             <FontAwesomeIcon icon={faTimes} />
           </ButtonLink>
         </div>
         <div className={style.contentWrapper}>
           {!account ? (
-            <Box layout="danger" icon={faExclamation} className={style.infoBox}>
+            <Box layout="danger" icon={faExclamation}>
               Cannot find the account {account.address} in storage.
             </Box>
             ) :
             (
               <Form>
-                <Box layout="warning" icon={faExclamation} className={style.infoBox}>
+                <Box layout="warning" icon={faExclamation}>
                   Store the secret keys safely. Only the public key and signatures can be revealed.
                   The secret key must not be transferred to anyone.
                 </Box>
                 <div>
-                  Account address:
+                  Secret key:
                   <textarea
-                    value={account.address}
+                    value={account.secretKey}
                     readOnly
-                    rows="1"
                   />
                 </div>
                 <div>
@@ -52,10 +53,11 @@ export default class AccountKeysPage extends FormPage {
                     readOnly
                   />
                 </div>
-                <div className={style.dangerContent}>
-                  Secret key:
+                <div>
+                  Signature of an empty string:
                   <textarea
-                    value={account.secretKey}
+                    value={signature}
+                    rows="4"
                     readOnly
                   />
                 </div>
@@ -69,7 +71,7 @@ export default class AccountKeysPage extends FormPage {
   }
 }
 
-AccountKeysPage.propTypes = {
+KeyPage.propTypes = {
   history: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
 };

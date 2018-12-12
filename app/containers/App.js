@@ -102,13 +102,13 @@ export default class App extends Component {
           />
           <PrivateRoute
             exact
-            path="/accounts/:id([0-9A-F-]+)/edit"
+            path="/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
             render={props => <EditAccountPage vault={vault} saveAction={actions.updateAccount} {...props} />}
           />
           <PrivateRoute
             exact
-            path="/accounts/:id([0-9A-F-]+)/keys"
+            path="/accounts/:address([0-9A-F-]+)/keys"
             vault={vault}
             render={props => <AccountKeysPage vault={vault} {...props} />}
           />

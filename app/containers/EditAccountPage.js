@@ -9,6 +9,8 @@ import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
 import LoaderOverlay from '../components/atoms/LoaderOverlay';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 import ADS from '../utils/ads';
 import config from './../config';
 import style from './EditAccountPage.css';
@@ -19,17 +21,17 @@ export default class EditAccountPage extends FormPage {
     super(props);
 
     let selectedAccount = {};
-    const { id } = this.props.match.params;
+    const { address } = this.props.match.params;
 
-    if (id) {
-      selectedAccount = this.props.vault.accounts.find(a => a.address === id);
+    if (address) {
+      selectedAccount = this.props.vault.accounts.find(a => a.address === address);
       if (!selectedAccount) {
         throw new Error('Account doesn\'t exist');
       }
     }
 
     this.state = {
-      accountAddress: id,
+      accountAddress: address,
       name: selectedAccount.name || '',
       address: selectedAccount.address || '',
       publicKey: selectedAccount.publicKey || '',
@@ -227,12 +229,12 @@ export default class EditAccountPage extends FormPage {
     return (
       <div className={style.page}>
         {this.state.isSubmitted && <LoaderOverlay />}
-        <header>
-          <h1>
-            {this.state.accountAddress ? 'Edit account' : 'Import new account'}
-          </h1>
-        </header>
+        <Header />
+        <h2>
+          {this.state.accountAddress ? 'Edit account' : 'Import new account'}
+        </h2>
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
+        <Footer />
       </div>
     );
   }

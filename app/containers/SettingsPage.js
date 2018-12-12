@@ -51,34 +51,38 @@ export default class SettingsPage extends FormPage {
       <div>
         <h3>Accounts</h3>
         {this.props.vault.accounts.length &&
-        <ul>
+        <ul className={style.accounts}>
           {this.props.vault.accounts.map((account, index) =>
             <li key={index}>
-              <span>{account.address}</span>
-              <small>{account.name}</small>
-              <ButtonLink
-                to={{
-                  pathname: `/accounts/${account.address}/edit`,
-                  state: { referrer: this.props.location }
-                }}
-                size="small"
-                title="Edit account"
-              ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
-              <ButtonLink
-                to={{
-                  pathname: `/accounts/${account.address}/keys`,
-                  state: { referrer: this.props.location }
-                }}
-                size="small"
-                layout="warning"
-                title="Show account keys"
-              ><FontAwesomeIcon icon={faKey} /></ButtonLink>
-              <Button
-                onClick={() => this.removeAccount(account.address)}
-                size="small"
-                layout="danger"
-                title="Delete account"
-              ><FontAwesomeIcon icon={faTrashAlt} /></Button>
+              <span className={style.accountLabel}>
+                <small>{account.name}</small>
+                <span>{account.address}</span>
+              </span>
+              <span className={style.accountActions}>
+                <ButtonLink
+                  to={{
+                    pathname: `/accounts/${account.address}/edit`,
+                    state: { referrer: this.props.location }
+                  }}
+                  size="small"
+                  title="Edit account"
+                ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
+                <ButtonLink
+                  to={{
+                    pathname: `/accounts/${account.address}/keys`,
+                    state: { referrer: this.props.location }
+                  }}
+                  size="small"
+                  layout="warning"
+                  title="Show account keys"
+                ><FontAwesomeIcon icon={faKey} /></ButtonLink>
+                <Button
+                  onClick={() => this.removeAccount(account.address)}
+                  size="small"
+                  layout="danger"
+                  title="Delete account"
+                ><FontAwesomeIcon icon={faTrashAlt} /></Button>
+              </span>
             </li>
           )}
         </ul>
@@ -156,17 +160,6 @@ export default class SettingsPage extends FormPage {
     );
   }
 
-  renderSettings() {
-    return (
-      <div>
-        {this.renderAccountsSettings()}
-        {this.renderRPCServerSettings()}
-        {this.renderSeedPhraseSettings()}
-        {this.renderStorageSettings()}
-      </div>
-    );
-  }
-
   render() {
     return (
       <div className={style.page}>
@@ -178,7 +171,10 @@ export default class SettingsPage extends FormPage {
           </ButtonLink>
         </div>
         <div className={style.contentWrapper}>
-          {this.renderSettings()}
+          {this.renderAccountsSettings()}
+          {this.renderRPCServerSettings()}
+          {this.renderSeedPhraseSettings()}
+          {this.renderStorageSettings()}
         </div>
         <Footer />
       </div>

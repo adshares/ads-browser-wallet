@@ -20,7 +20,7 @@ const TEST_ACCOUNTS = [
 ];
 
 
-export default class Header extends React.Component {
+export default class Header extends React.PureComponent {
   render() {
     const { logoutAction, ereaseAction } = this.props;
     return (
@@ -34,7 +34,6 @@ export default class Header extends React.Component {
     );
   }
 }
-
 
 Header.propTypes = {
   logoutAction: PropTypes.func.isRequired,

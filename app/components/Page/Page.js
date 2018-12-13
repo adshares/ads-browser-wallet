@@ -18,7 +18,6 @@ export default class Page extends React.PureComponent {
       children,
       ...rest
     } = { ...this.props };
-
     let classes = [];
     classes.push(style.header);
     if (cancelLink) {
@@ -59,9 +58,9 @@ export default class Page extends React.PureComponent {
 }
 
 Page.propTypes = {
+  logoutAction: PropTypes.func.isRequired,
+  ereaseAction: PropTypes.func.isRequired,
   title: PropTypes.string,
   cancelLink: PropTypes.any,
   scroll: PropTypes.bool,
-  logoutAction: PropTypes.func.isRequired,
-  ereaseAction: PropTypes.func.isRequired,
 };

@@ -11,12 +11,10 @@ import RegisterPage from './RegisterPage/RegisterPage';
 import LoginPage from './LoginPage/LoginPage';
 import SettingsPage from './SettingsPage/SettingsPage';
 import EditAccountPage from './EditAccountPage/EditAccountPage';
-import Header from '../components/Header/Header';
 import ImportKeysPage from './ImportKeysPage/ImportKeysPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 import AccountKeysPage from './AccountKeysPage';
-
 
 function NotFoundErrorPage(props) {
   return (
@@ -98,6 +96,15 @@ export default class App extends Component {
           />
           <PrivateRoute
             exact
+            path="/(popup.html)?"
+            vault={vault}
+            render={props => <HomePage
+              vault={vault} logoutAction={actions.seal}
+              ereaseAction={actions.erease} {...props}
+            />}
+          />
+          <PrivateRoute
+            exact
             path="/settings"
             vault={vault}
             render={props => <SettingsPage vault={vault} actions={actions} {...props} />}
@@ -146,7 +153,7 @@ export default class App extends Component {
               ereaseAction={actions.erease} {...props}
             />}
           />
-          <Route component={NotFoundErrorPage} />
+          <Route path="/" component={NotFoundErrorPage} />
         </Switch>
       </div>
     );

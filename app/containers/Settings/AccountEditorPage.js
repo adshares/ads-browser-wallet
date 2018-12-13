@@ -14,7 +14,7 @@ import { InvalidPasswordError, UnknownPublicKeyError } from '../../actions/error
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 
-export default class EditAccountPage extends FormComponent {
+export default class AccountEditorPage extends FormComponent {
 
   constructor(props) {
     super(props);
@@ -247,7 +247,7 @@ export default class EditAccountPage extends FormComponent {
   }
 }
 
-EditAccountPage.propTypes = {
+AccountEditorPage.propTypes = {
   vault: PropTypes.object.isRequired,
   saveAction: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,

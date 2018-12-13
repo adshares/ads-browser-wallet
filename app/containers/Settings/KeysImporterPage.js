@@ -12,7 +12,7 @@ import ADS from '../../utils/ads';
 import style from '../../genericStyles/Page.css';
 import Page from '../../components/Page/Page';
 
-export default class ImportKeysPage extends FormComponent {
+export default class KeysImporterPage extends FormComponent {
 
   handleNameChange = () => {
     this.validateName();
@@ -187,7 +187,7 @@ export default class ImportKeysPage extends FormComponent {
   }
 }
 
-ImportKeysPage.propTypes = {
+KeysImporterPage.propTypes = {
   vault: PropTypes.object.isRequired,
   saveAction: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,

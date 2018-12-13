@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import ErrorPage from './ErrorPage/ErrorPage';
-import HomePage from './HomePage/HomePage';
-import RestorePage from './RestorePage/RestorePage';
-import RegisterPage from './RegisterPage/RegisterPage';
-import LoginPage from './LoginPage/LoginPage';
-import SettingsPage from './SettingsPage/SettingsPage';
-import EditAccountPage from './EditAccountPage/EditAccountPage';
-import ImportKeysPage from './ImportKeysPage/ImportKeysPage';
+import ErrorPage from './ErrorPage';
+import HomePage from './Home/HomePage';
+import RestorePage from './Account/RestorePage';
+import RegisterPage from './Account/RegisterPage';
+import LoginPage from './Account/LoginPage';
+import SettingsPage from './Settings/SettingsPage';
+import AccountEditorPage from './Settings/AccountEditorPage';
+import KeysImporterPage from './Settings/KeysImporterPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
-import AccountKeysPage from './AccountKeysPage';
+import AccountKeysPage from './Settings/AccountKeysPage';
 
 function NotFoundErrorPage(props) {
   return (
@@ -121,7 +121,7 @@ export default class App extends Component {
             exact
             path="/accounts/import"
             vault={vault}
-            render={props => <EditAccountPage
+            render={props => <AccountEditorPage
               vault={vault}
               ereaseAction={actions.erease}
               logoutAction={actions.seal}
@@ -132,7 +132,7 @@ export default class App extends Component {
             exact
             path="/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
-            render={props => <EditAccountPage
+            render={props => <AccountEditorPage
               vault={vault}
               ereaseAction={actions.erease}
               logoutAction={actions.seal}
@@ -153,7 +153,7 @@ export default class App extends Component {
             exact
             path="/keys/import"
             vault={vault}
-            render={props => <ImportKeysPage
+            render={props => <KeysImporterPage
               ereaseAction={actions.erease}
               logoutAction={actions.seal}
               vault={vault}

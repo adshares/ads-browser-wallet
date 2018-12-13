@@ -47,7 +47,7 @@
 .option:focus,
 .optionLink:focus {
     outline: none;
-    background: rgba(240, 240, 240, 0.6);
+    background: var(--grayish-white);
 }
 
 .option:not(.optionActive):hover {

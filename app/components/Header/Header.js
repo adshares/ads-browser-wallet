@@ -6,30 +6,17 @@ import logo from '../../assets/logo_blue.svg';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 
-const TEST_ACCOUNTS = [
-  {
-    name: 'Test 1',
-    account: '0003:000011BB:0001'
-  }, {
-    name: 'Test 2',
-    account: '0013:000011CD:0002'
-  }, {
-    name: 'Test 3',
-    account: '0003:000012BB:0001'
-  },
-];
-
-
 export default class Header extends React.PureComponent {
   render() {
     const { logoutAction, ereaseAction, accounts } = this.props;
-    console.log('this.props.accounts', this.props.accounts);
     return (
       <header className={style.header}>
         <Link to="/">
           <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
         </Link>
-        <SelectAccount options={accounts || TEST_ACCOUNTS} />
+        { !!accounts.length &&
+          <SelectAccount options={accounts} />
+        }
         <HamburgerMenu logoutAction={logoutAction} ereaseAction={ereaseAction} />
       </header>
     );

@@ -10,7 +10,7 @@ import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import Logo from '../../components/Logo/Logo';
-import config from './../../config';
+import config from '../../config';
 import style from './RegisterPage.css';
 
 export default class RegisterPage extends FormComponent {

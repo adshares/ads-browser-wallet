@@ -1,8 +1,10 @@
 .header {
-    height: 75px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: var(--shadow);
+    padding: 0 15px;
 }
 
 .headerLogo {
@@ -21,6 +23,7 @@
 .iconButton:hover {
     color: var(--blue);
 }
+
 .iconButton:focus {
     color: var(--blue);
     outline: none;

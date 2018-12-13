@@ -22,14 +22,14 @@ const TEST_ACCOUNTS = [
 
 export default class Header extends React.PureComponent {
   render() {
-    const { logoutAction, ereaseAction } = this.props;
+    const { logoutAction } = this.props;
     return (
       <header className={style.header}>
         <Link to="/">
           <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
         </Link>
         <SelectAccount options={TEST_ACCOUNTS} />
-        <HamburgerMenu logoutAction={logoutAction} ereaseAction={ereaseAction} />
+        <HamburgerMenu logoutAction={logoutAction} />
       </header>
     );
   }
@@ -37,6 +37,5 @@ export default class Header extends React.PureComponent {
 
 Header.propTypes = {
   logoutAction: PropTypes.func.isRequired,
-  ereaseAction: PropTypes.func.isRequired,
 };
 

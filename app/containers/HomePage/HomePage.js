@@ -9,7 +9,7 @@ export default class HomePage extends React.PureComponent {
     const {vault, ereaseAction, logoutAction} = this.props;
 
     return (
-      <Page className={style.page} ereaseAction={ereaseAction} logoutAction={logoutAction}>
+      <Page className={style.page} ereaseAction={ereaseAction} logoutAction={logoutAction} accounts={vault.accounts}>
         <section>
           <h2>
             Home

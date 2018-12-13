@@ -10,13 +10,13 @@ import style from './SettingsPage/SettingsPage.css';
 export default class AccountKeysPage extends FormComponent {
   render() {
     const { address } = this.props.match.params;
-    const { logoutAction, ereaseAction } = this.props;
+    const { logoutAction, ereaseAction, vault } = this.props;
     const account = this.props.vault.accounts.find(a => a.address === address);
 
     return (
       <Page
         title={`${account.name} keys`} cancelLink={this.getReferrer()} logoutAction={logoutAction}
-        ereaseAction={ereaseAction}
+        ereaseAction={ereaseAction} accounts={vault.accounts}
       >
         {!account ? (
           <Box layout="danger" icon={faExclamation} className={style.infoBox}>

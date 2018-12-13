@@ -227,7 +227,7 @@ export default class EditAccountPage extends FormComponent {
   }
 
   render() {
-    const {ereaseAction, logoutAction} = this.props;
+    const { ereaseAction, logoutAction, vault } = this.props;
     const limitWarning =
       !this.state.accountAddress &&
       this.props.vault.accounts.length >= config.accountsLimit;
@@ -236,7 +236,10 @@ export default class EditAccountPage extends FormComponent {
       'Import new account';
 
     return (
-      <Page title={title} ereaseAction={ereaseAction} logoutAction={logoutAction}>
+      <Page
+        title={title} ereaseAction={ereaseAction} logoutAction={logoutAction}
+        accounts={vault.accounts}
+      >
         {this.state.isSubmitted && <LoaderOverlay />}
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
       </Page>

@@ -51,7 +51,7 @@
 }
 
 .option:not(.optionActive):hover {
-    background: rgba(240, 240, 240, 0.3);
+    background: var(--grayish-white);
 }
 
 .optionActive {

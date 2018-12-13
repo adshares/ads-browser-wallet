@@ -25,13 +25,18 @@
 
 .contentWrapper {
     text-align: left;
-    height: 450px;
-    overflow: hidden;
+    height: 460px;
     padding-top: 10px;
 }
 
 .withScroll {
     padding-bottom: 10px;
     padding-right: 10px;
+    height: 450px;
+    overflow-x: hidden;
     overflow-y: scroll;
+}
+
+.withoutHeader {
+    height: 495px;
 }

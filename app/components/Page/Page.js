@@ -26,6 +26,9 @@ export default class Page extends React.PureComponent {
 
     classes = [];
     classes.push(style.contentWrapper);
+    if (!title && !cancelLink) {
+      classes.push(style.withoutHeader);
+    }
     if (scroll) {
       classes.push(style.withScroll);
     }

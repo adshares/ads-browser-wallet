@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import Page from '../components/Page/Page';
 import style from './HomePage.css';
 
 export default class HomePage extends React.PureComponent {
@@ -11,12 +10,11 @@ export default class HomePage extends React.PureComponent {
     const vault = this.props.vault;
 
     return (
-      <div className={style.page}>
-        <Header />
+      <Page className={style.page}>
         <section>
-          <h1>
+          <h2>
             Home
-          </h1>
+          </h2>
           <Link to={'/'} onClick={this.props.logoutAction} >Logout</Link>
           &nbsp;|&nbsp;
           <Link to={'/'} onClick={this.props.ereaseAction} >Erase storage</Link>
@@ -66,8 +64,7 @@ export default class HomePage extends React.PureComponent {
             </tbody>
           </table>
         </div>
-        <Footer />
-      </div>
+      </Page>
     );
   }
 }

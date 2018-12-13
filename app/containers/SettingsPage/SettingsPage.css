@@ -1,25 +1,56 @@
-.page {
-    padding-left: 10px;
-    text-align: right;
-}
-
-.page .close {
-    margin-bottom: 5px;
-}
-
-.page .contentWrapper {
-    padding-right: 10px;
-    padding-bottom: 10px;
-    text-align: left;
-    height: 450px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-.page .contentWrapper h3 {
+.section h3 {
     margin-top: 40px;
 }
 
-.page .contentWrapper h3:first-of-type {
+.section:first-of-type h3 {
     margin-top: 0px;
+}
+
+.infoBox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.dangerContent {
+    color: var(--red-dark);
+}
+
+.dangerContent input, .dangerContent textarea {
+    border-color: var(--red-dark);
+    color: var(--red-dark);
+}
+
+.accounts {
+    list-style-type: none;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.accounts li {
+    border-bottom: 1px dashed var(--gray);
+}
+
+.accountLabel {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 226px;
+}
+
+.accountLabel * {
+    display: block;
+}
+
+.accountLabel small {
+    color: var(--blue-dark);
+}
+
+.accountActions {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.accountActions > * {
+    margin-left: 5px;
+    margin-bottom: 5px;
 }

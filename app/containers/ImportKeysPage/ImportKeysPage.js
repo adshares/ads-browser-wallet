@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
-import FormPage from '../../components/FormPage';
+import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
-import ConfirmDialog from '../../components/confirmPopup/confirmDialog';
+import ConfirmDialog from '../../components/confirmDialog/confirmDialog';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
 import style from '../../genericStyles/Page.css';
+import Page from '../../components/Page/Page';
 
-export default class ImportKeysPage extends FormPage {
+export default class ImportKeysPage extends FormComponent {
 
   handleNameChange = () => {
     this.validateName();
@@ -72,6 +73,7 @@ export default class ImportKeysPage extends FormPage {
         );
       this.props.history.push('/');
     } catch (err) {
+      console.log('eeee', err)
       throw err;
     }
   };
@@ -122,13 +124,8 @@ export default class ImportKeysPage extends FormPage {
 
   render() {
     return (
-      <div className={style.page}>
+      <Page title="Import key">
         {this.state.showLoader && <LoaderOverlay />}
-        <header>
-          <h1>
-            Import key
-          </h1>
-        </header>
         <ConfirmDialog
           showDialog={this.state.isSubmitted} action={this.props.saveAction}
           vault={this.props.vault} onAuthenticated={this.onAuthenticated}
@@ -185,7 +182,7 @@ export default class ImportKeysPage extends FormPage {
             </Button>
           </div>
         </Form>
-      </div>
+      </Page>
     );
   }
 }

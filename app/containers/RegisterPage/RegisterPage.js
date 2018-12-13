@@ -2,18 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faExclamation, faInfo } from '@fortawesome/free-solid-svg-icons';
 import KeyBox from '../../utils/keybox';
-import FormPage from '../../components/FormPage';
+import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import Logo from '../../components/Logo/Logo';
-import config from '../../config';
+import config from './../../config';
 import style from './RegisterPage.css';
 
-export default class RegisterPage extends FormPage {
+export default class RegisterPage extends FormComponent {
 
   constructor(props) {
     super(props);
@@ -92,9 +92,9 @@ export default class RegisterPage extends FormPage {
         <header>
           <h1>Setup password</h1>
         </header>
-        <p>
+        <Box icon={faInfo}>
           Your password should be obscure and must be at least 8 characters long.
-        </p>
+        </Box>
         <Form onSubmit={this.handlePasswordSubmit}>
           <div>
             <input
@@ -157,7 +157,7 @@ export default class RegisterPage extends FormPage {
         <header>
           <h1>Mnemonic seed phrase</h1>
         </header>
-        <Box title="Warning" layout="danger" icon={faExclamation}>
+        <Box title="Warning" layout="warning" icon={faExclamation}>
           A seed phrase includes all the information needed to recover a wallet.
           Please write it down on paper and store safely.
         </Box>

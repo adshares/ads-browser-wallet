@@ -2,6 +2,12 @@ const passwordMinLength = 1;
 
 const initKeysQuantity = 11;
 
+const accountNameMaxLength = 12;
+
+const accountsLimit = 20;
+
+const importedKeysLimit = 20;
+
 const regulations =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
   'Sed porttitor non erat a aliquet. Pellentesque vulputate lacus at mauris congue ultricies. Lorem ipsum dolor sit ' +
@@ -23,5 +29,8 @@ const regulations =
 export default {
   passwordMinLength,
   initKeysQuantity,
+  accountNameMaxLength,
+  accountsLimit,
+  importedKeysLimit,
   regulations,
 };

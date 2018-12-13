@@ -1,5 +1,5 @@
-.page .tableWrapper {
-    max-height: 380px;
+.tableWrapper {
+    max-height: 355px;
     width: 100%;
     overflow: auto;
     margin: 20px 0;

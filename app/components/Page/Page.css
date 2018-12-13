@@ -1,0 +1,46 @@
+.page {
+    margin: 24px 0;
+}
+.header h2 {
+    font-size: 1.4em;
+    line-height: 1.25em;
+    display: inline-block;
+    margin: 0 0 5px;
+    padding-bottom: 8px;
+    width: 369px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-bottom: 1px dashed var(--gray);
+}
+
+.withCancelLink h2 {
+    margin-right: 10px;
+    width: 329px;
+}
+
+.withCancelLink a {
+    margin-bottom: 5px;
+    vertical-align: middle;
+    width: 31px;
+}
+
+.contentWrapper {
+    text-align: left;
+    height: 460px;
+    padding-top: 10px;
+    overflow: auto;
+}
+
+.withScroll {
+    padding-bottom: 10px;
+    padding-right: 10px;
+    height: 410px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.withoutHeader {
+    height: 475px;
+}

@@ -1,6 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class FormPage extends React.Component {
+export default class FormComponent extends React.PureComponent {
+
+  getReferrer(defaultLocation = '/') {
+    if (this.props.location && this.props.location.state) {
+      return this.props.location.state.referrer || defaultLocation;
+    }
+    return defaultLocation;
+  }
+
   handleInputChange = (event, callback) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -17,3 +26,7 @@ export default class FormPage extends React.Component {
     });
   };
 }
+
+FormComponent.propTypes = {
+  location: PropTypes.object.isRequired,
+};

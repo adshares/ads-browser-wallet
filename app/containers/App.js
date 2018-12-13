@@ -11,10 +11,12 @@ import RegisterPage from './RegisterPage/RegisterPage';
 import LoginPage from './LoginPage/LoginPage';
 import SettingsPage from './SettingsPage/SettingsPage';
 import EditAccountPage from './EditAccountPage/EditAccountPage';
-import style from './App.css';
-import * as VaultActions from '../actions/vault';
 import Header from '../components/Header/Header';
 import ImportKeysPage from './ImportKeysPage/ImportKeysPage';
+import style from './App.css';
+import * as VaultActions from '../actions/vault';
+import AccountKeysPage from './AccountKeysPage';
+
 
 function NotFoundErrorPage(props) {
   return (
@@ -31,7 +33,14 @@ function PrivateRoute({ ...params }) {
     return <Redirect to="/register" />;
   }
   if (params.vault.sealed) {
-    return <Redirect to="/login" />;
+    return (
+      <Redirect
+        to={{
+          pathname: '/login',
+          state: { referrer: params.location }
+        }}
+      />
+    );
   }
   return (
     <Route {...params} />
@@ -78,7 +87,6 @@ export default class App extends Component {
             path="/register/:step([a-z]+)?"
             render={props => <RegisterPage registerAction={actions.create} {...props} />}
           /> : ''}
-
           <div>
             <Header logoutAction={actions.seal} ereaseAction={actions.erease} />
             <PrivateRoute
@@ -94,10 +102,7 @@ export default class App extends Component {
               exact
               path="/settings"
               vault={vault}
-              render={props => <SettingsPage
-                vault={vault}
-                ereaseAction={actions.erease} {...props}
-              />}
+              render={props => <SettingsPage vault={vault} actions={actions} {...props} />}
             />
             <PrivateRoute
               exact
@@ -107,6 +112,21 @@ export default class App extends Component {
                 vault={vault}
                 saveAction={actions.addAccount} {...props}
               />}
+            />
+            <PrivateRoute
+              exact
+              path="/accounts/:address([0-9A-F-]+)/edit"
+              vault={vault}
+              render={props => <EditAccountPage
+                vault={vault}
+                saveAction={actions.updateAccount} {...props}
+              />}
+            />
+            <PrivateRoute
+              exact
+              path="/accounts/:address([0-9A-F-]+)/keys"
+              vault={vault}
+              render={props => <AccountKeysPage vault={vault} {...props} />}
             />
             <PrivateRoute
               exact

@@ -157,7 +157,7 @@ export default class App extends Component {
               ereaseAction={actions.erease}
               logoutAction={actions.seal}
               vault={vault}
-              saveAction={actions.addKey} {...props}
+              saveAction={actions.importKey} {...props}
             />}
           />
           <PrivateRoute

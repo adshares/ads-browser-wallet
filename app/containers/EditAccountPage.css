@@ -1,17 +1,8 @@
-.page {
-    text-align: center;
-    padding: 0 10px;
-}
-
-.page form {
-    text-align: left;
-}
-
 .buttons {
     margin-top: 30px;
     text-align: center;
 }
 
-.cancel {
+.buttons a:first-child {
     margin-right: 50px;
 }

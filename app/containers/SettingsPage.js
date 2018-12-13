@@ -11,16 +11,15 @@ import {
   faPencilAlt,
   faKey,
 } from '@fortawesome/free-solid-svg-icons';
-import FormPage from '../components/FormPage';
+import FormComponent from '../components/FormComponent';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import Page from '../components/Page/Page';
 import style from './SettingsPage.css';
 
-export default class SettingsPage extends FormPage {
+export default class SettingsPage extends FormComponent {
 
   constructor(props) {
     super(props);
@@ -48,7 +47,7 @@ export default class SettingsPage extends FormPage {
 
   renderAccountsSettings() {
     return (
-      <div>
+      <div className={style.section}>
         <h3>Accounts</h3>
         {this.props.vault.accounts.length &&
         <ul className={style.accounts}>
@@ -103,7 +102,7 @@ export default class SettingsPage extends FormPage {
 
   renderRPCServerSettings() {
     return (
-      <div>
+      <div className={style.section}>
         <h3>RPC server</h3>
         <Form onSubmit={this.handleRpcServerSave}>
           <div>
@@ -125,7 +124,7 @@ export default class SettingsPage extends FormPage {
 
   renderSeedPhraseSettings() {
     return (
-      <div>
+      <div className={style.section}>
         <h3>Reveal seed phrase</h3>
         <Form>
           {this.state.isSeedPhraseVisible ?
@@ -151,7 +150,7 @@ export default class SettingsPage extends FormPage {
 
   renderStorageSettings() {
     return (
-      <div>
+      <div className={style.section}>
         <h3>Erase storage</h3>
         <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.ereaseAction}>
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
@@ -162,22 +161,12 @@ export default class SettingsPage extends FormPage {
 
   render() {
     return (
-      <div className={style.page}>
-        <Header />
-        <div className={style.header}>
-          <h1>Settings</h1>
-          <ButtonLink to="/" size="small" inverse>
-            <FontAwesomeIcon icon={faTimes} />
-          </ButtonLink>
-        </div>
-        <div className={style.contentWrapper}>
-          {this.renderAccountsSettings()}
-          {this.renderRPCServerSettings()}
-          {this.renderSeedPhraseSettings()}
-          {this.renderStorageSettings()}
-        </div>
-        <Footer />
-      </div>
+      <Page title="Settings" cancelLink="/" scroll>
+        {this.renderAccountsSettings()}
+        {this.renderRPCServerSettings()}
+        {this.renderSeedPhraseSettings()}
+        {this.renderStorageSettings()}
+      </Page>
     );
   }
 }

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faExclamation, faInfo } from '@fortawesome/free-solid-svg-icons';
 import KeyBox from '../utils/keybox';
-import FormPage from '../components/FormPage';
+import FormComponent from '../components/FormComponent';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
@@ -13,7 +13,7 @@ import Logo from '../components/Logo/Logo';
 import config from './../config';
 import style from './RegisterPage.css';
 
-export default class RegisterPage extends FormPage {
+export default class RegisterPage extends FormComponent {
 
   constructor(props) {
     super(props);

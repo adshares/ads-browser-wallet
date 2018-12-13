@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamation, faTimes } from '@fortawesome/free-solid-svg-icons/index';
-import FormPage from '../components/FormPage';
+import FormComponent from '../components/FormComponent';
 import Form from '../components/atoms/Form';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
@@ -11,7 +11,7 @@ import Footer from '../components/Footer/Footer';
 import ADS from '../utils/ads';
 import style from './SettingsPage.css';
 
-export default class KeyPage extends FormPage {
+export default class KeyPage extends FormComponent {
 
   render() {
     const { id } = this.props.match.params;

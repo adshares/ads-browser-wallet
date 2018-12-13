@@ -1,50 +1,13 @@
-.page {
-    padding-left: 10px;
-}
-
-.header {
-    position: relative;
-}
-
-.header h1 {
-    font-size: 1.4em;
-    line-height: 1.25em;
-    display: inline-block;
-    margin: 0;
-    margin-bottom: 5px;
-    margin-right: 10px;
-    width: 329px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    vertical-align: middle;
-    border-bottom: 1px dashed var(--gray);
-}
-
-.header a {
-    margin-bottom: 5px;
-    vertical-align: middle;
-}
-
-.contentWrapper {
-    padding-right: 10px;
-    padding-bottom: 10px;
-    text-align: left;
-    height: 450px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-.contentWrapper h3 {
+.section h3 {
     margin-top: 40px;
 }
 
-.contentWrapper div:first-of-type h3 {
-    margin-top: 5px;
+.section:first-of-type h3 {
+    margin-top: 0px;
 }
 
 .infoBox {
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 40px;
 }
 

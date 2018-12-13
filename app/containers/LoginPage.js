@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { InvalidPasswordError } from '../actions/errors';
-import FormPage from '../components/FormPage';
+import FormComponent from '../components/FormComponent';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import Logo from '../components/Logo/Logo';
 import style from './LoginPage.css';
 
-export default class LoginPage extends FormPage {
+export default class LoginPage extends FormComponent {
 
   constructor(props) {
     super(props);

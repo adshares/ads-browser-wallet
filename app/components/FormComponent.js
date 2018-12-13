@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class FormPage extends React.PureComponent {
+export default class FormComponent extends React.PureComponent {
 
   getReferrer(defaultLocation = '/') {
     if (this.props.location && this.props.location.state) {
@@ -27,6 +27,6 @@ export default class FormPage extends React.PureComponent {
   };
 }
 
-FormPage.propTypes = {
+FormComponent.propTypes = {
   location: PropTypes.object.isRequired,
 };

@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes, faInfo, faCheck } from '@fortawesome/free-solid-svg-icons/index';
 import { InvalidPasswordError, UnknownPublicKeyError } from '../actions/errors';
-import FormPage from '../components/FormPage';
+import FormComponent from '../components/FormComponent';
 import Form from '../components/atoms/Form';
 import Button from '../components/atoms/Button';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
 import LoaderOverlay from '../components/atoms/LoaderOverlay';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import Page from '../components/Page/Page';
 import ADS from '../utils/ads';
 import config from './../config';
 import style from './EditAccountPage.css';
 
-export default class EditAccountPage extends FormPage {
+export default class EditAccountPage extends FormComponent {
 
   constructor(props) {
     super(props);
@@ -106,7 +105,10 @@ export default class EditAccountPage extends FormPage {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.validateName() && this.validateAddress() && this.validatePublicKey()) {
+    if ((this.state.accountAddress || this.validateAddress()) &&
+      this.validateName() &&
+      this.validatePublicKey()
+    ) {
       this.setState({
         isSubmitted: true
       }, () => {
@@ -157,7 +159,7 @@ export default class EditAccountPage extends FormPage {
   renderForm() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <div>
+        {this.state.accountAddress ? '' : <div>
           Address:
           <input
             required
@@ -167,7 +169,7 @@ export default class EditAccountPage extends FormPage {
             value={this.state.address}
             onChange={this.handleAddressChange}
           />
-        </div>
+        </div>}
         <div>
           Name:
           <input
@@ -204,12 +206,15 @@ export default class EditAccountPage extends FormPage {
         </div>
         <div className={style.buttons}>
           <ButtonLink
-            className={style.cancel} to={this.getReferrer()} inverse icon="left"
+            to={this.getReferrer()}
+            inverse
+            icon="left"
             disabled={this.state.isSubmitted}
           >
             <FontAwesomeIcon icon={faTimes} /> Cancel
           </ButtonLink>
-          <Button name="button"
+          <Button
+            name="button"
             type="submit" icon="right"
             disabled={this.state.isSubmitted}
           >
@@ -225,17 +230,15 @@ export default class EditAccountPage extends FormPage {
     const limitWarning =
       !this.state.accountAddress &&
       this.props.vault.accounts.length >= config.accountsLimit;
+    const title = this.state.accountAddress ?
+      `Edit account ${this.state.accountAddress}` :
+      'Import new account';
 
     return (
-      <div className={style.page}>
+      <Page title={title}>
         {this.state.isSubmitted && <LoaderOverlay />}
-        <Header />
-        <h2>
-          {this.state.accountAddress ? 'Edit account' : 'Import new account'}
-        </h2>
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
-        <Footer />
-      </div>
+      </Page>
     );
   }
 }

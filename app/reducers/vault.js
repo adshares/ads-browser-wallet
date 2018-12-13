@@ -25,6 +25,7 @@ const actionsMap = {
   [ActionTypes.CREATE_VAULT](vault, action) {
     console.debug('CREATE_VAULT');
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
+
     const newVault = {
       ...initialVault,
       ...vault,
@@ -51,6 +52,7 @@ const actionsMap = {
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
+
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
       ...initialVault,
@@ -158,6 +160,24 @@ const actionsMap = {
     };
     updatedVault.accounts = vault.accounts.filter(a => a.address !== address);
     updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+
+    return updatedVault;
+  },
+
+  [ActionTypes.ADD_KEY](vault, action) {
+    console.debug('ADD_KEY');
+    if (!VaultCrypt.checkPassword(vault, action.password)) {
+      throw new InvalidPasswordError();
+    }
+    const updatedVault = { ...vault };
+    updatedVault.keys.push({
+      name: action.name,
+      secretKey: action.secretKey,
+      publicKey: action.publicKey,
+    });
+
+    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
+    VaultCrypt.save(updatedVault, action.callback);
 
     return updatedVault;
   },

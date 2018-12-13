@@ -1,9 +1,12 @@
+.page {
+    margin: 24px 0;
+}
 .header h2 {
     font-size: 1.4em;
     line-height: 1.25em;
     display: inline-block;
-    margin: 0;
-    margin-bottom: 5px;
+    margin: 0 0 5px;
+    padding-bottom: 8px;
     width: 369px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -27,16 +30,17 @@
     text-align: left;
     height: 460px;
     padding-top: 10px;
+    overflow: auto;
 }
 
 .withScroll {
     padding-bottom: 10px;
     padding-right: 10px;
-    height: 450px;
+    height: 410px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
 
 .withoutHeader {
-    height: 495px;
+    height: 475px;
 }

@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes, faInfo, faCheck } from '@fortawesome/free-solid-svg-icons/index';
-import { InvalidPasswordError, UnknownPublicKeyError } from '../actions/errors';
-import FormComponent from '../components/FormComponent';
-import Form from '../components/atoms/Form';
-import Button from '../components/atoms/Button';
-import ButtonLink from '../components/atoms/ButtonLink';
-import Box from '../components/atoms/Box';
-import LoaderOverlay from '../components/atoms/LoaderOverlay';
-import Page from '../components/Page/Page';
-import ADS from '../utils/ads';
-import config from './../config';
-import style from './EditAccountPage.css';
+import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons/index';
+import FormComponent from '../../components/FormComponent';
+import Form from '../../components/atoms/Form';
+import Button from '../../components/atoms/Button';
+import ButtonLink from '../../components/atoms/ButtonLink';
+import LoaderOverlay from '../../components/atoms/LoaderOverlay';
+import ADS from '../../utils/ads';
+import config from '../../config';
+import style from '../../genericStyles/Page.css';
+import { InvalidPasswordError, UnknownPublicKeyError } from '../../actions/errors';
+import Page from '../../components/Page/Page';
 
 export default class EditAccountPage extends FormComponent {
 
@@ -227,6 +226,7 @@ export default class EditAccountPage extends FormComponent {
   }
 
   render() {
+    const {ereaseAction, logoutAction} = this.props;
     const limitWarning =
       !this.state.accountAddress &&
       this.props.vault.accounts.length >= config.accountsLimit;
@@ -235,7 +235,7 @@ export default class EditAccountPage extends FormComponent {
       'Import new account';
 
     return (
-      <Page title={title}>
+      <Page title={title} ereaseAction={ereaseAction} logoutAction={logoutAction}>
         {this.state.isSubmitted && <LoaderOverlay />}
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
       </Page>
@@ -248,4 +248,6 @@ EditAccountPage.propTypes = {
   saveAction: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  logoutAction: PropTypes.func.isRequired,
+  ereaseAction: PropTypes.func.isRequired,
 };

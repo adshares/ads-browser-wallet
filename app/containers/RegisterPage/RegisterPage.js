@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faExclamation, faInfo } from '@fortawesome/free-solid-svg-icons';
-import KeyBox from '../utils/keybox';
-import FormComponent from '../components/FormComponent';
-import Form from '../components/atoms/Form';
-import Button from '../components/atoms/Button';
-import ButtonLink from '../components/atoms/ButtonLink';
-import Box from '../components/atoms/Box';
-import Logo from '../components/Logo/Logo';
-import config from './../config';
+import KeyBox from '../../utils/keybox';
+import FormComponent from '../../components/FormComponent';
+import Form from '../../components/atoms/Form';
+import Button from '../../components/atoms/Button';
+import ButtonLink from '../../components/atoms/ButtonLink';
+import Box from '../../components/atoms/Box';
+import Logo from '../../components/Logo/Logo';
+import config from './../../config';
 import style from './RegisterPage.css';
 
 export default class RegisterPage extends FormComponent {

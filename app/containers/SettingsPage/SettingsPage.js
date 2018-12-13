@@ -11,13 +11,13 @@ import {
   faPencilAlt,
   faKey,
 } from '@fortawesome/free-solid-svg-icons';
-import FormComponent from '../components/FormComponent';
-import Form from '../components/atoms/Form';
-import Button from '../components/atoms/Button';
-import ButtonLink from '../components/atoms/ButtonLink';
-import Box from '../components/atoms/Box';
-import Page from '../components/Page/Page';
+import FormComponent from '../../components/FormComponent';
+import Form from '../../components/atoms/Form';
+import Button from '../../components/atoms/Button';
+import ButtonLink from '../../components/atoms/ButtonLink';
+import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
+import Page from '../../components/Page/Page';
 
 export default class SettingsPage extends FormComponent {
 
@@ -160,8 +160,12 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
+    const { logoutAction, ereaseAction } = this.props;
     return (
-      <Page title="Settings" cancelLink="/" scroll>
+      <Page
+        title="Settings" scroll logoutAction={logoutAction}
+        ereaseAction={ereaseAction}
+      >
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

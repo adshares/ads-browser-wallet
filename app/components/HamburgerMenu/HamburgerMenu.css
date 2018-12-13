@@ -16,6 +16,10 @@
     width: 30px;
 }
 
+.iconButton:focus {
+    outline: none;
+}
+
 .iconButton:before,
 .iconButton:after {
     background: var(--blue);
@@ -78,6 +82,8 @@
     padding: 8px 16px;
     color: var(--slate-dark);
     list-style: none;
+    display: block;
+    text-align: left;
     border-bottom: 1px solid transparent;
 }
 
@@ -91,6 +97,13 @@
     transition: width .3s ease-out;
 }
 
-.menuItem:hover:after {
+.menuItem:hover,
+.menuItem:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+.menuItem:hover:after,
+.menuItem:focus:after {
     width: 100%;
 }

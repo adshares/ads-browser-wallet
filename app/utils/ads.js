@@ -69,7 +69,6 @@ function validateKey(key) {
   return keyRegexp.test(key);
 }
 
-
 /**
  * Signs data with a secret key.
  *
@@ -85,9 +84,29 @@ function sign(data, publicKey, secretKey) {
   )).toUpperCase();
 }
 
+/**
+ * Validate signature
+ *
+ * @param sg (signature )e.g. ?
+ * @param pk (public key) e.g. BE907B4BAC84FEE5CE8811DB2DEFC9BF0B2A2A2BBC3D54D8A2257ECD70441962
+ * @param sk (secret key) e.g. BE907B4BAC84FEE5CE8811DB2DEFC9BF0B2A2A2BBC3D54D8A2257ECD70441962
+
+ * @returns {boolean}
+ */
+
+function validateSignature(sg, pk, sk) {
+  try {
+    const signed = sign('', sk + pk);
+    return (signed === sg);
+  } catch (err) {
+    return false;
+  }
+}
+
 export default {
   addressChecksum,
   validateAddress,
   validateKey,
+  validateSignature,
   sign,
 };

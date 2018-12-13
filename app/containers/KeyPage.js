@@ -6,7 +6,6 @@ import FormComponent from '../components/FormComponent';
 import Form from '../components/atoms/Form';
 import ButtonLink from '../components/atoms/ButtonLink';
 import Box from '../components/atoms/Box';
-import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import ADS from '../utils/ads';
 import style from './SettingsPage.css';
@@ -20,7 +19,6 @@ export default class KeyPage extends FormComponent {
 
     return (
       <div className={style.page}>
-        <Header />
         <div className={style.header}>
           <h1>{account.address}</h1>
           <ButtonLink to={this.getReferrer()} size="small" inverse>

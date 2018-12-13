@@ -1,27 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import Page from '../components/Page/Page';
+import Page from '../../components/Page/Page';
 import style from './HomePage.css';
 
 export default class HomePage extends React.PureComponent {
 
   render() {
-    const vault = this.props.vault;
+    const {vault, ereaseAction, logoutAction} = this.props;
 
     return (
-      <Page className={style.page}>
+      <Page className={style.page} ereaseAction={ereaseAction} logoutAction={logoutAction}>
         <section>
           <h2>
             Home
           </h2>
-          <Link to={'/'} onClick={this.props.logoutAction} >Logout</Link>
-          &nbsp;|&nbsp;
-          <Link to={'/'} onClick={this.props.ereaseAction} >Erase storage</Link>
-          &nbsp;|&nbsp;
-          <Link to={'/settings'}>Settings</Link>
-          &nbsp;|&nbsp;
-          <Link to={'/accounts/import'}>Add account</Link>
+
         </section>
         <hr />
         <div className={style.tableWrapper}>

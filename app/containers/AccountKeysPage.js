@@ -5,15 +5,19 @@ import FormComponent from '../components/FormComponent';
 import Form from '../components/atoms/Form';
 import Box from '../components/atoms/Box';
 import Page from '../components/Page/Page';
-import style from './SettingsPage.css';
+import style from './SettingsPage/SettingsPage.css';
 
 export default class AccountKeysPage extends FormComponent {
   render() {
     const { address } = this.props.match.params;
+    const { logoutAction, ereaseAction } = this.props;
     const account = this.props.vault.accounts.find(a => a.address === address);
 
     return (
-      <Page title={`${account.name} keys`} cancelLink={this.getReferrer()}>
+      <Page
+        title={`${account.name} keys`} cancelLink={this.getReferrer()} logoutAction={logoutAction}
+        ereaseAction={ereaseAction}
+      >
         {!account ? (
           <Box layout="danger" icon={faExclamation} className={style.infoBox}>
             Cannot find the account {account.address} in storage.
@@ -54,6 +58,8 @@ export default class AccountKeysPage extends FormComponent {
 }
 
 AccountKeysPage.propTypes = {
+  logoutAction: PropTypes.func,
+  ereaseAction: PropTypes.func,
   history: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
 };

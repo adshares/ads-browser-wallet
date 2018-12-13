@@ -1,17 +1,20 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import ErrorPage from './ErrorPage';
-import HomePage from './HomePage';
-import RestorePage from './RestorePage';
-import RegisterPage from './RegisterPage';
-import LoginPage from './LoginPage';
-import SettingsPage from './SettingsPage';
-import EditAccountPage from './EditAccountPage';
-import AccountKeysPage from './AccountKeysPage';
+import ErrorPage from './ErrorPage/ErrorPage';
+import HomePage from './HomePage/HomePage';
+import RestorePage from './RestorePage/RestorePage';
+import RegisterPage from './RegisterPage/RegisterPage';
+import LoginPage from './LoginPage/LoginPage';
+import SettingsPage from './SettingsPage/SettingsPage';
+import EditAccountPage from './EditAccountPage/EditAccountPage';
+import ImportKeysPage from './ImportKeysPage/ImportKeysPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
+import AccountKeysPage from './AccountKeysPage';
 
 function NotFoundErrorPage(props) {
   return (
@@ -72,21 +75,33 @@ export default class App extends Component {
             path="/restore"
             render={props => <RestorePage restoreAction={actions.create} {...props} />}
           />
-          { !vault.empty ? <Route
+          {!vault.empty ? <Route
             exact
             path="/login"
             render={props => <LoginPage loginAction={actions.unseal} {...props} />}
-          /> : '' }
-          { vault.empty ? <Route
+          /> : ''}
+          {vault.empty ? <Route
             exact
             path="/register/:step([a-z]+)?"
             render={props => <RegisterPage registerAction={actions.create} {...props} />}
-          /> : '' }
+          /> : ''}
           <PrivateRoute
             exact
             path="/(popup.html)?"
             vault={vault}
-            render={props => <HomePage vault={vault} logoutAction={actions.seal} ereaseAction={actions.erease} {...props} />}
+            render={props => <HomePage
+              vault={vault} logoutAction={actions.seal}
+              ereaseAction={actions.erease} {...props}
+            />}
+          />
+          <PrivateRoute
+            exact
+            path="/(popup.html)?"
+            vault={vault}
+            render={props => <HomePage
+              vault={vault} logoutAction={actions.seal}
+              ereaseAction={actions.erease} {...props}
+            />}
           />
           <PrivateRoute
             exact
@@ -98,13 +113,21 @@ export default class App extends Component {
             exact
             path="/accounts/import"
             vault={vault}
-            render={props => <EditAccountPage vault={vault} saveAction={actions.addAccount} {...props} />}
+            render={props => <EditAccountPage
+              vault={vault}
+              saveAction={actions.addAccount} {...props}
+            />}
           />
           <PrivateRoute
             exact
             path="/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
-            render={props => <EditAccountPage vault={vault} saveAction={actions.updateAccount} {...props} />}
+            render={props => <EditAccountPage
+              vault={vault}
+              ereaseAction={actions.ereaseAction}
+              logoutAction={actions.logoutAction}
+              saveAction={actions.updateAccount} {...props}
+            />}
           />
           <PrivateRoute
             exact
@@ -114,11 +137,23 @@ export default class App extends Component {
           />
           <PrivateRoute
             exact
+            path="/keys/import"
+            vault={vault}
+            render={props => <ImportKeysPage
+              vault={vault}
+              saveAction={actions.addKey} {...props}
+            />}
+          />
+          <PrivateRoute
+            exact
             path="/sign"
             vault={vault}
-            render={props => <HomePage vault={vault} {...props} />}
+            render={props => <HomePage
+              vault={vault} logoutAction={actions.seal}
+              ereaseAction={actions.erease} {...props}
+            />}
           />
-          <Route component={NotFoundErrorPage} />
+          <Route path="/" component={NotFoundErrorPage} />
         </Switch>
       </div>
     );

@@ -3,13 +3,13 @@ import bip39 from 'bip39';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes, faExclamation } from '@fortawesome/free-solid-svg-icons';
-import FormComponent from '../components/FormComponent';
-import Form from '../components/atoms/Form';
-import Button from '../components/atoms/Button';
-import ButtonLink from '../components/atoms/ButtonLink';
-import Box from '../components/atoms/Box';
-import LoaderOverlay from '../components/atoms/LoaderOverlay';
-import config from '../config';
+import FormComponent from '../../components/FormComponent';
+import Form from '../../components/atoms/Form';
+import Button from '../../components/atoms/Button';
+import ButtonLink from '../../components/atoms/ButtonLink';
+import Box from '../../components/atoms/Box';
+import LoaderOverlay from '../../components/atoms/LoaderOverlay';
+import config from '../../config';
 import style from './RestorePage.css';
 
 export default class RestorePage extends FormComponent {

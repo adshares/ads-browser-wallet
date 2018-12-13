@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { faExclamation } from '@fortawesome/free-solid-svg-icons/index';
-import FormComponent from '../components/FormComponent';
-import Form from '../components/atoms/Form';
-import Box from '../components/atoms/Box';
-import Page from '../components/Page/Page';
-import style from './SettingsPage/SettingsPage.css';
+import FormComponent from '../../components/FormComponent';
+import Form from '../../components/atoms/Form';
+import Box from '../../components/atoms/Box';
+import Page from '../../components/Page/Page';
+import style from './SettingsPage.css';
 
 export default class AccountKeysPage extends FormComponent {
   render() {

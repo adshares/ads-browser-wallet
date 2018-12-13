@@ -87,63 +87,65 @@ export default class App extends Component {
             path="/register/:step([a-z]+)?"
             render={props => <RegisterPage registerAction={actions.create} {...props} />}
           /> : ''}
-          <div>
-            <Header logoutAction={actions.seal} ereaseAction={actions.erease} />
-            <PrivateRoute
-              exact
-              path="/(popup.html)?"
+          <PrivateRoute
+            exact
+            path="/(popup.html)?"
+            vault={vault}
+            render={props => <HomePage
+              vault={vault} logoutAction={actions.seal}
+              ereaseAction={actions.erease} {...props}
+            />}
+          />
+          <PrivateRoute
+            exact
+            path="/settings"
+            vault={vault}
+            render={props => <SettingsPage vault={vault} actions={actions} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/accounts/import"
+            vault={vault}
+            render={props => <EditAccountPage
               vault={vault}
-              render={props => <HomePage
-                vault={vault} logoutAction={actions.seal}
-                ereaseAction={actions.erease} {...props}
-              />}
-            />
-            <PrivateRoute
-              exact
-              path="/settings"
+              saveAction={actions.addAccount} {...props}
+            />}
+          />
+          <PrivateRoute
+            exact
+            path="/accounts/:address([0-9A-F-]+)/edit"
+            vault={vault}
+            render={props => <EditAccountPage
               vault={vault}
-              render={props => <SettingsPage vault={vault} actions={actions} {...props} />}
-            />
-            <PrivateRoute
-              exact
-              path="/accounts/import"
+              ereaseAction={actions.ereaseAction}
+              logoutAction={actions.logoutAction}
+              saveAction={actions.updateAccount} {...props}
+            />}
+          />
+          <PrivateRoute
+            exact
+            path="/accounts/:address([0-9A-F-]+)/keys"
+            vault={vault}
+            render={props => <AccountKeysPage vault={vault} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/keys/import"
+            vault={vault}
+            render={props => <ImportKeysPage
               vault={vault}
-              render={props => <EditAccountPage
-                vault={vault}
-                saveAction={actions.addAccount} {...props}
-              />}
-            />
-            <PrivateRoute
-              exact
-              path="/accounts/:address([0-9A-F-]+)/edit"
-              vault={vault}
-              render={props => <EditAccountPage
-                vault={vault}
-                saveAction={actions.updateAccount} {...props}
-              />}
-            />
-            <PrivateRoute
-              exact
-              path="/accounts/:address([0-9A-F-]+)/keys"
-              vault={vault}
-              render={props => <AccountKeysPage vault={vault} {...props} />}
-            />
-            <PrivateRoute
-              exact
-              path="/keys/import"
-              vault={vault}
-              render={props => <ImportKeysPage
-                vault={vault}
-                saveAction={actions.addKey} {...props}
-              />}
-            />
-            <PrivateRoute
-              exact
-              path="/sign"
-              vault={vault}
-              render={props => <HomePage vault={vault} {...props} />}
-            />
-          </div>
+              saveAction={actions.addKey} {...props}
+            />}
+          />
+          <PrivateRoute
+            exact
+            path="/sign"
+            vault={vault}
+            render={props => <HomePage
+              vault={vault} logoutAction={actions.seal}
+              ereaseAction={actions.erease} {...props}
+            />}
+          />
           <Route component={NotFoundErrorPage} />
         </Switch>
       </div>

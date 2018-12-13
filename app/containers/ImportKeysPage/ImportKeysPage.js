@@ -34,11 +34,10 @@ export default class ImportKeysPage extends FormComponent {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.validateName() && this.validateSecretKey() && this.validatePublicKey() && this.validateSignature()) {
+    if (this.validateName() && this.validateSecretKey() &&
+      this.validatePublicKey() && this.validateSignature()) {
       this.setState({
         isSubmitted: true
-      }, () => {
-
       });
     }
   };
@@ -73,7 +72,6 @@ export default class ImportKeysPage extends FormComponent {
         );
       this.props.history.push('/');
     } catch (err) {
-      console.log('eeee', err)
       throw err;
     }
   };
@@ -114,7 +112,8 @@ export default class ImportKeysPage extends FormComponent {
   validateSignature() {
     const value = this.signatureInput.current.value;
     if (value.length > 0 && (value.length !== 128 ||
-      !ADS.validateSignature(value, this.publicKeyInput.current.value, this.secretKeyInput.current.value))) {
+      !ADS.validateSignature(value, this.publicKeyInput.current.value,
+        this.secretKeyInput.current.value))) {
       this.signatureInput.current.setCustomValidity('Please provide valid signature');
       return false;
     }
@@ -123,12 +122,13 @@ export default class ImportKeysPage extends FormComponent {
   }
 
   render() {
+    const { vault, ereaseAction, logoutAction, saveAction } = this.props;
     return (
-      <Page title="Import key">
+      <Page title="Import key" ereaseAction={ereaseAction} logoutAction={logoutAction}>
         {this.state.showLoader && <LoaderOverlay />}
         <ConfirmDialog
-          showDialog={this.state.isSubmitted} action={this.props.saveAction}
-          vault={this.props.vault} onAuthenticated={this.onAuthenticated}
+          showDialog={this.state.isSubmitted} action={saveAction}
+          vault={vault} onAuthenticated={this.onAuthenticated}
         />
         <Form onSubmit={this.handleSubmit}>
           <div>
@@ -192,4 +192,6 @@ ImportKeysPage.propTypes = {
   saveAction: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  logoutAction: PropTypes.func.isRequired,
+  ereaseAction: PropTypes.func.isRequired,
 };

@@ -6,10 +6,10 @@ import style from './HomePage.css';
 export default class HomePage extends React.PureComponent {
 
   render() {
-    const vault = this.props.vault;
+    const {vault, ereaseAction, logoutAction} = this.props;
 
     return (
-      <Page className={style.page}>
+      <Page className={style.page} ereaseAction={ereaseAction} logoutAction={logoutAction}>
         <section>
           <h2>
             Home
@@ -64,4 +64,6 @@ export default class HomePage extends React.PureComponent {
 
 HomePage.propTypes = {
   vault: PropTypes.object.isRequired,
+  logoutAction: PropTypes.func.isRequired,
+  ereaseAction: PropTypes.func.isRequired,
 };

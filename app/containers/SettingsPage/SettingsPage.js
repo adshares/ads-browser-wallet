@@ -160,8 +160,12 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
+    const { logoutAction, ereaseAction } = this.props;
     return (
-      <Page title="Settings" cancelLink="/" scroll>
+      <Page
+        title="Settings" scroll logoutAction={logoutAction}
+        ereaseAction={ereaseAction}
+      >
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

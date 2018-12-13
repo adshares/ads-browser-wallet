@@ -174,7 +174,6 @@ const actionsMap = {
       name: action.name,
       secretKey: action.secretKey,
       publicKey: action.publicKey,
-      signature: action.signature,
     });
 
     updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);

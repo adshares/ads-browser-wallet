@@ -8,7 +8,7 @@ import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
-import style from './EditAccountPage.css';
+import style from '../../genericStyles/Page.css';
 import { InvalidPasswordError } from '../../actions/errors';
 
 export default class EditAccountPage extends FormPage {

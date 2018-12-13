@@ -34,3 +34,7 @@ export function hexToByte(str) {
 export function sanitizeHex(str) {
   return str.replace(/^0x/, '').toUpperCase();
 }
+
+export function searchForExistingKey(newKey, keys, type) {
+  keys.find(key => key.type === newKey.type);
+}

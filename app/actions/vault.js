@@ -20,6 +20,6 @@ export function addAccount(address, name, publicKey, password, callback) {
   return { type: types.ADD_ACCOUNT, address, name, publicKey, password, callback };
 }
 
-export function addKey(name, publicKey, secretKey,  signature, callback) {
-  return { type: types.ADD_ACCOUNT, publicKey, secretKey,  signature, callback };
+export function addKey(name, publicKey, secretKey, password, signature = '') {
+  return { type: types.ADD_KEY, name, publicKey, secretKey, password, signature };
 }

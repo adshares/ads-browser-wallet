@@ -6,15 +6,14 @@ import FormPage from '../../components/FormPage';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
+import ConfirmDialog from '../../components/confirmPopup/confirmDialog';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
-import style from './ImportKeysPage.css';
-import { InvalidPasswordError } from '../../actions/errors';
-import ConfirmDialog from '../../components/confirmPopup/confirmDialog';
+import style from '../../genericStyles/Page.css';
 
 export default class ImportKeysPage extends FormPage {
 
-  handleNameChange = (event) => {
+  handleNameChange = () => {
     this.validateName();
   };
 
@@ -29,6 +28,7 @@ export default class ImportKeysPage extends FormPage {
   handleSignatureChange = (event) => {
     this.handleInputChange(event, this.validateSignature);
   };
+
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -37,32 +37,10 @@ export default class ImportKeysPage extends FormPage {
       this.setState({
         isSubmitted: true
       }, () => {
-        // setTimeout(() => {
-        //   try {
-        //     this.props.saveAction(
-        //       this.nameInput.current.value,
-        //       this.publicKeyInput.current.value,
-        //       this.secretKeyInput.current.value,
-        //       this.signatureInput.current.value,
-        //       console.log('dupa'));
-        //   } catch (err) {
-        //     if (err instanceof InvalidPasswordError) {
-        //       this.setState({
-        //         isSubmitted: false
-        //       }, () => {
-        //         const password = document.querySelector('[name=password]');
-        //         password.setCustomValidity(err.message);
-        //         password.reportValidity();
-        //       });
-        //     } else {
-        //       throw err;
-        //     }
-        //   }
-        // }, 100);
+
       });
     }
   };
-
 
   constructor(props) {
     super(props);
@@ -73,12 +51,33 @@ export default class ImportKeysPage extends FormPage {
 
     this.state = {
       isSubmitted: false,
+      password: null,
+      showLoader: false,
     };
   }
 
+  onAuthenticated = (password) => {
+    this.setState({
+      isSubmitted: false,
+      showLoader: true,
+    });
+
+    try {
+      this.props.saveAction(
+        this.nameInput.current.value,
+        this.publicKeyInput.current.value,
+        this.secretKeyInput.current.value,
+        password,
+        this.signatureInput.current.value,
+        );
+      this.props.history.push('/');
+    } catch (err) {
+      throw err;
+    }
+  };
+
   validateName() {
     const value = this.nameInput.current.value;
-    console.log('v', value);
     if (this.props.vault.keys.find(
       key => key.name === value
     )) {
@@ -124,13 +123,16 @@ export default class ImportKeysPage extends FormPage {
   render() {
     return (
       <div className={style.page}>
-        {/*{this.state.isSubmitted && <LoaderOverlay />}*/}
+        {this.state.showLoader && <LoaderOverlay />}
         <header>
           <h1>
             Import key
           </h1>
         </header>
-        <ConfirmDialog showDialog={this.state.isSubmitted} action={this.props.saveAction} vault={this.props.vault}/>
+        <ConfirmDialog
+          showDialog={this.state.isSubmitted} action={this.props.saveAction}
+          vault={this.props.vault} onAuthenticated={this.onAuthenticated}
+        />
         <Form onSubmit={this.handleSubmit}>
           <div>
             <input

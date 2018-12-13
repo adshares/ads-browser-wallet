@@ -95,7 +95,6 @@ const actionsMap = {
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
-
     const updatedVault = { ...vault };
     updatedVault.keys.push({
       name: action.name,
@@ -104,7 +103,6 @@ const actionsMap = {
       signature: action.signature,
     });
 
-    console.log('-', updatedVault.keys)
     updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
     VaultCrypt.save(updatedVault, action.callback);
 

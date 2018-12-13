@@ -65,28 +65,33 @@
     width: 100%;
 }
 
-.button:hover {
+.button:hover,
+.button:focus {
     background-color: var(--blue);
     border-color: var(--blue);
     text-decoration: none;
 }
 
-.button.success:hover {
+.button.success:hover,
+.button.success:focus  {
     background-color: var(--green);
     border-color: var(--green);
 }
 
-.button.warning:hover {
+.button.warning:hover,
+.button.warning:focus {
     background-color: var(--yellow);
     border-color: var(--yellow);
 }
 
-.button.danger:hover {
+.button.danger:hover,
+.button.danger:focus {
     background-color: var(--red);
     border-color: var(--red);
 }
 
-.button.inverse:hover {
+.button.inverse:hover,
+.button.inverse:focus {
     color: var(--white);
 }
 

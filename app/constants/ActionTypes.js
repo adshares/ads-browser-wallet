@@ -5,4 +5,4 @@ export const SEAL_VAULT = 'SEAL_VAULT';
 export const ADD_ACCOUNT = 'ADD_ACCOUNT';
 export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
 export const REMOVE_ACCOUNT = 'REMOVE_ACCOUNT';
-export const ADD_KEY = 'ADD_KEY';
+export const IMPORT_KEY = 'IMPORT_KEY';

@@ -16,6 +16,7 @@ const initialVault = {
   seedPhrase: '',
   seed: '',
   keys: [],
+  importedKeys: [],
   accounts: [],
   selectedAccount: null,
 };
@@ -164,11 +165,12 @@ const actionsMap = {
     return updatedVault;
   },
 
-  [ActionTypes.ADD_KEY](vault, action) {
-    console.debug('ADD_KEY');
+  [ActionTypes.IMPORT_KEY](vault, action) {
+    console.debug('IMPORT_KEY');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
+
     const updatedVault = { ...vault };
     updatedVault.keys.push({
       name: action.name,

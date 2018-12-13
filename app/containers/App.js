@@ -90,7 +90,8 @@ export default class App extends Component {
             path="/(popup.html)?"
             vault={vault}
             render={props => <HomePage
-              vault={vault} logoutAction={actions.seal}
+              vault={vault}
+              logoutAction={actions.seal}
               ereaseAction={actions.erease} {...props}
             />}
           />
@@ -99,7 +100,8 @@ export default class App extends Component {
             path="/(popup.html)?"
             vault={vault}
             render={props => <HomePage
-              vault={vault} logoutAction={actions.seal}
+              vault={vault}
+              logoutAction={actions.seal}
               ereaseAction={actions.erease} {...props}
             />}
           />
@@ -107,7 +109,13 @@ export default class App extends Component {
             exact
             path="/settings"
             vault={vault}
-            render={props => <SettingsPage vault={vault} actions={actions} {...props} />}
+            render={props => <SettingsPage
+              vault={vault}
+              actions={actions}
+              ereaseAction={actions.erease}
+              logoutAction={actions.seal}
+              {...props}
+            />}
           />
           <PrivateRoute
             exact
@@ -115,6 +123,8 @@ export default class App extends Component {
             vault={vault}
             render={props => <EditAccountPage
               vault={vault}
+              ereaseAction={actions.erease}
+              logoutAction={actions.seal}
               saveAction={actions.addAccount} {...props}
             />}
           />
@@ -124,8 +134,8 @@ export default class App extends Component {
             vault={vault}
             render={props => <EditAccountPage
               vault={vault}
-              ereaseAction={actions.ereaseAction}
-              logoutAction={actions.logoutAction}
+              ereaseAction={actions.erease}
+              logoutAction={actions.seal}
               saveAction={actions.updateAccount} {...props}
             />}
           />
@@ -133,13 +143,19 @@ export default class App extends Component {
             exact
             path="/accounts/:address([0-9A-F-]+)/keys"
             vault={vault}
-            render={props => <AccountKeysPage vault={vault} {...props} />}
+            render={props => <AccountKeysPage
+              vault={vault}
+              ereaseAction={actions.erease}
+              logoutAction={actions.seal} {...props}
+            />}
           />
           <PrivateRoute
             exact
             path="/keys/import"
             vault={vault}
             render={props => <ImportKeysPage
+              ereaseAction={actions.erease}
+              logoutAction={actions.seal}
               vault={vault}
               saveAction={actions.addKey} {...props}
             />}

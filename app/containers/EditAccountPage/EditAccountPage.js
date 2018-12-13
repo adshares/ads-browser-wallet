@@ -12,6 +12,7 @@ import config from '../../config';
 import style from '../../genericStyles/Page.css';
 import { InvalidPasswordError, UnknownPublicKeyError } from '../../actions/errors';
 import Page from '../../components/Page/Page';
+import Box from '../../components/atoms/Box';
 
 export default class EditAccountPage extends FormComponent {
 

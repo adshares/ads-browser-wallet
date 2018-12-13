@@ -34,8 +34,8 @@ export default class HamburgerMenu extends React.PureComponent {
           <li>
             <Link to="/settings" className={style.menuItem} >  Settings </Link>
           </li>
-          <li>
-            <Link to={'/'} className={style.menuItem} onClick={this.props.ereaseAction} >Erase storage</Link>
+          <li className={style.menuItem} onClick={this.props.ereaseAction}>
+            Erase storage
           </li>
           <li>
             <Link to="/accounts/import" className={style.menuItem}> Add account </Link>
@@ -43,12 +43,11 @@ export default class HamburgerMenu extends React.PureComponent {
           <li>
             <Link to="/keys/import" className={style.menuItem}> Import keys </Link>
           </li>
-          <li>
-            <Link
-              to={'/'} onClick={this.props.logoutAction} className={style.menuItem}
-              onBlur={() => this.toggleMenu(false)}
-            >
-              Logout</Link>
+          <li
+            onClick={this.props.logoutAction} className={style.menuItem}
+            onBlur={() => this.toggleMenu(false)}
+          >
+              Logout
           </li>
         </ul>
       </div>

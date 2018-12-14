@@ -124,7 +124,7 @@ export default class KeysImporterPage extends FormComponent {
   render() {
     const { vault, logoutAction, saveAction } = this.props;
     return (
-      <Page title="Import key" logoutAction={logoutAction}>
+      <Page title="Import key" logoutAction={logoutAction} accounts={vault.accounts}>
         {this.state.showLoader && <LoaderOverlay />}
         <ConfirmDialog
           showDialog={this.state.isSubmitted} action={saveAction}

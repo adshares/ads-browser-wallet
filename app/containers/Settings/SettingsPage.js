@@ -160,12 +160,11 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
-    const { logoutAction } = this.props;
+    const { logoutAction, vault } = this.props;
     return (
       <Page
-        title="Settings" scroll
-        cancelLink="/"
-        logoutAction={logoutAction}
+        title="Settings" scroll cancelLink="/" logoutAction={logoutAction}
+        vault={vault.accounts}
       >
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}

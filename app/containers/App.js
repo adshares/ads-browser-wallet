@@ -142,7 +142,7 @@ export default class App extends Component {
             render={props => <KeysImporterPage
               logoutAction={actions.seal}
               vault={vault}
-              saveAction={actions.addKey} {...props}
+              saveAction={actions.importKey} {...props}
             />}
           />
           <PrivateRoute

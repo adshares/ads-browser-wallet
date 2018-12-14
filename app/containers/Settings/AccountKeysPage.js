@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { faExclamation } from '@fortawesome/free-solid-svg-icons/index';
 import FormComponent from '../../components/FormComponent';
+import { ItemNotFound } from '../../actions/errors';
 import Form from '../../components/atoms/Form';
 import Box from '../../components/atoms/Box';
 import Page from '../../components/Page/Page';
@@ -10,14 +11,14 @@ import style from './SettingsPage.css';
 export default class AccountKeysPage extends FormComponent {
   render() {
     const { address } = this.props.match.params;
-    const { logoutAction, vault } = this.props;
     const account = this.props.vault.accounts.find(a => a.address === address);
 
+    if (!account) {
+      throw new ItemNotFound('account', address);
+    }
+
     return (
-      <Page
-        title={`${account.name} keys`} cancelLink={this.getReferrer()} logoutAction={logoutAction}
-        accounts={vault.accounts}
-      >
+      <Page title={`${account.name} keys`} cancelLink={this.getReferrer()}>
         {!account ? (
           <Box layout="danger" icon={faExclamation} className={style.infoBox}>
             Cannot find the account {account.address} in storage.
@@ -58,8 +59,8 @@ export default class AccountKeysPage extends FormComponent {
 }
 
 AccountKeysPage.propTypes = {
-  logoutAction: PropTypes.func,
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
 };
 

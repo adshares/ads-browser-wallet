@@ -29,6 +29,9 @@ export default class SelectAccount extends React.Component {
   }
 
   render() {
+    if (this.props.options.length === 0) {
+      return <div />;
+    }
     const { activeOption, showOptions } = this.state;
 
     const options = this.props.options.map((option, index) => {

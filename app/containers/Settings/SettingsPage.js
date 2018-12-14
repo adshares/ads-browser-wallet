@@ -49,7 +49,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Accounts</h3>
-        {this.props.vault.accounts.length &&
+        {this.props.vault.accounts.length > 0 &&
         <ul className={style.accounts}>
           {this.props.vault.accounts.map((account, index) =>
             <li key={index}>
@@ -152,7 +152,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.ereaseAction}>
+        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>
@@ -160,12 +160,8 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
-    const { logoutAction, vault } = this.props;
     return (
-      <Page
-        title="Settings" scroll cancelLink="/" logoutAction={logoutAction}
-        vault={vault.accounts}
-      >
+      <Page title="Settings" scroll cancelLink="/">
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

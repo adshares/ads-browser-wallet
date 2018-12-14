@@ -10,7 +10,7 @@ import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
 import config from '../../config';
 import style from '../../genericStyles/Page.css';
-import { InvalidPasswordError, UnknownPublicKeyError } from '../../actions/errors';
+import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 
@@ -25,7 +25,7 @@ export default class AccountEditorPage extends FormComponent {
     if (address) {
       selectedAccount = this.props.vault.accounts.find(a => a.address === address);
       if (!selectedAccount) {
-        throw new Error('Account doesn\'t exist');
+        throw new ItemNotFound('account', address);
       }
     }
 
@@ -159,17 +159,6 @@ export default class AccountEditorPage extends FormComponent {
   renderForm() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        {this.state.accountAddress ? '' : <div>
-          Address:
-          <input
-            required
-            placeholder="Account address"
-            readOnly={this.state.accountAddress}
-            name="address"
-            value={this.state.address}
-            onChange={this.handleAddressChange}
-          />
-        </div>}
         <div>
           Name:
           <input
@@ -181,6 +170,17 @@ export default class AccountEditorPage extends FormComponent {
             onChange={this.handleNameChange}
           />
         </div>
+        {this.state.accountAddress ? '' : <div>
+          Address:
+          <input
+            required
+            placeholder="Account address"
+            readOnly={this.state.accountAddress}
+            name="address"
+            value={this.state.address}
+            onChange={this.handleAddressChange}
+          />
+        </div>}
         <div>
           Public key:
           <textarea
@@ -227,7 +227,6 @@ export default class AccountEditorPage extends FormComponent {
   }
 
   render() {
-    const { logoutAction, vault } = this.props;
     const limitWarning =
       !this.state.accountAddress &&
       this.props.vault.accounts.length >= config.accountsLimit;
@@ -236,10 +235,7 @@ export default class AccountEditorPage extends FormComponent {
       'Import new account';
 
     return (
-      <Page
-        title={title} logoutAction={logoutAction}
-        accounts={vault.accounts}
-      >
+      <Page title={title}>
         {this.state.isSubmitted && <LoaderOverlay />}
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
       </Page>
@@ -248,9 +244,8 @@ export default class AccountEditorPage extends FormComponent {
 }
 
 AccountEditorPage.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
   saveAction: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  logoutAction: PropTypes.func.isRequired,
 };

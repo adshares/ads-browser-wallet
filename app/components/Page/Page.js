@@ -7,17 +7,15 @@ import Footer from '../Footer/Footer';
 import style from './Page.css';
 import Header from '../Header/Header';
 
-export default class Page extends React.PureComponent {
+export default class Page extends React.Component {
   render() {
     const {
       title,
       cancelLink,
       scroll,
-      logoutAction,
-      accounts,
       children,
       ...rest
-    } = { ...this.props };
+    } = this.props;
     let classes = [];
     classes.push(style.header);
     if (cancelLink) {
@@ -37,7 +35,7 @@ export default class Page extends React.PureComponent {
 
     return (
       <section>
-        <Header logoutAction={logoutAction} accounts={accounts} />
+        <Header />
         <div {...rest} className={style.page}>
           {title || cancelLink ? (
             <div className={headerClass}>
@@ -50,16 +48,14 @@ export default class Page extends React.PureComponent {
           <div className={wrapperClass}>
             {children}
           </div>
-          <Footer />
         </div>
+        <Footer />
       </section>
     );
   }
 }
 
 Page.propTypes = {
-  accounts: PropTypes.array.isRequired,
-  logoutAction: PropTypes.func.isRequired,
   title: PropTypes.string,
   cancelLink: PropTypes.any,
   scroll: PropTypes.bool,

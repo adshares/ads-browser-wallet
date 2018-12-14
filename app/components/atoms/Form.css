@@ -27,3 +27,7 @@
 .form textarea {
     padding: 15px;
 }
+
+form input[readonly], .form textarea[readonly] {
+    background-color: var(--grayish-white);
+}

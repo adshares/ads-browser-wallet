@@ -19,13 +19,13 @@ import * as VaultActions from '../../actions/vault';
 )
 export default class Header extends React.PureComponent {
   render() {
-    const { vault, actions } = this.props;
+    const { vault, actions, showAccounts } = this.props;
     return (
       <header className={style.header}>
         <Link to="/">
           <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
         </Link>
-        <SelectAccount options={vault.accounts} />
+        {showAccounts ? <SelectAccount options={vault.accounts} /> : ''}
         <HamburgerMenu logoutAction={actions.seal} />
       </header>
     );
@@ -35,5 +35,6 @@ export default class Header extends React.PureComponent {
 Header.propTypes = {
   vault: PropTypes.object,
   actions: PropTypes.object,
+  showAccounts: PropTypes.bool,
 };
 

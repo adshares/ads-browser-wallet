@@ -177,7 +177,7 @@ export default class KeysImporterPage extends FormComponent {
               type="submit" icon="right"
               disabled={this.state.isSubmitted}
             >
-              {this.state.accountAddress ? 'Save' : 'Import'}
+              {this.state.account ? 'Save' : 'Import'}
               <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>

@@ -1,46 +1,43 @@
-.page {
-    margin: 24px 15px 10px 15px;
+.header {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    padding: 0 15px;
 }
-.header h2 {
-    font-size: 1.4em;
+
+.header > h1 {
+    font-size: 1.3em;
     line-height: 1.25em;
-    display: inline-block;
-    margin: 0 0 5px;
-    padding-bottom: 8px;
-    width: 369px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    vertical-align: middle;
-    border-bottom: 1px dashed var(--gray);
+    max-width: 275px;
 }
 
-.withCancelLink h2 {
-    margin-right: 10px;
-    width: 329px;
+.smallHeader > h1 {
+    font-size: 1em;
 }
 
-.withCancelLink a {
-    margin-bottom: 5px;
-    vertical-align: middle;
-    width: 31px;
+.logo {
+    height: 40px;
+}
+
+.close {
+    width: 32px;
+    margin-left: 8px;
 }
 
 .contentWrapper {
+    margin: 15px;
     text-align: left;
-    height: 460px;
-    padding-top: 10px;
     overflow: auto;
 }
 
 .withScroll {
-    padding-bottom: 10px;
     padding-right: 10px;
-    height: 410px;
     overflow-x: hidden;
     overflow-y: scroll;
-}
-
-.withoutHeader {
-    height: 475px;
+    height: 460px;
 }

@@ -30,7 +30,7 @@ export default class AccountEditorPage extends FormComponent {
     }
 
     this.state = {
-      accountAddress: address,
+      account: selectedAccount,
       name: selectedAccount.name || '',
       address: selectedAccount.address || '',
       publicKey: selectedAccount.publicKey || '',
@@ -48,7 +48,7 @@ export default class AccountEditorPage extends FormComponent {
     }
 
     if (this.props.vault.accounts.find(
-      a => a.address === this.state.address.toUpperCase() && a.address !== this.state.accountAddress
+      a => a.address === this.state.address.toUpperCase() && a.address !== this.state.account.address
     )) {
       addressInput.setCustomValidity(`Account ${this.state.address} already exists`);
       return false;
@@ -67,7 +67,7 @@ export default class AccountEditorPage extends FormComponent {
     }
 
     if (this.props.vault.accounts.find(
-      a => a.name === this.state.name && a.address !== this.state.accountAddress
+      a => a.name === this.state.name && a.address !== this.state.account.address
     )) {
       nameInput.setCustomValidity(`Name ${this.state.name} already exists`);
       return false;
@@ -105,7 +105,7 @@ export default class AccountEditorPage extends FormComponent {
     event.preventDefault();
     event.stopPropagation();
 
-    if ((this.state.accountAddress || this.validateAddress()) &&
+    if ((this.state.account || this.validateAddress()) &&
       this.validateName() &&
       this.validatePublicKey()
     ) {
@@ -170,17 +170,17 @@ export default class AccountEditorPage extends FormComponent {
             onChange={this.handleNameChange}
           />
         </div>
-        {this.state.accountAddress ? '' : <div>
+        <div>
           Address:
           <input
             required
             placeholder="Account address"
-            readOnly={this.state.accountAddress}
+            readOnly={this.state.account}
             name="address"
             value={this.state.address}
             onChange={this.handleAddressChange}
           />
-        </div>}
+        </div>
         <div>
           Public key:
           <textarea
@@ -218,7 +218,7 @@ export default class AccountEditorPage extends FormComponent {
             type="submit" icon="right"
             disabled={this.state.isSubmitted}
           >
-            {this.state.accountAddress ? 'Save' : 'Import'}
+            {this.state.account ? 'Save' : 'Import'}
             <FontAwesomeIcon icon={faChevronRight} />
           </Button>
         </div>
@@ -228,14 +228,12 @@ export default class AccountEditorPage extends FormComponent {
 
   render() {
     const limitWarning =
-      !this.state.accountAddress &&
+      !this.state.account &&
       this.props.vault.accounts.length >= config.accountsLimit;
-    const title = this.state.accountAddress ?
-      `Edit account ${this.state.accountAddress}` :
-      'Import new account';
+    const title = this.state.account ? this.state.account.name : 'Import new account';
 
     return (
-      <Page title={title}>
+      <Page title={title} smallTitle cancelLink={this.getReferrer()}>
         {this.state.isSubmitted && <LoaderOverlay />}
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
       </Page>

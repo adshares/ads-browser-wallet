@@ -18,7 +18,7 @@ export default class AccountKeysPage extends FormComponent {
     }
 
     return (
-      <Page title={`${account.name} keys`} cancelLink={this.getReferrer()}>
+      <Page title={account.name} smallTitle cancelLink={this.getReferrer()}>
         {!account ? (
           <Box layout="danger" icon={faExclamation} className={style.infoBox}>
             Cannot find the account {account.address} in storage.

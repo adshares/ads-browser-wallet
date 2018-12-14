@@ -9,7 +9,7 @@ export default class HomePage extends React.PureComponent {
     const { vault } = this.props;
 
     return (
-      <Page className={style.page} accounts={vault.accounts}>
+      <Page className={style.page}>
         <section>
           <h2>
             Home

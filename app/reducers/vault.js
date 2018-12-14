@@ -56,14 +56,23 @@ const actionsMap = {
     }
 
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
+    const keys = KeyBox.generateKeys(
+      unsealedVault.seed,
+      unsealedVault.keyCount || config.initKeysQuantity
+    );
+    const accounts = unsealedVault.accounts.map(account => (
+      {
+        ...account,
+        secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
+      }
+    ));
+
     return {
       ...initialVault,
       ...vault,
       ...unsealedVault,
-      keys: KeyBox.generateKeys(
-        unsealedVault.seed,
-        unsealedVault.keyCount || config.initKeysQuantity
-      ),
+      keys,
+      accounts,
       sealed: false,
     };
   },

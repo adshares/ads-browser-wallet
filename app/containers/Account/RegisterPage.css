@@ -1,10 +1,10 @@
 .welcomePage {
     text-align: center;
-    padding: 0 10px;
+    padding: 0 15px;
 }
 
 .logo {
-    margin: 50px auto 50px auto;
+    margin: 50px auto 30px auto;
 }
 
 .logo svg {
@@ -16,13 +16,13 @@
 }
 
 .restore {
-    margin-top: 50px;
+    margin-top: 40px;
     font-size: var(--font-smaller);
 }
 
 .newPasswordPage {
     text-align: center;
-    padding: 0 10px;
+    padding: 0 15px;
 }
 
 .newPasswordPage header {
@@ -35,13 +35,13 @@
 
 .regulationsPage {
     text-align: center;
-    padding: 0 10px;
+    padding: 0 15px;
 }
 
 .regulations {
-    width: 328px;
+    width: 338px;
     overflow: auto;
-    height: 390px;
+    height: 370px;
     text-align: justify;
     border: 1px solid var(--gray);
     padding: 10px 15px;
@@ -51,7 +51,7 @@
 
 .seedPhrasePage {
     text-align: center;
-    padding: 0 10px;
+    padding: 0 15px;
 }
 
 .seedPhrasePage header {
@@ -74,9 +74,14 @@
 }
 
 .buttons {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .buttons a:first-of-type {
     margin-right: 50px;
+}
+
+.dangerContent input, .dangerContent textarea {
+    border-color: var(--red-dark);
+    color: var(--red-dark);
 }

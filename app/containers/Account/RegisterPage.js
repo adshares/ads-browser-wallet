@@ -171,7 +171,7 @@ export default class RegisterPage extends FormComponent {
               Regenerate phrase
             </Button>
           </div>
-          <div>
+          <div className={style.dangerContent}>
             <textarea
               value={this.state.seedPhrase}
               readOnly

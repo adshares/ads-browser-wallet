@@ -14,7 +14,6 @@ export default class Page extends React.PureComponent {
       cancelLink,
       scroll,
       logoutAction,
-      ereaseAction,
       accounts,
       children,
       ...rest
@@ -38,7 +37,7 @@ export default class Page extends React.PureComponent {
 
     return (
       <section>
-        <Header logoutAction={logoutAction} ereaseAction={ereaseAction} accounts={accounts} />
+        <Header logoutAction={logoutAction} accounts={accounts} />
         <div {...rest} className={style.page}>
           {title || cancelLink ? (
             <div className={headerClass}>
@@ -61,7 +60,6 @@ export default class Page extends React.PureComponent {
 Page.propTypes = {
   accounts: PropTypes.array.isRequired,
   logoutAction: PropTypes.func.isRequired,
-  ereaseAction: PropTypes.func.isRequired,
   title: PropTypes.string,
   cancelLink: PropTypes.any,
   scroll: PropTypes.bool,

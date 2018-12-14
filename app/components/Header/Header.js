@@ -8,16 +8,13 @@ import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 
 export default class Header extends React.PureComponent {
   render() {
-    const { logoutAction, ereaseAction, accounts } = this.props;
+    const { logoutAction, accounts } = this.props;
     return (
       <header className={style.header}>
         <Link to="/">
           <img src={logo} alt="Adshares wallet" className={style.headerLogo} />
         </Link>
-        { !!accounts.length &&
-          <SelectAccount options={accounts} />
-        }
-        <HamburgerMenu logoutAction={logoutAction} ereaseAction={ereaseAction} />
+        <HamburgerMenu logoutAction={logoutAction} />
       </header>
     );
   }
@@ -26,6 +23,5 @@ export default class Header extends React.PureComponent {
 Header.propTypes = {
   accounts: PropTypes.array.isRequired,
   logoutAction: PropTypes.func.isRequired,
-  ereaseAction: PropTypes.func.isRequired,
 };
 

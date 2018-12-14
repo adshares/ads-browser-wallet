@@ -227,7 +227,7 @@ export default class AccountEditorPage extends FormComponent {
   }
 
   render() {
-    const { ereaseAction, logoutAction, vault } = this.props;
+    const { logoutAction, vault } = this.props;
     const limitWarning =
       !this.state.accountAddress &&
       this.props.vault.accounts.length >= config.accountsLimit;
@@ -237,7 +237,7 @@ export default class AccountEditorPage extends FormComponent {
 
     return (
       <Page
-        title={title} ereaseAction={ereaseAction} logoutAction={logoutAction}
+        title={title} logoutAction={logoutAction}
         accounts={vault.accounts}
       >
         {this.state.isSubmitted && <LoaderOverlay />}
@@ -253,5 +253,4 @@ AccountEditorPage.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   logoutAction: PropTypes.func.isRequired,
-  ereaseAction: PropTypes.func.isRequired,
 };

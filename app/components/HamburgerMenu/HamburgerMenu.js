@@ -14,6 +14,12 @@ export default class HamburgerMenu extends React.PureComponent {
     });
   }
 
+  handleLogout = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.logoutAction();
+  };
+
   render() {
     return (
       <div
@@ -32,22 +38,13 @@ export default class HamburgerMenu extends React.PureComponent {
           onMouseLeave={() => this.toggleMenu(false)}
         >
           <li>
-            <Link to="/settings" className={style.menuItem} >  Settings </Link>
-          </li>
-          <li className={style.menuItem} onClick={this.props.ereaseAction}>
-            Erase storage
+            <Link to="/settings" className={style.menuItem}>Settings</Link>
           </li>
           <li>
-            <Link to="/accounts/import" className={style.menuItem}> Add account </Link>
+            <Link to="/keys/import" className={style.menuItem}>Import private key</Link>
           </li>
           <li>
-            <Link to="/keys/import" className={style.menuItem}> Import keys </Link>
-          </li>
-          <li
-            onClick={this.props.logoutAction} className={style.menuItem}
-            onBlur={() => this.toggleMenu(false)}
-          >
-              Logout
+            <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>Log out</a>
           </li>
         </ul>
       </div>
@@ -57,5 +54,4 @@ export default class HamburgerMenu extends React.PureComponent {
 
 HamburgerMenu.propTypes = {
   logoutAction: PropTypes.func.isRequired,
-  ereaseAction: PropTypes.func.isRequired,
 };

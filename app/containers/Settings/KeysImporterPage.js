@@ -122,9 +122,9 @@ export default class KeysImporterPage extends FormComponent {
   }
 
   render() {
-    const { vault, ereaseAction, logoutAction, saveAction } = this.props;
+    const { vault, logoutAction, saveAction } = this.props;
     return (
-      <Page title="Import key" ereaseAction={ereaseAction} logoutAction={logoutAction} accounts={vault.accounts}>
+      <Page title="Import key" logoutAction={logoutAction} accounts={vault.accounts}>
         {this.state.showLoader && <LoaderOverlay />}
         <ConfirmDialog
           showDialog={this.state.isSubmitted} action={saveAction}
@@ -193,5 +193,4 @@ KeysImporterPage.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   logoutAction: PropTypes.func.isRequired,
-  ereaseAction: PropTypes.func.isRequired,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Box.css';
 
@@ -8,10 +9,11 @@ export default class Box extends React.Component {
       layout,
       title,
       icon,
+      inverse,
       className,
       children,
       ...rest
-    } = { ...this.props };
+    } = this.props;
 
     const classNames = [];
     classNames.push(style.box);
@@ -20,6 +22,9 @@ export default class Box extends React.Component {
     }
     if (layout) {
       classNames.push(style[layout]);
+    }
+    if (inverse) {
+      classNames.push(style.inverse);
     }
     if (icon) {
       classNames.push(style.hasIcon);
@@ -40,3 +45,12 @@ export default class Box extends React.Component {
     );
   }
 }
+
+Box.propTypes = {
+  layout: PropTypes.string,
+  title: PropTypes.string,
+  icon: PropTypes.string,
+  inverse: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.any,
+};

@@ -19,7 +19,7 @@ export default class AccountEditorPage extends FormComponent {
   constructor(props) {
     super(props);
 
-    let selectedAccount = {};
+    let selectedAccount;
     const { address } = this.props.match.params;
 
     if (address) {
@@ -31,12 +31,18 @@ export default class AccountEditorPage extends FormComponent {
 
     this.state = {
       account: selectedAccount,
-      name: selectedAccount.name || '',
-      address: selectedAccount.address || '',
-      publicKey: selectedAccount.publicKey || '',
+      name: '',
+      address: '',
+      publicKey: '',
       password: '',
       isSubmitted: false,
     };
+
+    if (selectedAccount) {
+      this.state.name = selectedAccount.name;
+      this.state.address = selectedAccount.address;
+      this.state.publicKey = selectedAccount.publicKey;
+    }
   }
 
   validateAddress() {
@@ -47,8 +53,9 @@ export default class AccountEditorPage extends FormComponent {
       return false;
     }
 
+    const address = this.state.account ? this.state.account.address : null;
     if (this.props.vault.accounts.find(
-      a => a.address === this.state.address.toUpperCase() && a.address !== this.state.account.address
+      a => a.address === this.state.address.toUpperCase() && a.address !== address
     )) {
       addressInput.setCustomValidity(`Account ${this.state.address} already exists`);
       return false;
@@ -66,8 +73,9 @@ export default class AccountEditorPage extends FormComponent {
       return false;
     }
 
+    const address = this.state.account ? this.state.account.address : null;
     if (this.props.vault.accounts.find(
-      a => a.name === this.state.name && a.address !== this.state.account.address
+      a => a.name === this.state.name && a.address !== address
     )) {
       nameInput.setCustomValidity(`Name ${this.state.name} already exists`);
       return false;
@@ -230,7 +238,7 @@ export default class AccountEditorPage extends FormComponent {
     const limitWarning =
       !this.state.account &&
       this.props.vault.accounts.length >= config.accountsLimit;
-    const title = this.state.account ? this.state.account.name : 'Import new account';
+    const title = this.state.account ? this.state.account.name : 'Import an account';
 
     return (
       <Page title={title} smallTitle cancelLink={this.getReferrer()}>

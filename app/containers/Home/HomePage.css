@@ -1,6 +1,46 @@
-.tableWrapper {
-    max-height: 355px;
-    width: 100%;
-    overflow: auto;
-    margin: 20px 0;
+.configure {
+    text-align: center;
+}
+
+.configure > svg {
+    width: 200px;
+    margin-top: -130px;
+    margin-bottom: 50px;
+}
+
+.helpLinks {
+    margin-top: 50px;
+    font-size: var(--font-smaller);
+}
+
+.box {
+    margin-top: 20px;
+}
+
+.balance {
+    text-align: center;
+    font-size: 2em;
+    line-height: 1.5em;
+    margin-top: 20px;
+    color: var(--blue-dark);
+}
+
+.details {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.details span {
+    color: var(--blue-dark);
+    cursor: pointer;
+}
+
+.shortcuts {
+    margin-top: 30px;
+}
+
+.shortcuts > a {
+    margin-top: 10px;
+    font-size: var(--font-normal);
 }

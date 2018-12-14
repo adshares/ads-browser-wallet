@@ -41,7 +41,7 @@ export default class LoginPage extends FormComponent {
     return (
       <div className={style.page}>
         <div className={style.logo}>
-          <Logo />
+          <Logo withoutName />
           <h1>Live by ADS</h1>
         </div>
         <Form onSubmit={this.handleLogin}>

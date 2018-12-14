@@ -8,6 +8,10 @@ const accountsLimit = 20;
 
 const importedKeysLimit = 20;
 
+const operatorUrl = 'https://operator.adshares.net/';
+
+const testnetOperatorUrl = 'https://operator.e11.click/';
+
 const regulations =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
   'Sed porttitor non erat a aliquet. Pellentesque vulputate lacus at mauris congue ultricies. Lorem ipsum dolor sit ' +
@@ -26,11 +30,16 @@ const regulations =
   'Cras ut velit a felis volutpat vestibulum nec nec lectus. In hendrerit convallis faucibus.'
 ;
 
+const getAccountLink = 'https://github.com/adshares/ads/wiki/How-to-get-an-account';
+
 export default {
   passwordMinLength,
   initKeysQuantity,
   accountNameMaxLength,
   accountsLimit,
   importedKeysLimit,
+  operatorUrl,
+  testnetOperatorUrl,
   regulations,
+  getAccountLink,
 };

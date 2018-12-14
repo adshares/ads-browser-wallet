@@ -20,8 +20,32 @@
     background-color: var(--red-dark);
 }
 
+.box.inverse {
+    border: 1px solid var(--blue-dark);
+    color: var(--blue-dark);
+    background-color: var(--white);
+}
+
+.box.inverse > .icon {
+    background-color: transparent;
+}
+
+.box.inverse.success {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+}
+
+.box.inverse.warning {
+    border-color: var(--yellow-dark);
+    color: var(--yellow-dark);
+}
+
+.box.inverse.danger {
+    border-color: var(--red-dark);
+    color: var(--red-dark);
+}
+
 .box > p {
-    color: var(--white);
     margin: 0;
     line-height: 24px;
 }
@@ -61,5 +85,4 @@
     line-height: 50px;
     text-align: center;
     font-size: 24px;
-    color: var(--white);
 }

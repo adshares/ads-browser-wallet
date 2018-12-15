@@ -1,25 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700');
 
 :root {
-  --green: #A0D468;
-  --green-dark: #8FBF5B;
-  --blue: #5D9CEC;
+  --green: #8FBF5B;
+  --green-dark: #5D9421;
+  --blue: #4B9CD0;
   --blue-dark: #2A87C4;
-  --purple: #8067B7;
+  --purple: #A796D0;
   --purple-dark: #6A50A7;
-  --yellow: #FFCE54;
+  --yellow: #FFD683;
   --yellow-dark: #F6BB42;
-  --orange: #FC6E51;
+  --orange: #FF9483;
   --orange-dark: #E9573F;
-  --red: #E74C3C;
-  --red-dark: #E05967;
-  --pink: #FA6A8E;
+  --red: #E05967;
+  --red-dark: #BD1F2E;
+  --pink: #FC7798;
   --pink-dark: #FB3365;
-  --brown: #BAA286;
-  --brown-dark: #AA8E69;
+  --brown: #AA8E69;
+  --brown-dark: #816135;
   --gray: #BDC3C7;
   --gray-dark: #8E9AA2;
-  --slate: #656D78;
+  --slate: #6A7078;
   --slate-dark: #434A54;
   --grayish-white: #F6F6F6;
   --white: #FFF;

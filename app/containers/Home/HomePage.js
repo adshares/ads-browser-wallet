@@ -26,15 +26,14 @@ export default class HomePage extends React.PureComponent {
     return (
       <div>
         <Box className={style.box} icon={faGlobe} layout="info">
-          {/*<img src={logo} alt="Adshares wallet" className={style.logo} />*/}
-          <small>{account.name}</small>
-          <div className={style.balance}>
+          <small title="Account name">{account.name}</small>
+          <div className={style.balance} title="Account balance">
             {amountInt}<small>{amountDec}</small>&nbsp;
             <small>ADS</small>
           </div>
           <hr />
           <div className={style.details}>
-            <span>
+            <span title="Account address">
               {account.address}&nbsp;&nbsp;
               <FontAwesomeIcon icon={faCopy} />
             </span>

@@ -43,7 +43,7 @@ html, body {
 body {
   border: 1px solid #ccc;
   width: 400px;
-  height: 550px;
+  max-height: 550px;
   overflow: auto;
   margin: 0 auto;
   font: var(--font-normal) 'Lato', Arial, sans-serif;

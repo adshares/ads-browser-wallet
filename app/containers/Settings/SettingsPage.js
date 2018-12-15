@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faShieldAlt,
-  faTimes,
   faTrashAlt,
   faSave,
   faExclamation,
@@ -16,8 +15,8 @@ import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
-import style from './SettingsPage.css';
 import Page from '../../components/Page/Page';
+import style from './SettingsPage.css';
 
 export default class SettingsPage extends FormComponent {
 
@@ -65,6 +64,7 @@ export default class SettingsPage extends FormComponent {
                   }}
                   size="small"
                   title="Edit account"
+                  layout="info"
                 ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
                 <ButtonLink
                   to={{
@@ -93,6 +93,7 @@ export default class SettingsPage extends FormComponent {
           }}
           icon="left"
           size="wide"
+          layout="info"
         >
           <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
@@ -114,7 +115,7 @@ export default class SettingsPage extends FormComponent {
               onChange={this.handleInputChange}
             />
           </div>
-          <Button type="submit" icon="left" size="wide">
+          <Button type="submit" icon="left" size="wide" layout="info">
             <FontAwesomeIcon icon={faSave} /> Change
           </Button>
         </Form>
@@ -161,7 +162,7 @@ export default class SettingsPage extends FormComponent {
 
   render() {
     return (
-      <Page title="Settings" scroll cancelLink="/">
+      <Page className={style.page} title="Settings" scroll cancelLink="/">
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

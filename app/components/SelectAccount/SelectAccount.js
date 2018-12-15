@@ -77,7 +77,7 @@ export default class SelectAccount extends React.Component {
                 className={style.optionLink}
                 to="/accounts/import"
               >
-                Add an account
+                Add account
                 <FontAwesomeIcon icon={faPlus} className={style.optionIcon} />
               </Link>
             </li>)}

@@ -24,18 +24,18 @@ export default class HamburgerMenu extends React.PureComponent {
     return (
       <div
         className={style.hamburgerWrapper}
-        onMouseEnter={() => this.toggleMenu(true)}
       >
         <div
           tabIndex="0"
           role="button"
           className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
           onClick={() => this.toggleMenu(!this.state.menuOpened)}
-          onFocus={() => this.toggleMenu(true)}
+          onBlur={() => setTimeout(() => { this.toggleMenu(false); }, 200)}
+          // onFocus={() => this.toggleMenu(true)}
         />
         <ul
           className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}
-          onMouseLeave={() => this.toggleMenu(false)}
+          // onMouseLeave={() => this.toggleMenu(false)}
         >
           <li>
             <Link to="/settings" className={style.menuItem}>Settings</Link>

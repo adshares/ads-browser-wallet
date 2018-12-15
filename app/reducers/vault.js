@@ -64,6 +64,7 @@ const actionsMap = {
       {
         ...account,
         secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
+        balance: Math.random() * 1000,
       }
     ));
 

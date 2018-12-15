@@ -1,10 +1,11 @@
 .welcomePage {
     text-align: center;
-    padding: 0 15px;
+    padding: 15px;
+    height: 460px;
 }
 
 .logo {
-    margin: 50px auto 30px auto;
+    margin: 20px auto 30px auto;
 }
 
 .logo svg {
@@ -12,17 +13,18 @@
 }
 
 .logo h1 {
-    margin-top: 0px;
+    margin-top: -25px;
 }
 
 .restore {
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: var(--font-smaller);
 }
 
 .newPasswordPage {
     text-align: center;
-    padding: 0 15px;
+    padding: 15px;
+    height: 460px;
 }
 
 .newPasswordPage header {
@@ -35,13 +37,14 @@
 
 .regulationsPage {
     text-align: center;
-    padding: 0 15px;
+    padding: 15px;
+    height: 460px;
 }
 
 .regulations {
     width: 338px;
     overflow: auto;
-    height: 370px;
+    height: 300px;
     text-align: justify;
     border: 1px solid var(--gray);
     padding: 10px 15px;
@@ -51,15 +54,16 @@
 
 .seedPhrasePage {
     text-align: center;
-    padding: 0 15px;
+    padding: 15px;
+    height: 460px;
 }
 
 .seedPhrasePage header {
-    margin-bottom: 50px;
+    margin-bottom: 35px;
 }
 
 .seedPhrasePage form {
-    margin-top: 60px;
+    margin-top: 30px;
 }
 
 .seedPhrasePage .refresh {
@@ -69,12 +73,12 @@
 
 .seedPhrasePage textarea {
     font-weight: 700;
-    margin-bottom: 40px;
     height: 83px;
 }
 
 .buttons {
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px !important;
 }
 
 .buttons a:first-of-type {

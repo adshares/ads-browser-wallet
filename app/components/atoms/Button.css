@@ -10,9 +10,9 @@
     cursor: pointer;
     border-radius: 3px;
     outline: none;
-    color: var(--white);
-    background: var(--blue-dark);
-    border: 1px solid var(--blue-dark);
+    color: var(--white) !important;
+    background: var(--slate-dark);
+    border: 1px solid var(--slate-dark);
     text-decoration: none;
     vertical-align: middle;
 }
@@ -20,6 +20,11 @@
 .button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.button.info {
+    background-color: var(--blue-dark);
+    border-color: var(--blue-dark);
 }
 
 .button.success {
@@ -37,21 +42,35 @@
     border-color: var(--red-dark);
 }
 
+.button.danger {
+    background-color: var(--red-dark);
+    border-color: var(--red-dark);
+}
+
+.button.contrast {
+    background-color: transparent;
+    border-color: var(--white);
+}
+
 .button.inverse {
     background-color: var(--white);
-    color: var(--blue-dark);
+    color: var(--slate-dark) !important;
+}
+
+.button.inverse.info {
+    color: var(--blue-dark) !important;
 }
 
 .button.inverse.success {
-    color: var(--green-dark);
+    color: var(--green-dark) !important;
 }
 
 .button.inverse.warning {
-    color: var(--yellow-dark);
+    color: var(--yellow-dark) !important;
 }
 
 .button.inverse.danger {
-    color: var(--red-dark);
+    color: var(--red-dark) !important;
 }
 
 .button.small {
@@ -67,9 +86,15 @@
 
 .button:hover,
 .button:focus {
+    background-color: var(--slate);
+    border-color: var(--slate);
+    text-decoration: none;
+}
+
+.button.info:hover,
+.button.info:focus  {
     background-color: var(--blue);
     border-color: var(--blue);
-    text-decoration: none;
 }
 
 .button.success:hover,
@@ -90,9 +115,15 @@
     border-color: var(--red);
 }
 
+.button.contrast:hover,
+.button.contrast:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--white);
+}
+
 .button.inverse:hover,
 .button.inverse:focus {
-    color: var(--white);
+    color: var(--white) !important;
 }
 
 .button.icon-left {
@@ -100,7 +131,7 @@
 }
 
 .button.icon-right {
-    padding-right: 15 px;
+    padding-right: 15px;
 }
 
 .button.icon-left svg {

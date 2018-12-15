@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons/index';
+import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
@@ -9,10 +10,9 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
 import config from '../../config';
-import style from '../../genericStyles/Page.css';
-import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
+import style from './SettingsPage.css';
 
 export default class AccountEditorPage extends FormComponent {
 
@@ -155,9 +155,7 @@ export default class AccountEditorPage extends FormComponent {
         <Box layout="warning" icon={faInfo}>
           Maximum account limit has been reached. Please remove unused accounts.
         </Box>
-        <ButtonLink
-          className={style.cancel} to={this.getReferrer()} icon="left" size="wide"
-        >
+        <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
           <FontAwesomeIcon icon={faCheck} /> OK
         </ButtonLink>
       </div>
@@ -218,12 +216,15 @@ export default class AccountEditorPage extends FormComponent {
             inverse
             icon="left"
             disabled={this.state.isSubmitted}
+            layout="info"
           >
             <FontAwesomeIcon icon={faTimes} /> Cancel
           </ButtonLink>
           <Button
             name="button"
-            type="submit" icon="right"
+            type="submit"
+            icon="right"
+            layout="info"
             disabled={this.state.isSubmitted}
           >
             {this.state.account ? 'Save' : 'Import'}
@@ -241,7 +242,7 @@ export default class AccountEditorPage extends FormComponent {
     const title = this.state.account ? this.state.account.name : 'Import an account';
 
     return (
-      <Page title={title} smallTitle cancelLink={this.getReferrer()}>
+      <Page className={style.page} title={title} smallTitle cancelLink={this.getReferrer()}>
         {this.state.isSubmitted && <LoaderOverlay />}
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
       </Page>

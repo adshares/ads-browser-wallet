@@ -56,7 +56,7 @@ export default class LoginPage extends FormComponent {
               onChange={this.handlePasswordChange}
             />
           </div>
-          <Button type="submit" icon="right">
+          <Button type="submit" icon="right" layout="info">
             Login <FontAwesomeIcon icon={faChevronRight} />
           </Button>
         </Form>

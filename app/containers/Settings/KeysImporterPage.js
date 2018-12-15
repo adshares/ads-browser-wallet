@@ -9,8 +9,8 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import ConfirmDialog from '../../components/confirmDialog/confirmDialog';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
-import style from '../../genericStyles/Page.css';
 import Page from '../../components/Page/Page';
+import style from './SettingsPage.css';
 
 export default class KeysImporterPage extends FormComponent {
 
@@ -124,7 +124,7 @@ export default class KeysImporterPage extends FormComponent {
   render() {
     const { vault, saveAction } = this.props;
     return (
-      <Page title="Import key">
+      <Page className={style.page} title="Import key">
         {this.state.showLoader && <LoaderOverlay />}
         <ConfirmDialog
           showDialog={this.state.isSubmitted} action={saveAction}
@@ -168,13 +168,13 @@ export default class KeysImporterPage extends FormComponent {
 
           <div className={style.buttons}>
             <ButtonLink
-              className={style.cancel} to={'/'} inverse icon="left"
+              className={style.cancel} to={'/'} inverse icon="left" layout="info"
               disabled={this.state.isSubmitted}
             >
               <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
-              type="submit" icon="right"
+              type="submit" icon="right" layout="info"
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}

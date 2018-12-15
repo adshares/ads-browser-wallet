@@ -40,7 +40,7 @@ export default class Box extends React.Component {
           <FontAwesomeIcon icon={icon} />
         </div> : ''}
         {title ? <h2>{title}</h2> : ''}
-        <p>{children}</p>
+        <div className={style.content}>{children}</div>
       </div>
     );
   }
@@ -49,7 +49,7 @@ export default class Box extends React.Component {
 Box.propTypes = {
   layout: PropTypes.string,
   title: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.any,
   inverse: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.any,

@@ -3,9 +3,20 @@
     padding: 15px;
     margin: 0 0 30px;
     border-radius: 12px;
-    overflow: hidden;
-    background: var(--blue-dark);
+    background: var(--slate-dark);
     position: relative;
+}
+
+.box a {
+    color: var(--white)
+}
+
+.box hr {
+    background-color: var(--white);
+}
+
+.box.info {
+    background-color: var(--blue-dark);
 }
 
 .box.success {
@@ -21,13 +32,30 @@
 }
 
 .box.inverse {
-    border: 1px solid var(--blue-dark);
-    color: var(--blue-dark);
+    border: 1px solid var(--slate-dark);
+    color: var(--slate-dark);
     background-color: var(--white);
+}
+
+.box.inverse a {
+    color: inherit;
+}
+
+.box.inverse hr {
+    background-color: var(--slate-dark);
 }
 
 .box.inverse > .icon {
     background-color: transparent;
+}
+
+.box.inverse.info {
+    border-color: var(--blue-dark);
+    color: var(--blue-dark);
+}
+
+.box.inverse.info hr {
+    background-color: var(--blue-dark);
 }
 
 .box.inverse.success {
@@ -35,9 +63,17 @@
     color: var(--green-dark);
 }
 
+.box.inverse.success hr {
+    background-color: var(--green-dark);
+}
+
 .box.inverse.warning {
     border-color: var(--yellow-dark);
     color: var(--yellow-dark);
+}
+
+.box.inverse.warning hr {
+    background-color: var(--yellow-dark);
 }
 
 .box.inverse.danger {
@@ -45,12 +81,16 @@
     color: var(--red-dark);
 }
 
-.box > p {
+.box.inverse.danger hr {
+    background-color: var(--red-dark);
+}
+
+.box .content {
     margin: 0;
     line-height: 24px;
 }
 
-.box.large > p {
+.box.large > .content {
      opacity: 0.8;
  }
 

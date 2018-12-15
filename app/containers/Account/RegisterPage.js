@@ -68,7 +68,7 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.welcomePage}>
         <header className={style.logo}>
-          <Logo />
+          <Logo withoutName />
           <h1>Live by ADS</h1>
         </header>
         <p>
@@ -76,7 +76,7 @@ export default class RegisterPage extends FormComponent {
           Suspendisse ultricies suscipit volutpat. Nulla a dui suscipit, vehicula metus sed,
           molestie nibh.
         </p>
-        <ButtonLink to="/register/password" icon="right">
+        <ButtonLink to="/register/password" icon="right" layout="info">
           Start <FontAwesomeIcon icon={faChevronRight} />
         </ButtonLink>
         <div className={style.restore}>
@@ -92,7 +92,7 @@ export default class RegisterPage extends FormComponent {
         <header>
           <h1>Setup password</h1>
         </header>
-        <Box icon={faInfo}>
+        <Box icon={faInfo} layout="info">
           Your password should be obscure and must be at least 8 characters long.
         </Box>
         <Form onSubmit={this.handlePasswordSubmit}>
@@ -120,10 +120,10 @@ export default class RegisterPage extends FormComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink to={'/register'} inverse icon="left">
+            <ButtonLink to={'/register'} inverse icon="left" layout="info">
               <FontAwesomeIcon icon={faChevronLeft} /> Back
             </ButtonLink>
-            <Button type="subbmit" icon="right">
+            <Button type="subbmit" icon="right" layout="info">
               Next <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>
@@ -140,10 +140,10 @@ export default class RegisterPage extends FormComponent {
         </header>
         <div className={style.regulations}>{config.regulations}</div>
         <div className={style.buttons}>
-          <ButtonLink to={'/register/password'} inverse icon="left">
+          <ButtonLink to={'/register/password'} inverse icon="left" layout="info">
             <FontAwesomeIcon icon={faChevronLeft} /> Back
           </ButtonLink>
-          <ButtonLink to={'/register/seed'} icon="right">
+          <ButtonLink to={'/register/seed'} icon="right" layout="info">
             Accept <FontAwesomeIcon icon={faChevronRight} />
           </ButtonLink>
         </div>
@@ -178,10 +178,10 @@ export default class RegisterPage extends FormComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink to={'/register/regulations'} inverse icon="left">
+            <ButtonLink to={'/register/regulations'} inverse icon="left" layout="info">
               <FontAwesomeIcon icon={faChevronLeft} /> Back
             </ButtonLink>
-            <Button type="submit" icon="right">
+            <Button type="submit" icon="right" layout="info">
               Save <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>

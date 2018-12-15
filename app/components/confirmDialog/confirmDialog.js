@@ -30,7 +30,7 @@ export class ConfirmDialog extends React.Component {
           Please authenticate yourself
         </h2>
         <input required type="password" placeholder="password" className={style.inputPassword} ref={this.passwordInput} />
-        <Button type="button" onClick={() => this.handleSubmit()}> Confirm </Button>
+        <Button type="button" layout="info" onClick={() => this.handleSubmit()}> Confirm </Button>
       </Form>
     </div>
     );

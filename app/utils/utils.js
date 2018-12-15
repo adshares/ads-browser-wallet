@@ -38,3 +38,7 @@ export function sanitizeHex(str) {
 export function searchForExistingKey(newKey, keys, type) {
   keys.find(key => key.type === newKey.type);
 }
+
+export function formatMoney(amount, precision = 4, decimal = '.', thousand = ',') {
+  return (amount || 0).toFixed(precision).replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
+}

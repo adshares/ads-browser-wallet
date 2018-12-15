@@ -1,10 +1,10 @@
 .page {
     text-align: center;
-    padding: 0 50px;
+    padding: 10px 50px 20px  50px;
 }
 
 .logo {
-    margin: 50px auto 75px auto;
+    margin: 20px auto 30px auto;
 }
 
 .logo svg {
@@ -12,10 +12,10 @@
 }
 
 .logo h1 {
-    margin-top: 0px;
+    margin-top: -20px;
 }
 
 .restore {
-    margin-top: 50px;
+    margin-top: 30px;
     font-size: var(--font-smaller);
 }

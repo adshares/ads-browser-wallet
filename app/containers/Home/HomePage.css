@@ -4,36 +4,64 @@
 
 .configure > svg {
     width: 200px;
-    margin-top: -130px;
-    margin-bottom: 50px;
+    margin-top: -160px;
+    margin-bottom: 30px;
 }
 
 .helpLinks {
-    margin-top: 50px;
+    margin-top: 20px;
     font-size: var(--font-smaller);
 }
 
 .box {
-    margin-top: 20px;
+    margin-top: 0px;
+    text-align: left;
+    margin-bottom: 0px !important;
+    box-shadow: 5px 5px 15px rgba(0,0,0,.2);
+}
+
+.logo {
+    width: 75px;
 }
 
 .balance {
-    text-align: center;
-    font-size: 2em;
+    text-align: right;
+    font-size: 1.9em;
     line-height: 1.5em;
-    margin-top: 20px;
-    color: var(--blue-dark);
+    margin-top: 10px;
 }
 
 .details {
     margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: center;
+    margin-bottom: 15px;
+    text-align: left;
 }
 
 .details span {
-    color: var(--blue-dark);
     cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.details a {
+    font-size: var(--font-smaller);
+    height: 30px;
+    line-height: 28px;
+    padding: 0 10px;
+    display: inline-block;
+    transition: all 250ms ease;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid var(--white);
+    vertical-align: middle;
+    margin-left: 32px;
+}
+
+.details a:hover, .details a:focus {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .shortcuts {

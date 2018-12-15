@@ -4,8 +4,8 @@
     transition: width 0.5s, border 0.5s ease-out ;
     will-change: width;
     position: absolute;
-    left: 25%;
-    right: 25%;
+    left: 20%;
+    right: 20%;
     top: 0;
     border: 1px solid transparent;
 }
@@ -64,8 +64,11 @@
 }
 
 .optionName {
-  color: var(--slate-dark);
-
+    color: var(--slate-dark);
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .optionAccount {
     font-size: 12px;

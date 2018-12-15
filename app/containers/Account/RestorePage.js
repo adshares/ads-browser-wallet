@@ -119,13 +119,13 @@ export default class RestorePage extends FormComponent {
           </div>
           <div className={style.buttons}>
             <ButtonLink
-              className={style.cancel} to={'/'} inverse icon="left"
+              className={style.cancel} to={'/'} inverse icon="left" layout="info"
               disabled={this.state.isSubmitted}
             >
               <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
-              type="submit" icon="right"
+              type="submit" icon="right" layout="info"
               disabled={this.state.isSubmitted}
             >
               Restore <FontAwesomeIcon icon={faChevronRight} />

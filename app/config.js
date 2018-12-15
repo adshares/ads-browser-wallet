@@ -2,7 +2,7 @@ const passwordMinLength = 1;
 
 const initKeysQuantity = 11;
 
-const accountNameMaxLength = 12;
+const accountNameMaxLength = 16;
 
 const accountsLimit = 20;
 

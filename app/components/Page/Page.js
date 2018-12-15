@@ -8,6 +8,7 @@ import Link from 'react-router-dom/es/Link';
 import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
+import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vault';
 import logo from '../../assets/logo_blue.svg';
 import style from './Page.css';
@@ -61,6 +62,9 @@ export default class Page extends React.Component {
         <div className={wrapperClass}>
           {children}
         </div>
+        <footer className={style.footer}>
+          <Timer />
+        </footer>
       </section>
     );
   }

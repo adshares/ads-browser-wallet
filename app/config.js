@@ -1,3 +1,7 @@
+const blockLength = 512;
+
+const dividentLength = 2048;
+
 const passwordMinLength = 1;
 
 const initKeysQuantity = 11;
@@ -33,6 +37,8 @@ const regulations =
 const getAccountLink = 'https://github.com/adshares/ads/wiki/How-to-get-an-account';
 
 export default {
+  blockLength,
+  dividentLength,
   passwordMinLength,
   initKeysQuantity,
   accountNameMaxLength,

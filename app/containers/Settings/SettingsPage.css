@@ -1,5 +1,9 @@
 .page {
-    height: 550px;
+    height: 580px;
+}
+
+.page > div {
+    height: 460px;
 }
 
 .section h3 {

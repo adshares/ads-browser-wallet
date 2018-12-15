@@ -18,7 +18,7 @@
   --brown: #BAA286;
   --brown-dark: #AA8E69;
   --gray: #BDC3C7;
-  --gray-dark: #95A5A6;
+  --gray-dark: #8E9AA2;
   --slate: #656D78;
   --slate-dark: #434A54;
   --grayish-white: #F6F6F6;
@@ -43,7 +43,7 @@ html, body {
 body {
   border: 1px solid #ccc;
   width: 400px;
-  max-height: 550px;
+  max-height: 580px;
   overflow: auto;
   margin: 0 auto;
   font: var(--font-normal) 'Lato', Arial, sans-serif;

@@ -7,6 +7,7 @@
     padding: 0 15px;
     position: relative;
     z-index: 999;
+    background: var(--white);
 }
 
 .header > h1 {
@@ -35,6 +36,8 @@
     padding: 15px;
     text-align: left;
     overflow: auto;
+    position: relative;
+    z-index: 99;
 }
 
 .withScroll {
@@ -44,4 +47,12 @@
     overflow-x: hidden;
     overflow-y: scroll;
     height: 460px;
+}
+
+.footer {
+    height: 30px;
+    margin: 0px 15px;
+    background: var(--white);
+    border-top: 1px solid var(--gray);
+    box-sizing: border-box;
 }

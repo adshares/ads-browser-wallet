@@ -1,37 +1,6 @@
-// const bluebird = require('bluebird');
-//
-// global.Promise = bluebird;
-//
-// function promisifier(method) {
-//   // return a function
-//   return function promisified(...args) {
-//     // which returns a promise
-//     return new Promise((resolve) => {
-//       args.push(resolve);
-//       method.apply(this, args);
-//     });
-//   };
-// }
-//
-// function promisifyAll(obj, list) {
-//   list.forEach(api => bluebird.promisifyAll(obj[api], { promisifier }));
-// }
-//
-// // let chrome extension api support Promise
-// promisifyAll(chrome, [
-//   'tabs',
-//   'windows',
-//   'browserAction',
-//   'contextMenus'
-// ]);
-// promisifyAll(chrome.storage, [
-//   'local',
-// ]);
-//
-// require('./background/contextMenus');
-// require('./background/inject');
-// require('./background/badge');
-import * as types from '../../app/constants/MessageTypes';
+import { PostMessageError } from '../../app/actions/errors';
+import handlePopupApiMessage from './background/api_popup';
+import handleProxyApiMessage from './background/api_proxy';
 import config from '../../app/config';
 
 const connections = {
@@ -40,28 +9,22 @@ const connections = {
 
 function handlePopupMessage(message) {
   console.debug('onPopupMessage', message);
+  if (!connections.popup) {
+    throw new PostMessageError('Cannot find connection with popup', 500);
+  }
+  handlePopupApiMessage(message, (data) => {
+    connections.popup.postMessage({ id: message.id, ...data });
+  });
 }
 
 function handleProxyMessage(portId, message) {
   console.debug('onProxyMessage', portId, message);
-
-  switch (message.type) {
-    case types.MSG_PING:
-      connections[portId].postMessage({
-        id: message.id,
-        type: types.MSG_PONG,
-        data: message.data,
-      });
-      break;
-    case types.MSG_INFO:
-      connections[portId].postMessage({ id: message.id, type: types.MSG_INFO_RESPONSE });
-      break;
-    case types.MSG_SIGN:
-      connections[portId].postMessage({ id: message.id, type: types.MSG_SIGN_RESPONSE });
-      break;
-    default:
-      throw new Error(`Unknown message type: ${message.type}`);
+  if (!connections[portId]) {
+    throw new PostMessageError(`Cannot find connection ${portId}`, 500);
   }
+  handleProxyApiMessage(message, portId, (data) => {
+    connections[portId].postMessage({ id: message.id, ...data });
+  });
 }
 
 function handleProxyDisconnect(portId) {
@@ -106,10 +69,6 @@ chrome.runtime.onConnect.addListener((port) => {
       port.onDisconnect.addListener(() => {
         handleProxyDisconnect(portId);
       });
-    } else {
-      // throw new Error('Connection from unknown source');
     }
-  } else {
-    // throw new Error('Connection from outside extension');
   }
 });

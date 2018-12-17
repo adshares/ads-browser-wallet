@@ -3,10 +3,14 @@
     margin: 25px 0;
 }
 
+.inputWrapper:not(:first-of-type) {
+    margin-top: 30px;
+}
+
 .label {
     position: absolute;
     top: 0;
-    padding: 7px 0 0 13px;
+    padding: 13px 0 0 13px;
     transition: all 200ms;
     opacity: 0.5;
 }
@@ -16,6 +20,10 @@
     font-size: 90%;
     transform: translate3d(0, -100%, 0);
     opacity: 1;
+}
+
+.input {
+    text-indent: 15px;
 }
 
 textarea.input {

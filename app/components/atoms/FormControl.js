@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './Input.css';
+import style from './FromControl.css';
 
 
-export const Input = ({
+export const FormControl = ({
                         value,
                         label,
                         required,
@@ -14,7 +14,9 @@ export const Input = ({
                         errorMessage,
                         maxLength,
                         isInput,
-                        handleChange
+                        handleChange,
+                        rows,
+                        type
                       }) => {
   const validate = () => {
 
@@ -31,6 +33,7 @@ export const Input = ({
           autoFocus={autoFocus}
           maxLength={maxLength}
           className={style.input}
+          onChange={handleChange}
         />) : (
           <textarea
             id={`${label}`}
@@ -41,6 +44,7 @@ export const Input = ({
             value={value}
             maxLength={maxLength}
             className={style.input}
+            onChange={handleChange}
           />
       )}
       <label
@@ -54,9 +58,9 @@ export const Input = ({
     </div>);
 };
 
-export default Input;
+export default FormControl;
 
-Input.propTypes = {
+FormControl.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
@@ -68,4 +72,6 @@ Input.propTypes = {
   isValid: PropTypes.bool,
   maxLength: PropTypes.number,
   handleChange: PropTypes.func,
+  rows: PropTypes.number,
+  type: PropTypes.string,
 };

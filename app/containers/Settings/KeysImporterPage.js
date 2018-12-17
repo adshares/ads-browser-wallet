@@ -11,7 +11,7 @@ import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import Input from '../../components/atoms/Input';
+import FormControl from '../../components/atoms/FormControl';
 
 export default class KeysImporterPage extends FormComponent {
 
@@ -112,14 +112,14 @@ export default class KeysImporterPage extends FormComponent {
           vault={vault} onAuthenticated={this.onAuthenticated}
         />
         <Form onSubmit={this.handleSubmit}>
-          <Input label="Name" value="" required isInput />
-          <Input
+          <FormControl label="Name" value="" required isInput />
+          <FormControl
             label="Public key"
             value=""
             required
             pattern="[0-9a-fA-F]{64}"
           />
-          <Input
+          <FormControl
             label="Secret key"
             value=""
             required

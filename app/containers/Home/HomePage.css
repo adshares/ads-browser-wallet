@@ -35,12 +35,14 @@
     margin-top: 20px;
     margin-bottom: 15px;
     text-align: left;
+    height: 30px;
+    position: relative;
 }
 
 .details span {
     cursor: pointer;
     display: inline-block;
-    vertical-align: middle;
+    line-height: 30px;
 }
 
 .details a {
@@ -56,7 +58,9 @@
     outline: none;
     border: 1px solid var(--white);
     vertical-align: middle;
-    margin-left: 32px;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .details a:hover, .details a:focus {

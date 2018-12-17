@@ -106,7 +106,7 @@ export default class KeysImporterPage extends FormComponent {
     const { vault } = this.props;
     return (
       <Page className={style.page} title="Import key">
-        {this.state.showLoader && <LoaderOverlay/>}
+        {this.state.showLoader && <LoaderOverlay />}
         <ConfirmDialog
           showDialog={this.state.isSubmitted}
           vault={vault} onAuthenticated={this.onAuthenticated}
@@ -131,14 +131,14 @@ export default class KeysImporterPage extends FormComponent {
               className={style.cancel} to={'/'} inverse icon="left" layout="info"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes}/> Cancel
+              <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
               type="submit" icon="right" layout="info"
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight}/>
+              <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>
         </Form>

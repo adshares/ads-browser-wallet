@@ -40,6 +40,11 @@ const popupConnectionName = 'ads-wallet-popup';
 
 const proxyConnectionName = 'ads-wallet-proxy';
 
+const vaultStorageKey = 'vault';
+
+const queueStorageKey = 'queue';
+
+
 export default {
   blockLength,
   dividentLength,
@@ -54,4 +59,6 @@ export default {
   getAccountLink,
   popupConnectionName,
   proxyConnectionName,
+  vaultStorageKey,
+  queueStorageKey
 };

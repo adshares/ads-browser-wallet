@@ -93,7 +93,7 @@
         if (!item || !item.reject) {
           throw new Error('Cannot reject message');
         }
-        item.reject(event.data.error.message);
+        item.reject(`${event.data.error.code}: ${event.data.error.message}`);
       } else if (!item || !item.resolve) {
         throw new Error('Cannot resolve message');
       }

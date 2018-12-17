@@ -8,7 +8,7 @@ module.exports = {
   entry: {
     adswallet: [customPath, path.join(__dirname, '../chrome/extension/adswallet')],
     background: [customPath, path.join(__dirname, '../chrome/extension/background')],
-    inject: [customPath, path.join(__dirname, '../chrome/extension/inject')]
+    proxy: [customPath, path.join(__dirname, '../chrome/extension/proxy')]
   },
   output: {
     path: path.join(__dirname, '../build/js'),

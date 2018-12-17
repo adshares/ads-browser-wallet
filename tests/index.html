@@ -27,120 +27,123 @@
 <button id="btn-add-tx">add transaction</button>
 
 <script type="text/javascript">
+  class AdsWallet {
+    constructor(extensionId) {
+      this.extensionId = extensionId;
+      this.port = null;
+      this.initialized = false;
+      this.queue = [];
+    }
 
-  // ////////////////////////////////////////////////////////
-  // // Script part
-  //
-  // port to send messages to iframe
-  let pluginPort;
+    static uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
 
-  /**
-   * Adds transaction to list of transaction that are to be signed.
-   *
-   * @param {string} mid transaction id assigned by client
-   * @param {string} txData transaction data
-   * @param {string} txAccountHashin account hash
-   */
-  function addTransaction(mid, txData, txAccountHashin) {
-    // create message object
-    let message = {
-      type: 'signRequest',
-      data: {
-        mid: mid,
-        txData: txData,
-        txAccountHashin: txAccountHashin
+    init() {
+      return new Promise((resolve, reject) => {
+        if (this.port) {
+          return this.initialized ?
+            resolve(this.port) :
+            reject('ADS Wallet is not ready yet');
+        }
+
+        let channel = new MessageChannel();
+        this.port = channel.port1;
+
+        let onReady = (message) => {
+          // when the iframe is ready to receive messages, it will send the string 'ready'
+          if (message.data && message.data === 'ready') {
+            this.port.removeEventListener('message', onReady);
+            const base = this;
+            this.port.onmessage = (event) => base.onMessage(event);
+            // this.port.addEventListener('message', this.onMessage);
+            this.initialized = true;
+            resolve(this.port);
+          } else {
+            reject('Failed to initialize connection with ADS Wallet');
+          }
+        };
+        this.port.addEventListener('message', onReady);
+        this.port.start();
+
+        // create the iframe
+        const iframeOrigin = 'chrome-extension://' + this.extensionId;
+        let iframe = document.createElement('iframe');
+        iframe.src = iframeOrigin + '/proxy.html';
+        iframe.setAttribute('style', 'display:none');
+        document.body.appendChild(iframe);
+
+        iframe.addEventListener('load', () => {
+          // pass the port of message channel to the iframe
+          iframe.contentWindow.postMessage('init', iframeOrigin, [channel.port2]);
+        });
+      })
+    }
+
+    onMessage(event) {
+      console.debug('web: message', event.data);
+      if (!event.data || !event.data.id) {
+        throw new Error('Malformed message');
       }
-    };
+      const item = this.queue.find(r => r.id === event.data.id);
+      if (event.data.error) {
+        if (!item || !item.reject) {
+          throw new Error('Cannot reject message');
+        }
+        item.reject(event.data.error.message);
+      } else if (!item || !item.resolve) {
+        throw new Error('Cannot resolve message');
+      }
+      item.resolve(event.data.data);
+    }
 
-    if (pluginPort) {
-      pluginPort.postMessage(message);
-    } else {
-      console.error('not initialized');
+    sendMessage(type, data) {
+      return new Promise((resolve, reject) => {
+        this.init().then(() => {
+          const id = AdsWallet.uuidv4();
+          this.queue.push({ id, resolve, reject });
+          this.port.postMessage({ id, type, data });
+        }, reject);
+      });
+    }
+
+    ping(data) {
+      return this.sendMessage('ping', data);
+    }
+
+    getInfo() {
+      return this.sendMessage('info');
+    }
+
+    signTransaction(data, msid, hash) {
+      return this.sendMessage('sign', { data, msid, hash });
     }
   }
 
-  ////////////////////////////////////////////////////////
-  // User part
+    let wallet = new AdsWallet('jfgepfclenckllcabhdflndcpedmoghb');
 
-  // // Initialization
-  // let cb = function (resp) {
-  //   // message type
-  //   let type = resp.type;
-  //   // message data
-  //   let data = resp.data;
-  //   // status
-  //   let status = resp.status;
-  //
-  //   // operation successfully
-  //   const STATUS_SUCCESS = 'st_success';
-  //   // operation failed
-  //   // const STATUS_FAIL = 'st_fail';
-  //
-  //   if ('tx_signed' === type) {
-  //     if (STATUS_SUCCESS === status) {
-  //       let mid = data.mid;
-  //       let txAccountHashin = data.txAccountHashin;
-  //       let txData = data.txData;
-  //       let txSignature = data.txSignature;
-  //       console.log(type, mid, txAccountHashin, txData, txSignature);
-  //     } else { //STATUS_FAIL
-  //       console.error(data);
-  //     }
-  //   } else {
-  //     console.log('unknown type');
-  //   }
-  // };
-  // init(cb);
-
-  function initProxy(extId, readyCallback) {
-    let channel = new MessageChannel();
-    let onReady = (message) => {
-      // when the iframe is ready to receive messages, it will send the string 'ready'
-      if (message.data && message.data === 'ready') {
-        channel.port1.removeEventListener('message', onReady);
-        if (readyCallback) {
-          readyCallback(channel.port1);
-        }
-      } else {
-        throw new Error('First event on iframe port was not "ready"');
-      }
-    };
-    channel.port1.addEventListener('message', onReady);
-    channel.port1.start();
-
-    // create the iframe
-    const iframeOrigin = 'chrome-extension://' + extId;
-    let iframe = document.createElement('iframe');
-    iframe.src = iframeOrigin + '/proxy.html';
-    iframe.setAttribute('style', 'display:none');
-    document.body.appendChild(iframe);
-
-    iframe.addEventListener('load', function () {
-      // pass the port of message channel to the iframe
-      iframe.contentWindow.postMessage('init', iframeOrigin, [channel.port2]);
+    wallet.ping(new Date().toISOString()).then((data) => {
+        console.debug('pong:', data);
+    }, (error) => {
+        console.debug('failed:', error);
     });
 
-    return channel.port1;
-  }
-
-  initProxy('jfgepfclenckllcabhdflndcpedmoghb', (port) => {
-    console.debug('web: ready');
-    port.onmessage = (event) => {
-      console.debug('web: message', event.data);
-    };
-    pluginPort = port;
-    port.postMessage({ type: 'ping' })
-  });
-
-  // Call addTransaction function
-  let btnSend2 = document.getElementById('btn-add-tx');
-  btnSend2.addEventListener('click', function () {
-    console.log('index.html: click');
-    const mid = (new Date().getTime()).toString(10);
-    const txData = document.getElementById('data').value;
-    const txAccountHashin = document.getElementById('hashin').value;
-    addTransaction(mid, txData, txAccountHashin);
-  }, false);
+    // Call addTransaction function
+    let btnSend2 = document.getElementById('btn-add-tx');
+    btnSend2.addEventListener('click', function () {
+        console.log('index.html: click');
+        const mid = (new Date().getTime()).toString(10);
+        const txData = document.getElementById('data').value;
+        const txAccountHashin = document.getElementById('hashin').value;
+        wallet.signTransaction(txData, mid, txAccountHashin).then((data) => {
+            console.debug('ok:', data);
+        }, (error) => {
+            console.debug('failed:', error);
+        });
+    }, false);
 
 </script>
 </body>

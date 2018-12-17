@@ -36,6 +36,10 @@ const regulations =
 
 const getAccountLink = 'https://github.com/adshares/ads/wiki/How-to-get-an-account';
 
+const popupConnectionName = 'ads-wallet-popup';
+
+const proxyConnectionName = 'ads-wallet-proxy';
+
 export default {
   blockLength,
   dividentLength,
@@ -48,4 +52,6 @@ export default {
   testnetOperatorUrl,
   regulations,
   getAccountLink,
+  popupConnectionName,
+  proxyConnectionName,
 };

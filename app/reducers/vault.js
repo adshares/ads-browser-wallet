@@ -189,8 +189,7 @@ const actionsMap = {
       publicKey: action.publicKey,
     });
 
-    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
-    VaultCrypt.save(updatedVault, action.callback);
+    updatedVault.secret = VaultCrypt.save(updatedVault, action.password);
 
     return updatedVault;
   },

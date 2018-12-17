@@ -50,7 +50,7 @@ export default class Timer extends React.Component {
     for (let i = 0; i < 9; ++i) {
       /*eslint no-bitwise: ["error", { "allow": ["&"] }] */
       const className = blockTime & Math.pow(2, 8 - i) ? style.activeBit : '';
-      bits.push(<div className={className} />);
+      bits.push(<div key={i} className={className} />);
     }
 
     const classNames = [];

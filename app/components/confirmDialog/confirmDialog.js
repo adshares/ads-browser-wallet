@@ -7,7 +7,7 @@ import style from './confirmDialog.css';
 import Button from '../atoms/Button';
 import VaultCrypt from '../../utils/vaultcrypt';
 
-export class ConfirmDialog extends React.Component {
+export default class ConfirmDialog extends React.Component {
   constructor(props) {
     super(props);
     this.passwordInput = React.createRef();
@@ -36,7 +36,7 @@ export class ConfirmDialog extends React.Component {
     );
   }
 }
-export default ConfirmDialog;
+// export default ConfirmDialog;
 
 ConfirmDialog.propTypes = {
   onAuthenticated: PropTypes.func,

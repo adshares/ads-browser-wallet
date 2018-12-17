@@ -17,14 +17,16 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
+import ConfirmDialog from '../../components/confirmDialog/confirmDialog';
 
 export default class SettingsPage extends FormComponent {
-
   constructor(props) {
     super(props);
     this.state = {
       rpcServer: 'https://rpc.adsahres.net',
       isSeedPhraseVisible: false,
+      showAuthenticationDialog: false,
+      actionToDispatch: null,
     };
   }
 
@@ -35,23 +37,29 @@ export default class SettingsPage extends FormComponent {
 
   showSeedPhrase = () => {
     this.setState({
-      isSeedPhraseVisible: true
+      showAuthenticationDialog: true,
+      actionToDispatch: 'show_seed',
     });
   };
-
-  removeAccount = (address) => {
-    const password = '';
-    this.props.actions.removeAccount(address, password);
+  onAuthenticated = () => {
+    this.setState({
+      showAuthenticationDialog: false,
+      isSeedPhraseVisible: this.state.actionToDispatch === 'show_seed',
+    });
   };
-
-  renderAccountsSettings() {
-    return (
-      <div className={style.section}>
-        <h3>Accounts</h3>
-        {this.props.vault.accounts.length > 0 &&
+  removeAccount = () => {
+    this.setState({
+      showAuthenticationDialog: true,
+    });
+  };
+  renderAccountsSettings = () => (
+    <div className={style.section}>
+      <h3>Accounts</h3>
+      {this.props.vault.accounts.length > 0 &&
         <ul className={style.accounts}>
           {this.props.vault.accounts.map((account, index) =>
             <li key={index}>
+
               <span className={style.accountLabel}>
                 <small>{account.name}</small>
                 <span>{account.address}</span>
@@ -86,83 +94,78 @@ export default class SettingsPage extends FormComponent {
           )}
         </ul>
         }
-        <ButtonLink
-          to={{
-            pathname: '/accounts/import',
-            state: { referrer: this.props.location }
-          }}
-          icon="left"
-          size="wide"
-          layout="info"
-        >
-          <FontAwesomeIcon icon={faPlus} /> Add account
+      <ButtonLink
+        to={{
+          pathname: '/accounts/import',
+          state: { referrer: this.props.location }
+        }}
+        icon="left"
+        size="wide"
+        layout="info"
+      >
+        <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
-      </div>
+    </div>
     );
-  }
-
-  renderRPCServerSettings() {
-    return (
-      <div className={style.section}>
-        <h3>RPC server</h3>
-        <Form onSubmit={this.handleRpcServerSave}>
-          <div>
-            <input
-              required
-              placeholder="RPC server URL"
-              name="rpcServer"
-              value={this.state.rpcServer}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <Button type="submit" icon="left" size="wide" layout="info">
-            <FontAwesomeIcon icon={faSave} /> Change
+  renderRPCServerSettings = () => (
+    <div className={style.section}>
+      <h3>RPC server</h3>
+      <Form onSubmit={this.handleRpcServerSave}>
+        <div>
+          <input
+            required
+            placeholder="RPC server URL"
+            name="rpcServer"
+            value={this.state.rpcServer}
+            onChange={this.handleInputChange}
+          />
+        </div>
+        <Button type="submit" icon="left" size="wide" layout="info">
+          <FontAwesomeIcon icon={faSave} /> Change
           </Button>
-        </Form>
-      </div>
+      </Form>
+    </div>
     );
-  }
-
-  renderSeedPhraseSettings() {
-    return (
-      <div className={style.section}>
-        <h3>Reveal seed phrase</h3>
-        <Form>
-          {this.state.isSeedPhraseVisible ?
-            <div>
-              <Box layout="warning" icon={faExclamation}>
+  renderSeedPhraseSettings = () => (
+    <div className={style.section}>
+      <h3>Reveal seed phrase</h3>
+      <ConfirmDialog
+        showDialog={this.state.showAuthenticationDialog}
+        vault={this.props.vault} onAuthenticated={this.onAuthenticated}
+      />
+      <Form>
+        {this.state.isSeedPhraseVisible ?
+          <div>
+            <Box layout="warning" icon={faExclamation}>
                 Store the seed phrase safely. Only the public key and signatures can be revealed.
                 The seed phrase must not be transferred to anyone.
               </Box>
-              <textarea
-                value={this.props.vault.seedPhrase}
-                rows="3"
-                readOnly
-              />
-            </div> :
-            <Button layout="danger" icon="left" size="wide" onClick={this.showSeedPhrase}>
-              <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
+            <textarea
+              value={this.props.vault.seedPhrase}
+              rows="3"
+              readOnly
+            />
+          </div> :
+          <Button layout="danger" icon="left" size="wide" onClick={this.showSeedPhrase}>
+            <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
             </Button>
           }
-        </Form>
-      </div>
+      </Form>
+    </div>
     );
-  }
-
-  renderStorageSettings() {
-    return (
-      <div className={style.section}>
-        <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
-          <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
+  renderStorageSettings = () => (
+    <div className={style.section}>
+      <h3>Erase storage</h3>
+      <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
+        <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
-      </div>
+    </div>
     );
-  }
 
   render() {
     return (
       <Page className={style.page} title="Settings" scroll cancelLink="/">
+
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

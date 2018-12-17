@@ -11,6 +11,7 @@ import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
+import Input from '../../components/atoms/Input';
 
 export default class KeysImporterPage extends FormComponent {
 
@@ -26,36 +27,16 @@ export default class KeysImporterPage extends FormComponent {
     this.handleInputChange(event, this.validateSecretKey);
   };
 
-  handleSignatureChange = (event) => {
-    this.handleInputChange(event, this.validateSignature);
-  };
-
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.validateName() && this.validateSecretKey() &&
-      this.validatePublicKey() && this.validateSignature()) {
+    if (this.validateName() && this.validateSecretKey() && this.validatePublicKey()) {
       this.setState({
         isSubmitted: true
       });
     }
   };
-
-  constructor(props) {
-    super(props);
-    this.nameInput = React.createRef();
-    this.publicKeyInput = React.createRef();
-    this.secretKeyInput = React.createRef();
-    this.signatureInput = React.createRef();
-
-    this.state = {
-      isSubmitted: false,
-      password: null,
-      showLoader: false,
-    };
-  }
-
   onAuthenticated = (password) => {
     this.setState({
       isSubmitted: false,
@@ -67,14 +48,26 @@ export default class KeysImporterPage extends FormComponent {
         this.nameInput.current.value,
         this.publicKeyInput.current.value,
         this.secretKeyInput.current.value,
-        password,
-        this.signatureInput.current.value,
-        );
+        password);
       this.props.history.push('/');
     } catch (err) {
+      console.log(err);
       throw err;
     }
   };
+
+  constructor(props) {
+    super(props);
+    this.nameInput = React.createRef();
+    this.publicKeyInput = React.createRef();
+    this.secretKeyInput = React.createRef();
+
+    this.state = {
+      isSubmitted: false,
+      password: null,
+      showLoader: false,
+    };
+  }
 
   validateName() {
     const value = this.nameInput.current.value;
@@ -109,76 +102,43 @@ export default class KeysImporterPage extends FormComponent {
     return true;
   }
 
-  validateSignature() {
-    const value = this.signatureInput.current.value;
-    if (value.length > 0 && (value.length !== 128 ||
-      !ADS.validateSignature(value, this.publicKeyInput.current.value,
-        this.secretKeyInput.current.value))) {
-      this.signatureInput.current.setCustomValidity('Please provide valid signature');
-      return false;
-    }
-    this.signatureInput.current.setCustomValidity('');
-    return true;
-  }
-
   render() {
-    const { vault, saveAction } = this.props;
+    const { vault } = this.props;
     return (
       <Page className={style.page} title="Import key">
-        {this.state.showLoader && <LoaderOverlay />}
+        {this.state.showLoader && <LoaderOverlay/>}
         <ConfirmDialog
-          showDialog={this.state.isSubmitted} action={saveAction}
+          showDialog={this.state.isSubmitted}
           vault={vault} onAuthenticated={this.onAuthenticated}
         />
         <Form onSubmit={this.handleSubmit}>
-          <div>
-            <input
-              ref={this.nameInput}
-              required
-              placeholder="Key name"
-              onChange={this.handleNameChange}
-            />
-          </div>
-          <div>
-            <textarea
-              ref={this.publicKeyInput}
-              required
-              pattern="[0-9a-fA-F]{64}"
-              placeholder="Public key"
-              value={this.state.publicKey}
-              onChange={this.handlePublicKeyChange}
-            />
-          </div>
-          <div>
-            <textarea
-              ref={this.secretKeyInput}
-              required
-              pattern="[0-9a-fA-F]{64}"
-              placeholder="Secret key"
-              onChange={this.handleSecretKeyChange}
-            />
-          </div>
-          <div>
-            <textarea
-              ref={this.signatureInput}
-              placeholder="Signature"
-              onChange={this.handleSignatureChange}
-            />
-          </div>
+          <Input label="Name" value="" required isInput />
+          <Input
+            label="Public key"
+            value=""
+            required
+            pattern="[0-9a-fA-F]{64}"
+          />
+          <Input
+            label="Secret key"
+            value=""
+            required
+            pattern="[0-9a-fA-F]{64}"
+          />
 
           <div className={style.buttons}>
             <ButtonLink
               className={style.cancel} to={'/'} inverse icon="left" layout="info"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+              <FontAwesomeIcon icon={faTimes}/> Cancel
             </ButtonLink>
             <Button
               type="submit" icon="right" layout="info"
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight} />
+              <FontAwesomeIcon icon={faChevronRight}/>
             </Button>
           </div>
         </Form>

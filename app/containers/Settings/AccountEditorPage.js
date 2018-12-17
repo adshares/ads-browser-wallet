@@ -165,7 +165,7 @@ export default class AccountEditorPage extends FormComponent {
   renderForm() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <div>
+        <label>
           Name:
           <input
             required
@@ -175,8 +175,8 @@ export default class AccountEditorPage extends FormComponent {
             value={this.state.name}
             onChange={this.handleNameChange}
           />
-        </div>
-        <div>
+        </label>
+        <label>
           Address:
           <input
             required
@@ -186,8 +186,8 @@ export default class AccountEditorPage extends FormComponent {
             value={this.state.address}
             onChange={this.handleAddressChange}
           />
-        </div>
-        <div>
+        </label>
+        <label>
           Public key:
           <textarea
             required
@@ -197,8 +197,8 @@ export default class AccountEditorPage extends FormComponent {
             value={this.state.publicKey}
             onChange={this.handlePublicKeyChange}
           />
-        </div>
-        <div>
+        </label>
+        <label>
           Password:
           <input
             type="password"
@@ -209,7 +209,7 @@ export default class AccountEditorPage extends FormComponent {
             value={this.state.password}
             onChange={this.handlePasswordChange}
           />
-        </div>
+        </label>
         <div className={style.buttons}>
           <ButtonLink
             to={this.getReferrer()}

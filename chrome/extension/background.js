@@ -47,16 +47,20 @@ function handleProxyMessage(portId, message) {
 
   switch (message.type) {
     case types.MSG_PING:
-      connections[portId].postMessage({ type: types.MSG_PONG });
+      connections[portId].postMessage({
+        id: message.id,
+        type: types.MSG_PONG,
+        data: message.data,
+      });
       break;
-    case types.MSG_INFO_REQUEST:
-      connections[portId].postMessage({ type: types.MSG_INFO_RESPONSE });
+    case types.MSG_INFO:
+      connections[portId].postMessage({ id: message.id, type: types.MSG_INFO_RESPONSE });
       break;
-    case types.MSG_SIGN_REQUEST:
-      connections[portId].postMessage({ type: types.MSG_SIGN_RESPONSE });
+    case types.MSG_SIGN:
+      connections[portId].postMessage({ id: message.id, type: types.MSG_SIGN_RESPONSE });
       break;
     default:
-      throw new Error('Unknown request');
+      throw new Error(`Unknown message type: ${message.type}`);
   }
 }
 
@@ -65,8 +69,9 @@ function handleProxyDisconnect(portId) {
   delete connections[portId];
 }
 
-function handleError(error, port) {
+function sendErrorMessage(port, id, error) {
   port.postMessage({
+    id,
     error: {
       code: error.code || 500,
       message: error.message || 'Unknown error',
@@ -86,7 +91,7 @@ chrome.runtime.onConnect.addListener((port) => {
         try {
           handlePopupMessage(message);
         } catch (err) {
-          handleError(err, port);
+          sendErrorMessage(port, message.id, err);
         }
       });
     } else if (port.name === config.proxyConnectionName) { // connection with proxy script
@@ -95,7 +100,7 @@ chrome.runtime.onConnect.addListener((port) => {
         try {
           handleProxyMessage(portId, message);
         } catch (err) {
-          handleError(err, port);
+          sendErrorMessage(port, message.id, err);
         }
       });
       port.onDisconnect.addListener(() => {

@@ -57,7 +57,7 @@ function validateAddress(address) {
 /**
  * Checks if ADS public or secret key is valid.
  *
- * @param key e.g. BE907B4BAC84FEE5CE8811DB2DEFC9BF0B2A2A2BBC3D54D8A2257ECD70441962
+ * @param key (64 hexadecimal characters)
  * @returns {boolean}
  */
 function validateKey(key) {
@@ -67,6 +67,18 @@ function validateKey(key) {
 
   const keyRegexp = /^[0-9a-fA-F]{64}$/;
   return keyRegexp.test(key);
+}
+
+/**
+ * Returns public key derived from secret key.
+ *
+ * @param secretKey secret key (64 hexadecimal characters)
+ * @returns {string} public key (64 hexadecimal characters)
+ */
+function getPublicKey(secretKey) {
+  return byteToHex(
+    NaCl.sign.keyPair.fromSeed(hexToByte(secretKey)).publicKey
+  ).toUpperCase();
 }
 
 /**
@@ -85,19 +97,16 @@ function sign(data, publicKey, secretKey) {
 }
 
 /**
- * Validate signature
+ * Validate empty string signature.
  *
- * @param sg (signature )e.g. ?
- * @param pk (public key) e.g. BE907B4BAC84FEE5CE8811DB2DEFC9BF0B2A2A2BBC3D54D8A2257ECD70441962
- * @param sk (secret key) e.g. BE907B4BAC84FEE5CE8811DB2DEFC9BF0B2A2A2BBC3D54D8A2257ECD70441962
-
+ * @param signature (128 hexadecimal characters)
+ * @param publicKey (64 hexadecimal characters)
+ * @param secretKey (64 hexadecimal characters)
  * @returns {boolean}
  */
-
-function validateSignature(sg, pk, sk) {
+function validateSignature(signature, publicKey, secretKey) {
   try {
-    const signed = sign('', sk + pk);
-    return (signed === sg);
+    return sign('', secretKey + publicKey) === signature;
   } catch (err) {
     return false;
   }
@@ -109,4 +118,5 @@ export default {
   validateKey,
   validateSignature,
   sign,
+  getPublicKey,
 };

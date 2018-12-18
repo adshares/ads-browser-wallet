@@ -1,37 +1,72 @@
 import { PostMessageError } from '../../app/actions/errors';
 import handlePopupApiMessage from './background/api_popup';
 import handleProxyApiMessage from './background/api_proxy';
+import * as types from '../../app/constants/MessageTypes';
+import queue from '../../app/utils/queue';
 import config from '../../app/config';
 
 const connections = {
   popup: null,
 };
 
+/**
+ * Handle messages from the popup.
+ *
+ * @param message
+ */
 function handlePopupMessage(message) {
   console.debug('onPopupMessage', message);
-  if (!connections.popup) {
-    throw new PostMessageError('Cannot find connection with popup', 500);
+  if (message.type === types.MSG_RESPONSE) {
+    if (!message.sourceId) {
+      throw new PostMessageError('Unknown message source', 400);
+    }
+    if (!connections[message.sourceId]) {
+      throw new PostMessageError(`Cannot find connection ${message.sourceId}`, 400);
+    }
+    connections[message.sourceId].postMessage(message);
   }
   handlePopupApiMessage(message, (data) => {
-    connections.popup.postMessage({ id: message.id, ...data });
+    if (!connections.popup) {
+      throw new PostMessageError('Cannot find connection with popup', 500);
+    }
+    connections.popup.postMessage({ type: types.MSG_RESPONSE, id: message.id, data });
   });
 }
 
+/**
+ * Handle message from a web.
+ *
+ * @param portId client port id
+ * @param message
+ */
 function handleProxyMessage(portId, message) {
   console.debug('onProxyMessage', portId, message);
-  if (!connections[portId]) {
-    throw new PostMessageError(`Cannot find connection ${portId}`, 500);
-  }
   handleProxyApiMessage(message, portId, (data) => {
-    connections[portId].postMessage({ id: message.id, ...data });
+    if (!connections[portId]) {
+      throw new PostMessageError(`Cannot find connection ${portId}`, 500);
+    }
+    connections[portId].postMessage({ type: types.MSG_RESPONSE, id: message.id, data });
   });
 }
 
+/**
+ * Handle close a web.
+ *
+ * @param portId client port id
+ */
 function handleProxyDisconnect(portId) {
   console.debug('onDisconnect', portId);
   delete connections[portId];
+  queue.clearFromSource(portId);
 }
 
+/**
+ * Send a error response.
+ *
+ * @param port client port
+ * @param id message id
+ * @param error
+ */
 function sendErrorMessage(port, id, error) {
   port.postMessage({
     id,
@@ -43,6 +78,19 @@ function sendErrorMessage(port, id, error) {
   });
 }
 
+/**
+ * Handle extension startup.
+ */
+chrome.runtime.onInstalled.addListener(() => {
+  queue.clear();
+});
+chrome.runtime.onStartup.addListener(() => {
+  queue.clear();
+});
+
+/**
+ * Handle messages.
+ */
 chrome.runtime.onConnect.addListener((port) => {
   const portId = `${port.sender.id}/${port.sender.tab.id}`;
   console.debug('onConnect', portId);

@@ -125,10 +125,16 @@
 
     let wallet = new AdsWallet('jfgepfclenckllcabhdflndcpedmoghb');
 
-    wallet.ping(new Date().toISOString()).then((data) => {
-        console.debug('pong:', data);
+    // wallet.ping(new Date().toISOString()).then((data) => {
+    //     console.debug('pong:', data);
+    // }, (error) => {
+    //     console.debug('failed:', error);
+    // });
+
+    wallet.getInfo().then((data) => {
+      console.debug('info:', data);
     }, (error) => {
-        console.debug('failed:', error);
+      console.debug('failed:', error);
     });
 
     // Call addTransaction function

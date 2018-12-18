@@ -5,16 +5,15 @@ import * as types from '../../app/constants/MessageTypes';
 import queue from '../../app/utils/queue';
 import config from '../../app/config';
 
-const connections = {
-  popup: null,
-};
+const connections = {};
 
 /**
  * Handle messages from the popup.
  *
  * @param message
+ * @param callback
  */
-function handlePopupMessage(message) {
+function handlePopupMessage(message, callback) {
   console.debug('onPopupMessage', message);
   if (message.type === types.MSG_RESPONSE) {
     if (!message.sourceId) {
@@ -24,12 +23,10 @@ function handlePopupMessage(message) {
       throw new PostMessageError(`Cannot find connection ${message.sourceId}`, 400);
     }
     connections[message.sourceId].postMessage(message);
+    callback({ type: types.MSG_RESPONSE, id: message.id, data: { status: 'ok' } });
   }
   handlePopupApiMessage(message, (data) => {
-    if (!connections.popup) {
-      throw new PostMessageError('Cannot find connection with popup', 500);
-    }
-    connections.popup.postMessage({ type: types.MSG_RESPONSE, id: message.id, data });
+    callback({ type: types.MSG_RESPONSE, id: message.id, data });
   });
 }
 
@@ -61,6 +58,23 @@ function handleProxyDisconnect(portId) {
 }
 
 /**
+ * Prepare a error response.
+ *
+ * @param id message id
+ * @param error
+ */
+function getErrorMessage(id, error) {
+  return {
+    id,
+    error: {
+      code: error.code || 500,
+      message: error.message || 'Unknown error',
+      data: error.data,
+    }
+  };
+}
+
+/**
  * Send a error response.
  *
  * @param port client port
@@ -68,14 +82,7 @@ function handleProxyDisconnect(portId) {
  * @param error
  */
 function sendErrorMessage(port, id, error) {
-  port.postMessage({
-    id,
-    error: {
-      code: error.code || 500,
-      message: error.message || 'Unknown error',
-      data: error.data,
-    }
-  });
+  port.postMessage(getErrorMessage(id, error));
 }
 
 /**
@@ -89,23 +96,27 @@ chrome.runtime.onStartup.addListener(() => {
 });
 
 /**
- * Handle messages.
+ * Handle messages from popup.
+ */
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (sender.id === chrome.i18n.getMessage('@@extension_id')) { // connection with popup
+    try {
+      handlePopupMessage(request, sendResponse);
+    } catch (err) {
+      sendResponse(getErrorMessage(request.id, err));
+    }
+  }
+});
+
+/**
+ * Handle messages from proxy.
  */
 chrome.runtime.onConnect.addListener((port) => {
   const portId = `${port.sender.id}/${port.sender.tab.id}`;
   console.debug('onConnect', portId);
 
   if (port.sender.id === chrome.i18n.getMessage('@@extension_id')) {
-    if (port.name === config.popupConnectionName) { // connection with popup
-      connections.popup = port;
-      port.onMessage.addListener((message) => {
-        try {
-          handlePopupMessage(message);
-        } catch (err) {
-          sendErrorMessage(port, message.id, err);
-        }
-      });
-    } else if (port.name === config.proxyConnectionName) { // connection with proxy script
+    if (port.name === config.proxyConnectionName) { // connection with proxy script
       connections[portId] = port;
       port.onMessage.addListener((message) => {
         try {

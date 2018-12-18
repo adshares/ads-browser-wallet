@@ -6,3 +6,4 @@ export const MSG_SIGN = 'sign';
 
 export const MSG_SESSION_START = 'startSession';
 export const MSG_SESSION = 'session';
+export const MSG_SESSION_REMOVE = 'removeSession';

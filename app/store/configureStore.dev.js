@@ -1,5 +1,6 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from '../reducers';
@@ -11,7 +12,7 @@ export default function (initialState, history) {
   });
 
   const enhancer = composeEnhancers(
-    applyMiddleware(thunk, routerMiddleware(history)),
+    applyMiddleware(thunk, routerMiddleware(history), logger),
     storage(),
   );
 

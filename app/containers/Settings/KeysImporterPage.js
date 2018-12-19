@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
+import {
+  faChevronRight,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons/index';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
@@ -11,34 +16,64 @@ import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
+import FormControl from '../../components/atoms/FormControl';
+import * as ActionTypes from '../../constants/ActionTypes';
 
+import { handleInputChange, handlePasswordChange } from '../../actions/form';
+import validateFormThunk from '../../thunks/validateThunk';
+import passwordValidateThunk from '../../thunks/passwordValidateThunk';
+
+@connect(
+  state => ({
+    vault: state.vault,
+    page: state.pages.KeysImporterPage
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        handleInputChange,
+        handlePasswordChange,
+        validateFormThunk,
+        passwordValidateThunk
+      },
+      dispatch
+    )
+  })
+)
 export default class KeysImporterPage extends FormComponent {
+  static PAGE_NAME = 'KeysImporterPage';
 
-  handleNameChange = () => {
-    this.validateName();
-  };
-
-  handlePublicKeyChange = (event) => {
-    this.handleInputChange(event, this.validatePublicKey);
-  };
-
-  handleSecretKeyChange = (event) => {
-    this.handleInputChange(event, this.validateSecretKey);
-  };
-
-  handleSignatureChange = (event) => {
-    this.handleInputChange(event, this.validateSignature);
+  handleInputChange = (inputName, inputValue) => {
+    this.props.actions.handleInputChange(
+      KeysImporterPage.PAGE_NAME,
+      inputName,
+      inputValue
+    );
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    this.props.actions.validateFormThunk(KeysImporterPage.PAGE_NAME);
+  };
 
-    if (this.validateName() && this.validateSecretKey() &&
-      this.validatePublicKey() && this.validateSignature()) {
-      this.setState({
-        isSubmitted: true
-      });
+  onAuthenticated = (password) => {
+    this.setState({
+      isSubmitted: false,
+      showLoader: true
+    });
+
+    try {
+      this.props.saveAction(
+        this.nameInput.current.value,
+        this.publicKeyInput.current.value,
+        this.secretKeyInput.current.value,
+        password
+      );
+      this.props.history.push('/');
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
   };
 
@@ -47,134 +82,89 @@ export default class KeysImporterPage extends FormComponent {
     this.nameInput = React.createRef();
     this.publicKeyInput = React.createRef();
     this.secretKeyInput = React.createRef();
-    this.signatureInput = React.createRef();
 
     this.state = {
       isSubmitted: false,
       password: null,
-      showLoader: false,
+      showLoader: false
     };
   }
 
-  onAuthenticated = (password) => {
-    this.setState({
-      isSubmitted: false,
-      showLoader: true,
-    });
-
-    try {
-      this.props.saveAction(
-        this.nameInput.current.value,
-        this.publicKeyInput.current.value,
-        this.secretKeyInput.current.value,
-        password,
-        this.signatureInput.current.value,
-        );
-      this.props.history.push('/');
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  validateName() {
-    const value = this.nameInput.current.value;
-    if (this.props.vault.keys.find(
-      key => key.name === value
-    )) {
-      this.nameInput.current.setCustomValidity(`Key named ${value} already exists`);
-      return false;
-    }
-    this.nameInput.current.setCustomValidity('');
-    return true;
-  }
-
-  validatePublicKey() {
-    const value = this.publicKeyInput.current.value;
-    if (!ADS.validateKey(value)) {
-      this.publicKeyInput.current.setCustomValidity('Please provide an valid public key');
-      return false;
-    }
-    this.publicKeyInput.current.setCustomValidity('');
-    return true;
-  }
-
-  validateSecretKey() {
-    const value = this.secretKeyInput.current.value;
-
-    if (!ADS.validateKey(value)) {
-      this.secretKeyInput.current.setCustomValidity('Please provide an valid public key');
-      return false;
-    }
-    this.secretKeyInput.current.setCustomValidity('');
-    return true;
-  }
-
-  validateSignature() {
-    const value = this.signatureInput.current.value;
-    if (value.length > 0 && (value.length !== 128 ||
-      !ADS.validateSignature(value, this.publicKeyInput.current.value,
-        this.secretKeyInput.current.value))) {
-      this.signatureInput.current.setCustomValidity('Please provide valid signature');
-      return false;
-    }
-    this.signatureInput.current.setCustomValidity('');
-    return true;
-  }
-
   render() {
-    const { vault, saveAction } = this.props;
+    const {
+      vault,
+      page: {
+        auth: { authModalOpen, authConfirmed, password },
+        isSubmitted,
+        inputs: { name, publicKey, secretKey }
+      }
+    } = this.props;
+
     return (
-      <Page className={style.page} title="Import key">
+      <Page
+        className={style.page}
+        title="Import key"
+        onPasswordInputChange={e =>
+          this.props.actions.handlePasswordChange(
+            KeysImporterPage.PAGE_NAME,
+            e.target.value
+          )
+        }
+        onDialogSubmit={() =>
+          this.props.actions.passwordValidateThunk(
+            KeysImporterPage.PAGE_NAME,
+            ActionTypes.IMPORT_KEY
+          )
+        }
+        passwordValue={password.value}
+        autenticationModalOpen={authModalOpen}
+        cancelLink={'/'}
+      >
         {this.state.showLoader && <LoaderOverlay />}
-        <ConfirmDialog
-          showDialog={this.state.isSubmitted} action={saveAction}
-          vault={vault} onAuthenticated={this.onAuthenticated}
-        />
         <Form onSubmit={this.handleSubmit}>
-          <div>
-            <input
-              ref={this.nameInput}
-              required
-              placeholder="Key name"
-              onChange={this.handleNameChange}
-            />
-          </div>
-          <div>
-            <textarea
-              ref={this.publicKeyInput}
-              required
-              pattern="[0-9a-fA-F]{64}"
-              placeholder="Public key"
-              value={this.state.publicKey}
-              onChange={this.handlePublicKeyChange}
-            />
-          </div>
-          <div>
-            <textarea
-              ref={this.secretKeyInput}
-              required
-              pattern="[0-9a-fA-F]{64}"
-              placeholder="Secret key"
-              onChange={this.handleSecretKeyChange}
-            />
-          </div>
-          <div>
-            <textarea
-              ref={this.signatureInput}
-              placeholder="Signature"
-              onChange={this.handleSignatureChange}
-            />
-          </div>
+          <FormControl
+            label="Name"
+            value={name.value}
+            isValid={name.isValid}
+            required
+            isInput
+            handleChange={value => this.handleInputChange('name', value)}
+            errorMessage={name.errorMsg}
+          />
+          <FormControl
+            label="Public key"
+            value={publicKey.value}
+            isValid={publicKey.isValid}
+            required
+            pattern="[0-9a-fA-F]{64}"
+            errorMessage={publicKey.errorMsg}
+            handleChange={value => this.handleInputChange('publicKey', value)}
+          />
+          <FormControl
+            label="Secret key"
+            value={secretKey.value}
+            isValid={secretKey.isValid}
+            required
+            pattern="[0-9a-fA-F]{64}"
+            errorMessage={secretKey.errorMsg}
+            handleChange={value => this.handleInputChange('secretKey', value)}
+          />
 
           <div className={style.buttons}>
             <ButtonLink
-              className={style.cancel} to={'/'} inverse icon="left" layout="info"
+              className={style.cancel}
+              to={'/'}
+              inverse
+              icon="left"
+              layout="info"
               disabled={this.state.isSubmitted}
             >
               <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
-              type="submit" icon="right" layout="info"
+              type="submit"
+              icon="right"
+              layout="info"
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
@@ -191,5 +181,5 @@ KeysImporterPage.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
-  saveAction: PropTypes.func.isRequired,
+  saveAction: PropTypes.func.isRequired
 };

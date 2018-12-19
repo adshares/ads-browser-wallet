@@ -7,6 +7,7 @@ import Form from '../../components/atoms/Form';
 import Box from '../../components/atoms/Box';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
+import FormControl from '../../components/atoms/FormControl';
 
 export default class AccountKeysPage extends FormComponent {
   render() {
@@ -28,28 +29,10 @@ export default class AccountKeysPage extends FormComponent {
                 Store the secret keys safely. Only the public key and signatures can be revealed.
                 The secret key must not be transferred to anyone.
               </Box>
-              <div>
-                Account address:
-                <textarea
-                  value={account.address}
-                  readOnly
-                  rows="1"
-                />
-              </div>
-              <div>
-                Public key:
-                <textarea
-                  value={account.publicKey}
-                  readOnly
-                />
-              </div>
-              <div className={style.dangerContent}>
-                Secret key:
-                <textarea
-                  value={account.secretKey}
-                  readOnly
-                />
-              </div>
+
+              <FormControl label="Account address" readOnly rows={1} value={account.address} />
+              <FormControl label="Public key" readOnly value={account.publicKey} />
+              <FormControl label="Secret key" readOnly value={account.secretKey} />
             </Form>
           )
         }

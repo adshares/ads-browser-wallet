@@ -111,7 +111,7 @@ module.exports = function(hash, moduleMap, options) {
       }
 
       if (upToDate()) {
-        console.log("[HMR] App is up to date.");
+        console.log("[HMR] Rooting is up to date.");
       }
     }
   }

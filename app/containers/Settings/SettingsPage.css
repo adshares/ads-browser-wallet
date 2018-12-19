@@ -1,10 +1,10 @@
 .page {
-    height: 580px;
+    /*height: 580px;*/
 }
 
-.page > div {
-    height: 460px;
-}
+/*.page > div {*/
+    /*height: 460px;*/
+/*}*/
 
 .section h3 {
     margin-top: 40px;

@@ -15,8 +15,8 @@ import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
-import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
+import Page from '../../components/Page/Page';
 
 export default class SettingsPage extends FormComponent {
 
@@ -48,7 +48,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Accounts</h3>
-        {this.props.vault.accounts.length > 0 &&
+        {this.props.vault.accounts.length &&
         <ul className={style.accounts}>
           {this.props.vault.accounts.map((account, index) =>
             <li key={index}>
@@ -115,7 +115,7 @@ export default class SettingsPage extends FormComponent {
               onChange={this.handleInputChange}
             />
           </div>
-          <Button type="submit" icon="left" size="wide" layout="info">
+          <Button type="submit" icon="left" size="wide" layout="warning">
             <FontAwesomeIcon icon={faSave} /> Change
           </Button>
         </Form>
@@ -153,7 +153,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
+        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.ereaseAction}>
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>
@@ -161,8 +161,12 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
+    const { logoutAction, ereaseAction, vault } = this.props;
     return (
-      <Page className={style.page} title="Settings" scroll cancelLink="/">
+      <Page
+        title="Settings" scroll logoutAction={logoutAction}
+        ereaseAction={ereaseAction} vault={vault.accounts}
+      >
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

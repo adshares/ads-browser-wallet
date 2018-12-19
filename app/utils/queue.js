@@ -25,6 +25,14 @@ function push(transaction, callback) {
   });
 }
 
+function pushUnique(transaction, callback) {
+  getQueue((queue) => {
+    const newQueue = queue.filter(t => t.sourceId !== transaction.sourceId);
+    newQueue.push(transaction);
+    saveQueue(newQueue, callback);
+  });
+}
+
 function pop(sourceId, id, callback) {
   getQueue((queue) => {
     const transaction = queue.filter(
@@ -55,6 +63,7 @@ function clear(callback) {
 
 export default {
   push,
+  pushUnique,
   pop,
   getQueue,
   clearFromSource,

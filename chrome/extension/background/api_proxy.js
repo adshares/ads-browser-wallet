@@ -20,7 +20,7 @@ export default function handleMessage(message, sourceId, callback) {
     case types.MSG_INFO:
       return callback(getInfo());
     case types.MSG_SIGN:
-      queue.push({
+      queue.pushUnique({
         sourceId,
         time: (new Date()).toISOString(),
         ...message,

@@ -1,6 +1,7 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
+import BgClient from '../../app/utils/background';
 import {
   InvalidPasswordError,
   AccountsLimitError,
@@ -25,6 +26,7 @@ const actionsMap = {
 
   [ActionTypes.CREATE_VAULT](vault, action) {
     console.debug('CREATE_VAULT');
+    BgClient.startSession(window.btoa(action.password));
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
 
     const newVault = {
@@ -45,6 +47,7 @@ const actionsMap = {
   [ActionTypes.EREASE_VAULT]() {
     console.debug('EREASE_VAULT');
     //TODO check password
+    BgClient.removeSession();
     VaultCrypt.erase();
     return initialVault;
   },
@@ -55,31 +58,20 @@ const actionsMap = {
       throw new InvalidPasswordError();
     }
 
+    BgClient.startSession(window.btoa(action.password));
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
-    const keys = KeyBox.generateKeys(
-      unsealedVault.seed,
-      unsealedVault.keyCount || config.initKeysQuantity
-    );
-    const accounts = unsealedVault.accounts.map(account => (
-      {
-        ...account,
-        secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
-        balance: Math.random() * 1000,
-      }
-    ));
 
     return {
       ...initialVault,
       ...vault,
       ...unsealedVault,
-      keys,
-      accounts,
       sealed: false,
     };
   },
 
   [ActionTypes.SEAL_VAULT](vault) {
     console.debug('SEAL_VAULT');
+    BgClient.removeSession();
     return {
       ...initialVault,
       secret: vault.secret,

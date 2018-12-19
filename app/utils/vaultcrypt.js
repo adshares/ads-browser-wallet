@@ -1,7 +1,6 @@
 import CryptoJS from 'crypto-js';
-
-const STORAGE_KEY = 'vault';
-const TESTNET_STORAGE_KEY = 'testnetVault';
+import KeyBox from './keybox';
+import config from '../config';
 
 const SEED_PHRASE = 'p';
 const SEED = 's';
@@ -44,7 +43,7 @@ function decrypt(encryptedVault, password) {
   const vault = JSON.parse(
     CryptoJS.AES.decrypt(encryptedVault.secret, password).toString(CryptoJS.enc.Utf8)
   );
-  return {
+  const decryptedVault = {
     seedPhrase: vault[SEED_PHRASE],
     seed: vault[SEED],
     keyCount: vault[KEY_COUNT],
@@ -56,11 +55,26 @@ function decrypt(encryptedVault, password) {
       }
     )),
   };
+  const keys = KeyBox.generateKeys(
+    decryptedVault.seed,
+    decryptedVault.keyCount || config.initKeysQuantity
+  );
+  const accounts = decryptedVault.accounts.map(account => ({
+    ...account,
+    secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
+    balance: Math.random() * 1000,
+  }));
+
+  return {
+    ...decryptedVault,
+    keys,
+    accounts,
+  };
 }
 
 function load(testnet, callback) {
   isTestnet = testnet;
-  const key = isTestnet ? TESTNET_STORAGE_KEY : STORAGE_KEY;
+  const key = isTestnet ? config.testnetVaultStorageKey : config.vaultStorageKey;
   chrome.storage.sync.get(key, (result) => {
     const vault = {
       secret: result[key] || '',
@@ -73,15 +87,15 @@ function load(testnet, callback) {
 
 function save(vault, password, callback) {
   const secret = encrypt(vault, password);
-  const key = isTestnet ? TESTNET_STORAGE_KEY : STORAGE_KEY;
+  const key = isTestnet ? config.testnetVaultStorageKey : config.vaultStorageKey;
   chrome.storage.sync.set({ [key]: secret || '' }, callback);
   return secret;
 }
 
 function erase(callback) {
-  const keys = [TESTNET_STORAGE_KEY];
+  const keys = [config.testnetVaultStorageKey];
   if (!isTestnet) {
-    keys.push(STORAGE_KEY);
+    keys.push(config.vaultStorageKey);
   }
   chrome.storage.sync.remove(keys, callback);
 }

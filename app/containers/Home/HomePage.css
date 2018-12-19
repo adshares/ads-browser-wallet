@@ -1,5 +1,6 @@
 .configure {
     text-align: center;
+    overflow: hidden;
 }
 
 .configure > svg {

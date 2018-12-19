@@ -17,8 +17,7 @@ import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import FormControl from '../../components/atoms/FormControl';
-import * as ActionTypes from '../../constants/ActionTypes';
-
+import { VAULT_IMPORT_KEY } from '../../actions/vault';
 import { handleInputChange, handlePasswordChange } from '../../actions/form';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
@@ -113,7 +112,7 @@ export default class KeysImporterPage extends FormComponent {
         onDialogSubmit={() =>
           this.props.actions.passwordValidateThunk(
             KeysImporterPage.PAGE_NAME,
-            ActionTypes.IMPORT_KEY
+            VAULT_IMPORT_KEY
           )
         }
         passwordValue={password.value}

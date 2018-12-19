@@ -112,7 +112,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
  * Handle messages from proxy.
  */
 chrome.runtime.onConnect.addListener((port) => {
-  const portId = `${port.sender.id}/${port.sender.tab.id}`;
+  const portId = `${port.sender.id}-${port.sender.tab.id}`;
   console.debug('onConnect', portId);
 
   if (port.sender.id === chrome.i18n.getMessage('@@extension_id')) {

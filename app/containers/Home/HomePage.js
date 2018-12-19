@@ -7,6 +7,7 @@ import {
   faPaperPlane,
   faCopy,
   faGlobe,
+  faSignature,
 } from '@fortawesome/free-solid-svg-icons';
 import Page from '../../components/Page/Page';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -71,12 +72,16 @@ export default class HomePage extends React.PureComponent {
   }
 
   render() {
-    const configured = this.props.vault.accounts.length > 0;
-    const title = configured ? null : 'Adshares';
+    const { vault, queue } = this.props;
+    const configured = vault.accounts.length > 0;
+
     return (
       <Page>
+        { queue.length > 0 ?
+          <ButtonLink to="/transactions/awaiting" layout="success" size="wide" icon="left">
+            <FontAwesomeIcon icon={faSignature} /> Awaiting transactions ({queue.length})
+          </ButtonLink> : '' }
         {configured > 0 ? this.renderShortcuts() : this.renderConfigure()}
-        <ButtonLink to="/transactions/awaiting">Awaiting transactions</ButtonLink>
       </Page>
     );
   }
@@ -84,4 +89,5 @@ export default class HomePage extends React.PureComponent {
 
 HomePage.propTypes = {
   vault: PropTypes.object.isRequired,
+  queue: PropTypes.array.isRequired,
 };

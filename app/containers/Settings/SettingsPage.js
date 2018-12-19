@@ -48,7 +48,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Accounts</h3>
-        {this.props.vault.accounts.length &&
+        {this.props.vault.accounts.length > 0 &&
         <ul className={style.accounts}>
           {this.props.vault.accounts.map((account, index) =>
             <li key={index}>
@@ -115,7 +115,7 @@ export default class SettingsPage extends FormComponent {
               onChange={this.handleInputChange}
             />
           </div>
-          <Button type="submit" icon="left" size="wide" layout="warning">
+          <Button type="submit" icon="left" size="wide" layout="info">
             <FontAwesomeIcon icon={faSave} /> Change
           </Button>
         </Form>
@@ -153,7 +153,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.ereaseAction}>
+        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>
@@ -161,12 +161,8 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
-    const { logoutAction, ereaseAction, vault } = this.props;
     return (
-      <Page
-        title="Settings" scroll logoutAction={logoutAction}
-        ereaseAction={ereaseAction} vault={vault.accounts}
-      >
+      <Page className={style.page} title="Settings" scroll cancelLink="/">
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

@@ -4,6 +4,7 @@ import { createHashHistory } from 'history';
 import Root from '../../app/containers/Root';
 import VaultCrypt from '../../app/utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
+import { reload as reloadQueue } from '../../app/actions/queue';
 import config from '../../app/config';
 import './adswallet.css';
 
@@ -18,22 +19,38 @@ function renderDOM(initialState) {
   }
   const createStore = require('../../app/store/configureStore');
 
+  console.debug('initialState', initialState);
+  const store = createStore(initialState, history);
+
+  chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'local' && changes[config.queueStorageKey]) {
+      store.dispatch(
+        reloadQueue(
+          JSON.parse(changes[config.queueStorageKey].newValue || '[]')
+        )
+      );
+    }
+  });
+
   ReactDOM.render(
-    <Root history={history} store={createStore(initialState, history)} />,
+    <Root history={history} store={store} />,
     document.querySelector('#root')
   );
 }
 
-chrome.storage.local.get(config.stateStorageKey, (obj) => {
-  const initialState = JSON.parse(obj[config.stateStorageKey] || '{}');
+chrome.storage.local.get([config.routerStorageKey, config.queueStorageKey], (obj) => {
+  const initialState = {
+    [config.routerStorageKey]: JSON.parse(obj[config.routerStorageKey] || '{}'),
+    [config.queueStorageKey]: JSON.parse(obj[config.queueStorageKey] || '[]'),
+  };
 
   VaultCrypt.load(false, (vault) => {
-    initialState.vault = vault;
-    console.debug('initialState', initialState);
+    initialState[config.vaultStorageKey] = vault;
+    // Session recovery
     if (!vault.empty && vault.sealed) {
       BgClient.getSession((secret) => {
         if (secret) {
-          initialState.vault = {
+          initialState[config.vaultStorageKey] = {
             ...vault,
             ...VaultCrypt.decrypt(vault, window.atob(secret)),
             sealed: false,

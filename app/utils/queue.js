@@ -56,6 +56,7 @@ function clear(callback) {
 export default {
   push,
   pop,
+  getQueue,
   clearFromSource,
   clear,
 };

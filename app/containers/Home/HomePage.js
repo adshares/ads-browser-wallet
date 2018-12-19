@@ -76,6 +76,7 @@ export default class HomePage extends React.PureComponent {
     return (
       <Page>
         {configured > 0 ? this.renderShortcuts() : this.renderConfigure()}
+        <ButtonLink to="/transactions/awaiting">Awaiting transactions</ButtonLink>
       </Page>
     );
   }

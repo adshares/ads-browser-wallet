@@ -22,6 +22,7 @@ export default function handleMessage(message, sourceId, callback) {
     case types.MSG_SIGN:
       queue.push({
         sourceId,
+        time: (new Date()).toISOString(),
         ...message,
       });
       break;

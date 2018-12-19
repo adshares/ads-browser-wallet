@@ -58,7 +58,7 @@ export default class HomePage extends React.PureComponent {
           You can use this plugin to sign ADS Operator&apos;s transactions.<br />
           If You want to send transactions directly, You have to import an account first.
         </Box>
-        <ButtonLink to="/accounts/import" size="wide" icon="left" layout="info">
+        <ButtonLink to="/accounts/import2" size="wide" icon="left" layout="info">
           <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
         <div className={style.helpLinks}>

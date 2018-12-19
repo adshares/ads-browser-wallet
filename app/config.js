@@ -38,6 +38,8 @@ const getAccountLink = 'https://github.com/adshares/ads/wiki/How-to-get-an-accou
 
 const proxyConnectionName = 'ads-wallet-proxy';
 
+const stateStorageKey = 'ads-wallet';
+
 const vaultStorageKey = 'vault';
 
 const testnetVaultStorageKey = 'testnet-vault';
@@ -66,6 +68,7 @@ export default {
   proxyConnectionName,
   vaultStorageKey,
   testnetVaultStorageKey,
+  stateStorageKey,
   queueStorageKey,
   testnetQueueStorageKey,
   routerStorageKey,

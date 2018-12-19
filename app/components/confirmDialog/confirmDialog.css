@@ -6,7 +6,7 @@
 .dialog {
     /*padding: 0 32px;*/
     position: absolute;
-    height: 600px;
+    height: 100%;
     top: 0;
     left: 0;
     right: 0;

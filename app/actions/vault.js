@@ -28,6 +28,6 @@ export function removeAccount(address, password, callback) {
   return { type: types.REMOVE_ACCOUNT, address, password, callback };
 }
 
-export function importKey(name, publicKey, secretKey, password, signature = '') {
-  return { type: types.IMPORT_KEY, name, publicKey, secretKey, password, signature };
+export function importKey({name, publicKey, secretKey, password}) {
+  return { type: types.IMPORT_KEY, name, publicKey, secretKey, password };
 }

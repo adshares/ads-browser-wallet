@@ -54,7 +54,7 @@ function PrivateRoute({ ...params }) {
     actions: bindActionCreators(VaultActions, dispatch)
   })
 )
-export default class App extends Component {
+export default class Rooting extends Component {
 
   static propTypes = {
     vault: PropTypes.object.isRequired,
@@ -63,8 +63,7 @@ export default class App extends Component {
   };
 
   render() {
-    const vault = this.props.vault;
-    const actions = this.props.actions;
+    const { vault, actions } = this.props;
     console.debug(this.props.router.location.pathname);
 
     return (
@@ -72,7 +71,7 @@ export default class App extends Component {
         <Switch>
           <Route
             exact
-            path="/restore"
+              path="/restore"
             render={props =>
               <RestorePage restoreAction={actions.create} {...props} />
             }

@@ -27,5 +27,6 @@
 }
 
 textarea.input {
+    text-indent: 0;
     max-height: 200px;
 }

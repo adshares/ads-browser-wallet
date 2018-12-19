@@ -13,67 +13,8 @@ import config from '../../config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
-import FormControl from '../../components/atoms/FormControl';
 
 export default class AccountEditorPage extends FormComponent {
-
-  handleAddressChange = (event) => {
-    this.setState({
-      address: event.target.value
-    });
-  };
-  handleNameChange = (event) => {
-    this.setState({
-      name: event.target.value
-    });
-  };
-
-  handlePublicKeyChange = (event) => {
-    console.log(event.target.value);
-    this.setState({
-      publicKey: event.target.value
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if ((this.state.account || this.validateAddress()) &&
-      this.validateName() &&
-      this.validatePublicKey()
-    ) {
-      this.setState({
-        isSubmitted: true
-      }, () => {
-        try {
-          this.props.saveAction(
-            this.state.address,
-            this.state.name,
-            this.state.publicKey,
-            this.state.password,
-          );
-          this.props.history.push(this.getReferrer('/'));
-        } catch (err) {
-          let input;
-          if (err instanceof InvalidPasswordError) {
-            input = document.querySelector('[name=password]');
-          } else if (err instanceof UnknownPublicKeyError) {
-            input = document.querySelector('[name=publicKey]');
-          } else {
-            input = document.querySelector('[name=address]');
-          }
-
-          this.setState({
-            isSubmitted: false
-          }, () => {
-            input.setCustomValidity(err.message);
-            input.reportValidity();
-          });
-        }
-      });
-    }
-  };
 
   constructor(props) {
     super(props);
@@ -156,6 +97,58 @@ export default class AccountEditorPage extends FormComponent {
     return true;
   }
 
+  handleAddressChange = (event) => {
+    this.handleInputChange(event, this.validateAddress);
+  };
+
+  handleNameChange = (event) => {
+    this.handleInputChange(event, this.validateName);
+  };
+
+  handlePublicKeyChange = (event) => {
+    this.handleInputChange(event, this.validatePublicKey);
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if ((this.state.account || this.validateAddress()) &&
+      this.validateName() &&
+      this.validatePublicKey()
+    ) {
+      this.setState({
+        isSubmitted: true
+      }, () => {
+        try {
+          this.props.saveAction(
+            this.state.address,
+            this.state.name,
+            this.state.publicKey,
+            this.state.password,
+          );
+          this.props.history.push(this.getReferrer('/'));
+        } catch (err) {
+          let input;
+          if (err instanceof InvalidPasswordError) {
+            input = document.querySelector('[name=password]');
+          } else if (err instanceof UnknownPublicKeyError) {
+            input = document.querySelector('[name=publicKey]');
+          } else {
+            input = document.querySelector('[name=address]');
+          }
+
+          this.setState({
+            isSubmitted: false
+          }, () => {
+            input.setCustomValidity(err.message);
+            input.reportValidity();
+          });
+        }
+      });
+    }
+  };
+
   renderLimitWarning() {
     return (
       <div>
@@ -172,32 +165,51 @@ export default class AccountEditorPage extends FormComponent {
   renderForm() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormControl
-          label="Account name"
-          value={this.state.name}
-          required
-          isInput
-          maxLength={config.accountNameMaxLength}
-          handleChange={this.handleNameChange}
-        />
-
-        <FormControl
-          label="Address"
-          value={this.state.address}
-          required
-          isInput
-          handleChange={this.handleAddressChange}
-        />
-
-
-        <FormControl
-          label="Public key"
-          value={this.state.publicKey}
-          required
-          pattern="[0-9a-fA-F]{64}"
-          handleChange={this.handlePublicKeyChange}
-        />
-
+        <div>
+          Name:
+          <input
+            required
+            maxLength={config.accountNameMaxLength}
+            placeholder="Account name"
+            name="name"
+            value={this.state.name}
+            onChange={this.handleNameChange}
+          />
+        </div>
+        <div>
+          Address:
+          <input
+            required
+            placeholder="Account address"
+            readOnly={this.state.account}
+            name="address"
+            value={this.state.address}
+            onChange={this.handleAddressChange}
+          />
+        </div>
+        <div>
+          Public key:
+          <textarea
+            required
+            pattern="[0-9a-fA-F]{64}"
+            placeholder="Account public key"
+            name="publicKey"
+            value={this.state.publicKey}
+            onChange={this.handlePublicKeyChange}
+          />
+        </div>
+        <div>
+          Password:
+          <input
+            type="password"
+            autoFocus
+            required
+            placeholder="Password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handlePasswordChange}
+          />
+        </div>
         <div className={style.buttons}>
           <ButtonLink
             to={this.getReferrer()}

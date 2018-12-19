@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from './FromControl.css';
-
+import ErrorMessage from './ErrorMessage';
 
 export const FormControl = ({
-                        value,
-                        label,
-                        required,
-                        readOnly,
-                        pattern,
-                        autoFocus,
-                        isValid,
-                        errorMessage,
-                        maxLength,
-                        isInput,
-                        handleChange,
-                        rows,
-                        type
-                      }) => {
-  const validate = () => {
-
+  value,
+  label,
+  required,
+  readOnly,
+  pattern,
+  autoFocus,
+  isValid,
+  errorMessage,
+  maxLength,
+  isInput,
+  handleChange,
+  rows,
+  type
+}) => {
+  const handleInputChange = (e) => {
+    handleChange(e.target.value);
   };
 
   return (
@@ -33,29 +33,27 @@ export const FormControl = ({
           autoFocus={autoFocus}
           maxLength={maxLength}
           className={style.input}
-          onChange={handleChange}
-        />) : (
-          <textarea
-            id={`${label}`}
-            required={required}
-            autoFocus={autoFocus}
-            readOnly={readOnly}
-            pattern={pattern}
-            value={value}
-            maxLength={maxLength}
-            className={style.input}
-            onChange={handleChange}
-          />
+          onChange={handleInputChange}
+        />
+      ) : (
+        <textarea
+          id={`${label}`}
+          required={required}
+          autoFocus={autoFocus}
+          readOnly={readOnly}
+          pattern={pattern}
+          value={value}
+          maxLength={maxLength}
+          className={style.input}
+          onChange={handleInputChange}
+        />
       )}
-      <label
-        htmlFor={`${label}`}
-        className={style.label}
-      >{label} </label>
-      {!isValid && (
-        <div>
-          {errorMessage}
-        </div>)}
-    </div>);
+      <label htmlFor={`${label}`} className={style.label}>
+        {label}
+      </label>
+      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+    </div>
+  );
 };
 
 export default FormControl;
@@ -73,5 +71,5 @@ FormControl.propTypes = {
   maxLength: PropTypes.number,
   handleChange: PropTypes.func,
   rows: PropTypes.number,
-  type: PropTypes.string,
+  type: PropTypes.string
 };

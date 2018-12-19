@@ -136,7 +136,7 @@ BackgroundPort.onMessage.addListener((v) => {
       console.log(`todo1 ${v.type}`);
       console.log(`todo2 ${v.status}`);
       if (STATUS_SUCCESS === v.status) {
-        // clear form
+        // clear form.js
         // name field is not clear, because user has no access to it (it is hidden)
         // field was created for (future) use case with multiple keys
         // document.getElementById('imp-key-name').value = '';

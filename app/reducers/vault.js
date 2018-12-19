@@ -43,14 +43,12 @@ const actionsMap = {
   },
 
   [ActionTypes.EREASE_VAULT]() {
-    console.debug('EREASE_VAULT');
     //TODO check password
     VaultCrypt.erase();
     return initialVault;
   },
 
   [ActionTypes.UNSEAL_VAULT](vault, action) {
-    console.debug('UNSEAL_VAULT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -79,7 +77,6 @@ const actionsMap = {
   },
 
   [ActionTypes.SEAL_VAULT](vault) {
-    console.debug('SEAL_VAULT');
     return {
       ...initialVault,
       secret: vault.secret,

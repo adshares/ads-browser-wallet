@@ -33,7 +33,6 @@ export default function (pageName, vaultActionType) {
         .replace(/(\_\w)/g, m => m[1].toUpperCase());
 
       callbackActionProps.password = auth.password.value;
-      console.log(callbackActionProps);
 
       actionsToDispatch.concat([
         dispatch(passInputValidateSuccess(pageName, true)),

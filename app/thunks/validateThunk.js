@@ -25,7 +25,6 @@ export default function (pageName) {
 
           const errorMsg = validator(inputProps.value, vault);
           const isInputValid = errorMsg === null;
-          console.log('\n', 'input name', inputName)
           const action = isInputValid
             ? dispatch(inputValidateSuccess(pageName, inputName))
             : dispatch(inputValidateFailed(pageName, inputName, errorMsg));

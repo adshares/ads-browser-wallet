@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons';
+import Box from '../components/atoms/Box';
+import ButtonLink from '../components/atoms/ButtonLink';
 
 export default class ErrorPage extends React.PureComponent {
 
@@ -9,12 +11,12 @@ export default class ErrorPage extends React.PureComponent {
     const message = this.props.message || 'Unknown Error';
 
     return (
-      <div>
-        <h1 title={`Error ${code}`}>
-          {message}
-        </h1>
+      <div style={{ margin: '40px 15px' }}>
+        <Box title={`Error ${code}`} layout="warning" icon={faExclamation}>
+            {message}
+        </Box>
         {this.props.children}
-        <Link to={'/'}>Home page</Link>
+        <ButtonLink to={'/'} size="wide" layout="info">Home page</ButtonLink>
       </div>
     );
   }

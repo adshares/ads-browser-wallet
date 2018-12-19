@@ -102,14 +102,14 @@ const baseDevConfig = () => ({
 const injectPageConfig = baseDevConfig();
 injectPageConfig.entry = [
   customPath,
-  path.join(__dirname, '../chrome/extension/inject')
+  path.join(__dirname, '../chrome/extension/proxy')
 ];
 delete injectPageConfig.hotMiddleware;
 delete injectPageConfig.module.rules[0].options;
 injectPageConfig.plugins.shift(); // remove HotModuleReplacementPlugin
 injectPageConfig.output = {
   path: path.join(__dirname, '../dev/js'),
-  filename: 'inject.bundle.js',
+  filename: 'proxy.bundle.js',
 };
 const appConfig = baseDevConfig();
 

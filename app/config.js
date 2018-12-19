@@ -36,6 +36,19 @@ const regulations =
 
 const getAccountLink = 'https://github.com/adshares/ads/wiki/How-to-get-an-account';
 
+const proxyConnectionName = 'ads-wallet-proxy';
+
+const vaultStorageKey = 'vault';
+
+const testnetVaultStorageKey = 'testnet-vault';
+
+const queueStorageKey = 'queue';
+
+const testnetQueueStorageKey = 'testnet-queue';
+
+const sessionMaxAge = 60 * 60 * 1000;
+
+
 export default {
   blockLength,
   dividentLength,
@@ -48,4 +61,10 @@ export default {
   testnetOperatorUrl,
   regulations,
   getAccountLink,
+  proxyConnectionName,
+  vaultStorageKey,
+  testnetVaultStorageKey,
+  queueStorageKey,
+  testnetQueueStorageKey,
+  sessionMaxAge,
 };

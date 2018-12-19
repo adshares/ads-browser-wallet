@@ -43,3 +43,11 @@ export function ImportedKeysLimitError(limit) {
   this.data = { limit };
   this.message = `Maximum keys limit (${limit}) has been reached`;
 }
+
+export function PostMessageError(message, code) {
+  this.constructor.prototype.__proto__ = Error.prototype;
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.code = code;
+  this.message = message;
+}

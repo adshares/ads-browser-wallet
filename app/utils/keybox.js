@@ -1,5 +1,5 @@
 import bip39 from 'bip39';
-import { getMasterKeyFromSeed, derivePath, getPublicKey } from 'ed25519-hd-key';
+import { getMasterKeyFromSeed, derivePath, getPublicKey } from './ed25519-hd-key';
 
 function generateKeyPair(seed, path) {
   let key;

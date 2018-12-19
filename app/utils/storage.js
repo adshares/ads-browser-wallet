@@ -1,8 +1,9 @@
+import config from '../config';
+
 function saveState(state) {
   const sealedState = { ...state };
-  delete sealedState.vault;
-
-  chrome.storage.local.set({ state: JSON.stringify(sealedState) });
+  delete sealedState[config.vaultStorageKey];
+  chrome.storage.local.set({ [config.stateStorageKey]: JSON.stringify(sealedState) });
 }
 
 // // todos unmarked count

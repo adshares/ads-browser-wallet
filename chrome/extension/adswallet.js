@@ -4,6 +4,7 @@ import { createHashHistory } from 'history';
 import Root from '../../app/containers/Root';
 import VaultCrypt from '../../app/utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
+import config from '../../app/config';
 import './adswallet.css';
 
 function renderDOM(initialState) {
@@ -23,9 +24,8 @@ function renderDOM(initialState) {
   );
 }
 
-chrome.storage.local.get(['state'], (obj) => {
-  const { state } = obj;
-  const initialState = JSON.parse(state || '{}');
+chrome.storage.local.get(config.stateStorageKey, (obj) => {
+  const initialState = JSON.parse(obj[config.stateStorageKey] || '{}');
 
   VaultCrypt.load(false, (vault) => {
     initialState.vault = vault;

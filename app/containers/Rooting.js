@@ -46,6 +46,7 @@ function PrivateRoute({ ...params }) {
 }
 
 @connect(
+  //FIXME remove fallbacks
   state => ({
     router: state.router || {},
     vault: state.vault || {},

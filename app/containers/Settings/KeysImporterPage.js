@@ -17,11 +17,12 @@ import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import FormControl from '../../components/atoms/FormControl';
-import * as ActionTypes from '../../constants/ActionTypes';
+import * as ActionTypes from '../../actions/importKeys';
 
 import { handleInputChange, handlePasswordChange } from '../../actions/form';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
+import Checkbox from '../../components/atoms/checkbox';
 
 @connect(
   state => ({
@@ -120,7 +121,7 @@ export default class KeysImporterPage extends FormComponent {
         autenticationModalOpen={authModalOpen}
         cancelLink={'/'}
       >
-        {this.state.showLoader && <LoaderOverlay />}
+        {this.state.showLoader && <LoaderOverlay/>}
         <Form onSubmit={this.handleSubmit}>
           <FormControl
             label="Name"
@@ -132,15 +133,6 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={name.errorMsg}
           />
           <FormControl
-            label="Public key"
-            value={publicKey.value}
-            isValid={publicKey.isValid}
-            required
-            pattern="[0-9a-fA-F]{64}"
-            errorMessage={publicKey.errorMsg}
-            handleChange={value => this.handleInputChange('publicKey', value)}
-          />
-          <FormControl
             label="Secret key"
             value={secretKey.value}
             isValid={secretKey.isValid}
@@ -149,7 +141,18 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={secretKey.errorMsg}
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
-
+          <Checkbox desc="Import with public key" value={false}/>
+          {publicKey.shown &&
+          <FormControl
+            label="Public key"
+            value={publicKey.value}
+            isValid={publicKey.isValid}
+            required
+            pattern="[0-9a-fA-F]{64}"
+            errorMessage={publicKey.errorMsg}
+            handleChange={value => this.handleInputChange('publicKey', value)}
+          />
+          }
           <div className={style.buttons}>
             <ButtonLink
               className={style.cancel}
@@ -159,7 +162,7 @@ export default class KeysImporterPage extends FormComponent {
               layout="info"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+              <FontAwesomeIcon icon={faTimes}/> Cancel
             </ButtonLink>
             <Button
               type="submit"
@@ -168,7 +171,7 @@ export default class KeysImporterPage extends FormComponent {
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight} />
+              <FontAwesomeIcon icon={faChevronRight}/>
             </Button>
           </div>
         </Form>

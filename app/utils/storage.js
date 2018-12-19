@@ -1,9 +1,9 @@
 import config from '../config';
 
 function saveState(state) {
-  const sealedState = { ...state };
-  delete sealedState[config.vaultStorageKey];
-  chrome.storage.local.set({ [config.stateStorageKey]: JSON.stringify(sealedState) });
+  chrome.storage.local.set({
+    [config.routerStorageKey]: JSON.stringify(state[config.routerStorageKey])
+  });
 }
 
 export default function () {

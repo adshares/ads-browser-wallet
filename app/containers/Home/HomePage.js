@@ -82,7 +82,6 @@ export default class HomePage extends React.PureComponent {
             <FontAwesomeIcon icon={faSignature} /> Awaiting transactions ({queue.length})
           </ButtonLink> : '' }
         {configured > 0 ? this.renderShortcuts() : this.renderConfigure()}
-        <ButtonLink to="/transactions/awaiting">Awaiting transactions</ButtonLink>
       </Page>
     );
   }

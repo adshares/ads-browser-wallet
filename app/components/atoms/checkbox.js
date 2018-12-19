@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './checkbox.css';
 
-export const Checkbox = ({ value, desc, handleChange }) => {
-  const handleInputChange = () => {
-    handleChange(!value);
+export const Checkbox = ({ checked, desc, handleChange }) => {
+  const handleInputChange = (e) => {
+    handleChange(e.target.checked);
   };
 
   return (
@@ -13,6 +13,7 @@ export const Checkbox = ({ value, desc, handleChange }) => {
         className={style.checkbox}
         type="checkbox"
         id="check"
+        checked={checked}
         onClick={handleInputChange}
       />
       <label htmlFor="check" className={style.checked}>
@@ -28,7 +29,7 @@ export const Checkbox = ({ value, desc, handleChange }) => {
 export default Checkbox;
 
 Checkbox.propTypes = {
-  value: PropTypes.string,
+  checked: PropTypes.bool,
   desc: PropTypes.string.isRequired,
   handleChange: PropTypes.func,
 };

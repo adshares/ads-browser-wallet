@@ -25,7 +25,6 @@ const initialVault = {
 const actionsMap = {
 
   [actions.VAULT_CREATE](vault, action) {
-    console.debug('CREATE_VAULT');
     BgClient.startSession(window.btoa(action.password));
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
 
@@ -45,7 +44,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_EREASE]() {
-    console.debug('EREASE_VAULT');
     //TODO check password
     BgClient.removeSession();
     VaultCrypt.erase();
@@ -53,7 +51,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_UNSEAL](vault, action) {
-    console.debug('UNSEAL_VAULT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -70,7 +67,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_SEAL](vault) {
-    console.debug('SEAL_VAULT');
     BgClient.removeSession();
     return {
       ...initialVault,
@@ -81,7 +77,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_ADD_ACCOUNT](vault, action) {
-    console.debug('ADD_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -114,7 +109,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_UPDATE_ACCOUNT](vault, action) {
-    console.debug('UPDATE_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -147,7 +141,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_REMOVE_ACCOUNT](vault, action) {
-    console.debug('REMOVE_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -169,7 +162,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_IMPORT_KEY](vault, action) {
-    console.debug('IMPORT_KEY');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -181,9 +173,7 @@ const actionsMap = {
       publicKey: action.publicKey,
     });
 
-    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
-    VaultCrypt.save(updatedVault, action.callback);
-
+    VaultCrypt.save(updatedVault, action.password, action.callback);
     return updatedVault;
   },
 };

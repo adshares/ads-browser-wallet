@@ -41,7 +41,6 @@ export default class Page extends React.Component {
       onDialogSubmit,
       passwordValue,
       autenticationModalOpen,
-      ...rest
     } = this.props;
 
     let classes = [];
@@ -59,7 +58,7 @@ export default class Page extends React.Component {
     const wrapperClass = classes.join(" ");
 
     return (
-      <section {...rest}>
+      <section>
         {autenticationModalOpen && (
           <ConfirmDialog
             showDialog

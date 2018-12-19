@@ -7,6 +7,7 @@ export const INPUT_VALIDATION_FAILED = 'INPUT_VALIDATION_FAILED';
 export const FORM_VALIDATION_SUCCESS = 'FORM_VALIDATION_SUCCESS';
 export const FORM_VALIDATION_FAILED = 'FORM_VALIDATION_FAILED';
 export const FORM_CLEANING = 'FORM_CLEANED';
+export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
 
 const passInputValidateSuccess = (pageName, valid) => ({
   type: PASS_INPUT_VALIDATION_SUCCESS,
@@ -58,6 +59,12 @@ const handlePasswordChange = (pageName, inputValue) => ({
   pageName,
   inputValue
 });
+const toggleVisibility = (pageName, inputName, shown) => ({
+  type: TOGGLE_VISIBILITY,
+  pageName,
+  inputName,
+  shown,
+});
 
 export {
   handleInputChange,
@@ -69,4 +76,5 @@ export {
   formValidationSuccess,
   formValidationFailed,
   formClean,
+    toggleVisibility
 };

@@ -33,11 +33,16 @@ export default function (pageName, vaultActionType) {
         .replace(/(\_\w)/g, m => m[1].toUpperCase());
 
       callbackActionProps.password = auth.password.value;
+      console.log('callba', callbackActionProps)
+      console.log('vaultActions[actionName]', vaultActions[actionName])
+      console.log('actionName', actionName )
+      const vaultAction = vaultActions[actionName]
+          debugger;
 
       actionsToDispatch.concat([
         dispatch(passInputValidateSuccess(pageName, true)),
         dispatch(toggleAuthorisationDialog(pageName, false)),
-        dispatch(vaultActions[actionName](callbackActionProps)),
+        dispatch(vaultAction(callbackActionProps)),
         dispatch(formClean(pageName))
       ]);
     } else {

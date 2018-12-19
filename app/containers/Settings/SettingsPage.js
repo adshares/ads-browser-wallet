@@ -153,7 +153,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.ereaseAction}>
+        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>
@@ -161,11 +161,9 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
-    const { logoutAction, ereaseAction, vault } = this.props;
     return (
       <Page
-        title="Settings" scroll logoutAction={logoutAction}
-        ereaseAction={ereaseAction} vault={vault.accounts}
+        title="Settings" scroll
       >
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}

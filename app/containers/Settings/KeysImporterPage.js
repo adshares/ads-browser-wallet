@@ -19,10 +19,10 @@ import style from './SettingsPage.css';
 import FormControl from '../../components/atoms/FormControl';
 import * as ActionTypes from '../../actions/importKeys';
 
-import { handleInputChange, handlePasswordChange } from '../../actions/form';
+import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
-import Checkbox from '../../components/atoms/checkbox';
+import {Checkbox} from '../../components/atoms/checkbox';
 
 @connect(
   state => ({
@@ -35,7 +35,8 @@ import Checkbox from '../../components/atoms/checkbox';
         handleInputChange,
         handlePasswordChange,
         validateFormThunk,
-        passwordValidateThunk
+        passwordValidateThunk,
+        toggleVisibility,
       },
       dispatch
     )
@@ -49,6 +50,14 @@ export default class KeysImporterPage extends FormComponent {
       KeysImporterPage.PAGE_NAME,
       inputName,
       inputValue
+    );
+  };
+
+  toggleVisibility = (inputName, shown) => {
+    this.props.actions.toggleVisibility(
+      KeysImporterPage.PAGE_NAME,
+      inputName,
+      shown,
     );
   };
 
@@ -141,7 +150,7 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={secretKey.errorMsg}
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
-          <Checkbox desc="Import with public key" value={false}/>
+          <Checkbox checked={publicKey.checked} desc="Import with public key" handleChange={value => this.toggleVisibility('publicKey', value)} />
           {publicKey.shown &&
           <FormControl
             label="Public key"

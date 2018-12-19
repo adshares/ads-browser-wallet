@@ -17,15 +17,19 @@ let isTestnet = false;
 function checkPassword(vault, password) {
   try {
     CryptoJS.AES.decrypt(vault.secret, password).toString(CryptoJS.enc.Utf8);
+    console.log('checkPassword', checkPassword)
     return true;
   } catch (err) {
+    console.log('err', err)
     // Error means that data cannot be decrypted with given password.
     return false;
   }
 }
 
 function encrypt(vault, password) {
-  return CryptoJS.AES.encrypt(JSON.stringify({
+  console.log('encrypt', encrypt)
+  try{
+    return CryptoJS.AES.encrypt(JSON.stringify({
     [SEED_PHRASE]: vault.seedPhrase,
     [SEED]: vault.seed,
     [KEY_COUNT]: vault.keyCount,
@@ -37,6 +41,9 @@ function encrypt(vault, password) {
       }
     )),
   }), password).toString();
+  } catch (e) {
+    console.log('e', e)
+  }
 }
 
 function decrypt(encryptedVault, password) {
@@ -86,7 +93,10 @@ function load(testnet, callback) {
 }
 
 function save(vault, password, callback) {
+  console.log('vault', vault)
+  console.log('password', password)
   const secret = encrypt(vault, password);
+  console.log('secret', secret)
   const key = isTestnet ? config.testnetVaultStorageKey : config.vaultStorageKey;
   chrome.storage.sync.set({ [key]: secret || '' }, callback);
   return secret;

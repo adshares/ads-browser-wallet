@@ -1,4 +1,4 @@
-import * as ActionTypes from '../constants/ActionTypes';
+import * as actions from '../actions/vault';
 import KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
@@ -24,7 +24,7 @@ const initialVault = {
 
 const actionsMap = {
 
-  [ActionTypes.CREATE_VAULT](vault, action) {
+  [actions.VAULT_CREATE](vault, action) {
     console.debug('CREATE_VAULT');
     BgClient.startSession(window.btoa(action.password));
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
@@ -44,7 +44,7 @@ const actionsMap = {
     return newVault;
   },
 
-  [ActionTypes.EREASE_VAULT]() {
+  [actions.VAULT_EREASE]() {
     console.debug('EREASE_VAULT');
     //TODO check password
     BgClient.removeSession();
@@ -52,7 +52,7 @@ const actionsMap = {
     return initialVault;
   },
 
-  [ActionTypes.UNSEAL_VAULT](vault, action) {
+  [actions.VAULT_UNSEAL](vault, action) {
     console.debug('UNSEAL_VAULT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
@@ -69,7 +69,7 @@ const actionsMap = {
     };
   },
 
-  [ActionTypes.SEAL_VAULT](vault) {
+  [actions.VAULT_SEAL](vault) {
     console.debug('SEAL_VAULT');
     BgClient.removeSession();
     return {
@@ -80,7 +80,7 @@ const actionsMap = {
     };
   },
 
-  [ActionTypes.ADD_ACCOUNT](vault, action) {
+  [actions.VAULT_ADD_ACCOUNT](vault, action) {
     console.debug('ADD_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
@@ -113,7 +113,7 @@ const actionsMap = {
     return updatedVault;
   },
 
-  [ActionTypes.UPDATE_ACCOUNT](vault, action) {
+  [actions.VAULT_UPDATE_ACCOUNT](vault, action) {
     console.debug('UPDATE_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
@@ -146,7 +146,7 @@ const actionsMap = {
     return updatedVault;
   },
 
-  [ActionTypes.REMOVE_ACCOUNT](vault, action) {
+  [actions.VAULT_REMOVE_ACCOUNT](vault, action) {
     console.debug('REMOVE_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
@@ -168,7 +168,7 @@ const actionsMap = {
     return updatedVault;
   },
 
-  [ActionTypes.IMPORT_KEY](vault, action) {
+  [actions.VAULT_IMPORT_KEY](vault, action) {
     console.debug('IMPORT_KEY');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();

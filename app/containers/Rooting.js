@@ -11,6 +11,7 @@ import LoginPage from './Account/LoginPage';
 import SettingsPage from './Settings/SettingsPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeysImporterPage from './Settings/KeysImporterPage';
+import AwaitingTransactionsPage from './Transactions/AwaitingTransactionsPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 import AccountKeysPage from './Settings/AccountKeysPage';
@@ -46,8 +47,9 @@ function PrivateRoute({ ...params }) {
 
 @connect(
   state => ({
-    vault: state.vault,
-    router: state.router,
+    router: state.router || {},
+    vault: state.vault || {},
+    queue: state.queue || [],
   }),
   dispatch => ({
     actions: bindActionCreators(VaultActions, dispatch)
@@ -56,14 +58,15 @@ function PrivateRoute({ ...params }) {
 export default class Rooting extends Component {
 
   static propTypes = {
-    vault: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
+    vault: PropTypes.object.isRequired,
+    queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
 
   render() {
-    const { vault, actions } = this.props;
-    console.debug(this.props.router.location.pathname);
+    const { router, vault, queue, actions } = this.props;
+    console.debug(router.location.pathname);
 
     return (
       <div className={style.app}>
@@ -94,7 +97,7 @@ export default class Rooting extends Component {
             path="/(popup.html)?"
             vault={vault}
             render={
-              props => <HomePage vault={vault} {...props} />
+              props => <HomePage vault={vault} queue={queue} {...props} />
             }
           />
           <PrivateRoute
@@ -139,10 +142,18 @@ export default class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/sign"
+            path="/transactions/awaiting"
             vault={vault}
             render={props =>
-              <HomePage vault={vault} {...props} />
+              <AwaitingTransactionsPage vault={vault} queue={queue} {...props} />
+            }
+          />
+          <PrivateRoute
+            exact
+            path="/transactions/:source(.+)/:id(.+)/sign"
+            vault={vault}
+            render={props =>
+              <HomePage vault={vault} queue={queue} {...props} />
             }
           />
           <Route path="/" component={NotFoundErrorPage} />

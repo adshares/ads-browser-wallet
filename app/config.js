@@ -46,6 +46,8 @@ const queueStorageKey = 'queue';
 
 const testnetQueueStorageKey = 'testnet-queue';
 
+const routerStorageKey = 'router';
+
 const sessionMaxAge = 60 * 60 * 1000;
 
 
@@ -66,5 +68,6 @@ export default {
   testnetVaultStorageKey,
   queueStorageKey,
   testnetQueueStorageKey,
+  routerStorageKey,
   sessionMaxAge,
 };

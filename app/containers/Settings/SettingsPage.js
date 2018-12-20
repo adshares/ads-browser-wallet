@@ -162,9 +162,7 @@ export default class SettingsPage extends FormComponent {
 
   render() {
     return (
-      <Page
-        title="Settings" scroll
-      >
+      <Page className={style.page} title="Settings" scroll cancelLink="/">
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}

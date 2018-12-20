@@ -16,7 +16,6 @@ const publicKey = ({ value, inputs, vault }) => {
   if (!ADS.validateKey(value)) {
     return 'Please provide an valid public key';
   }
-
   if (KeyBox.getPublicKeyFromSecret(inputs.secretKey.value) !== value) {
     return 'Public and secret key does not match';
   }
@@ -43,5 +42,3 @@ const password = ({ value, vault }) => {
 };
 
 export { name, publicKey, secretKey, password };
-//  0208060900000705000000000000080600010007090003090000000402070503
-// F5FF30E86E18804ACC11E7F7BBE289B02869F075FFFFFC86A1A79A39BAD42753

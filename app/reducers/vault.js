@@ -17,7 +17,6 @@ const initialVault = {
   seedPhrase: '',
   seed: '',
   keys: [],
-  importedKeys: [],
   accounts: [],
   selectedAccount: null,
 };
@@ -27,7 +26,6 @@ const actionsMap = {
   [actions.VAULT_CREATE](vault, action) {
     BgClient.startSession(window.btoa(action.password));
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
-
     const newVault = {
       ...initialVault,
       ...vault,
@@ -35,7 +33,7 @@ const actionsMap = {
       sealed: false,
       seedPhrase: action.seedPhrase,
       seed,
-      keys: KeyBox.generateKeys(seed, config.initKeysQuantity),
+      keys: [...vault.keys, ...KeyBox.generateKeys(seed, config.initKeysQuantity)],
       keyCount: config.initKeysQuantity,
     };
     newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);
@@ -57,7 +55,6 @@ const actionsMap = {
 
     BgClient.startSession(window.btoa(action.password));
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
-
     return {
       ...initialVault,
       ...vault,
@@ -168,12 +165,14 @@ const actionsMap = {
 
     const updatedVault = { ...vault };
     updatedVault.keys.push({
+      type: 'imported',
       name: action.name,
       secretKey: action.secretKey,
       publicKey: action.publicKey,
     });
 
-    VaultCrypt.save(updatedVault, action.password, action.callback);
+    updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+
     return updatedVault;
   },
 };

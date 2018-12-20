@@ -1,7 +1,8 @@
 import bip39 from 'bip39';
-import { getMasterKeyFromSeed, derivePath, getPublicKey as getPk } from './ed25519-hd-key';
+import { getMasterKeyFromSeed, derivePath, getPublicKeyFromSeed as getPkFromSeed, getPublicKeyFromSecret as getPkFromSecret } from './ed25519-hd-key';
 
-const getPublicKey = secretKey => getPk(secretKey).toString('hex').slice(2).toUpperCase();
+const getPublicKeyFromSeed = secretKey => getPkFromSeed(secretKey).toString('hex').slice(2).toUpperCase();
+const getPublicKeyFromSecret = secretKey => getPkFromSecret(secretKey).toString('hex').slice(2).toUpperCase();
 
 function generateKeyPair(seed, path) {
   let key;
@@ -11,9 +12,10 @@ function generateKeyPair(seed, path) {
     key = getMasterKeyFromSeed(seed).key;
   }
   return {
+    type: 'auto',
     secretKey: key.toString('hex').toUpperCase(),
     // slice(2) because public key is left pad with '00'
-    publicKey: getPublicKey(key),
+    publicKey: getPublicKeyFromSeed(key),
   };
 }
 
@@ -47,7 +49,8 @@ function generateSeedPhrase() {
 }
 
 export default {
-  getPublicKey,
+  getPublicKeyFromSeed,
+  getPublicKeyFromSecret,
   seedPhraseToHex,
   generateKeys,
   generateNextKey,

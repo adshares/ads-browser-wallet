@@ -9,35 +9,36 @@ import * as validators from '../utils/validators';
 
 export default function (pageName, vaultActionType) {
   return (dispatch, getState) => {
+
     const { vault, pages } = getState();
+
     if (!pages[pageName]) {
       throw new Error(`Page ${pageName} does not exist in store!`);
     }
     const { auth, inputs } = pages[pageName];
+
     const validator = validators.password;
+
     const actionsToDispatch = [];
-    const errorMsg = validator(auth.password.value, vault);
+    const errorMsg = validator({ value: auth.password.value, vault });
     const isInputValid = errorMsg === null;
 
     if (isInputValid) {
-      const callbackActionProps = Object.entries(inputs).reduce(
-        (acc, [inputName, inputProps]) => ({
-          ...acc,
-          [inputName]: inputProps.value
-        }),
-        {}
-      );
+      const callbackActionProps = Object.entries(inputs)
+        .reduce(
+          (acc, [inputName, inputProps]) => ({
+            ...acc,
+            [inputName]: inputProps.value
+          }),
+          {}
+        );
 
       const actionName = vaultActionType
         .toLowerCase()
         .replace(/(\_\w)/g, m => m[1].toUpperCase());
 
       callbackActionProps.password = auth.password.value;
-      console.log('callba', callbackActionProps)
-      console.log('vaultActions[actionName]', vaultActions[actionName])
-      console.log('actionName', actionName )
-      const vaultAction = vaultActions[actionName]
-          debugger;
+      const vaultAction = vaultActions[actionName];
 
       actionsToDispatch.concat([
         dispatch(passInputValidateSuccess(pageName, true)),

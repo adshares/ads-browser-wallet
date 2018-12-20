@@ -3,18 +3,25 @@ import PropTypes from 'prop-types';
 import style from './checkbox.css';
 
 export const Checkbox = ({ checked, desc, handleChange }) => {
-  const handleInputChange = (e) => {
+  const handleClick = (e) => {
     handleChange(e.target.checked);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode && e.keyCode !== 13) return;
+    handleChange(!checked);
   };
 
   return (
     <div className={style.checkboxWrapper}>
       <input
-        className={style.checkbox}
+        tabIndex="0"
+        className={`${style.checkbox} ${ style.checkboxChecked}`}
         type="checkbox"
         id="check"
         checked={checked}
-        onClick={handleInputChange}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
       />
       <label htmlFor="check" className={style.checked}>
         <svg viewBox={[0, 0, 50, 50].join()} className={style.checkedSvg}>

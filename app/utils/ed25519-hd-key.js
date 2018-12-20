@@ -30,13 +30,22 @@ const ckdPriv = ({ key, chainCode }, index) => {
     chainCode: IR,
   };
 };
-exports.getPublicKey = (privateKey, withZeroByte = true) => {
+exports.getPublicKeyFromSeed = (privateKey, withZeroByte = true) => {
   const { publicKey } = nacl.sign.keyPair.fromSeed(privateKey);
   const zero = Buffer.alloc(1, 0);
   return withZeroByte ?
     Buffer.concat([zero, Buffer.from(publicKey)]) :
     Buffer.from(publicKey);
 };
+
+exports.getPublicKeyFromSecret = (privateKey, withZeroByte = true) => {
+  const { publicKey } = nacl.sign.keyPair.fromSecretKey(privateKey);
+  const zero = Buffer.alloc(1, 0);
+  return withZeroByte ?
+    Buffer.concat([zero, Buffer.from(publicKey)]) :
+    Buffer.from(publicKey);
+};
+
 exports.isValidPath = (path) => {
   if (!pathRegex.test(path)) {
     return false;

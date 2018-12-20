@@ -5,7 +5,7 @@ import config from '../config';
 const SEED_PHRASE = 'p';
 const SEED = 's';
 const KEY_COUNT = 'c';
-const IMPORTED_KEYS = 'k';
+const KEYS = 'k';
 const ACCOUNTS = 'a';
 const ACCOUNT_ADDRESS = 'a';
 const ACCOUNT_NAME = 'n';
@@ -16,23 +16,25 @@ let isTestnet = false;
 
 function checkPassword(vault, password) {
   try {
-    CryptoJS.AES.decrypt(vault.secret, password).toString(CryptoJS.enc.Utf8);
-    console.log('checkPassword', checkPassword)
+    CryptoJS.AES.decrypt(vault.secret, password)
+      .toString(CryptoJS.enc.Utf8);
     return true;
   } catch (err) {
-    console.log('err', err)
     // Error means that data cannot be decrypted with given password.
     return false;
   }
 }
 
 function encrypt(vault, password) {
-  console.log('encrypt', encrypt)
-  try{
-    return CryptoJS.AES.encrypt(JSON.stringify({
+  const keys = vault.keys
+    .filter(key => key.type && key.type !== 'auto')
+    .map(({ publicKey,  ...keysToKeep }) => keysToKeep);
+
+  const crypt = CryptoJS.AES.encrypt(JSON.stringify({
     [SEED_PHRASE]: vault.seedPhrase,
     [SEED]: vault.seed,
     [KEY_COUNT]: vault.keyCount,
+    [KEYS]: keys,
     [ACCOUNTS]: vault.accounts.map(account => (
       {
         [ACCOUNT_ADDRESS]: account.address,
@@ -41,19 +43,20 @@ function encrypt(vault, password) {
       }
     )),
   }), password).toString();
-  } catch (e) {
-    console.log('e', e)
-  }
+  console.log('crypt', crypt);
+  return crypt;
 }
 
 function decrypt(encryptedVault, password) {
   const vault = JSON.parse(
-    CryptoJS.AES.decrypt(encryptedVault.secret, password).toString(CryptoJS.enc.Utf8)
+    CryptoJS.AES.decrypt(encryptedVault.secret, password)
+      .toString(CryptoJS.enc.Utf8)
   );
   const decryptedVault = {
     seedPhrase: vault[SEED_PHRASE],
     seed: vault[SEED],
     keyCount: vault[KEY_COUNT],
+    keys: vault[KEYS],
     accounts: vault[ACCOUNTS].map(account => (
       {
         address: account[ACCOUNT_ADDRESS],
@@ -62,10 +65,12 @@ function decrypt(encryptedVault, password) {
       }
     )),
   };
-  const keys = KeyBox.generateKeys(
+  const keys = [
+    ...decryptedVault.keys,
+    ...KeyBox.generateKeys(
     decryptedVault.seed,
     decryptedVault.keyCount || config.initKeysQuantity
-  );
+  )];
   const accounts = decryptedVault.accounts.map(account => ({
     ...account,
     secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
@@ -93,10 +98,7 @@ function load(testnet, callback) {
 }
 
 function save(vault, password, callback) {
-  console.log('vault', vault)
-  console.log('password', password)
   const secret = encrypt(vault, password);
-  console.log('secret', secret)
   const key = isTestnet ? config.testnetVaultStorageKey : config.vaultStorageKey;
   chrome.storage.sync.set({ [key]: secret || '' }, callback);
   return secret;

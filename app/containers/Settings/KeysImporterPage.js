@@ -22,7 +22,7 @@ import * as ActionTypes from '../../actions/importKeys';
 import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
-import {Checkbox} from '../../components/atoms/checkbox';
+import { Checkbox } from '../../components/atoms/checkbox';
 
 @connect(
   state => ({
@@ -82,7 +82,7 @@ export default class KeysImporterPage extends FormComponent {
       );
       this.props.history.push('/');
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   };
@@ -130,7 +130,7 @@ export default class KeysImporterPage extends FormComponent {
         autenticationModalOpen={authModalOpen}
         cancelLink={'/'}
       >
-        {this.state.showLoader && <LoaderOverlay/>}
+        {this.state.showLoader && <LoaderOverlay />}
         <Form onSubmit={this.handleSubmit}>
           <FormControl
             label="Name"
@@ -171,7 +171,7 @@ export default class KeysImporterPage extends FormComponent {
               layout="info"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes}/> Cancel
+              <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
               type="submit"
@@ -180,7 +180,7 @@ export default class KeysImporterPage extends FormComponent {
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight}/>
+              <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>
         </Form>

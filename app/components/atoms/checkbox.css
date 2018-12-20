@@ -6,12 +6,16 @@
 .checkbox {
     position: absolute;
     opacity: 0;
-    width: auto;
+    width: auto !important;
     height: 20px !important;
 }
 
 .checkbox:checked + .checked svg path {
     stroke-dashoffset: 0;
+}
+
+.checkbox:focus + .checked {
+    border-width: 2px;
 }
 
 .checkbox:checked + .checked svg path:focus + .checked {
@@ -39,7 +43,7 @@
 
 .checkedSvg path {
     fill: none;
-    stroke: var(--slate);
+    stroke: var(--green);
     stroke-width: 8px;
     stroke-linecap: round;
     stroke-linejoin: round;

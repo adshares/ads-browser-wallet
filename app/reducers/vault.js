@@ -17,7 +17,6 @@ const initialVault = {
   seedPhrase: '',
   seed: '',
   keys: [],
-  importedKeys: [],
   accounts: [],
   selectedAccount: null,
 };
@@ -25,10 +24,8 @@ const initialVault = {
 const actionsMap = {
 
   [actions.VAULT_CREATE](vault, action) {
-    console.debug('CREATE_VAULT');
     BgClient.startSession(window.btoa(action.password));
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
-
     const newVault = {
       ...initialVault,
       ...vault,
@@ -36,7 +33,7 @@ const actionsMap = {
       sealed: false,
       seedPhrase: action.seedPhrase,
       seed,
-      keys: KeyBox.generateKeys(seed, config.initKeysQuantity),
+      keys: [...vault.keys, ...KeyBox.generateKeys(seed, config.initKeysQuantity)],
       keyCount: config.initKeysQuantity,
     };
     newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);
@@ -45,7 +42,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_EREASE]() {
-    console.debug('EREASE_VAULT');
     //TODO check password
     BgClient.removeSession();
     VaultCrypt.erase();
@@ -53,14 +49,12 @@ const actionsMap = {
   },
 
   [actions.VAULT_UNSEAL](vault, action) {
-    console.debug('UNSEAL_VAULT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
 
     BgClient.startSession(window.btoa(action.password));
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
-
     return {
       ...initialVault,
       ...vault,
@@ -70,7 +64,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_SEAL](vault) {
-    console.debug('SEAL_VAULT');
     BgClient.removeSession();
     return {
       ...initialVault,
@@ -81,7 +74,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_ADD_ACCOUNT](vault, action) {
-    console.debug('ADD_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -114,7 +106,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_UPDATE_ACCOUNT](vault, action) {
-    console.debug('UPDATE_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -147,7 +138,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_REMOVE_ACCOUNT](vault, action) {
-    console.debug('REMOVE_ACCOUNT');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
@@ -169,20 +159,19 @@ const actionsMap = {
   },
 
   [actions.VAULT_IMPORT_KEY](vault, action) {
-    console.debug('IMPORT_KEY');
     if (!VaultCrypt.checkPassword(vault, action.password)) {
       throw new InvalidPasswordError();
     }
 
     const updatedVault = { ...vault };
     updatedVault.keys.push({
+      type: 'imported',
       name: action.name,
       secretKey: action.secretKey,
       publicKey: action.publicKey,
     });
 
-    updatedVault.secret = VaultCrypt.encrypt(updatedVault, action.password);
-    VaultCrypt.save(updatedVault, action.callback);
+    updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
     return updatedVault;
   },

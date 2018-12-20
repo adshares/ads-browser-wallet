@@ -17,10 +17,12 @@ import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import FormControl from '../../components/atoms/FormControl';
-import { VAULT_IMPORT_KEY } from '../../actions/vault';
-import { handleInputChange, handlePasswordChange } from '../../actions/form';
+import * as ActionTypes from '../../actions/importKeys';
+
+import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
+import { Checkbox } from '../../components/atoms/checkbox';
 
 @connect(
   state => ({
@@ -33,7 +35,8 @@ import passwordValidateThunk from '../../thunks/passwordValidateThunk';
         handleInputChange,
         handlePasswordChange,
         validateFormThunk,
-        passwordValidateThunk
+        passwordValidateThunk,
+        toggleVisibility,
       },
       dispatch
     )
@@ -47,6 +50,14 @@ export default class KeysImporterPage extends FormComponent {
       KeysImporterPage.PAGE_NAME,
       inputName,
       inputValue
+    );
+  };
+
+  toggleVisibility = (inputName, shown) => {
+    this.props.actions.toggleVisibility(
+      KeysImporterPage.PAGE_NAME,
+      inputName,
+      shown,
     );
   };
 
@@ -71,7 +82,7 @@ export default class KeysImporterPage extends FormComponent {
       );
       this.props.history.push('/');
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   };
@@ -112,7 +123,7 @@ export default class KeysImporterPage extends FormComponent {
         onDialogSubmit={() =>
           this.props.actions.passwordValidateThunk(
             KeysImporterPage.PAGE_NAME,
-            VAULT_IMPORT_KEY
+            ActionTypes.IMPORT_KEY
           )
         }
         passwordValue={password.value}
@@ -131,15 +142,6 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={name.errorMsg}
           />
           <FormControl
-            label="Public key"
-            value={publicKey.value}
-            isValid={publicKey.isValid}
-            required
-            pattern="[0-9a-fA-F]{64}"
-            errorMessage={publicKey.errorMsg}
-            handleChange={value => this.handleInputChange('publicKey', value)}
-          />
-          <FormControl
             label="Secret key"
             value={secretKey.value}
             isValid={secretKey.isValid}
@@ -148,7 +150,18 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={secretKey.errorMsg}
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
-
+          <Checkbox checked={publicKey.checked} desc="Import with public key" handleChange={value => this.toggleVisibility('publicKey', value)} />
+          {publicKey.shown &&
+          <FormControl
+            label="Public key"
+            value={publicKey.value}
+            isValid={publicKey.isValid}
+            required
+            pattern="[0-9a-fA-F]{64}"
+            errorMessage={publicKey.errorMsg}
+            handleChange={value => this.handleInputChange('publicKey', value)}
+          />
+          }
           <div className={style.buttons}>
             <ButtonLink
               className={style.cancel}

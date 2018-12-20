@@ -48,6 +48,6 @@ test('create public key', () => {
   const secretKey = 'CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB';
   const expPublicKey = 'EAE1C8793B5597C4B3F490E76AC31172C439690F8EE14142BB851A61F9A49F0E';
 
-  expect(adsSign.getPublicKey(secretKey))
+  expect(adsSign.getPublicKeyFromSeed(secretKey))
     .toBe(expPublicKey);
 });

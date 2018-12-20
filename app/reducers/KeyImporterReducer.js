@@ -1,5 +1,5 @@
 import * as actions from '../actions/form';
-import { OPEN_AUTHORISATION_DIALOG } from '../actions/actions';
+import { TOGGLE_AUTHORISATION_DIALOG } from '../actions/actions';
 import KeysImporterPage from '../containers/Settings/KeysImporterPage';
 
 const initialState = {
@@ -20,6 +20,7 @@ const initialState = {
       errorMsg: ''
     },
     publicKey: {
+      shown: false,
       isValid: false,
       value: '',
       errorMsg: ''
@@ -40,7 +41,19 @@ const actionsMap = {
         ...state.inputs,
         [action.inputName]: {
           ...state.inputs[action.inputName],
-          value: action.inputValue
+          value: action.inputValue,
+        }
+      }
+    };
+  },
+  [actions.TOGGLE_VISIBILITY](state, action) {
+    return {
+      ...state,
+      inputs: {
+        ...state.inputs,
+        [action.inputName]: {
+          ...state.inputs[action.inputName],
+          shown: action.shown,
         }
       }
     };
@@ -58,9 +71,6 @@ const actionsMap = {
     };
   },
   [actions.INPUT_VALIDATION_SUCCESS](state, action) {
-    console.log('success');
-    console.log('success');
-
     return {
       ...state,
       inputs: {
@@ -85,6 +95,31 @@ const actionsMap = {
       }
     };
   },
+  [actions.PASS_INPUT_VALIDATION_FAILED](state, action) {
+    return {
+      ...state,
+      auth: {
+        ...state.auth,
+        password: {
+          ...state.auth.password,
+          errorMsg: action.errorMsg
+        }
+      }
+    };
+  },
+  [actions.PASS_INPUT_VALIDATION_SUCCESS](state, action) {
+    return {
+      ...state,
+      auth: {
+        ...state.auth,
+        password: {
+          ...state.auth.password,
+          errorMsg: null,
+          isValid: action.inputValue
+        }
+      }
+    };
+  },
   [actions.FORM_VALIDATION_SUCCESS](state, action) {
     return {
       ...state,
@@ -97,7 +132,6 @@ const actionsMap = {
       ...action.payload
     };
   },
-
   [actions.FORM_CLEANING](state, action) {
     return {
       ...state,
@@ -105,7 +139,7 @@ const actionsMap = {
       ...initialState
     };
   },
-  [OPEN_AUTHORISATION_DIALOG](state, action) {
+  [TOGGLE_AUTHORISATION_DIALOG](state, action) {
     return {
       ...state,
       auth: {

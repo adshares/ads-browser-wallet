@@ -46,6 +46,7 @@ function PrivateRoute({ ...params }) {
 }
 
 @connect(
+  //FIXME remove fallbacks
   state => ({
     router: state.router || {},
     vault: state.vault || {},
@@ -58,8 +59,8 @@ function PrivateRoute({ ...params }) {
 export default class Rooting extends Component {
 
   static propTypes = {
-    router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };

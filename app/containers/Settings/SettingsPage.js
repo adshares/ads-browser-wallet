@@ -48,7 +48,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Accounts</h3>
-        {this.props.vault.accounts.length &&
+        {this.props.vault.accounts.length > 0 &&
         <ul className={style.accounts}>
           {this.props.vault.accounts.map((account, index) =>
             <li key={index}>
@@ -115,7 +115,7 @@ export default class SettingsPage extends FormComponent {
               onChange={this.handleInputChange}
             />
           </div>
-          <Button type="submit" icon="left" size="wide" layout="warning">
+          <Button type="submit" icon="left" size="wide" layout="info">
             <FontAwesomeIcon icon={faSave} /> Change
           </Button>
         </Form>

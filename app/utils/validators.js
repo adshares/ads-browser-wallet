@@ -17,7 +17,7 @@ const publicKey = ({ value, inputs, vault }) => {
     return 'Please provide an valid public key';
   }
 
-  if (KeyBox.getPublicKeyFromSecret(Uint8Array.from(inputs.secretKey.value)) !== value) {
+  if (KeyBox.getPublicKeyFromSecret(inputs.secretKey.value) !== value) {
     return 'Public and secret key does not match';
   }
   if (vault.keys.find(key => key.publicKey === value)) {

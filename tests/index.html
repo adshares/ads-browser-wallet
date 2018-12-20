@@ -8,11 +8,22 @@
 <table>
     <tr>
         <td>
+            <label for="data">message:</label>
+        </td>
+        <td>
+            <input type="text" id="message" value="Hello"/>
+        </td>
+    </tr>
+</table>
+<button id="btn-push">push message</button>
+<br /><br /><br />
+<table>
+    <tr>
+        <td>
             <label for="data">tx.data:</label>
         </td>
         <td>
-            <input type="text" id="data"
-                   value="050100000000000400000069C0485B020001000100000000A0724E1809000001000200000000A0724E18090000"/>
+            <input type="text" id="data" value="050100000000000400000069C0485B020001000100000000A0724E1809000001000200000000A0724E18090000"/>
         </td>
     </tr>
     <tr>
@@ -23,8 +34,17 @@
             <input type="text" id="hashin" value="AFB2FAACA5CB0C41A9F60AC84FA6D1A39C2D875F70FEEC3EEC70319962874FEC"/>
         </td>
     </tr>
+    <tr>
+        <td>
+            <label for="hashin">signature:</label>
+        </td>
+        <td>
+            <input type="text" id="signature" readonly />
+        </td>
+    </tr>
 </table>
-<button id="btn-add-tx">add transaction</button>
+<button id="btn-add-tx">sign transaction</button>
+<b id="btn-tx-status"></b>
 
 <script type="text/javascript">
   class AdsWallet {
@@ -118,6 +138,10 @@
       return this.sendMessage('info');
     }
 
+    pushMessage(message) {
+      return this.sendMessage('push', { message });
+    }
+
     signTransaction(data, msid, hash) {
       return this.sendMessage('sign', { data, msid, hash });
     }
@@ -125,29 +149,47 @@
 
     let wallet = new AdsWallet('heidindpanacipiibminhmejeonddpjh');
 
-    // wallet.ping(new Date().toISOString()).then((data) => {
-    //     console.debug('pong:', data);
-    // }, (error) => {
-    //     console.debug('failed:', error);
-    // });
-
     wallet.getInfo().then((data) => {
       console.debug('info:', data);
     }, (error) => {
-      console.debug('failed:', error);
+      console.debug('info failed:', error);
     });
+
+    wallet.ping(new Date().toISOString()).then((data) => {
+      console.debug('pong:', data);
+    }, (error) => {
+      console.debug('ping failed:', error);
+    });
+
+    // Call addTransaction function
+    let btnSend = document.getElementById('btn-push');
+    btnSend.addEventListener('click', function () {
+      console.log('index.html: btn-push');
+      const message = document.getElementById('message').value;
+      wallet.pushMessage(message).then((data) => {
+        console.debug('push ok:', data);
+      }, (error) => {
+        console.debug('push failed:', error);
+      });
+    }, false);
 
     // Call addTransaction function
     let btnSend2 = document.getElementById('btn-add-tx');
     btnSend2.addEventListener('click', function () {
-        console.log('index.html: click');
+        console.log('index.html: btn-add-tx');
         const mid = (new Date().getTime()).toString(10);
         const txData = document.getElementById('data').value;
         const txAccountHashin = document.getElementById('hashin').value;
+        const txSignature = document.getElementById('signature');
+        const txStatus = document.getElementById('btn-tx-status');
+        txSignature.value = '';
+        txStatus.innerText = '...';
         wallet.signTransaction(txData, mid, txAccountHashin).then((data) => {
-            console.debug('ok:', data);
+            console.debug('sign ok:', data);
+            txStatus.innerText = data.status;
+            txSignature.value = data.signature || '---';
         }, (error) => {
-            console.debug('failed:', error);
+            console.debug('sign failed:', error);
         });
     }, false);
 

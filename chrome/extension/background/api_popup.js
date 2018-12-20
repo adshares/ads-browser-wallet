@@ -1,5 +1,6 @@
 import * as types from '../../../app/constants/MessageTypes';
 import { PostMessageError } from '../../../app/actions/errors';
+import queue from '../../../app/utils/queue';
 import config from '../../../app/config';
 
 const session = {
@@ -9,6 +10,12 @@ const session = {
 
 export default function handleMessage(message, callback) {
   switch (message.type) {
+    case types.MSG_RESPONSE:
+      queue.pop(
+        message.sourceId,
+        message.id
+      );
+      return callback({ status: 'ok' });
     case types.MSG_PING:
       return callback(message.data);
     case types.MSG_SESSION_START:
@@ -17,10 +24,10 @@ export default function handleMessage(message, callback) {
       return callback(session);
     case types.MSG_SESSION:
       if (session.expires && session.expires >= (new Date()).getTime()) {
-        // session.expires = (new Date()).getTime() + config.sessionMaxAge;
+        session.expires = (new Date()).getTime() + config.sessionMaxAge;
         return callback(session);
       }
-      return callback(null);
+      return callback();
     case types.MSG_SESSION_REMOVE:
       session.secret = null;
       session.expires = null;

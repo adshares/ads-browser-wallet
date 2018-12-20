@@ -35,6 +35,21 @@ export function sanitizeHex(str) {
   return str.replace(/^0x/, '').toUpperCase();
 }
 
+/**
+ * Changes hex string from little-endian to big-endian.
+ *
+ * @param {string} data
+ * @returns {string | *}
+ */
+export function fixByteOrder(data) {
+  // match - splits string to array of 2 characters
+  // reverse - changes order of chunks
+  // join - combines chunks to string
+  return data.match(/.{1,2}/g)
+    .reverse()
+    .join('');
+}
+
 export function searchForExistingKey(newKey, keys, type) {
   keys.find(key => key.type === newKey.type);
 }

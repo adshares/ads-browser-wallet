@@ -1,34 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Page from '../../components/Page/Page';
+import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './AwaitingTransactionsPage.css';
-import ButtonLink from '../../components/atoms/ButtonLink'
 
 export default class AwaitingTransactionsPage extends React.PureComponent {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     queue: [],
-  //   };
-  //   getQueue((queue) => {
-  //     this.setState({ queue });
-  //   });
-  //
-  //   chrome.storage.onChanged.addListener((changes, namespace) => {
-  //     for (const key in changes) {
-  //       const storageChange = changes[key];
-  //       console.log('Storage key "%s" in namespace "%s" changed. ' +
-  //         'Old value was "%s", new value is "%s".',
-  //         key,
-  //         namespace,
-  //         storageChange.oldValue,
-  //         storageChange.newValue);
-  //     }
-  //   });
-  // }
-
   render() {
-    const { queue } = this.props;
+    const queue = this.props.queue.filter(t => t.type === 'sign');
 
     return (
       <Page className={style.page} title="Awaiting Transactions" scroll cancelLink="/">
@@ -39,7 +17,12 @@ export default class AwaitingTransactionsPage extends React.PureComponent {
             {item.time}<br />
             {item.sourceId}<br />
             {item.id}<br />
-            <ButtonLink to={`/transactions/${item.sourceId}/${item.id}/sign`}>Sign</ButtonLink>
+            <ButtonLink
+              to={{
+                pathname: `/transactions/${item.sourceId}/${item.id}/sign`,
+                state: { referrer: this.props.location }
+              }}
+            >Sign</ButtonLink>
           </div>
         )}
       </Page>
@@ -48,5 +31,6 @@ export default class AwaitingTransactionsPage extends React.PureComponent {
 }
 
 AwaitingTransactionsPage.propTypes = {
+  location: PropTypes.object.isRequired,
   queue: PropTypes.array.isRequired,
 };

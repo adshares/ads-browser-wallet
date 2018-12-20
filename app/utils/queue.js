@@ -27,7 +27,7 @@ function push(transaction, callback) {
 
 function pushUnique(transaction, callback) {
   getQueue((queue) => {
-    const newQueue = queue.filter(t => t.sourceId !== transaction.sourceId);
+    const newQueue = queue.filter(t => t.sourceId !== transaction.sourceId || t.type !== transaction.type);
     newQueue.push(transaction);
     saveQueue(newQueue, callback);
   });
@@ -39,10 +39,12 @@ function pop(sourceId, id, callback) {
       t => t.sourceId === sourceId && t.id === id
     );
     saveQueue(
-      queue.filter(
-        t => t.sourceId !== sourceId || t.id !== id
-      ),
-      () => { callback(transaction); }
+      queue
+      //   .filter(
+      //   t => t.sourceId !== sourceId || t.id !== id
+      // )
+      ,
+      () => { if (callback) { callback(transaction); } }
     );
   });
 }

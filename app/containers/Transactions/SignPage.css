@@ -1,0 +1,12 @@
+.page {
+
+}
+
+.buttons {
+    text-align: center;
+    margin-bottom: 0 !important;
+}
+
+.buttons > * {
+    margin: 0 15px;
+}

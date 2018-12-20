@@ -291,7 +291,7 @@ class Parser {
  */
 function parseData(data) {
   const parser = new Parser(data).parse(FIELD.TYPE);
-  const type = parser.lastParsedField;
+  const type = parser.lastDecodedField;
 
   switch (type) {
     case 'broadcast':
@@ -456,7 +456,7 @@ function parseData(data) {
       throw new Error('Unknown type');
   }
 
-  return parser.parsedData;
+  return parser.decodeData;
 }
 
 module.exports = {

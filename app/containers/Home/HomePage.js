@@ -72,8 +72,9 @@ export default class HomePage extends React.PureComponent {
   }
 
   render() {
-    const { vault, queue } = this.props;
+    const { vault } = this.props;
     const configured = vault.accounts.length > 0;
+    const queue = this.props.queue.filter(t => t.type === 'sign');
 
     return (
       <Page>

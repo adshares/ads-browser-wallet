@@ -15,17 +15,16 @@ const connections = {};
  */
 function handlePopupMessage(message, callback) {
   console.debug('onPopupMessage', message);
-  if (message.type === types.MSG_RESPONSE) {
-    if (!message.sourceId) {
-      throw new PostMessageError('Unknown message source', 400);
-    }
-    if (!connections[message.sourceId]) {
-      throw new PostMessageError(`Cannot find connection ${message.sourceId}`, 400);
-    }
-    connections[message.sourceId].postMessage(message);
-    callback({ type: types.MSG_RESPONSE, id: message.id, data: { status: 'ok' } });
-  }
   handlePopupApiMessage(message, (data) => {
+    if (message.type === types.MSG_RESPONSE) {
+      if (!message.sourceId) {
+        throw new PostMessageError('Unknown message source', 400);
+      }
+      if (!connections[message.sourceId]) {
+        throw new PostMessageError(`Cannot find connection ${message.sourceId}`, 400);
+      }
+      connections[message.sourceId].postMessage(message);
+    }
     callback({ type: types.MSG_RESPONSE, id: message.id, data });
   });
 }

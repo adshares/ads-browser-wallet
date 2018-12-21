@@ -33,7 +33,7 @@ const actionsMap = {
       sealed: false,
       seedPhrase: action.seedPhrase,
       seed,
-      keys: [...vault.keys, ...KeyBox.generateKeys(seed, config.initKeysQuantity)],
+      keys: KeyBox.generateKeys(seed, config.initKeysQuantity),
       keyCount: config.initKeysQuantity,
     };
     newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);

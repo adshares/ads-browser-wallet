@@ -15,7 +15,6 @@ function getSession(callback) {
   chrome.runtime.sendMessage({
     type: types.MSG_SESSION,
   }, (response) => {
-    console.debug(response);
     if (callback) {
       callback(response.data && response.data.secret ? response.data.secret : null);
     }
@@ -32,8 +31,22 @@ function removeSession(callback) {
   });
 }
 
+function sendResponse(sourceId, id, data, callback) {
+  chrome.runtime.sendMessage({
+    type: types.MSG_RESPONSE,
+    sourceId,
+    id,
+    data,
+  }, (response) => {
+    if (callback) {
+      callback(response.error ? { error: response.error } : response.data);
+    }
+  });
+}
+
 export default {
   startSession,
   getSession,
   removeSession,
+  sendResponse
 };

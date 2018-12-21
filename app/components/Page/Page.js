@@ -33,6 +33,7 @@ export default class Page extends React.Component {
       vault,
       actions,
       title,
+      subTitle,
       cancelLink,
       scroll,
       smallTitle,
@@ -72,7 +73,9 @@ export default class Page extends React.Component {
             <img src={logo} alt="Adshares wallet" className={style.logo} />
           </Link>
           {title ? (
-            <h1>{title}</h1>
+            <h1>
+              {title} {subTitle ? <small>{subTitle}</small> : ''}
+            </h1>
           ) : (
             <SelectAccount options={vault.accounts} />
           )}
@@ -103,6 +106,7 @@ Page.propTypes = {
   vault: PropTypes.object,
   actions: PropTypes.object,
   title: PropTypes.string,
+  subTitle: PropTypes.string,
   cancelLink: PropTypes.any,
   smallTitle: PropTypes.bool,
   scroll: PropTypes.bool

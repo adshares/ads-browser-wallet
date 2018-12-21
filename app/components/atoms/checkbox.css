@@ -15,7 +15,7 @@
 }
 
 .checkbox:focus + .checked {
-    border-width: 2px;
+    border-width: 1px;
 }
 
 .checkbox:checked + .checked svg path:focus + .checked {

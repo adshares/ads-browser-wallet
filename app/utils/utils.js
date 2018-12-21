@@ -35,10 +35,42 @@ export function sanitizeHex(str) {
   return str.replace(/^0x/, '').toUpperCase();
 }
 
+/**
+ * Changes hex string from little-endian to big-endian.
+ *
+ * @param {string} data
+ * @returns {string | *}
+ */
+export function fixByteOrder(data) {
+  // match - splits string to array of 2 characters
+  // reverse - changes order of chunks
+  // join - combines chunks to string
+  return data.match(/.{1,2}/g)
+    .reverse()
+    .join('');
+}
+
 export function searchForExistingKey(newKey, keys, type) {
   keys.find(key => key.type === newKey.type);
 }
 
-export function formatMoney(amount, precision = 4, decimal = '.', thousand = ',') {
-  return (amount || 0).toFixed(precision).replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
+/**
+ * Format date YYYY-MM-DDDD HH:MM:SS
+ *
+ * @param value date to format
+ * @param showTime foramt with time
+ * @param utc in UTC or local timezone
+ * @returns {string}
+ */
+export function formatDate(value, showTime = true, utc = false) {
+  let date;
+  let time;
+  if (utc) {
+    date = `${value.getUTCFullYear()}-${value.getUTCMonth().toString().padStart(2, '0')}-${value.getUTCDate().toString().padStart(2, '0')}`;
+    time = `${value.getUTCHours().toString().padStart(2, '0')}:${value.getUTCMinutes().toString().padStart(2, '0')}:${value.getUTCSeconds().toString().padStart(2, '0')}`;
+  } else {
+    date = `${value.getFullYear()}-${value.getMonth().toString().padStart(2, '0')}-${value.getDate().toString().padStart(2, '0')}`;
+    time = `${value.getHours().toString().padStart(2, '0')}:${value.getMinutes().toString().padStart(2, '0')}:${value.getSeconds().toString().padStart(2, '0')}`;
+  }
+  return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
 }

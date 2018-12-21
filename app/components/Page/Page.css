@@ -17,6 +17,15 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 275px;
+    text-align: center;
+}
+
+.header > h1 small {
+    display: block;
+    font-size: 0.65em;
+    line-height: 1.2em;
+    font-style: italic;
+    font-weight: 700;
 }
 
 .smallHeader > h1 {

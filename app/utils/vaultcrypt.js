@@ -68,9 +68,10 @@ function decrypt(encryptedVault, password) {
   const keys = [
     ...decryptedVault.keys,
     ...KeyBox.generateKeys(
-    decryptedVault.seed,
-    decryptedVault.keyCount || config.initKeysQuantity
-  )];
+      decryptedVault.seed,
+      decryptedVault.keyCount || config.initKeysQuantity
+    )
+  ];
   const accounts = decryptedVault.accounts.map(account => ({
     ...account,
     secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,

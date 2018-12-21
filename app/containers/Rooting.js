@@ -12,6 +12,7 @@ import SettingsPage from './Settings/SettingsPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeysImporterPage from './Settings/KeysImporterPage';
 import AwaitingTransactionsPage from './Transactions/AwaitingTransactionsPage';
+import SignPage from './Transactions/SignPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 import AccountKeysPage from './Settings/AccountKeysPage';
@@ -59,11 +60,16 @@ function PrivateRoute({ ...params }) {
 export default class Rooting extends Component {
 
   static propTypes = {
+    router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
+
+  componentWillUnmount() {
+
+  }
 
   render() {
     const { router, vault, queue, actions } = this.props;
@@ -154,7 +160,7 @@ export default class Rooting extends Component {
             path="/transactions/:source(.+)/:id(.+)/sign"
             vault={vault}
             render={props =>
-              <HomePage vault={vault} queue={queue} {...props} />
+              <SignPage vault={vault} queue={queue} {...props} />
             }
           />
           <Route path="/" component={NotFoundErrorPage} />

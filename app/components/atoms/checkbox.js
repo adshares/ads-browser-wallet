@@ -14,7 +14,7 @@ export const Checkbox = ({ checked, desc, handleChange }) => {
         tabIndex="0"
         className={`${style.checkbox} ${ style.checkboxChecked}`}
         type="checkbox"
-        id={`${this}check`}
+        id="check"
         checked={checked}
         onChange={handleChanges}
       />

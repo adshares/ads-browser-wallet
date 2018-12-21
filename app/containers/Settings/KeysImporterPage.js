@@ -15,9 +15,8 @@ import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import FormControl from '../../components/atoms/FormControl';
-import * as ActionTypes from '../../actions/importKeys';
-
 import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
+import { VAULT_IMPORT_KEY } from '../../actions/vault';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
 import { Checkbox } from '../../components/atoms/checkbox';
@@ -93,7 +92,7 @@ export default class KeysImporterPage extends FormComponent {
         onDialogSubmit={() =>
           this.props.actions.passwordValidateThunk(
             KeysImporterPage.PAGE_NAME,
-            ActionTypes.IMPORT_KEY
+            VAULT_IMPORT_KEY
           )
         }
         password={password}

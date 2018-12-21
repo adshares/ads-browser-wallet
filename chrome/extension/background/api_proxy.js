@@ -19,11 +19,22 @@ export default function handleMessage(message, sourceId, callback) {
       return callback(message.data);
     case types.MSG_INFO:
       return callback(getInfo());
-    case types.MSG_SIGN:
+    case types.MSG_PUSH:
       queue.push({
         sourceId,
+        type: message.type,
+        id: message.id,
+        data: message.data,
         time: (new Date()).toISOString(),
-        ...message,
+      });
+      break;
+    case types.MSG_SIGN:
+      queue.pushUnique({
+        sourceId,
+        type: message.type,
+        id: message.id,
+        data: message.data,
+        time: (new Date()).toISOString(),
       });
       break;
     default:

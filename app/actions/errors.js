@@ -51,3 +51,10 @@ export function PostMessageError(message, code) {
   this.code = code;
   this.message = message;
 }
+
+export function TransactionDataError(message) {
+  this.constructor.prototype.__proto__ = Error.prototype;
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.message = message;
+}

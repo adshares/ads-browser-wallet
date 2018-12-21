@@ -129,7 +129,7 @@ export default class AccountEditorPage extends FormComponent {
             this.state.publicKey,
             this.state.password,
           );
-          this.props.history.push(this.getReferrer('/'));
+          this.props.history.push(this.getReferrer());
         } catch (err) {
           let input;
           if (err instanceof InvalidPasswordError) {

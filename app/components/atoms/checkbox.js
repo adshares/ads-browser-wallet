@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import style from './checkbox.css';
 
 export const Checkbox = ({ checked, desc, handleChange }) => {
-  const handleClick = (e) => {
-    handleChange(e.target.checked);
-  };
-
-  const handleKeyDown = (e) => {
+  const handleChanges = (e) => {
     if (e.keyCode && e.keyCode !== 13) return;
-    handleChange(!checked);
+    handleChange(e.target.checked);
   };
 
   return (
@@ -18,10 +14,9 @@ export const Checkbox = ({ checked, desc, handleChange }) => {
         tabIndex="0"
         className={`${style.checkbox} ${ style.checkboxChecked}`}
         type="checkbox"
-        id="check"
+        id={`${this}check`}
         checked={checked}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
+        onChange={handleChanges}
       />
       <label htmlFor="check" className={style.checked}>
         <svg viewBox={[0, 0, 50, 50].join()} className={style.checkedSvg}>

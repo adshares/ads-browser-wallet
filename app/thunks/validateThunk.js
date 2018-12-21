@@ -25,7 +25,7 @@ export default function (pageName) {
           }
 
           if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
-            errorMsg = validator({ value: inputProps.value, vault, inputs });
+            errorMsg = validator({ value: inputProps.value, vault, inputs, pageName });
           }
           const isInputValid = errorMsg === null;
           const action = isInputValid

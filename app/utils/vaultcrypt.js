@@ -28,7 +28,7 @@ function checkPassword(vault, password) {
 function encrypt(vault, password) {
   const keys = vault.keys
     .filter(key => key.type && key.type !== 'auto')
-    .map(({ publicKey,  ...keysToKeep }) => keysToKeep);
+    .map(({ publicKey, ...keysToKeep }) => keysToKeep);
 
   const crypt = CryptoJS.AES.encrypt(JSON.stringify({
     [SEED_PHRASE]: vault.seedPhrase,
@@ -56,7 +56,7 @@ function decrypt(encryptedVault, password) {
     seedPhrase: vault[SEED_PHRASE],
     seed: vault[SEED],
     keyCount: vault[KEY_COUNT],
-    keys: vault[KEYS],
+    keys: vault[KEYS] || [],
     accounts: vault[ACCOUNTS].map(account => (
       {
         address: account[ACCOUNT_ADDRESS],

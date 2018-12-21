@@ -33,7 +33,7 @@ const actionsMap = {
       sealed: false,
       seedPhrase: action.seedPhrase,
       seed,
-      keys: [...vault.keys, ...KeyBox.generateKeys(seed, config.initKeysQuantity)],
+      keys: [...KeyBox.generateKeys(seed, config.initKeysQuantity)] || [],
       keyCount: config.initKeysQuantity,
     };
     newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);
@@ -74,9 +74,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_ADD_ACCOUNT](vault, action) {
-    if (!VaultCrypt.checkPassword(vault, action.password)) {
-      throw new InvalidPasswordError();
-    }
     if (vault.accounts.length >= config.accountsLimit) {
       throw new AccountsLimitError(config.accountsLimit);
     }
@@ -84,24 +81,21 @@ const actionsMap = {
     const address = action.address.toUpperCase();
     const name = action.name;
     const publicKey = action.publicKey.toUpperCase();
-    const key = vault.keys.find(k => k.publicKey === publicKey);
-
-    if (!key) {
-      throw new UnknownPublicKeyError(action.publicKey);
-    }
-
+    const key = vault.keys.find(k => k.publicKey === action.publicKey);
+    console.log('\n', key, '\n');
     const updatedVault = {
       ...initialVault,
       ...vault,
+      accounts: [
+        ...vault.accounts,
+        {
+          address,
+          name,
+          publicKey,
+          secretKey: key.secretKey,
+        }]
     };
-    updatedVault.accounts.push({
-      address,
-      name,
-      publicKey,
-      secretKey: key.secretKey,
-    });
     updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-
     return updatedVault;
   },
 
@@ -159,10 +153,6 @@ const actionsMap = {
   },
 
   [actions.VAULT_IMPORT_KEY](vault, action) {
-    if (!VaultCrypt.checkPassword(vault, action.password)) {
-      throw new InvalidPasswordError();
-    }
-
     const updatedVault = { ...vault };
     updatedVault.keys.push({
       type: 'imported',
@@ -170,9 +160,7 @@ const actionsMap = {
       secretKey: action.secretKey,
       publicKey: action.publicKey,
     });
-
     updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-
     return updatedVault;
   },
 };

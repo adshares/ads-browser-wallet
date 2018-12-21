@@ -11,11 +11,13 @@ export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
 
 const passInputValidateSuccess = (pageName, valid) => ({
   type: PASS_INPUT_VALIDATION_SUCCESS,
+  pageName,
   valid
 });
 
 const passInputValidateFailed = (pageName, errorMsg) => ({
   type: PASS_INPUT_VALIDATION_FAILED,
+  pageName,
   errorMsg
 });
 

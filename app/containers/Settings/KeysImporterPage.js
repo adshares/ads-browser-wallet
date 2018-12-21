@@ -11,9 +11,7 @@ import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
-import ConfirmDialog from '../../components/confirmDialog/confirmDialog';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import FormControl from '../../components/atoms/FormControl';
@@ -67,45 +65,17 @@ export default class KeysImporterPage extends FormComponent {
     this.props.actions.validateFormThunk(KeysImporterPage.PAGE_NAME);
   };
 
-  onAuthenticated = (password) => {
-    this.setState({
-      isSubmitted: false,
-      showLoader: true
-    });
-
-    try {
-      this.props.saveAction(
-        this.nameInput.current.value,
-        this.publicKeyInput.current.value,
-        this.secretKeyInput.current.value,
-        password
-      );
-      this.props.history.push('/');
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  };
-
   constructor(props) {
     super(props);
-    this.nameInput = React.createRef();
-    this.publicKeyInput = React.createRef();
-    this.secretKeyInput = React.createRef();
-
     this.state = {
-      isSubmitted: false,
-      password: null,
       showLoader: false
     };
   }
 
   render() {
     const {
-      vault,
       page: {
-        auth: { authModalOpen, authConfirmed, password },
-        isSubmitted,
+        auth: { authModalOpen, password },
         inputs: { name, publicKey, secretKey }
       }
     } = this.props;
@@ -114,10 +84,10 @@ export default class KeysImporterPage extends FormComponent {
       <Page
         className={style.page}
         title="Import key"
-        onPasswordInputChange={e =>
+        onPasswordInputChange={value =>
           this.props.actions.handlePasswordChange(
             KeysImporterPage.PAGE_NAME,
-            e.target.value
+            value
           )
         }
         onDialogSubmit={() =>
@@ -126,7 +96,7 @@ export default class KeysImporterPage extends FormComponent {
             ActionTypes.IMPORT_KEY
           )
         }
-        passwordValue={password.value}
+        password={password}
         autenticationModalOpen={authModalOpen}
         cancelLink={'/'}
       >
@@ -150,7 +120,10 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={secretKey.errorMsg}
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
-          <Checkbox checked={publicKey.checked} desc="Import with public key" handleChange={value => this.toggleVisibility('publicKey', value)} />
+          <Checkbox
+            checked={publicKey.checked} desc="Import with public key"
+            handleChange={value => this.toggleVisibility('publicKey', value)}
+          />
           {publicKey.shown &&
           <FormControl
             label="Public key"

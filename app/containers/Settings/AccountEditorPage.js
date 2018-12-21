@@ -13,8 +13,10 @@ import config from '../../config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
+import * as ActionTypes from '../../actions/importKeys';
 
 export default class AccountEditorPage extends FormComponent {
+  static PAGE_NAME = 'AccountEditorPage';
 
   constructor(props) {
     super(props);
@@ -236,13 +238,38 @@ export default class AccountEditorPage extends FormComponent {
   }
 
   render() {
+    const {
+      page: {
+        auth: { authModalOpen, password },
+        inputs: { name, publicKey, secretKey }
+      }
+    } = this.props;
     const limitWarning =
       !this.state.account &&
       this.props.vault.accounts.length >= config.accountsLimit;
     const title = this.state.account ? this.state.account.name : 'Import an account';
 
     return (
-      <Page className={style.page} title={title} smallTitle cancelLink={this.getReferrer()}>
+      <Page
+        title={title}
+        smallTitle
+        className={style.page}
+        onPasswordInputChange={value =>
+              this.props.actions.handlePasswordChange(
+                AccountEditorPage.PAGE_NAME,
+                value
+              )
+            }
+        onDialogSubmit={() =>
+              this.props.actions.passwordValidateThunk(
+                AccountEditorPage.PAGE_NAME,
+                ActionTypes.IMPORT_KEY
+              )
+            }
+        password={password}
+        autenticationModalOpen={authModalOpen}
+        cancelLink={this.getReferrer()}
+      >
         {this.state.isSubmitted && <LoaderOverlay />}
         {limitWarning ? this.renderLimitWarning() : this.renderForm()}
       </Page>

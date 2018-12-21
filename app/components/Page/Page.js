@@ -39,10 +39,11 @@ export default class Page extends React.Component {
       children,
       onPasswordInputChange,
       onDialogSubmit,
-      passwordValue,
+      password,
       autenticationModalOpen,
     } = this.props;
 
+    console.log('PASS', onPasswordInputChange)
     let classes = [];
     classes.push(style.header);
     if (smallTitle) {
@@ -62,9 +63,9 @@ export default class Page extends React.Component {
         {autenticationModalOpen && (
           <ConfirmDialog
             showDialog
-            onChange={onPasswordInputChange}
+            handlePasswordChange={onPasswordInputChange}
             onSubmit={onDialogSubmit}
-            passwordValue={passwordValue}
+            password={password}
           />
         )}
         <header className={headerClass}>
@@ -105,5 +106,9 @@ Page.propTypes = {
   title: PropTypes.string,
   cancelLink: PropTypes.any,
   smallTitle: PropTypes.bool,
-  scroll: PropTypes.bool
+  scroll: PropTypes.bool,
+  onPasswordInputChange: PropTypes.func,
+  onDialogSubmit: PropTypes.func,
+  password: PropTypes.object,
+  autenticationModalOpen: PropTypes.bool
 };

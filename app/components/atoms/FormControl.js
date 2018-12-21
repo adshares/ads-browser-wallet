@@ -26,6 +26,7 @@ export const FormControl = ({
     <div className={style.inputWrapper}>
       {isInput ? (
         <input
+          type={type}
           id={`${label}`}
           required={required}
           readOnly={readOnly}
@@ -45,6 +46,7 @@ export const FormControl = ({
           value={value}
           maxLength={maxLength}
           className={style.input}
+          rows={rows}
           onChange={handleInputChange}
         />
       )}

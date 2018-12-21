@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './checkbox.css';
 
-export const Checkbox = ({ checked, desc, handleChange }) => {
+const Checkbox = ({ checked, desc, handleChange }) => {
   const handleClick = (e) => {
     handleChange(e.target.checked);
   };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons/index';
+import { faCheck, faTimes, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/index';
 import { TransactionDataError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
@@ -12,7 +12,9 @@ import Button from '../../components/atoms/Button';
 import Checkbox from '../../components/atoms/checkbox';
 import BgClient from '../../utils/background';
 import ADS from '../../utils/ads';
+import { formatDate } from '../../utils/utils';
 import { typeLabels, fieldLabels } from './labels';
+import config from '../../config';
 import style from './SignPage.css';
 
 export default class SignPage extends FormComponent {
@@ -30,9 +32,13 @@ export default class SignPage extends FormComponent {
       source,
       id,
       message,
-      showAdvanced: true,
+      showAdvanced: false,
       isSubmitted: false,
     };
+  }
+
+  toggleAdvanced = (visible) => {
+    this.setState({ showAdvanced: visible });
   }
 
   handleAccept = (event) => {
@@ -70,22 +76,118 @@ export default class SignPage extends FormComponent {
     });
   }
 
-  renderSendMany(fields) {
+  renderCommand(type, fields) {
+    switch (type) {
+      case 'broadcast':
+        return this.renderBroadcast(fields);
+      case 'send_one':
+        return this.renderSendOne(fields);
+      case 'send_many':
+        return this.renderSendMany(fields);
+      default:
+        return this.renderFields(fields);
+    }
+  }
+
+  renderAddress(address, label = fieldLabels.address) {
+    const link = `${config.operatorUrl}blockexplorer/accounts/${address}`;
+    return (
+      <tr>
+        <td>{label}</td>
+        <td><a href={link} target="_blank" rel="noopener noreferrer">
+          {address}<FontAwesomeIcon icon={faExternalLinkAlt} />
+        </a></td>
+      </tr>
+    );
+  }
+
+  renderNodeId(nodeId, label = fieldLabels.nodeId) {
+    const link = `${config.operatorUrl}blockexplorer/nodes/${nodeId}`;
+    return (
+      <tr>
+        <td>{label}</td>
+        <td><a href={link} target="_blank" rel="noopener noreferrer">
+          {nodeId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+        </a></td>
+      </tr>
+    );
+  }
+
+  renderBlockId(blockId, label = fieldLabels.blockId) {
+    if (/^0+$/.test(blockId)) {
+      return '';
+    }
+    const link = `${config.operatorUrl}blockexplorer/blocks/${blockId}`;
+    return (
+      <tr>
+        <td>{label}</td>
+        <td><a href={link} target="_blank" rel="noopener noreferrer">
+          {blockId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+        </a></td>
+      </tr>
+    );
+  }
+
+  renderTransactionId(transactionId, label = fieldLabels.transactionId) {
+    const link = `${config.operatorUrl}blockexplorer/transactions/${transactionId}`;
+    return (
+      <tr>
+        <td>{label}</td>
+        <td><a href={link} target="_blank" rel="noopener noreferrer">
+          {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+        </a></td>
+      </tr>
+    );
+  }
+
+  renderMessage(message, label = fieldLabels.message, renderEmpty = false) {
+    const msg = renderEmpty ? message : message.replace(/^0+/, '');
+    if (msg.length === 0) {
+      return '';
+    }
+    return (
+      <tr>
+        <td>{label}</td>
+        <td><code title={ADS.decodeMessage(msg)}>{msg}</code></td>
+      </tr>
+    );
+  }
+
+  renderBroadcast(fields) {
     return (
       <React.Fragment>
         <tr>
-          <td>{fieldLabels.sender}</td>
-          <td>{fields.sender}</td>
+          <td>{fieldLabels.messageLength}</td>
+          <td>{fields.messageLength}</td>
         </tr>
+        {this.renderMessage(fields.message, fieldLabels.message, true)}
+      </React.Fragment>
+    );
+  }
+
+  renderSendOne(fields) {
+    return (
+      <React.Fragment>
+        {this.renderAddress(fields.address, fieldLabels.recipient)}
         <tr>
-          <td colSpan="2">{fieldLabels.wireCount} ({fields.wireCount}):</td>
+          <td>{fieldLabels.amount}</td>
+          <td>{ADS.formatClickMoney(fields.amount, 11, true)} ADS</td>
         </tr>
+        {this.renderMessage(fields.message)}
+      </React.Fragment>
+    );
+  }
+
+  renderSendMany(fields) {
+    const addresslink = `${config.operatorUrl}blockexplorer/accounts/`;
+    return (
+      <React.Fragment>
         <tr className={style.wires}>
           <td colSpan="2">
             <table>
               <thead>
                 <tr>
-                  <th>No</th>
+                  <th>No.</th>
                   <th>{fieldLabels.address}</th>
                   <th>{fieldLabels.amount}</th>
                 </tr>
@@ -93,8 +195,12 @@ export default class SignPage extends FormComponent {
               <tbody>{fields.wires.map((recipient, index) =>
                 <tr key={recipient.address}>
                   <td>{index + 1}</td>
-                  <td>{recipient.address}</td>
-                  <td>{recipient.amount}</td>
+                  <td>
+                    <a href={`${addresslink}${recipient.address}`} target="_blank" rel="noopener noreferrer">
+                      {recipient.address}<FontAwesomeIcon icon={faExternalLinkAlt} />
+                    </a>
+                  </td>
+                  <td>{ADS.formatClickMoney(recipient.amount, 11, true)} ADS</td>
                 </tr>
               )}</tbody>
             </table>
@@ -108,77 +214,90 @@ export default class SignPage extends FormComponent {
     return (
       <React.Fragment>
         {Object.keys(fields).map(k =>
-          <tr key={k}>
-            <td>{fieldLabels[k] || k}</td>
-            <td>{fields[k]}</td>
-          </tr>
+          <React.Fragment key={k}>
+            {(() => {
+              switch (k) {
+                case ADS.TX_FIELDS.ADDRESS:
+                  return this.renderAddress(fields[k], fieldLabels[k] || k);
+                case ADS.TX_FIELDS.NODE_ID:
+                  return this.renderNodeId(fields[k], fieldLabels[k] || k);
+                case ADS.TX_FIELDS.BLOCK_ID:
+                case ADS.TX_FIELDS.BLOCK_ID_FROM:
+                case ADS.TX_FIELDS.BLOCK_ID_TO:
+                  return this.renderBlockId(fields[k], fieldLabels[k] || k);
+                case ADS.TX_FIELDS.TRANSACTION_ID:
+                  return this.renderTransactionId(fields[k], fieldLabels[k] || k);
+                case ADS.TX_FIELDS.PUBLIC_KEY:
+                case ADS.TX_FIELDS.VIP_HASH:
+                  return (
+                    <tr>
+                      <td>{fieldLabels[k] || k}</td>
+                      <td><code>{fields[k]}</code></td>
+                    </tr>
+                  );
+                default:
+                  return (
+                    <tr>
+                      <td>{fieldLabels[k] || k}</td>
+                      <td>{fields[k]}</td>
+                    </tr>
+                  );
+              }
+            })()}
+          </React.Fragment>
         )}
       </React.Fragment>
     );
-  }
-
-  renderCommand(type, fields) {
-    switch (type) {
-      case 'broadcast':
-      case 'send_one':
-      case 'send_many':
-        return this.renderSendMany(fields);
-      case 'create_account':
-      case 'create_node':
-      case 'retrieve_funds':
-      case 'change_account_key':
-      case 'change_node_key':
-      case 'set_account_status':
-      case 'set_node_status':
-      case 'unset_account_status':
-      case 'unset_node_status':
-      case 'log_account':
-      default:
-        return this.renderFields(fields);
-    }
-  }
-
-  toggleAdvanced = (visible) => {
-    this.setState({ showAdvanced: visible });
   }
 
   renderAdvanced(type, time, messageId, hash) {
     if (!this.state.showAdvanced) {
       return '';
     }
+    const docLink = `${config.apiDocUrl}${type}`;
     return (
       <React.Fragment>
         <tr>
           <td>{fieldLabels.type}</td>
-          <td>{typeLabels[type]} ({type})</td>
+          <td>
+            {typeLabels[type]}<br />
+            <a href={docLink} target="_blank" rel="noopener noreferrer"><small>
+              {type}<FontAwesomeIcon icon={faExternalLinkAlt} />
+            </small></a>
+          </td>
         </tr>
         {time ? <tr>
           <td>{fieldLabels.time}</td>
-          <td>{time.toUTCString()}</td>
+          <td title={formatDate(time, true, true)}>{formatDate(time)}</td>
         </tr> : '' }
-        <tr>
+        {messageId ? <tr>
           <td>{fieldLabels.messageId}</td>
           <td>{messageId || '---'}</td>
-        </tr>
-        <tr>
+        </tr> : '' }
+        {hash ? <tr>
           <td>{fieldLabels.hash}</td>
           <td><code>{hash || '---'}</code></td>
-        </tr>
+        </tr> : '' }
       </React.Fragment>
     );
   }
 
   renderSignForm(transaction, command, key) {
-    const { type, time, messageId, ...rest } = command;
+    const { type, sender, time, messageId, ...rest } = command;
 
     return (
       <Form>
         <table className={style.fields}>
           <tbody>
+            {this.renderAddress(sender, fieldLabels.sender)}
             {this.renderCommand(type, rest)}
             <tr className={style.showAdvanced}>
               <td colSpan="2">
-                <Checkbox checked={this.state.showAdvanced} desc="Show advanced" handleChange={this.toggleAdvanced} />
+                <Checkbox
+                  checked={this.state.showAdvanced}
+                  desc="Show advanced data"
+                  handleChange={this.toggleAdvanced}
+                />
               </td>
             </tr>
             {this.renderAdvanced(type, time, messageId, transaction.hash)}
@@ -236,7 +355,7 @@ export default class SignPage extends FormComponent {
       <Page
         className={style.page}
         title={typeLabels[type] || type}
-        subTitle={`from ${sender}`}
+        subTitle={`${sender}`}
         cancelLink={this.getReferrer()}
       >
         {this.state.isSubmitted && <LoaderOverlay />}

@@ -2,24 +2,73 @@
 
 }
 
+.fields {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.fields td {
+    margin: 0;
+    padding: 10px 5px;
+}
+
+.fields > tbody > tr > td {
+    border-bottom: 1px solid var(--gray);
+}
+
 .fields > tbody > tr > td:first-of-type {
     vertical-align: top;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: var(--font-small);
 }
 
 .fields > tbody > tr > td:first-of-type:after {
     content: ':';
 }
 
+.fields a svg {
+    margin-left: 10px;
+}
+
 .fields code {
     word-break: break-word;
 }
 
+.fields *[title] {
+    cursor: help;
+}
+
+.wires table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.wires table td {
+    font-weight: normal;
+    padding: 5px;
+}
+
+.wires table tbody tr:nth-child(odd) {
+    background: #eee;
+}
+
+.wires table tbody tr:last-child {
+    border-bottom: 1px solid #eee;
+}
+
 .wires > td:first-of-type {
-    padding-left: 20px;
+    padding-top: 5px;
 }
 
 .wires > td:first-of-type:after {
     content: '' !important;
+}
+
+.showAdvanced > td {
+    border-bottom: none !important;
+    padding-top: 15px;
+    text-align: right !important;
 }
 
 .showAdvanced > td:first-of-type:after {
@@ -29,6 +78,7 @@
 .buttons {
     text-align: center;
     margin-bottom: 0 !important;
+    margin-top: 20px;
 }
 
 .buttons > * {

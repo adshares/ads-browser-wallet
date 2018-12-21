@@ -222,7 +222,7 @@ class Decoder {
         this.validateLength(16);
         parsed = fixByteOrder(this.data.substr(0, 16));
         // parsed = formatMoney(parseInt(parsed, 16) / 100000000000, 11);
-        parsed = parseInt(parsed, 16);
+        parsed = BigInt(`0x${parsed}`);
         this.data = this.data.substr(16);
         break;
       }
@@ -291,7 +291,7 @@ class Decoder {
         // node status has 32 bits
         // operation ' | 0' changes parsed type to int32
         /* eslint no-bitwise: ["error", { "int32Hint": true }] */
-        parsed = parseInt(parsed, 16) | 0;
+        parsed = parseInt(parsed, 16);
         this.data = this.data.substr(8);
         break;
       }
@@ -332,7 +332,7 @@ class Decoder {
           const address = formatAddress(node, user);
           parsed.push({
             [TX_FIELDS.ADDRESS]: address,
-            [TX_FIELDS.AMOUNT]: parseInt(amount, 16)
+            [TX_FIELDS.AMOUNT]: BigInt(`0x${amount}`)
           });
           this.data = this.data.substr(28);
         }
@@ -556,6 +556,66 @@ function decodeCommand(data) {
   return decoder.decodeData;
 }
 
+/**
+ * Decode hex message.
+ *
+ * @param value message in hex
+ * @param onlyPrintable decode only if printable
+ * @returns {string}
+ */
+function decodeMessage(value, onlyPrintable = true) {
+  let hex = value === null || typeof value === 'undefined' ? '0' : value;
+  hex = hex
+    .toString()
+    .trim()
+    .replace(/^0x/, ''); // force conversion
+  let str = '';
+  for (let i = 0; i < hex.length; i += 2) {
+    const chars = hex.substr(i, 2);
+    const code = parseInt(chars, 16);
+    if (code !== 0) {
+      if (onlyPrintable && (code < 32 || code >= 127)) {
+        str = '--- non-printable ---';
+        break;
+      }
+      str += String.fromCharCode(code);
+    }
+  }
+  return str.length > 0 ? str : '--- empty ---';
+}
+
+function formatAdsMoney(amount, precision = 4, decimal = '.', thousand = ',') {
+  return (amount || 0).toFixed(precision).replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
+}
+
+function formatClickMoney(value, precision, trim, decimal, thousand) {
+  const r = typeof trim === 'undefined' ? false : trim;
+  const p = typeof precision === 'undefined' ? 11 : Math.max(precision, 2);
+  const d = typeof decimal === 'undefined' ? '.' : decimal;
+  const t = typeof thousand === 'undefined' ? ',' : thousand;
+  let v = value;
+
+  v = (`${v || '0'}`).padStart(11, '0');
+  const l = v.length - 11;
+  const a = v.substr(0, l) || '0';
+  const j = a.length > 3 ? a.length % 3 : 0;
+  let b = Math.round(parseInt((`${v}0`)
+    .substr(l, p + 1), 10) / 10)
+    .toString()
+    .padStart(p, '0')
+  ;
+  if (r) {
+    b = b.replace(/([0-9]{2})0+$/, '$1');
+  }
+
+  return (
+    (j ? a.substr(0, j) + t : '') +
+    a.substr(j).replace(/(\d{3})(?=\d)/g, `$1${t}`) +
+    d +
+    b
+  );
+}
+
 export default {
   TX_FIELDS,
   TX_TYPES,
@@ -567,4 +627,7 @@ export default {
   getPublicKey,
   encodeCommand,
   decodeCommand,
+  decodeMessage,
+  formatAdsMoney,
+  formatClickMoney,
 };

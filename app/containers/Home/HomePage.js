@@ -13,15 +13,15 @@ import Page from '../../components/Page/Page';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import Logo from '../../components/Logo/Logo';
-import { formatMoney } from '../../utils/utils';
+import { formatAdsMoney } from '../../utils/ads';
 import style from './HomePage.css';
 import config from '../../config';
 
 export default class HomePage extends React.PureComponent {
   renderShortcuts() {
     const account = this.props.vault.accounts[0];
-    const detailsLink = `${config.operatorUrl}blockexplorer\\accounts\\${account.address}`;
-    const amount = account.balance ? formatMoney(account.balance, 4, '.', ' ') : null;
+    const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${account.address}`;
+    const amount = account.balance ? formatAdsMoney(account.balance, 4, '.', ' ') : null;
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
     const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
     return (

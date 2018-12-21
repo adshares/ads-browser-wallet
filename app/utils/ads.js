@@ -11,39 +11,39 @@ const TX_FIELDS = {
   /** transaction amount */
   AMOUNT: 'amount',
   /** block id */
-  BLOCK_ID: 'block_id',
+  BLOCK_ID: 'blockId',
   /** block id */
-  BLOCK_ID_FROM: 'block_id_from',
+  BLOCK_ID_FROM: 'blockIdFrom',
   /** block id */
-  BLOCK_ID_TO: 'block_id_to',
+  BLOCK_ID_TO: 'blockIdTo',
   /** message */
   MSG: 'message',
   /** message length */
-  MSG_LEN: 'message_length',
+  MSG_LEN: 'messageLength',
   /** number of sender transactions */
-  MSID: 'msid',
+  MESSAGE_ID: 'messageId',
   /** node */
-  NODE: 'node',
+  NODE_ID: 'nodeId',
   /** number of node message */
-  NODE_MSID: 'node_msid',
+  NODE_MESSAGE_ID: 'nodeMessageId',
   /** public key */
-  PUBLIC_KEY: 'public_key',
+  PUBLIC_KEY: 'publicKey',
   /** sender address */
   SENDER: 'sender',
   /** account */
-  STATUS_ACCOUNT: 'account_status',
+  STATUS_ACCOUNT: 'accountStatus',
   /** node status */
-  STATUS_NODE: 'node_status',
+  STATUS_NODE: 'nodeStatus',
   /** transaction time */
   TIME: 'time',
   /** transaction id */
-  TX_ID: 'txid',
+  TRANSACTION_ID: 'transactionId',
   /** transaction type */
   TYPE: 'type',
   /** vip hash */
-  VIP_HASH: 'vip_hash',
+  VIP_HASH: 'vipHash',
   /** number of wires */
-  WIRE_COUNT: 'wire_count',
+  WIRE_COUNT: 'wireCount',
   /** wires */
   WIRES: 'wires',
 };
@@ -256,15 +256,15 @@ class Decoder {
         this.data = this.data.substr(4);
         break;
       }
-      case TX_FIELDS.MSID:
-      case TX_FIELDS.NODE_MSID: {
+      case TX_FIELDS.MESSAGE_ID:
+      case TX_FIELDS.NODE_MESSAGE_ID: {
         this.validateLength(8);
         parsed = fixByteOrder(this.data.substr(0, 8));
         parsed = parseInt(parsed, 16);
         this.data = this.data.substr(8);
         break;
       }
-      case TX_FIELDS.NODE: {
+      case TX_FIELDS.NODE_ID: {
         this.validateLength(4);
         parsed = fixByteOrder(this.data.substr(0, 4));
         this.data = this.data.substr(4);
@@ -295,7 +295,7 @@ class Decoder {
         this.data = this.data.substr(8);
         break;
       }
-      case TX_FIELDS.TX_ID: {
+      case TX_FIELDS.TRANSACTION_ID: {
         this.validateLength(16);
         const node = fixByteOrder(this.data.substr(0, 4));
         const msgId = fixByteOrder(this.data.substr(4, 8));
@@ -324,13 +324,16 @@ class Decoder {
         const expLength = count * 28;// 4+8+16(node+user+amount)
         this.validateLength(expLength);
 
-        parsed = {};
+        parsed = [];
         for (let i = 0; i < count; i += 1) {
           const node = fixByteOrder(this.data.substr(0, 4));
           const user = fixByteOrder(this.data.substr(4, 8));
           const amount = fixByteOrder(this.data.substr(12, 16));
           const address = formatAddress(node, user);
-          parsed[address] = parseInt(amount, 16);
+          parsed.push({
+            [TX_FIELDS.ADDRESS]: address,
+            [TX_FIELDS.AMOUNT]: parseInt(amount, 16)
+          });
           this.data = this.data.substr(28);
         }
         break;
@@ -390,7 +393,7 @@ function decodeCommand(data) {
   switch (type) {
     case 'broadcast':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.MSG_LEN)
         .decode(TX_FIELDS.MSG);
@@ -398,31 +401,31 @@ function decodeCommand(data) {
 
     case 'change_account_key':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.PUBLIC_KEY);
       break;
 
     case 'change_node_key':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
-        .decode(TX_FIELDS.NODE)
+        .decode(TX_FIELDS.NODE_ID)
         .decode(TX_FIELDS.PUBLIC_KEY);
       break;
 
     case 'create_account':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
-        .decode(TX_FIELDS.NODE)
+        .decode(TX_FIELDS.NODE_ID)
         .skip(8)
         .decode(TX_FIELDS.PUBLIC_KEY);
       break;
 
     case 'create_node':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME);
       break;
 
@@ -436,7 +439,7 @@ function decodeCommand(data) {
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.BLOCK_ID)// previous block id
-        .decode(TX_FIELDS.NODE);
+        .decode(TX_FIELDS.NODE_ID);
       break;
 
     case 'get_block':
@@ -467,8 +470,8 @@ function decodeCommand(data) {
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.BLOCK_ID)
-        .decode(TX_FIELDS.NODE)
-        .decode(TX_FIELDS.NODE_MSID);
+        .decode(TX_FIELDS.NODE_ID)
+        .decode(TX_FIELDS.NODE_MESSAGE_ID);
       break;
 
     case 'get_message_list':
@@ -486,7 +489,7 @@ function decodeCommand(data) {
     case 'get_transaction':
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
-        .decode(TX_FIELDS.TX_ID);
+        .decode(TX_FIELDS.TRANSACTION_ID);
       break;
 
     case 'get_vipkeys':
@@ -497,20 +500,20 @@ function decodeCommand(data) {
 
     case 'log_account':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME);
       break;
 
     case 'retrieve_funds':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.ADDRESS);
       break;
 
     case 'send_many':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.WIRE_COUNT)
         .decode(TX_FIELDS.WIRES);
@@ -518,7 +521,7 @@ function decodeCommand(data) {
 
     case 'send_one':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.ADDRESS)
         .decode(TX_FIELDS.AMOUNT)
@@ -528,7 +531,7 @@ function decodeCommand(data) {
     case 'set_account_status':
     case 'unset_account_status':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.ADDRESS)
         .decode(TX_FIELDS.STATUS_ACCOUNT);
@@ -537,9 +540,9 @@ function decodeCommand(data) {
     case 'set_node_status':
     case 'unset_node_status':
       decoder.decode(TX_FIELDS.SENDER)
-        .decode(TX_FIELDS.MSID)
+        .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
-        .decode(TX_FIELDS.NODE)
+        .decode(TX_FIELDS.NODE_ID)
         .decode(TX_FIELDS.STATUS_NODE);
       break;
 

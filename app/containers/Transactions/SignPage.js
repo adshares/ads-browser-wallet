@@ -9,8 +9,10 @@ import ErrorPage from '../ErrorPage';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Checkbox from '../../components/atoms/checkbox';
 import BgClient from '../../utils/background';
 import ADS from '../../utils/ads';
+import { typeLabels, fieldLabels } from './labels';
 import style from './SignPage.css';
 
 export default class SignPage extends FormComponent {
@@ -28,6 +30,7 @@ export default class SignPage extends FormComponent {
       source,
       id,
       message,
+      showAdvanced: true,
       isSubmitted: false,
     };
   }
@@ -67,11 +70,120 @@ export default class SignPage extends FormComponent {
     });
   }
 
-  renderSignForm(transaction) {
-    // const tx = ADS.decodeTransaction(message.data.data)
+  renderSendMany(fields) {
+    return (
+      <React.Fragment>
+        <tr>
+          <td>{fieldLabels.sender}</td>
+          <td>{fields.sender}</td>
+        </tr>
+        <tr>
+          <td colSpan="2">{fieldLabels.wireCount} ({fields.wireCount}):</td>
+        </tr>
+        <tr className={style.wires}>
+          <td colSpan="2">
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>{fieldLabels.address}</th>
+                  <th>{fieldLabels.amount}</th>
+                </tr>
+              </thead>
+              <tbody>{fields.wires.map((recipient, index) =>
+                <tr key={recipient.address}>
+                  <td>{index + 1}</td>
+                  <td>{recipient.address}</td>
+                  <td>{recipient.amount}</td>
+                </tr>
+              )}</tbody>
+            </table>
+          </td>
+        </tr>
+      </React.Fragment>
+    );
+  }
+
+  renderFields(fields) {
+    return (
+      <React.Fragment>
+        {Object.keys(fields).map(k =>
+          <tr key={k}>
+            <td>{fieldLabels[k] || k}</td>
+            <td>{fields[k]}</td>
+          </tr>
+        )}
+      </React.Fragment>
+    );
+  }
+
+  renderCommand(type, fields) {
+    switch (type) {
+      case 'broadcast':
+      case 'send_one':
+      case 'send_many':
+        return this.renderSendMany(fields);
+      case 'create_account':
+      case 'create_node':
+      case 'retrieve_funds':
+      case 'change_account_key':
+      case 'change_node_key':
+      case 'set_account_status':
+      case 'set_node_status':
+      case 'unset_account_status':
+      case 'unset_node_status':
+      case 'log_account':
+      default:
+        return this.renderFields(fields);
+    }
+  }
+
+  toggleAdvanced = (visible) => {
+    this.setState({ showAdvanced: visible });
+  }
+
+  renderAdvanced(type, time, messageId, hash) {
+    if (!this.state.showAdvanced) {
+      return '';
+    }
+    return (
+      <React.Fragment>
+        <tr>
+          <td>{fieldLabels.type}</td>
+          <td>{typeLabels[type]} ({type})</td>
+        </tr>
+        {time ? <tr>
+          <td>{fieldLabels.time}</td>
+          <td>{time.toUTCString()}</td>
+        </tr> : '' }
+        <tr>
+          <td>{fieldLabels.messageId}</td>
+          <td>{messageId || '---'}</td>
+        </tr>
+        <tr>
+          <td>{fieldLabels.hash}</td>
+          <td><code>{hash || '---'}</code></td>
+        </tr>
+      </React.Fragment>
+    );
+  }
+
+  renderSignForm(transaction, command, key) {
+    const { type, time, messageId, ...rest } = command;
+
     return (
       <Form>
-        {transaction.id}
+        <table className={style.fields}>
+          <tbody>
+            {this.renderCommand(type, rest)}
+            <tr className={style.showAdvanced}>
+              <td colSpan="2">
+                <Checkbox checked={this.state.showAdvanced} desc="Show advanced" handleChange={this.toggleAdvanced} />
+              </td>
+            </tr>
+            {this.renderAdvanced(type, time, messageId, transaction.hash)}
+          </tbody>
+        </table>
         <div className={style.buttons}>
           <Button type="reset" layout="danger" onClick={this.handleReject}>
             <FontAwesomeIcon icon={faTimes} /> Reject
@@ -111,17 +223,24 @@ export default class SignPage extends FormComponent {
     } catch (err) {
       if (err instanceof TransactionDataError) {
         return this.renderErrorPage(400, 'Malformed transaction data');
-      } else {
-        throw err;
       }
+      throw err;
     }
-
+    const { type, sender } = command;
     console.log(command);
 
+    let key;
+    console.log(key);
+
     return (
-      <Page className={style.page} title="Sign transaction" cancelLink={this.getReferrer()}>
+      <Page
+        className={style.page}
+        title={typeLabels[type] || type}
+        subTitle={`from ${sender}`}
+        cancelLink={this.getReferrer()}
+      >
         {this.state.isSubmitted && <LoaderOverlay />}
-        {this.renderSignForm(transaction)}
+        {this.renderSignForm(transaction, command, key)}
       </Page>
     );
   }

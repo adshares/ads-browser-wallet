@@ -142,12 +142,12 @@
       return this.sendMessage('push', { message });
     }
 
-    signTransaction(data, msid, hash) {
-      return this.sendMessage('sign', { data, msid, hash });
+    signTransaction(data, hash) {
+      return this.sendMessage('sign', { data, hash });
     }
   }
 
-    let wallet = new AdsWallet('heidindpanacipiibminhmejeonddpjh');
+    let wallet = new AdsWallet('jfgepfclenckllcabhdflndcpedmoghb');
 
     wallet.getInfo().then((data) => {
       console.debug('info:', data);
@@ -177,14 +177,13 @@
     let btnSend2 = document.getElementById('btn-add-tx');
     btnSend2.addEventListener('click', function () {
         console.log('index.html: btn-add-tx');
-        const mid = (new Date().getTime()).toString(10);
         const txData = document.getElementById('data').value;
         const txAccountHashin = document.getElementById('hashin').value;
         const txSignature = document.getElementById('signature');
         const txStatus = document.getElementById('btn-tx-status');
         txSignature.value = '';
         txStatus.innerText = '...';
-        wallet.signTransaction(txData, mid, txAccountHashin).then((data) => {
+        wallet.signTransaction(txData, txAccountHashin).then((data) => {
             console.debug('sign ok:', data);
             txStatus.innerText = data.status;
             txSignature.value = data.signature || '---';

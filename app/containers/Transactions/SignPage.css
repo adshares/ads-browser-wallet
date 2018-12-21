@@ -2,6 +2,30 @@
 
 }
 
+.fields > tbody > tr > td:first-of-type {
+    vertical-align: top;
+}
+
+.fields > tbody > tr > td:first-of-type:after {
+    content: ':';
+}
+
+.fields code {
+    word-break: break-word;
+}
+
+.wires > td:first-of-type {
+    padding-left: 20px;
+}
+
+.wires > td:first-of-type:after {
+    content: '' !important;
+}
+
+.showAdvanced > td:first-of-type:after {
+    content: '' !important;
+}
+
 .buttons {
     text-align: center;
     margin-bottom: 0 !important;

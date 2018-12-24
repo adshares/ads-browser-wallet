@@ -70,7 +70,7 @@ export default class RegisterPage extends FormComponent {
         <header className={style.logo}>
           <Logo withoutName />
           <h1>Live by ADS</h1>
-          {config.isTestnet ? <h3>TESTNET</h3> : ''}
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non turpis ligula.
@@ -81,7 +81,7 @@ export default class RegisterPage extends FormComponent {
         </ButtonLink>
         <div className={style.links}>
           <Link to={'/restore'}>Restore the account from a seed</Link><br />
-          {config.isTestnet ?
+          {config.testnet ?
             <Link to={'/mainnet'} className={style.mainnetLink}>Switch to the mainnet</Link> :
             <Link to={'/testnet'}>Switch to the testnet</Link>
           }
@@ -95,7 +95,7 @@ export default class RegisterPage extends FormComponent {
       <div className={style.newPasswordPage}>
         <header>
           <h1>Setup password</h1>
-          {config.isTestnet ? <h3>TESTNET</h3> : ''}
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box icon={faInfo} layout="info">
           Your password should be obscure and must be at least 8 characters long.
@@ -142,7 +142,7 @@ export default class RegisterPage extends FormComponent {
       <div className={style.regulationsPage}>
         <header>
           <h1>Terms and conditions</h1>
-          {config.isTestnet ? <h3>TESTNET</h3> : ''}
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <div className={style.regulations}>{config.regulations}</div>
         <div className={style.buttons}>
@@ -162,7 +162,7 @@ export default class RegisterPage extends FormComponent {
       <div className={style.seedPhrasePage}>
         <header>
           <h1>Mnemonic seed phrase</h1>
-          {config.isTestnet ? <h3>TESTNET</h3> : ''}
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box title="Warning" layout="warning" icon={faExclamation}>
           A seed phrase includes all the information needed to recover a wallet.

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/es/Link';
+import config from '../../config/config';
 import style from './HamburgerMenu.css';
-import config from '../../config/config'
 
 export default class HamburgerMenu extends React.PureComponent {
   state = {
@@ -49,9 +49,9 @@ export default class HamburgerMenu extends React.PureComponent {
           </li>
           <li>
             <hr />
-            {config.isTestnet ?
+            {config.testnet ?
               <Link to={'/mainnet'} className={style.menuItem}>Switch to the mainnet</Link> :
-              <Link to={'/testnet'}>Switch to the testnet</Link>
+              <Link to={'/testnet'} className={style.menuItem}>Switch to the testnet</Link>
             }
           </li>
         </ul>

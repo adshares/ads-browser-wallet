@@ -24,7 +24,7 @@ const initialVault = {
 const actionsMap = {
 
   [actions.VAULT_CREATE](vault, action) {
-    BgClient.startSession(window.btoa(action.password), config.isTestnet);
+    BgClient.startSession(window.btoa(action.password));
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
     const newVault = {
       ...initialVault,
@@ -53,7 +53,7 @@ const actionsMap = {
       throw new InvalidPasswordError();
     }
 
-    BgClient.startSession(window.btoa(action.password), config.isTestnet);
+    BgClient.startSession(window.btoa(action.password));
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
       ...initialVault,
@@ -71,6 +71,13 @@ const actionsMap = {
       empty: vault.empty,
       sealed: true,
     };
+  },
+
+  [actions.VAULT_SWITCH_NETWORK](vault, action) {
+    BgClient.changeNetwork(action.testnet, (data) => {
+      console.log('VAULT_SWITCH_NETWORK', data);
+    });
+    return vault;
   },
 
   [actions.VAULT_ADD_ACCOUNT](vault, action) {

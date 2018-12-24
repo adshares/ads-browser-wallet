@@ -80,7 +80,7 @@ export default class RestorePage extends FormComponent {
 
         <header>
           <h1>Restore the account</h1>
-          {config.isTestnet ? <h3>TESTNET</h3> : ''}
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box layout="warning" icon={faExclamation}>
           Restoring your account will overwrite all current data.

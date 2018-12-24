@@ -46,6 +46,13 @@ function PrivateRoute({ ...params }) {
   );
 }
 
+function SwitchNetwork({ ...params }) {
+  params.switchAction(params.testnet);
+  window.location.hash = '/';
+  window.location.reload();
+  return <Redirect to="/" />;
+}
+
 @connect(
   //FIXME remove fallbacks
   state => ({
@@ -62,7 +69,6 @@ export default class Rooting extends Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
@@ -78,6 +84,20 @@ export default class Rooting extends Component {
     return (
       <div className={style.app}>
         <Switch>
+          <Route
+            exact
+            path="/testnet"
+            render={props =>
+              <SwitchNetwork testnet switchAction={actions.switchNetwork} {...props} />
+            }
+          />
+          <Route
+            exact
+            path="/mainnet"
+            render={props =>
+              <SwitchNetwork switchAction={actions.switchNetwork} {...props} />
+            }
+          />
           <Route
             exact
               path="/restore"

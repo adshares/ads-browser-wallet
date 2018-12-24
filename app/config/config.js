@@ -1,5 +1,5 @@
 const config = {
-  isTestnet: false,
+  testnet: false,
   blockLength: 512,
   dividentLength: 2048,
   passwordMinLength: 1,
@@ -18,7 +18,7 @@ const config = {
   regulations: 'Lorem ipsum dolor sit amet',
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (window.ADS_NET === 'testnet') {
   module.exports = {
     ...config,
     ...require('./config.testnet'),

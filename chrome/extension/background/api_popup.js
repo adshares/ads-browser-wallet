@@ -7,6 +7,7 @@ const MAINNET = 'MAINNET';
 const TESTNET = 'TESTNET';
 
 const sessions = {
+  testnet: false,
   [MAINNET]: {
     secret: null,
     expires: null,
@@ -29,17 +30,20 @@ export default function handleMessage(message, callback) {
     case types.MSG_PING:
       return callback(message.data);
     case types.MSG_SESSION_START:
-      key = message.data.testnet ? TESTNET : MAINNET;
+      key = sessions.testnet ? TESTNET : MAINNET;
       sessions[key].secret = message.data.secret;
       sessions[key].expires = (new Date()).getTime() + config.sessionMaxAge;
-      return callback(sessions[key]);
+      return callback({ testnet: sessions.testnet, ...sessions[key] });
     case types.MSG_SESSION:
-      key = message.data.testnet ? TESTNET : MAINNET;
+      key = sessions.testnet ? TESTNET : MAINNET;
       if (sessions[key].expires && sessions[key].expires >= (new Date()).getTime()) {
         sessions[key].expires = (new Date()).getTime() + config.sessionMaxAge;
-        return callback(sessions[key]);
+        return callback({ testnet: sessions.testnet, ...sessions[key] });
       }
-      return callback();
+      return callback({ testnet: sessions.testnet });
+    case types.MSG_SESSION_NETWORK:
+      sessions.testnet = !!message.data.testnet;
+      return callback({ testnet: sessions.testnet });
     case types.MSG_SESSION_REMOVE:
       sessions[MAINNET].secret = null;
       sessions[MAINNET].expires = null;

@@ -1,4 +1,4 @@
-const isTestnet = true;
+const testnet = true;
 
 const operatorUrl = 'https://operator.e11.click/';
 
@@ -25,7 +25,7 @@ const regulations =
 ;
 
 export default {
-  isTestnet,
+  testnet,
   operatorUrl,
   vaultStorageKey,
   queueStorageKey,

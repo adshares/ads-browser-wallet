@@ -1,4 +1,4 @@
-const isTestnet = false;
+const testnet = false;
 
 const operatorUrl = 'https://operator.adshares.net/';
 
@@ -25,7 +25,7 @@ const regulations =
 ;
 
 export default {
-  isTestnet,
+  testnet,
   operatorUrl,
   vaultStorageKey,
   queueStorageKey,

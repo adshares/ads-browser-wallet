@@ -1,9 +1,9 @@
 import * as types from '../../app/constants/MessageTypes';
 
-function startSession(secret, testnet = false, callback) {
+function startSession(secret, callback) {
   chrome.runtime.sendMessage({
     type: types.MSG_SESSION_START,
-    data: { secret, testnet }
+    data: { secret }
   }, (response) => {
     if (callback) {
       callback(response.data);
@@ -11,13 +11,23 @@ function startSession(secret, testnet = false, callback) {
   });
 }
 
-function getSession(testnet = false, callback) {
+function getSession(callback) {
   chrome.runtime.sendMessage({
     type: types.MSG_SESSION,
+  }, (response) => {
+    if (callback) {
+      callback(response.data);
+    }
+  });
+}
+
+function changeNetwork(testnet = false, callback) {
+  chrome.runtime.sendMessage({
+    type: types.MSG_SESSION_NETWORK,
     data: { testnet }
   }, (response) => {
     if (callback) {
-      callback(response.data && response.data.secret ? response.data.secret : null);
+      callback(response.data);
     }
   });
 }
@@ -48,6 +58,7 @@ function sendResponse(sourceId, id, data, callback) {
 export default {
   startSession,
   getSession,
+  changeNetwork,
   removeSession,
   sendResponse
 };

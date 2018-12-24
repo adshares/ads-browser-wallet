@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHashHistory } from 'history';
-import Root from '../../app/containers/Root';
-import VaultCrypt from '../../app/utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
 import { reload as reloadQueue } from '../../app/actions/queue';
-import config from '../../app/config/config';
 import './adswallet.css';
 
-function renderDOM(initialState) {
+
+function renderDOM(Root, initialState, config) {
   const history = createHashHistory();
   if (initialState.router && initialState.router.location) {
     if (history.location.path !== initialState.router.location.path ||
@@ -38,28 +36,30 @@ function renderDOM(initialState) {
   );
 }
 
-chrome.storage.local.get([config.routerStorageKey, config.queueStorageKey], (obj) => {
-  const initialState = {
-    router: JSON.parse(obj[config.routerStorageKey] || '{}'),
-    queue: JSON.parse(obj[config.queueStorageKey] || '[]'),
-  };
+// Session recovery
+BgClient.getSession((session) => {
+  window.ADS_NET = session.testnet ? 'testnet' : 'mainnet';
+  const config = require('../../app/config/config');
+  const VaultCrypt = require('../../app/utils/vaultcrypt');
+  const Root = require('../../app/containers/Root');
 
-  VaultCrypt.load((vault) => {
-    initialState.vault = vault;
-    // Session recovery
-    if (!vault.empty && vault.sealed) {
-      BgClient.getSession(config.isTestnet, (secret) => {
-        if (secret) {
-          initialState.vault = {
-            ...vault,
-            ...VaultCrypt.decrypt(vault, window.atob(secret)),
-            sealed: false,
-          };
-        }
-        renderDOM(initialState);
-      });
-    } else {
-      renderDOM(initialState);
-    }
+  console.debug('config', config);
+  chrome.storage.local.get([config.routerStorageKey, config.queueStorageKey], (obj) => {
+    const initialState = {
+      router: JSON.parse(obj[config.routerStorageKey] || '{}'),
+      queue: JSON.parse(obj[config.queueStorageKey] || '[]'),
+    };
+
+    VaultCrypt.load((vault) => {
+      initialState.vault = vault;
+      if (!vault.empty && vault.sealed && session.secret) {
+        initialState.vault = {
+          ...vault,
+          ...VaultCrypt.decrypt(vault, window.atob(session.secret)),
+          sealed: false,
+        };
+      }
+      renderDOM(Root, initialState, config);
+    });
   });
 });

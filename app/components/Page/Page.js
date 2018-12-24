@@ -8,12 +8,13 @@ import Link from "react-router-dom/es/Link";
 import ButtonLink from "../atoms/ButtonLink";
 import SelectAccount from "../SelectAccount/SelectAccount";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
+import ConfirmDialog from "../confirmDialog/confirmDialog";
 import Timer from "../Timer/Timer";
 import * as VaultActions from "../../actions/vault";
 import * as FormActions from "../../actions/form";
 import logo from "../../assets/logo_blue.svg";
+import config from '../../config/config';
 import style from "./Page.css";
-import ConfirmDialog from "../confirmDialog/confirmDialog";
 
 @connect(
   state => ({
@@ -73,7 +74,7 @@ export default class Page extends React.Component {
             <Link to="/">
               <img src={logo} alt="Adshares wallet" />
             </Link>
-            <span>TESTNET</span>
+            {config.testnet ? <span>TESTNET</span> : ''}
           </div>
           {title ? (
             <h1>

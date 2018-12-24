@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/es/Link';
+import config from '../../config/config';
 import style from './HamburgerMenu.css';
 
 export default class HamburgerMenu extends React.PureComponent {
@@ -45,6 +46,13 @@ export default class HamburgerMenu extends React.PureComponent {
           </li>
           <li>
             <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>Log out</a>
+          </li>
+          <li>
+            <hr />
+            {config.testnet ?
+              <Link to={'/mainnet'} className={style.menuItem}>Switch to the mainnet</Link> :
+              <Link to={'/testnet'} className={style.menuItem}>Switch to the testnet</Link>
+            }
           </li>
         </ul>
       </div>

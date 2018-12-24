@@ -21,6 +21,7 @@
     white-space: nowrap;
     font-weight: 700;
     font-size: var(--font-small);
+    min-width: 64px;
 }
 
 .fields > tbody > tr > td:first-of-type:after {

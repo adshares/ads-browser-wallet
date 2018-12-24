@@ -8,7 +8,7 @@ import {
   UnknownPublicKeyError,
   ItemNotFound,
 } from '../actions/errors';
-import config from '../config';
+import config from '../config/config';
 
 const initialVault = {
   empty: true,
@@ -71,6 +71,13 @@ const actionsMap = {
       empty: vault.empty,
       sealed: true,
     };
+  },
+
+  [actions.VAULT_SWITCH_NETWORK](vault, action) {
+    BgClient.changeNetwork(action.testnet, (data) => {
+      console.log('VAULT_SWITCH_NETWORK', data);
+    });
+    return vault;
   },
 
   [actions.VAULT_ADD_ACCOUNT](vault, action) {

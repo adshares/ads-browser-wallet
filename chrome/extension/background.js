@@ -2,8 +2,8 @@ import { PostMessageError } from '../../app/actions/errors';
 import handlePopupApiMessage from './background/api_popup';
 import handleProxyApiMessage from './background/api_proxy';
 import * as types from '../../app/constants/MessageTypes';
-import queue from '../../app/utils/queue';
-import config from '../../app/config';
+import queue from './background/queue';
+import config from '../../app/config/config';
 
 const connections = {};
 

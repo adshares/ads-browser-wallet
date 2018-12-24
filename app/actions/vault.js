@@ -2,6 +2,7 @@ export const VAULT_CREATE = 'VAULT_CREATE';
 export const VAULT_EREASE = 'VAULT_EREASE';
 export const VAULT_UNSEAL = 'VAULT_UNSEAL';
 export const VAULT_SEAL = 'VAULT_SEAL';
+export const VAULT_SWITCH_NETWORK = 'VAULT_SWITCH_NETWORK';
 export const VAULT_ADD_ACCOUNT = 'VAULT_ADD_ACCOUNT';
 export const VAULT_UPDATE_ACCOUNT = 'VAULT_UPDATE_ACCOUNT';
 export const VAULT_REMOVE_ACCOUNT = 'VAULT_REMOVE_ACCOUNT';
@@ -22,6 +23,10 @@ export function unseal(password) {
 
 export function seal() {
   return { type: VAULT_SEAL };
+}
+
+export function switchNetwork(testnet) {
+  return { type: VAULT_SWITCH_NETWORK, testnet };
 }
 
 export function addAccount(address, name, publicKey, password, callback) {

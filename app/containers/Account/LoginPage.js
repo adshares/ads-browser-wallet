@@ -9,6 +9,7 @@ import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import Logo from '../../components/Logo/Logo';
 import style from './LoginPage.css';
+import config from '../../config/config'
 
 export default class LoginPage extends FormComponent {
 
@@ -42,6 +43,7 @@ export default class LoginPage extends FormComponent {
         <div className={style.logo}>
           <Logo withoutName />
           <h1>Live by ADS</h1>
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </div>
         <Form onSubmit={this.handleLogin}>
           <div>
@@ -59,8 +61,12 @@ export default class LoginPage extends FormComponent {
             Login <FontAwesomeIcon icon={faChevronRight} />
           </Button>
         </Form>
-        <div className={style.restore}>
-          <Link to={'/restore'}>Restore the account from a seed</Link>
+        <div className={style.links}>
+          <Link to={'/restore'}>Restore the account from a seed</Link><br />
+          {config.testnet ?
+            <Link to={'/mainnet'} className={style.mainnetLink}>Switch to the mainnet</Link> :
+            <Link to={'/testnet'}>Switch to the testnet</Link>
+          }
         </div>
       </div>
     );

@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../config/config';
 
 function saveState(state) {
   chrome.storage.local.set({

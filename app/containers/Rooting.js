@@ -47,10 +47,13 @@ function PrivateRoute({ ...params }) {
 }
 
 function SwitchNetwork({ ...params }) {
+  const { url } = params.match.params;
   params.switchAction(params.testnet);
-  window.location.hash = '/';
-  window.location.reload();
-  return <Redirect to="/" />;
+  chrome.storage.local.remove('router', () => {
+    window.location.hash = `#${url || '/'}`;
+    window.location.reload();
+  });
+  return <Redirect to={url} />;
 }
 
 @connect(
@@ -86,21 +89,21 @@ export default class Rooting extends Component {
         <Switch>
           <Route
             exact
-            path="/testnet"
+            path="/testnet:url(.*)"
             render={props =>
               <SwitchNetwork testnet switchAction={actions.switchNetwork} {...props} />
             }
           />
           <Route
             exact
-            path="/mainnet"
+            path="/mainnet:url(.*)"
             render={props =>
               <SwitchNetwork switchAction={actions.switchNetwork} {...props} />
             }
           />
           <Route
             exact
-              path="/restore"
+            path="/restore"
             render={props =>
               <RestorePage restoreAction={actions.create} {...props} />
             }

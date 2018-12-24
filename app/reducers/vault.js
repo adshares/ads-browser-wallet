@@ -8,7 +8,7 @@ import {
   UnknownPublicKeyError,
   ItemNotFound,
 } from '../actions/errors';
-import config from '../config';
+import config from '../config/config';
 
 const initialVault = {
   empty: true,
@@ -24,7 +24,7 @@ const initialVault = {
 const actionsMap = {
 
   [actions.VAULT_CREATE](vault, action) {
-    BgClient.startSession(window.btoa(action.password));
+    BgClient.startSession(window.btoa(action.password), config.isTestnet);
     const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
     const newVault = {
       ...initialVault,
@@ -53,7 +53,7 @@ const actionsMap = {
       throw new InvalidPasswordError();
     }
 
-    BgClient.startSession(window.btoa(action.password));
+    BgClient.startSession(window.btoa(action.password), config.isTestnet);
     const unsealedVault = VaultCrypt.decrypt(vault, action.password);
     return {
       ...initialVault,

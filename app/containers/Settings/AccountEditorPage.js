@@ -9,7 +9,7 @@ import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import ADS from '../../utils/ads';
-import config from '../../config';
+import config from '../../config/config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';

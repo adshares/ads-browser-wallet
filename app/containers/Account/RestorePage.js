@@ -9,7 +9,7 @@ import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import config from '../../config';
+import config from '../../config/config';
 import style from './RestorePage.css';
 
 export default class RestorePage extends FormComponent {
@@ -80,6 +80,7 @@ export default class RestorePage extends FormComponent {
 
         <header>
           <h1>Restore the account</h1>
+          {config.isTestnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box layout="warning" icon={faExclamation}>
           Restoring your account will overwrite all current data.

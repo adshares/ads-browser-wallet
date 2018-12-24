@@ -32,8 +32,21 @@
     font-size: 1em;
 }
 
-.logo {
+.logo img {
     height: 40px;
+}
+.logo a {
+    display: inline-block;
+}
+
+.logo span {
+    display: block;
+    font-size: var(--font-smallest);
+    font-weight: 700;
+    color: var(--orange-dark);
+    position: absolute;
+    bottom: -2px;
+    left: 12px;
 }
 
 .close {

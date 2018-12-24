@@ -15,7 +15,16 @@
     margin-top: -20px;
 }
 
-.restore {
+.logo h3 {
+    color: var(--orange-dark);
+    margin: 15px 0;
+}
+
+.links {
     margin-top: 30px;
     font-size: var(--font-smaller);
+}
+
+.mainnetLink {
+    color: var(--orange-dark);
 }

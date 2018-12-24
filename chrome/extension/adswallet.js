@@ -5,7 +5,7 @@ import Root from '../../app/containers/Root';
 import VaultCrypt from '../../app/utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
 import { reload as reloadQueue } from '../../app/actions/queue';
-import config from '../../app/config';
+import config from '../../app/config/config';
 import './adswallet.css';
 
 function renderDOM(initialState) {
@@ -40,17 +40,17 @@ function renderDOM(initialState) {
 
 chrome.storage.local.get([config.routerStorageKey, config.queueStorageKey], (obj) => {
   const initialState = {
-    [config.routerStorageKey]: JSON.parse(obj[config.routerStorageKey] || '{}'),
-    [config.queueStorageKey]: JSON.parse(obj[config.queueStorageKey] || '[]'),
+    router: JSON.parse(obj[config.routerStorageKey] || '{}'),
+    queue: JSON.parse(obj[config.queueStorageKey] || '[]'),
   };
 
-  VaultCrypt.load(false, (vault) => {
-    initialState[config.vaultStorageKey] = vault;
+  VaultCrypt.load((vault) => {
+    initialState.vault = vault;
     // Session recovery
     if (!vault.empty && vault.sealed) {
-      BgClient.getSession((secret) => {
+      BgClient.getSession(config.isTestnet, (secret) => {
         if (secret) {
-          initialState[config.vaultStorageKey] = {
+          initialState.vault = {
             ...vault,
             ...VaultCrypt.decrypt(vault, window.atob(secret)),
             sealed: false,

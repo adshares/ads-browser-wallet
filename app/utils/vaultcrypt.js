@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js';
 import KeyBox from './keybox';
-import config from '../config';
+import config from '../config/config';
 
 const SEED_PHRASE = 'p';
 const SEED = 's';
@@ -11,8 +11,6 @@ const ACCOUNT_ADDRESS = 'a';
 const ACCOUNT_NAME = 'n';
 const ACCOUNT_PUBLIC_KEY = 'k';
 const SETTINGS = 'o';
-
-let isTestnet = false;
 
 function checkPassword(vault, password) {
   try {
@@ -85,9 +83,8 @@ function decrypt(encryptedVault, password) {
   };
 }
 
-function load(testnet, callback) {
-  isTestnet = testnet;
-  const key = isTestnet ? config.testnetVaultStorageKey : config.vaultStorageKey;
+function load(callback) {
+  const key = config.vaultStorageKey;
   chrome.storage.sync.get(key, (result) => {
     const vault = {
       secret: result[key] || '',
@@ -100,17 +97,12 @@ function load(testnet, callback) {
 
 function save(vault, password, callback) {
   const secret = encrypt(vault, password);
-  const key = isTestnet ? config.testnetVaultStorageKey : config.vaultStorageKey;
-  chrome.storage.sync.set({ [key]: secret || '' }, callback);
+  chrome.storage.sync.set({ [config.vaultStorageKey]: secret || '' }, callback);
   return secret;
 }
 
 function erase(callback) {
-  const keys = [config.testnetVaultStorageKey];
-  if (!isTestnet) {
-    keys.push(config.vaultStorageKey);
-  }
-  chrome.storage.sync.remove(keys, callback);
+  chrome.storage.sync.remove(config.vaultStorageKey, callback);
 }
 
 export default {

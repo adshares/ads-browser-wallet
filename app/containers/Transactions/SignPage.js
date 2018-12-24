@@ -14,7 +14,7 @@ import BgClient from '../../utils/background';
 import ADS from '../../utils/ads';
 import { formatDate } from '../../utils/utils';
 import { typeLabels, fieldLabels } from './labels';
-import config from '../../config';
+import config from '../../config/config';
 import style from './SignPage.css';
 
 export default class SignPage extends FormComponent {
@@ -23,6 +23,7 @@ export default class SignPage extends FormComponent {
 
     const { source, id } = this.props.match.params;
     const message = this.props.queue.find(t =>
+      (!config.isTestnet || t.testnet) &&
       t.type === 'sign' &&
       t.sourceId === source &&
       t.id === id

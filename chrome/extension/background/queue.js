@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../../../app/config/config';
 
 function updateBadge(count) {
   const label = count > 0 ? count.toString() : '';
@@ -27,7 +27,10 @@ function push(transaction, callback) {
 
 function pushUnique(transaction, callback) {
   getQueue((queue) => {
-    const newQueue = queue.filter(t => t.sourceId !== transaction.sourceId || t.type !== transaction.type);
+    const newQueue = queue.filter(t =>
+      t.sourceId !== transaction.sourceId ||
+      t.type !== transaction.type
+    );
     newQueue.push(transaction);
     saveQueue(newQueue, callback);
   });

@@ -85,6 +85,10 @@
     cursor: pointer;
 }
 
+.menuItem:last-child {
+    padding-bottom: 0;
+}
+
 .menuItem:after {
     content: '';
     display: block;

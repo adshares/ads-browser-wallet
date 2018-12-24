@@ -75,8 +75,9 @@
 
 <script type="text/javascript">
   class AdsWallet {
-    constructor(extensionId) {
+    constructor(extensionId, testnet = false) {
       this.extensionId = extensionId;
+      this.testnet = testnet;
       this.port = null;
       this.initialized = false;
       this.queue = [];
@@ -152,7 +153,7 @@
         this.init().then(() => {
           const id = AdsWallet.uuidv4();
           this.queue.push({ id, resolve, reject });
-          this.port.postMessage({ id, type, data });
+          this.port.postMessage({ id, type, testnet: this.testnet, data });
         }, reject);
       });
     }
@@ -174,7 +175,7 @@
     }
   }
 
-    let wallet = new AdsWallet('jfgepfclenckllcabhdflndcpedmoghb');
+    let wallet = new AdsWallet('jfgepfclenckllcabhdflndcpedmoghb', true);
 
     wallet.getInfo().then((data) => {
       console.debug('info:', data);

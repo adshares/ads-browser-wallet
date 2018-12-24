@@ -1,6 +1,6 @@
 import * as types from '../../../app/constants/MessageTypes';
 import { PostMessageError } from '../../../app/actions/errors';
-import queue from '../../../app/utils/queue';
+import queue from './queue';
 
 function getInfo() {
   const manifest = chrome.runtime.getManifest();
@@ -20,8 +20,10 @@ export default function handleMessage(message, sourceId, callback) {
     case types.MSG_INFO:
       return callback(getInfo());
     case types.MSG_PUSH:
+      console.log(message);
       queue.push({
         sourceId,
+        testnet: message.testnet,
         type: message.type,
         id: message.id,
         data: message.data,
@@ -31,6 +33,7 @@ export default function handleMessage(message, sourceId, callback) {
     case types.MSG_SIGN:
       queue.pushUnique({
         sourceId,
+        testnet: message.testnet,
         type: message.type,
         id: message.id,
         data: message.data,

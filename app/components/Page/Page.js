@@ -69,9 +69,12 @@ export default class Page extends React.Component {
           />
         )}
         <header className={headerClass}>
-          <Link to="/">
-            <img src={logo} alt="Adshares wallet" className={style.logo} />
-          </Link>
+          <div className={style.logo}>
+            <Link to="/">
+              <img src={logo} alt="Adshares wallet" />
+            </Link>
+            <span>TESTNET</span>
+          </div>
           {title ? (
             <h1>
               {title} {subTitle ? <small>{subTitle}</small> : ''}

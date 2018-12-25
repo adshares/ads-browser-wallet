@@ -43,7 +43,7 @@ export default function handleMessage(message, sourceId, callback) {
       if (message.options.newTab) {
         const host = `chrome-extension://${chrome.i18n.getMessage('@@extension_id')}`;
         const network = message.testnet ? '/testnet' : '/mainnet';
-        const url = `${host}/window.html#${network}/transactions/${sourceId}/${message.id}/sign`;
+        const url = `${host}/window.html#${network}/transactions/${sourceId}/${message.id}/popup-sign`;
         chrome.tabs.create({ url });
       }
       break;

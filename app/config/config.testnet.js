@@ -4,8 +4,6 @@ const operatorUrl = 'https://operator.e11.click/';
 
 const vaultStorageKey = 'testnet-vault';
 
-const queueStorageKey = 'testnet-queue';
-
 const regulations =
   'TESTNET Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
   'Sed porttitor non erat a aliquet. Pellentesque vulputate lacus at mauris congue ultricies. Lorem ipsum dolor sit ' +
@@ -28,6 +26,5 @@ export default {
   testnet,
   operatorUrl,
   vaultStorageKey,
-  queueStorageKey,
   regulations,
 };

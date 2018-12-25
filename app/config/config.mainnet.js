@@ -4,8 +4,6 @@ const operatorUrl = 'https://operator.adshares.net/';
 
 const vaultStorageKey = 'vault';
 
-const queueStorageKey = 'queue';
-
 const regulations =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
   'Sed porttitor non erat a aliquet. Pellentesque vulputate lacus at mauris congue ultricies. Lorem ipsum dolor sit ' +
@@ -28,6 +26,5 @@ export default {
   testnet,
   operatorUrl,
   vaultStorageKey,
-  queueStorageKey,
   regulations,
 };

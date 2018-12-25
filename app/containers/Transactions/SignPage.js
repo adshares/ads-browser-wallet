@@ -22,8 +22,9 @@ export default class SignPage extends FormComponent {
     super(props);
 
     const { source, id } = this.props.match.params;
+    console.debug(config, this.props.queue);
     const message = this.props.queue.find(t =>
-      (!config.testnet || t.testnet) &&
+      !!config.testnet === !!t.testnet &&
       t.type === 'sign' &&
       t.sourceId === source &&
       t.id === id

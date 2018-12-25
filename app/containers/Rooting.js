@@ -53,7 +53,7 @@ function SwitchNetwork({ ...params }) {
     window.location.hash = `#${url || '/'}`;
     window.location.reload();
   });
-  return <Redirect to={url} />;
+  return <div />;
 }
 
 @connect(

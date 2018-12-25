@@ -8,7 +8,7 @@ import style from './AwaitingTransactionsPage.css';
 export default class AwaitingTransactionsPage extends React.PureComponent {
   render() {
     const queue = this.props.queue.filter(t =>
-      (!config.testnet || t.testnet) &&
+      !!config.testnet === !!t.testnet &&
       t.type === 'sign'
     );
 

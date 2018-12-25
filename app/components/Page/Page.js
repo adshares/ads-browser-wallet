@@ -39,6 +39,7 @@ export default class Page extends React.Component {
       scroll,
       smallTitle,
       children,
+      className,
       onPasswordInputChange,
       onDialogSubmit,
       passwordValue,
@@ -54,6 +55,9 @@ export default class Page extends React.Component {
 
     classes = [];
     classes.push(style.contentWrapper);
+    if (className) {
+      classes.push(className);
+    }
     if (scroll) {
       classes.push(style.withScroll);
     }
@@ -107,6 +111,7 @@ export default class Page extends React.Component {
 
 Page.propTypes = {
   children: PropTypes.any,
+  className: PropTypes.string,
   vault: PropTypes.object,
   actions: PropTypes.object,
   title: PropTypes.string,

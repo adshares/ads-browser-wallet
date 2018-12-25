@@ -53,7 +53,7 @@ function SwitchNetwork({ ...params }) {
     window.location.hash = `#${url || '/'}`;
     window.location.reload();
   });
-  return <Redirect to={url} />;
+  return <div />;
 }
 
 @connect(
@@ -180,7 +180,7 @@ export default class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/transactions/:source(.+)/:id(.+)/sign"
+            path="/transactions/:source(.+)/:id(.+)/:action(sign|popup-sign)"
             vault={vault}
             render={props =>
               <SignPage vault={vault} queue={queue} {...props} />

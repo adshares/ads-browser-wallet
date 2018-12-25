@@ -21,9 +21,10 @@ export default class SignPage extends FormComponent {
   constructor(props) {
     super(props);
 
-    const { source, id } = this.props.match.params;
+    const { action, source, id } = this.props.match.params;
+    console.debug(config, this.props.queue);
     const message = this.props.queue.find(t =>
-      (!config.testnet || t.testnet) &&
+      !!config.testnet === !!t.testnet &&
       t.type === 'sign' &&
       t.sourceId === source &&
       t.id === id
@@ -35,11 +36,27 @@ export default class SignPage extends FormComponent {
       message,
       showAdvanced: false,
       isSubmitted: false,
+      popup: action === 'popup-sign',
     };
   }
 
   toggleAdvanced = (visible) => {
     this.setState({ showAdvanced: visible });
+  }
+
+  sendResponse = (status, signature) => {
+    BgClient.sendResponse(
+      this.state.message.sourceId,
+      this.state.message.id,
+      { status, signature },
+    );
+    if (this.state.popup) {
+      chrome.tabs.getCurrent((tab) => {
+        chrome.tabs.remove(tab.id);
+      });
+    } else {
+      this.props.history.push(this.getReferrer());
+    }
   }
 
   handleAccept = (event) => {
@@ -49,16 +66,7 @@ export default class SignPage extends FormComponent {
       isSubmitted: true
     }, () => {
       const signature = 'xyz';
-
-      BgClient.sendResponse(
-        this.state.message.sourceId,
-        this.state.message.id,
-        {
-          status: 'accepted',
-          signature,
-        },
-      );
-      this.props.history.push(this.getReferrer());
+      this.sendResponse('accepted', signature);
     });
   }
 
@@ -68,12 +76,7 @@ export default class SignPage extends FormComponent {
     this.setState({
       isSubmitted: true
     }, () => {
-      BgClient.sendResponse(
-        this.state.message.sourceId,
-        this.state.message.id,
-        { status: 'rejected' },
-      );
-      this.props.history.push(this.getReferrer());
+      this.sendResponse('rejected');
     });
   }
 

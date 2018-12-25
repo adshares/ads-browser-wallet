@@ -75,7 +75,7 @@ export default class HomePage extends React.PureComponent {
     const { vault } = this.props;
     const configured = vault.accounts.length > 0;
     const queue = this.props.queue.filter(t =>
-      (!config.testnet || t.testnet) &&
+      !!config.testnet === !!t.testnet &&
       t.type === 'sign'
     );
 

@@ -31,14 +31,21 @@ export default function handleMessage(message, sourceId, callback) {
       });
       break;
     case types.MSG_SIGN:
+      console.debug(message);
       queue.pushUnique({
         sourceId,
-        testnet: message.testnet,
+        testnet: !!message.testnet,
         type: message.type,
         id: message.id,
         data: message.data,
         time: (new Date()).toISOString(),
       });
+      if (message.options.newTab) {
+        const host = `chrome-extension://${chrome.i18n.getMessage('@@extension_id')}`;
+        const network = message.testnet ? '/testnet' : '/mainnet';
+        const url = `${host}/window.html#${network}/transactions/${sourceId}/${message.id}/popup-sign`;
+        chrome.tabs.create({ url });
+      }
       break;
     default:
       throw new PostMessageError(`Unknown message type: ${message.type}`, 400);

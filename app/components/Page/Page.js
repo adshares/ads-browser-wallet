@@ -36,6 +36,7 @@ export default class Page extends React.Component {
       title,
       subTitle,
       cancelLink,
+      noLinks,
       scroll,
       smallTitle,
       children,
@@ -51,7 +52,7 @@ export default class Page extends React.Component {
     if (smallTitle) {
       classes.push(style.smallHeader);
     }
-    const headerClass = classes.join(" ");
+    const headerClass = classes.join(' ');
 
     classes = [];
     classes.push(style.contentWrapper);
@@ -61,7 +62,24 @@ export default class Page extends React.Component {
     if (scroll) {
       classes.push(style.withScroll);
     }
-    const wrapperClass = classes.join(" ");
+    const wrapperClass = classes.join(' ');
+    let menu;
+    if (noLinks) {
+      menu = <div />;
+    } else if (cancelLink) {
+      menu = (
+        <ButtonLink
+          to={cancelLink}
+          className={style.close}
+          size="small"
+          inverse
+        >
+          <FontAwesomeIcon icon={faTimes} />
+        </ButtonLink>
+      );
+    } else {
+      menu = <HamburgerMenu logoutAction={actions.vault.seal} />;
+    }
 
     return (
       <section>
@@ -75,9 +93,13 @@ export default class Page extends React.Component {
         )}
         <header className={headerClass}>
           <div className={style.logo}>
-            <Link to="/">
+            {noLinks ? (
               <img src={logo} alt="Adshares wallet" />
-            </Link>
+            ) : (
+              <Link to="/">
+                <img src={logo} alt="Adshares wallet" />
+              </Link>
+             )}
             {config.testnet ? <span>TESTNET</span> : ''}
           </div>
           {title ? (
@@ -87,18 +109,7 @@ export default class Page extends React.Component {
           ) : (
             <SelectAccount options={vault.accounts} />
           )}
-          {cancelLink ? (
-            <ButtonLink
-              to={cancelLink}
-              className={style.close}
-              size="small"
-              inverse
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </ButtonLink>
-          ) : (
-            <HamburgerMenu logoutAction={actions.vault.seal} />
-          )}
+          {menu}
         </header>
         <div className={wrapperClass}>{children}</div>
         <footer className={style.footer}>
@@ -117,6 +128,7 @@ Page.propTypes = {
   title: PropTypes.string,
   subTitle: PropTypes.string,
   cancelLink: PropTypes.any,
+  noLinks: PropTypes.bool,
   smallTitle: PropTypes.bool,
   scroll: PropTypes.bool
 };

@@ -361,6 +361,7 @@ export default class SignPage extends FormComponent {
         title={typeLabels[type] || type}
         subTitle={`${sender}`}
         cancelLink={this.getReferrer()}
+        noLinks={this.state.popup}
       >
         {this.state.isSubmitted && <LoaderOverlay />}
         {this.renderSignForm(transaction, command, key)}

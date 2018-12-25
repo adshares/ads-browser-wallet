@@ -276,11 +276,11 @@ export default class SignPage extends FormComponent {
         </tr> : '' }
         {messageId ? <tr>
           <td>{fieldLabels.messageId}</td>
-          <td>{messageId || '---'}</td>
+          <td>{messageId}</td>
         </tr> : '' }
         {hash ? <tr>
           <td>{fieldLabels.hash}</td>
-          <td><code>{hash || '---'}</code></td>
+          <td><code>{hash}</code></td>
         </tr> : '' }
       </React.Fragment>
     );

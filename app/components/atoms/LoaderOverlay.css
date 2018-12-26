@@ -30,6 +30,6 @@
 .spinner {
     min-height: 60px;
     min-width: 60px;
-    animation: rotate 1s linear infinite;
-    color: var(--slate-dark);
+    animation: rotate 1.25s linear infinite;
+    color: var(--gray-dark);
 }

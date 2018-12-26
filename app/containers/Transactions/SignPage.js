@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PageComponent from '../../components/PageComponent';
-import SignFormPage from './SignFormPage';
+import SignForm from './SignForm';
 import BgClient from '../../utils/background';
 import config from '../../config/config';
 
@@ -64,7 +64,7 @@ export default class SignPage extends PageComponent {
       return this.renderErrorPage(404, `Cannot find message ${id}`);
     }
     return (
-      <SignFormPage
+      <SignForm
         transaction={message.data}
         acceptAction={this.handleAccept}
         rejectAction={this.handleReject}

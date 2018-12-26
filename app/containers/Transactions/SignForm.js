@@ -12,9 +12,9 @@ import ADS from '../../utils/ads';
 import { formatDate } from '../../utils/utils';
 import { typeLabels, fieldLabels } from './labels';
 import config from '../../config/config';
-import style from './SignFormPage.css';
+import style from './SignForm.css';
 
-export default class SignFormPage extends FormComponent {
+export default class SignForm extends FormComponent {
   constructor(props) {
     super(props);
 
@@ -317,7 +317,7 @@ export default class SignFormPage extends FormComponent {
   }
 }
 
-SignFormPage.propTypes = {
+SignForm.propTypes = {
   transaction: PropTypes.object.isRequired,
   acceptAction: PropTypes.func.isRequired,
   rejectAction: PropTypes.func.isRequired,

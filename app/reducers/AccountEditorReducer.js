@@ -1,5 +1,4 @@
 import * as actions from '../actions/form';
-import { TOGGLE_AUTHORISATION_DIALOG } from '../actions/actions';
 import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 
 const initialState = {
@@ -138,7 +137,7 @@ const actionsMap = {
       ...initialState
     };
   },
-  [TOGGLE_AUTHORISATION_DIALOG](state, action) {
+  [actions.TOGGLE_AUTHORISATION_DIALOG](state, action) {
     return {
       ...state,
       auth: {

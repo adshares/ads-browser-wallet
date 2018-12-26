@@ -32,6 +32,7 @@ export default class Page extends React.Component {
     if (this.props.vault.selectedAccount) {
       return this.props.vault.selectedAccount;
     } else if (this.props.vault.accounts.length > 0) {
+      this.props.actions.vault.selectActiveAccount(this.props.vault.accounts[0]);
       return this.props.vault.accounts[0];
     }
   };
@@ -52,7 +53,6 @@ export default class Page extends React.Component {
       autenticationModalOpen,
     } = this.props;
 
-    console.log('PASS', onPasswordInputChange);
     let classes = [];
     classes.push(style.header);
     if (smallTitle) {
@@ -66,7 +66,6 @@ export default class Page extends React.Component {
       classes.push(style.withScroll);
     }
     const wrapperClass = classes.join(' ');
-
     return (
       <section>
         {autenticationModalOpen && (
@@ -79,7 +78,7 @@ export default class Page extends React.Component {
         )}
         <header className={headerClass}>
           <Link to="/">
-            <img src={logo} alt="Adshares wallet" className={style.logo}/>
+            <img src={logo} alt="Adshares wallet" className={style.logo} />
           </Link>
           {title ? (
             <h1>
@@ -87,7 +86,7 @@ export default class Page extends React.Component {
             </h1>
           ) : (
             <SelectAccount
-              options={vault.accounts} selectedAccount={this.getSelectedAccount}
+              options={vault.accounts} selectedAccount={this.getSelectedAccount()}
               selectAccount={actions.vault.selectActiveAccount}
             />
           )}
@@ -98,15 +97,15 @@ export default class Page extends React.Component {
               size="small"
               inverse
             >
-              <FontAwesomeIcon icon={faTimes}/>
+              <FontAwesomeIcon icon={faTimes} />
             </ButtonLink>
           ) : (
-            <HamburgerMenu logoutAction={actions.vault.seal}/>
+            <HamburgerMenu logoutAction={actions.vault.seal} />
           )}
         </header>
         <div className={wrapperClass}>{children}</div>
         <footer className={style.footer}>
-          <Timer/>
+          <Timer />
         </footer>
       </section>
     );

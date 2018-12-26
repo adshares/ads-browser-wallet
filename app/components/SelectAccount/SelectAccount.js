@@ -35,15 +35,14 @@ export default class SelectAccount extends React.Component {
     const { showOptions } = this.state;
     const { selectedAccount } = this.props;
 
-    console.log("\n ===========> ", selectedAccount)
 
     const options = !!this.props.options.length && this.props.options.map((option, index) => {
-      if (option.address !== selectedAccount) {
+      if (option.address !== selectedAccount.address) {
         return (
           <li
             tabIndex="0"
             key={index} className={style.option} data-value={option.address}
-            onClick={() => this.setActiveOption(option.address)}
+            onClick={() => this.setActiveOption(option)}
           >
             <span className={style.optionName}> {option.name} </span>
             <span className={style.optionAccount}> {option.address} </span>
@@ -58,7 +57,6 @@ export default class SelectAccount extends React.Component {
         className={`${style.select} ${showOptions && style.selectActive}`}
         onMouseLeave={() => this.toggleShowOptions(false)}
       >
-        {selectedAccount && (
           <div
             tabIndex="0"
             role="button"
@@ -69,7 +67,6 @@ export default class SelectAccount extends React.Component {
             <span className={style.optionName}> {selectedAccount.name} </span>
             <span className={style.optionAccount}> {selectedAccount.address} </span>
           </div>
-        )}
 
         <ul className={`${style.optionList} ${showOptions && style.optionListActive}`}>
           <div className={style.scrollableList}>

@@ -28,6 +28,14 @@ import ConfirmDialog from '../confirmDialog/confirmDialog';
   })
 )
 export default class Page extends React.Component {
+  getSelectedAccount = () => {
+    if (this.props.vault.selectedAccount) {
+      return this.props.vault.selectedAccount;
+    } else if (this.props.vault.accounts.length > 0) {
+      return this.props.vault.accounts[0];
+    }
+  };
+
   render() {
     const {
       vault,
@@ -71,14 +79,17 @@ export default class Page extends React.Component {
         )}
         <header className={headerClass}>
           <Link to="/">
-            <img src={logo} alt="Adshares wallet" className={style.logo} />
+            <img src={logo} alt="Adshares wallet" className={style.logo}/>
           </Link>
           {title ? (
             <h1>
               {title} {subTitle ? <small>{subTitle}</small> : ''}
             </h1>
           ) : (
-            <SelectAccount options={vault.accounts} selectedAccount={vault.selectedAccount} selectAccount={actions.vault.selectActiveAccount} />
+            <SelectAccount
+              options={vault.accounts} selectedAccount={this.getSelectedAccount}
+              selectAccount={actions.vault.selectActiveAccount}
+            />
           )}
           {cancelLink ? (
             <ButtonLink
@@ -87,15 +98,15 @@ export default class Page extends React.Component {
               size="small"
               inverse
             >
-              <FontAwesomeIcon icon={faTimes} />
+              <FontAwesomeIcon icon={faTimes}/>
             </ButtonLink>
           ) : (
-            <HamburgerMenu logoutAction={actions.vault.seal} />
+            <HamburgerMenu logoutAction={actions.vault.seal}/>
           )}
         </header>
         <div className={wrapperClass}>{children}</div>
         <footer className={style.footer}>
-          <Timer />
+          <Timer/>
         </footer>
       </section>
     );

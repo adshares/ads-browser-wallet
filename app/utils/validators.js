@@ -1,12 +1,11 @@
 import ADS from './ads';
 import VaultCrypt from './vaultcrypt';
-import KeyBox from './keybox';
 import KeysImporterPage from '../containers/Settings/KeysImporterPage';
 import config from '../config';
 import AccountEditorPage from '../containers/Settings/AccountEditorPage';
+import { getPublicKeyFromSecret } from './keybox';
 
-
-const name = ({pageName, value, vault}) => {
+const name = ({ pageName, value, vault }) => {
   if (pageName === KeysImporterPage.PAGE_NAME && vault.keys.find(key => key.name === value)) {
     return `Key named ${value} already exists`;
   }
@@ -19,8 +18,7 @@ const name = ({pageName, value, vault}) => {
   }
   return null;
 };
-const publicKey = ({value, inputs, vault, pageName}) => {
-
+const publicKey = ({ value, inputs, vault, pageName }) => {
   console.log('ADS.validateKey(value)', ADS.validateKey(value));
   if (!ADS.validateKey(value)) {
     return 'Please provide an valid public key';
@@ -30,7 +28,7 @@ const publicKey = ({value, inputs, vault, pageName}) => {
     if (!inputs.secretKey || !inputs.secretKey.value) {
       throw new Error('Provide secretKey to full fil publicKey validation');
     }
-    if (KeyBox.getPublicKeyFromSecret(inputs.secretKey.value) !== value) {
+    if (getPublicKeyFromSecret(inputs.secretKey.value) !== value) {
       return 'Public and secret key does not match';
     }
     if (keys.find(key => key.publicKey === value)) {
@@ -41,13 +39,13 @@ const publicKey = ({value, inputs, vault, pageName}) => {
       return `You've already imported ${config.importedKeysLimit}. To import more keys increase
        your imported keys limit`;
     }
-  } else if (pageName === AccountEditorPage.PAGE_NAME && !keys.find(key => key.publicKey.toUpperCase() === value)) {
+  } else if (pageName === AccountEditorPage.PAGE_NAME && !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
     return 'Cannot find a key in storage. Please import secret key first.';
   }
   return null;
 };
 
-const secretKey = ({value, vault}) => {
+const secretKey = ({ value, vault }) => {
   if (!ADS.validateKey(value)) {
     return 'Please provide an valid secret key';
   }
@@ -56,14 +54,14 @@ const secretKey = ({value, vault}) => {
   }
   return null;
 };
-const password = ({value, vault}) => {
+const password = ({ value, vault }) => {
   if (!VaultCrypt.checkPassword(vault, value)) {
     return 'Invalid password';
   }
   return null;
 };
 
-const address = ({value, vault}) => {
+const address = ({ value, vault }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
   }
@@ -73,4 +71,4 @@ const address = ({value, vault}) => {
   return null;
 };
 
-export {name, publicKey, secretKey, password, address};
+export { name, publicKey, secretKey, password, address };

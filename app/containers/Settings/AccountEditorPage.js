@@ -72,11 +72,12 @@ export default class AccountEditorPage extends FormComponent {
     }
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+  handleSubmit = () => {
     this.props.actions.validateFormThunk(AccountEditorPage.PAGE_NAME);
-    };
+    if  (this.props.vault.accounts.length <= 0) {
+      thi
+    }
+  };
 
   handleInputChange = (inputName, inputValue) => {
     this.props.actions.handleInputChange(
@@ -100,7 +101,7 @@ export default class AccountEditorPage extends FormComponent {
   }
 
   renderForm() {
-    const {name, address, publicKey} = this.props.page.inputs;
+    const { name, address, publicKey } = this.props.page.inputs;
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormControl
@@ -121,17 +122,6 @@ export default class AccountEditorPage extends FormComponent {
           errorMessage={address.errorMsg}
           handleChange={value => this.handleInputChange('address', value)}
         />
-        {/*<div>*/}
-        {/*Address:*/}
-        {/*<input*/}
-        {/*required*/}
-        {/*placeholder="Account address"*/}
-        {/*readOnly={this.state.account}*/}
-        {/*name="address"*/}
-        {/*value={this.state.address}*/}
-        {/*onChange={this.handleAddressChange}*/}
-        {/*/>*/}
-        {/*</div>*/}
 
         <FormControl
           required

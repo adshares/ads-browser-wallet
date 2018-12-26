@@ -14,7 +14,7 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import FormControl from '../../components/atoms/FormControl';
+import {FormControl} from '../../components/atoms/FormControl';
 import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
 import { VAULT_IMPORT_KEY } from '../../actions/vault';
 import validateFormThunk from '../../thunks/validateThunk';

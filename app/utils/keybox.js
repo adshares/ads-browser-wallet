@@ -15,7 +15,7 @@ function generateKeyPair(seed, path) {
     type: 'auto',
     secretKey: key.toString('hex').toUpperCase(),
     // slice(2) because public key is left pad with '00'
-    publicKey: getPkFromSeed(key).toString('hex').toUpperCase(),
+    publicKey: getPkFromSeed(key).toString('hex').slice(2).toUpperCase(),
   };
 }
 

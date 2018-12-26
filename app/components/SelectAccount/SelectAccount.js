@@ -10,16 +10,16 @@ export default class SelectAccount extends React.Component {
     super(props);
 
     this.state = {
-      activeOption: this.props.options[0],
       showOptions: false,
     };
   }
 
+  componentDidMount() {
+    this.setActiveOption(this.props.options[0]);
+  }
+
   setActiveOption(option) {
-    this.setState({
-      activeOption: option,
-      showOptions: false,
-    });
+    this.props.selectAccount(option);
   }
 
   toggleShowOptions(state) {
@@ -35,7 +35,7 @@ export default class SelectAccount extends React.Component {
     const { activeOption, showOptions } = this.state;
 
     const options = this.props.options.map((option, index) => {
-      if (option.address !== this.state.activeOption.address) {
+      if (option.address !== this.state.selectedAccount) {
         return (
           <li
             tabIndex="0"
@@ -89,4 +89,6 @@ export default class SelectAccount extends React.Component {
 
 SelectAccount.propTypes = {
   options: PropTypes.array.isRequired,
+  selectAccount: PropTypes.func,
+  selectedAccount: PropTypes.object,
 };

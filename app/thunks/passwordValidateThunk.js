@@ -4,23 +4,23 @@ import {
   formClean
 } from '../actions/form';
 import * as vaultActions from '../actions/vault';
-import { toggleAuthorisationDialog } from '../actions/actions';
+import {toggleAuthorisationDialog} from '../actions/actions';
 import * as validators from '../utils/validators';
 
 export default function (pageName, vaultActionType) {
   return (dispatch, getState) => {
 
-    const { vault, pages } = getState();
+    const {vault, pages} = getState();
 
     if (!pages[pageName]) {
       throw new Error(`Page ${pageName} does not exist in store!`);
     }
-    const { auth, inputs } = pages[pageName];
+    const {auth, inputs} = pages[pageName];
 
     const validator = validators.password;
 
     const actionsToDispatch = [];
-    const errorMsg = validator({ value: auth.password.value, vault });
+    const errorMsg = validator({value: auth.password.value, vault});
     const isInputValid = errorMsg === null;
 
     if (isInputValid) {
@@ -39,7 +39,7 @@ export default function (pageName, vaultActionType) {
 
       callbackActionProps.password = auth.password.value;
       const vaultAction = vaultActions[actionName];
-
+      console.log('v action', callbackActionProps);
       actionsToDispatch.concat([
         dispatch(passInputValidateSuccess(pageName, true)),
         dispatch(toggleAuthorisationDialog(pageName, false)),

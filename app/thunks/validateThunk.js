@@ -18,7 +18,9 @@ export default function (pageName) {
     if (inputs) {
       const { isFormValid, actionsToDispatch } = Object.entries(inputs).reduce(
         (acc, [inputName, inputProps]) => {
+          console.log('\n INPUT NAME', inputName);
           const validator = validators[inputName];
+          console.log('validator', validator);
           let errorMsg = null;
           if (!validator) {
             throw new Error(`No validator is defined for name ${inputName}`);

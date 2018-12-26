@@ -20,7 +20,6 @@ const initialState = {
       errorMsg: ''
     },
     publicKey: {
-      shown: false,
       isValid: false,
       value: '',
       errorMsg: ''

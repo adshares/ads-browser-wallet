@@ -15,6 +15,7 @@ import AwaitingTransactionsPage from './Transactions/AwaitingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
+import config from '../config/config';
 import AccountKeysPage from './Settings/AccountKeysPage';
 
 function NotFoundErrorPage(props) {
@@ -48,12 +49,15 @@ function PrivateRoute({ ...params }) {
 
 function SwitchNetwork({ ...params }) {
   const { url } = params.match.params;
-  params.switchAction(params.testnet);
-  chrome.storage.local.remove('router', () => {
-    window.location.hash = `#${url || '/'}`;
-    window.location.reload();
-  });
-  return <div />;
+  if (!!params.testnet !== !!config.testnet) {
+    params.switchAction(params.testnet);
+    chrome.storage.local.remove('router', () => {
+      window.location.hash = `#${url || '/'}`;
+      window.location.reload();
+    });
+    return <div />;
+  }
+  return <Redirect to={url} />;
 }
 
 @connect(

@@ -6,19 +6,18 @@ import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import validateFormThunk from '../../thunks/formThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
-import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
+import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import ADS from '../../utils/ads';
 import config from '../../config/config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import { VAULT_ADD_ACCOUNT } from '../../actions/vault';
-import { InputControl } from '../../components/atoms/InputControl';
+import InputControl from '../../components/atoms/InputControl';
 import { inputChange, passwordChange, toggleVisibility } from '../../actions/form';
 
 @connect(
@@ -74,9 +73,6 @@ export default class AccountEditorPage extends FormComponent {
 
   handleSubmit = () => {
     this.props.actions.validateFormThunk(AccountEditorPage.PAGE_NAME);
-    if  (this.props.vault.accounts.length <= 0) {
-      thi
-    }
   };
 
   handleInputChange = (inputName, inputValue) => {

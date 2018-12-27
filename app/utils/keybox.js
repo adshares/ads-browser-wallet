@@ -58,20 +58,16 @@ function generateKeys(seed, quantity) {
 
 function generateNewKeys(seed, currentAmount, quantity = currentAmount + 5) {
   const keys = [];
-  console.log(keys)
-  console.log(keys)
-  console.log(keys)
-  console.log(keys)
- // hack -2 is because one of the key is named master so we start number ith gap between numerated keys names
-  for (let i = currentAmount; i < quantity; i++) {
+ // hack +1 is because one of the key is named master so we start number ith gap between numerated keys names
+  for (let i = currentAmount + 1; i <= quantity; i++) {
     const n = i.toString()
       .padStart(2, '0');
     keys.push({
       name: `N${n}`,
+      type: 'auto',
       ...generateNextKey(seed, i)
     });
   }
-console.log(keys)
   return keys;
 }
 

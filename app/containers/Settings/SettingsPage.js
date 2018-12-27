@@ -17,7 +17,6 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import Page from '../../components/Page/Page';
-import { KeysList } from './KeysList';
 import { generateNewKeys } from '../../utils/keybox';
 
 export default class SettingsPage extends FormComponent {
@@ -65,7 +64,7 @@ export default class SettingsPage extends FormComponent {
                   size="small"
                   title="Edit account"
                   layout="info"
-                ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
+                ><FontAwesomeIcon icon={faPencilAlt}/></ButtonLink>
                 <ButtonLink
                   to={{
                     pathname: `/accounts/${account.address}/keys`,
@@ -74,13 +73,13 @@ export default class SettingsPage extends FormComponent {
                   size="small"
                   layout="warning"
                   title="Show account keys"
-                ><FontAwesomeIcon icon={faKey} /></ButtonLink>
+                ><FontAwesomeIcon icon={faKey}/></ButtonLink>
                 <Button
                   onClick={() => this.removeAccount(account.address)}
                   size="small"
                   layout="danger"
                   title="Delete account"
-                ><FontAwesomeIcon icon={faTrashAlt} /></Button>
+                ><FontAwesomeIcon icon={faTrashAlt}/></Button>
               </span>
             </li>
           )}
@@ -95,7 +94,7 @@ export default class SettingsPage extends FormComponent {
           size="wide"
           layout="info"
         >
-          <FontAwesomeIcon icon={faPlus} /> Add account
+          <FontAwesomeIcon icon={faPlus}/> Add account
         </ButtonLink>
       </div>
     );
@@ -116,7 +115,7 @@ export default class SettingsPage extends FormComponent {
             />
           </div>
           <Button type="submit" icon="left" size="wide" layout="info">
-            <FontAwesomeIcon icon={faSave} /> Change
+            <FontAwesomeIcon icon={faSave}/> Change
           </Button>
         </Form>
       </div>
@@ -141,7 +140,7 @@ export default class SettingsPage extends FormComponent {
               />
             </div> :
             <Button layout="danger" icon="left" size="wide" onClick={this.showSeedPhrase}>
-              <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
+              <FontAwesomeIcon icon={faShieldAlt}/> Reveal seed phrase
             </Button>
           }
         </Form>
@@ -154,24 +153,38 @@ export default class SettingsPage extends FormComponent {
       <div className={style.section}>
         <h3>Erase storage</h3>
         <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
-          <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
+          <FontAwesomeIcon icon={faTrashAlt}/> Erase storage
         </Button>
       </div>
     );
   }
 
+  generateKeys() {
+    const generatedKeys = generateNewKeys(this.props.vault.seed, 10);
+    this.props.actions.vaultSaveGeneratedKeys(generatedKeys);
+  }
+
   render() {
-    const { location, vault: { keys, seed } } = this.props;
     return (
       <Page className={style.page} title="Settings" scroll cancelLink="/">
+        <div className={style.section}>
+          <h3>Keys</h3>
+          <ButtonLink
+            to={{
+              pathname: '/keys',
+              state: { referrer: this.props.location }
+            }}
+            size="wide"
+            title="Edit account"
+            layout="info"
+            icon="left"
+          ><FontAwesomeIcon icon={faPencilAlt} /> Manage Keys</ButtonLink>
+        </div>
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}
         {this.renderStorageSettings()}
-        <KeysList
-          location={location} type="auto" keys={keys}
-          createAction={() => generateNewKeys(seed, keys.length)}
-        />
+
       </Page>
     );
   }

@@ -17,6 +17,7 @@ import style from './App.css';
 import * as VaultActions from '../actions/vault';
 import config from '../config/config';
 import DetailsPage from './Settings/DetailsPage';
+import KeysSettings from './Settings/KeysSettings';
 
 function NotFoundErrorPage(props) {
   return (
@@ -30,7 +31,7 @@ function NotFoundErrorPage(props) {
 
 function PrivateRoute({ ...params }) {
   if (params.vault.empty) {
-    return <Redirect to="/register" />;
+    return <Redirect to="/register"/>;
   }
   if (params.vault.sealed) {
     return (
@@ -55,9 +56,9 @@ function SwitchNetwork({ ...params }) {
       window.location.hash = `#${url || '/'}`;
       window.location.reload();
     });
-    return <div />;
+    return <div/>;
   }
-  return <Redirect to={url} />;
+  return <Redirect to={url}/>;
 }
 
 @connect(
@@ -169,6 +170,17 @@ export default class Rooting extends Component {
 
           <PrivateRoute
             exact
+            path="/keys"
+            vault={vault}
+            render={props =>
+              <KeysSettings
+                keys={vault.keys} seed={vault.seed}
+                saveGeneratedKeysAction={actions.vaultSaveGeneratedKeys}{...props}
+              />
+            }
+          />
+          <PrivateRoute
+            exact
             path="/keys/:pk([0-9a-fA-F]{64})/"
             vault={vault}
             render={props =>
@@ -180,7 +192,7 @@ export default class Rooting extends Component {
             path="/keys/import"
             vault={vault}
             render={props =>
-              <KeysImporterPage vault={vault} saveAction={actions.importKey} {...props} />
+              <KeysImporterPage vault={vault} {...props} />
             }
           />
           <PrivateRoute
@@ -199,7 +211,7 @@ export default class Rooting extends Component {
               <SignPage vault={vault} queue={queue} {...props} />
             }
           />
-          <Route path="/" component={NotFoundErrorPage} />
+          <Route path="/" component={NotFoundErrorPage}/>
         </Switch>
       </div>
     );

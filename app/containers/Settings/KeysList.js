@@ -9,20 +9,26 @@ import {
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './SettingsPage.css';
+import { getPublicKeyFromSecret } from './../../utils/keybox';
 
 export const KeysList = ({
-                               keys,
-                               removeAction,
-                               createActionDesc,
-                               createAction,
-                               createActionPath,
-                               location,
-                               type
-                             }) => {
+                           keys,
+                           removeAction,
+                           createAction,
+                           location,
+                           type
+                         }) => {
   const filteredKeys = keys.filter(key => key.type === type)
+    .map((k) => {
+      if (!k.hasOwnProperty('publicKey')) {
+        k.publicKey = getPublicKeyFromSecret(k.secretKey);
+      }
+      return k;
+    });
+
   return (
     <div className={style.section}>
-      <h3>{type} keys</h3>
+      <h3>{type === 'imported' ? 'Imported' : 'Generated'} keys</h3>
 
       {filteredKeys.length > 0 &&
       <ul className={style.accounts}>
@@ -41,13 +47,13 @@ export const KeysList = ({
                 size="small"
                 layout="warning"
                 title="Show keys"
-              ><FontAwesomeIcon icon={faKey}/></ButtonLink>
+              ><FontAwesomeIcon icon={faKey} /></ButtonLink>
               <Button
                 onClick={removeAction}
                 size="small"
                 layout="danger"
                 title="Delete key"
-              ><FontAwesomeIcon icon={faTrashAlt}/></Button>
+              ><FontAwesomeIcon icon={faTrashAlt} /></Button>
             </span>
           </li>
         )}
@@ -55,16 +61,16 @@ export const KeysList = ({
       }
 
       {type === 'imported' ? (
-          <ButtonLink
-            to={{
-              pathname: createActionPath,
-              state: { referrer: location }
-            }}
-            icon="left"
-            size="wide"
-            layout="info"
-          >
-            <FontAwesomeIcon icon={faPlus}/> Generate 5 new key pairs
+        <ButtonLink
+          to={{
+            pathname: '/keys/import',
+            state: { referrer: location }
+          }}
+          icon="left"
+          size="wide"
+          layout="info"
+        >
+          <FontAwesomeIcon icon={faPlus} /> Import key
           </ButtonLink>
         ) :
         <Button
@@ -73,7 +79,7 @@ export const KeysList = ({
           size="wide"
           layout="info"
         >
-          <FontAwesomeIcon icon={faPlus}/> Generate 5 new key pairs
+          <FontAwesomeIcon icon={faPlus} /> Generate 5 new key pairs
         </Button>
       }
 
@@ -88,6 +94,4 @@ KeysList.propTypes = {
   location: PropTypes.object.isRequired,
   removeAction: PropTypes.any,
   createAction: PropTypes.any,
-  createActionPath: PropTypes.any,
-  createActionDesc: PropTypes.string,
 };

@@ -1,5 +1,5 @@
 import * as actions from '../actions/vault';
-import KeyBox from '../utils/keybox';
+import * as KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
 import {
@@ -22,7 +22,6 @@ const initialVault = {
 };
 
 export default function (vault = initialVault, action) {
-
   switch (action.type) {
     case actions.VAULT_CREATE: {
       BgClient.startSession(window.btoa(action.password));
@@ -164,10 +163,10 @@ export default function (vault = initialVault, action) {
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
       return updatedVault;
-      }
+    }
 
     case actions.VAULT_IMPORT_KEY: {
-      const updatedVault = {...vault};
+      const updatedVault = { ...vault };
       updatedVault.keys.push({
         type: 'imported',
         name: action.name,
@@ -177,7 +176,17 @@ export default function (vault = initialVault, action) {
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
       return updatedVault;
     }
+
+    case actions.VAULT_SAVE_GENERATED_KEYS: {
+      return {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          ...action.keys
+        ]
+      };
+    }
     default:
       return vault;
   }
-  }
+}

@@ -18,7 +18,12 @@ const name = ({ pageName, value, vault }) => {
   }
   return null;
 };
-const publicKey = ({ value, inputs, vault, pageName }) => {
+
+const publicKey = ({ value, inputs, vault }) => {
+  if (!inputs.secretKey || !inputs.secretKey.value) {
+    throw new Error('Provide secretKey to full fil publicKey validation');
+  }
+
   if (!ADS.validateKey(value)) {
     return 'Please provide an valid public key';
   }
@@ -53,6 +58,7 @@ const secretKey = ({ value, vault }) => {
   }
   return null;
 };
+
 const password = ({ value, vault }) => {
   if (!VaultCrypt.checkPassword(vault, value)) {
     return 'Invalid password';
@@ -70,4 +76,22 @@ const address = ({ value, vault }) => {
   return null;
 };
 
-export { name, publicKey, secretKey, password, address };
+const amount = ({ value }) => {
+  if (!/^[0-9,.]*$/.test(value)) {
+    return 'Invalid amount';
+  }
+  return null;
+};
+
+const message = ({ value }) => {
+  const maxLength = 64;
+  if (!/^[0-9a-fA-F]*$/.test(value)) {
+    return 'Message can contain only hexadecimal characters';
+  }
+  if (value.length > maxLength) {
+    return `Massage too long (max ${maxLength} characters)`;
+  }
+  return null;
+};
+
+export { name, publicKey, secretKey, password, address, amount, message };

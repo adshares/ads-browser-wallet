@@ -66,11 +66,14 @@ export default class SignPage extends PageComponent {
     return (
       <SignForm
         transaction={message.data}
+        vault={this.props.vault}
         acceptAction={this.handleAccept}
         rejectAction={this.handleReject}
         cancelLink={this.getReferrer()}
+        onCancelClick={this.handleReject}
         noLinks={this.state.popup}
-        loading={this.state.isSubmitted}
+        showLoader={this.state.isSubmitted}
+        history={this.props.history}
       />
     );
   }
@@ -78,7 +81,7 @@ export default class SignPage extends PageComponent {
 
 SignPage.propTypes = {
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  vault: PropTypes.object.isRequired,
   queue: PropTypes.array.isRequired,
 };

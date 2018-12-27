@@ -12,14 +12,15 @@ export default class ErrorPage extends React.PureComponent {
     const code = this.props.code || 100;
     const message = this.props.message || 'Unknown Error';
     const cancelLink = this.props.cancelLink || '/';
+    const onCancelClick = this.props.onCancelClick;
 
     return (
-      <Page cancelLink={cancelLink} title={`Error ${code}`}>
+      <Page cancelLink={cancelLink} onCancelClick={onCancelClick} title={`Error ${code}`}>
         <Box title={`Error ${code}`} layout="warning" icon={faExclamation}>
           {message}
         </Box>
         {this.props.children}
-        <ButtonLink to={cancelLink} size="wide" layout="info" icon="left">
+        <ButtonLink to={cancelLink} onClick={onCancelClick} size="wide" layout="info" icon="left">
           <FontAwesomeIcon icon={faChevronLeft} /> Back
         </ButtonLink>
       </Page>
@@ -32,4 +33,5 @@ ErrorPage.propTypes = {
   code: PropTypes.number,
   children: PropTypes.object,
   cancelLink: PropTypes.any,
+  onCancelClick: PropTypes.func,
 };

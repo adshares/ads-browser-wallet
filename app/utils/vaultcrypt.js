@@ -74,6 +74,8 @@ function decrypt(encryptedVault, password) {
     ...account,
     secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
     balance: Math.random() * 1000,
+    messageId: 100,
+    hash: '34B6A08D20E5DDEF5127D797B6155E2C7D292D01AB9775408AB7A217A72AE983',
   }));
 
   return {

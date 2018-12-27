@@ -11,6 +11,7 @@ import LoginPage from './Account/LoginPage';
 import SettingsPage from './Settings/SettingsPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeysImporterPage from './Settings/KeysImporterPage';
+import SendOnePage from './Transactions/SendOnePage';
 import AwaitingTransactionsPage from './Transactions/AwaitingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
@@ -188,6 +189,14 @@ export default class Rooting extends Component {
             vault={vault}
             render={props =>
               <SignPage vault={vault} queue={queue} {...props} />
+            }
+          />
+          <PrivateRoute
+            exact
+            path="/transactions/send-one"
+            vault={vault}
+            render={props =>
+              <SendOnePage vault={vault} {...props} />
             }
           />
           <Route path="/" component={NotFoundErrorPage} />

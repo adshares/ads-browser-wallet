@@ -180,4 +180,4 @@ export default function (vault = initialVault, action) {
     default:
       return vault;
   }
-  }
+}

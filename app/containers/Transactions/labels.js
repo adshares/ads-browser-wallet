@@ -1,7 +1,7 @@
 export const typeLabels = {
   broadcast: 'Broadcast',
-  send_one: 'Transfer',
-  send_many: 'Multi-transfer',
+  send_one: 'Transaction',
+  send_many: 'Multi-transaction',
   create_account: 'Creating an account',
   create_node: 'Creating a node',
   retrieve_funds: 'Retrieving funds',

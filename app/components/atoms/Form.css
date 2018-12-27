@@ -9,7 +9,7 @@
     border: 1px solid var(--gray-dark);
     border-radius: 3px !important;
     box-sizing: border-box;
-    display: block;
+    display: inline-block;
     width: 100%;
     outline: 0;
 }

@@ -5,23 +5,24 @@ import ErrorPage from '../containers/ErrorPage';
 export default class PageComponent extends React.PureComponent {
 
   getReferrer(defaultLocation = '/') {
-    if (this.props.location && this.props.location.state) {
-      return this.props.location.state.referrer || defaultLocation;
+    if (this.props.history.location && this.props.history.location.state) {
+      return this.props.history.location.state.referrer || defaultLocation;
     }
     return defaultLocation;
   }
 
-  renderErrorPage(code, message, cancelLink) {
+  renderErrorPage(code, message, cancelLink, onCancelClick) {
     return (
       <ErrorPage
         code={code}
         message={message}
         cancelLink={cancelLink || this.getReferrer()}
+        onCancelClick={onCancelClick}
       />
     );
   }
 }
 
 PageComponent.propTypes = {
-  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };

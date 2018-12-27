@@ -45,6 +45,7 @@ export default class Page extends React.Component {
       title,
       subTitle,
       cancelLink,
+      onCancelClick,
       noLinks,
       scroll,
       smallTitle,
@@ -79,6 +80,7 @@ export default class Page extends React.Component {
       menu = (
         <ButtonLink
           to={cancelLink}
+          onClick={onCancelClick}
           className={style.close}
           size="small"
           inverse
@@ -92,6 +94,7 @@ export default class Page extends React.Component {
 
     return (
       <section>
+        {this.props.showLoader && <LoaderOverlay />}
         {autenticationModalOpen && (
           <ConfirmDialog
             showDialog
@@ -140,6 +143,7 @@ Page.propTypes = {
   title: PropTypes.string,
   subTitle: PropTypes.string,
   cancelLink: PropTypes.any,
+  onCancelClick: PropTypes.func,
   noLinks: PropTypes.bool,
   smallTitle: PropTypes.bool,
   scroll: PropTypes.bool,
@@ -147,4 +151,5 @@ Page.propTypes = {
   onDialogSubmit: PropTypes.func,
   password: PropTypes.object,
   autenticationModalOpen: PropTypes.bool,
+  showLoader: PropTypes.bool,
 };

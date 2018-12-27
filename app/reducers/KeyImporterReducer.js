@@ -35,7 +35,7 @@ const initialState = {
 
 const actionsMap = {
   ...FormReducers,
-  [actions.FORM_CLEANING](state, action) {
+  [actions.FORM_CLEAN](state, action) {
     return {
       ...state,
       ...action,

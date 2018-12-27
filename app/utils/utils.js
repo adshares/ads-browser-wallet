@@ -65,12 +65,13 @@ export function searchForExistingKey(newKey, keys, type) {
 export function formatDate(value, showTime = true, utc = false) {
   let date;
   let time;
+  const val = value instanceof Date ? value : new Date(value);
   if (utc) {
-    date = `${value.getUTCFullYear()}-${value.getUTCMonth().toString().padStart(2, '0')}-${value.getUTCDate().toString().padStart(2, '0')}`;
-    time = `${value.getUTCHours().toString().padStart(2, '0')}:${value.getUTCMinutes().toString().padStart(2, '0')}:${value.getUTCSeconds().toString().padStart(2, '0')}`;
+    date = `${val.getUTCFullYear()}-${val.getUTCMonth().toString().padStart(2, '0')}-${val.getUTCDate().toString().padStart(2, '0')}`;
+    time = `${val.getUTCHours().toString().padStart(2, '0')}:${val.getUTCMinutes().toString().padStart(2, '0')}:${val.getUTCSeconds().toString().padStart(2, '0')}`;
   } else {
-    date = `${value.getFullYear()}-${value.getMonth().toString().padStart(2, '0')}-${value.getDate().toString().padStart(2, '0')}`;
-    time = `${value.getHours().toString().padStart(2, '0')}:${value.getMinutes().toString().padStart(2, '0')}:${value.getSeconds().toString().padStart(2, '0')}`;
+    date = `${val.getFullYear()}-${val.getMonth().toString().padStart(2, '0')}-${val.getDate().toString().padStart(2, '0')}`;
+    time = `${val.getHours().toString().padStart(2, '0')}:${val.getMinutes().toString().padStart(2, '0')}:${val.getSeconds().toString().padStart(2, '0')}`;
   }
   return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
 }

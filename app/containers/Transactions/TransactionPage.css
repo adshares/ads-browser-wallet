@@ -1,0 +1,25 @@
+.page h2 {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.amount input {
+    width: 50%;
+}
+
+.amount > div > span {
+    display: inline-block;
+    font-size: 30px;
+    line-height: 50px;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.buttons a:first-child {
+    margin-right: 50px;
+}

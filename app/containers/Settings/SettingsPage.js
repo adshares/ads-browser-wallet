@@ -60,7 +60,7 @@ export default class SettingsPage extends FormComponent {
                 <ButtonLink
                   to={{
                     pathname: `/accounts/${account.address}/edit`,
-                    state: { referrer: this.props.location }
+                    state: { referrer: this.props.history.location }
                   }}
                   size="small"
                   title="Edit account"
@@ -69,7 +69,7 @@ export default class SettingsPage extends FormComponent {
                 <ButtonLink
                   to={{
                     pathname: `/accounts/${account.address}/keys`,
-                    state: { referrer: this.props.location }
+                    state: { referrer: this.props.history.location }
                   }}
                   size="small"
                   layout="warning"
@@ -89,7 +89,7 @@ export default class SettingsPage extends FormComponent {
         <ButtonLink
           to={{
             pathname: '/accounts/import',
-            state: { referrer: this.props.location }
+            state: { referrer: this.props.history.location }
           }}
           icon="left"
           size="wide"
@@ -174,7 +174,6 @@ export default class SettingsPage extends FormComponent {
 
 SettingsPage.propTypes = {
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
 };

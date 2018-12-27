@@ -7,16 +7,22 @@
     margin-top: 30px;
 }
 
+.invalid input, .invalid textarea {
+    border-color: var(--red);
+}
+
 .label {
     position: absolute;
     top: 0;
+    left: 0;
     padding: 13px 0 0 13px;
     transition: transform 0.2s linear, opacity 0.2s;
     opacity: 0.5;
 }
 
 .input:focus + .label,
-.input:valid + .label{
+.input:valid + .label,
+.input:read-only + .label {
     font-size: 90%;
     transform: translate3d(0, -100%, 0);
     opacity: 1;

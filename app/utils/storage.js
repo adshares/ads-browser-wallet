@@ -1,8 +1,8 @@
-import config from '../config';
+import config from '../config/config';
 
 function saveState(state) {
   chrome.storage.local.set({
-    [config.routerStorageKey]: JSON.stringify(state[config.routerStorageKey])
+    [config.routerStorageKey]: JSON.stringify(state[config.routerStorageKey]),
   });
 }
 

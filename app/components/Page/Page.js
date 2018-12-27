@@ -8,12 +8,13 @@ import Link from 'react-router-dom/es/Link';
 import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
+import ConfirmDialog from '../confirmDialog/confirmDialog';
 import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vault';
 import * as FormActions from '../../actions/form';
 import logo from '../../assets/logo_blue.svg';
+import config from '../../config/config';
 import style from './Page.css';
-import ConfirmDialog from '../confirmDialog/confirmDialog';
 
 @connect(
   state => ({
@@ -32,6 +33,7 @@ export default class Page extends React.Component {
     if (this.props.vault.selectedAccount) {
       return this.props.vault.selectedAccount;
     } else if (this.props.vault.accounts.length > 0) {
+      this.props.actions.vault.selectActiveAccount(this.props.vault.accounts[0].address);
       return this.props.vault.accounts[0];
     }
   };
@@ -43,16 +45,18 @@ export default class Page extends React.Component {
       title,
       subTitle,
       cancelLink,
+      onCancelClick,
+      noLinks,
       scroll,
       smallTitle,
       children,
+      className,
       onPasswordInputChange,
       onDialogSubmit,
       password,
       autenticationModalOpen,
     } = this.props;
 
-    console.log('PASS', onPasswordInputChange);
     let classes = [];
     classes.push(style.header);
     if (smallTitle) {
@@ -62,13 +66,35 @@ export default class Page extends React.Component {
 
     classes = [];
     classes.push(style.contentWrapper);
+    if (className) {
+      classes.push(className);
+    }
     if (scroll) {
       classes.push(style.withScroll);
     }
     const wrapperClass = classes.join(' ');
+    let menu;
+    if (noLinks) {
+      menu = <div />;
+    } else if (cancelLink) {
+      menu = (
+        <ButtonLink
+          to={cancelLink}
+          onClick={onCancelClick}
+          className={style.close}
+          size="small"
+          inverse
+        >
+          <FontAwesomeIcon icon={faTimes} />
+        </ButtonLink>
+      );
+    } else {
+      menu = <HamburgerMenu logoutAction={actions.vault.seal} />;
+    }
 
     return (
       <section>
+        {this.props.showLoader && <LoaderOverlay />}
         {autenticationModalOpen && (
           <ConfirmDialog
             showDialog
@@ -78,35 +104,30 @@ export default class Page extends React.Component {
           />
         )}
         <header className={headerClass}>
-          <Link to="/">
-            <img src={logo} alt="Adshares wallet" className={style.logo}/>
-          </Link>
+          <div className={style.logo}>
+            {noLinks ? (
+              <img src={logo} alt="Adshares wallet" />
+            ) : (
+              <Link to="/">
+                <img src={logo} alt="Adshares wallet" />
+          </Link>)}
+            {config.testnet ? <span>TESTNET</span> : ''}
+          </div>
           {title ? (
             <h1>
               {title} {subTitle ? <small>{subTitle}</small> : ''}
             </h1>
           ) : (
             <SelectAccount
-              options={vault.accounts} selectedAccount={this.getSelectedAccount}
+              options={vault.accounts} selectedAccount={this.getSelectedAccount()}
               selectAccount={actions.vault.selectActiveAccount}
             />
           )}
-          {cancelLink ? (
-            <ButtonLink
-              to={cancelLink}
-              className={style.close}
-              size="small"
-              inverse
-            >
-              <FontAwesomeIcon icon={faTimes}/>
-            </ButtonLink>
-          ) : (
-            <HamburgerMenu logoutAction={actions.vault.seal}/>
-          )}
+          {menu}
         </header>
         <div className={wrapperClass}>{children}</div>
         <footer className={style.footer}>
-          <Timer/>
+          <Timer />
         </footer>
       </section>
     );
@@ -115,15 +136,19 @@ export default class Page extends React.Component {
 
 Page.propTypes = {
   children: PropTypes.any,
+  className: PropTypes.string,
   vault: PropTypes.object,
   actions: PropTypes.object,
   title: PropTypes.string,
   subTitle: PropTypes.string,
   cancelLink: PropTypes.any,
+  onCancelClick: PropTypes.func,
+  noLinks: PropTypes.bool,
   smallTitle: PropTypes.bool,
   scroll: PropTypes.bool,
   onPasswordInputChange: PropTypes.func,
   onDialogSubmit: PropTypes.func,
   password: PropTypes.object,
-  autenticationModalOpen: PropTypes.bool
+  autenticationModalOpen: PropTypes.bool,
+  showLoader: PropTypes.bool,
 };

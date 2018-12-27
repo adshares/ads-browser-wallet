@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './checkbox.css';
+import style from './checkboxControl.css';
 
-export const Checkbox = ({ checked, desc, handleChange }) => {
+export const CheckboxControl = ({ checked, desc, handleChange }) => {
   const handleChanges = (e) => {
     if (e.keyCode && e.keyCode !== 13) return;
     handleChange(e.target.checked);
@@ -28,9 +28,9 @@ export const Checkbox = ({ checked, desc, handleChange }) => {
   );
 };
 
-export default Checkbox;
+export default CheckboxControl;
 
-Checkbox.propTypes = {
+CheckboxControl.propTypes = {
   checked: PropTypes.bool,
   desc: PropTypes.string.isRequired,
   handleChange: PropTypes.func,

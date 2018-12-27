@@ -1,5 +1,4 @@
 import * as actions from '../actions/form';
-import { TOGGLE_AUTHORISATION_DIALOG } from '../actions/actions';
 
 const actionsMap = {
   [actions.INPUT_CHANGED](state, action) {
@@ -94,14 +93,14 @@ const actionsMap = {
       ...action.payload
     };
   },
-  [actions.FORM_VALIDATION_FAILED](state, action) {
+  [actions.FORM_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
       ...action.payload
     };
   },
 
-  [TOGGLE_AUTHORISATION_DIALOG](state, action) {
+  [actions.TOGGLE_AUTHORISATION_DIALOG](state, action) {
     return {
       ...state,
       auth: {

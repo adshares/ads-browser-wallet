@@ -4,17 +4,20 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ItemNotFound } from '../../actions/errors';
+import validateFormThunk from '../../thunks/formThunk';
+import passwordValidateThunk from '../../thunks/passwordValidateThunk';
+import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import config from '../../config';
+import config from '../../config/config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
-import { FormControl } from '../../components/atoms/FormControl';
+import { VAULT_ADD_ACCOUNT } from '../../actions/vault';
+import { InputControl } from '../../components/atoms/InputControl';
 import { handleInputChange, handlePasswordChange, toggleVisibility, passInputValidate, formValidate, formClean } from '../../actions/form';
 
 @connect(
@@ -30,7 +33,7 @@ import { handleInputChange, handlePasswordChange, toggleVisibility, passInputVal
         formValidate,
         passInputValidate,
         toggleVisibility,
-        formClean
+        formclean
       },
       dispatch
     )
@@ -129,7 +132,7 @@ export default class AccountEditorPage extends FormComponent {
           </div>
             ) : (
               <Form>
-                <FormControl
+                <InputControl
                   required
                   isInput
                   maxLength={config.accountNameAndKeyMaxLength}
@@ -138,7 +141,7 @@ export default class AccountEditorPage extends FormComponent {
                   errorMessage={name.errorMsg}
                   handleChange={value => this.handleInputChange('name', value)}
                 />
-                <FormControl
+                <InputControl
                   required
                   isInput
                   label="Account address"
@@ -146,7 +149,7 @@ export default class AccountEditorPage extends FormComponent {
                   errorMessage={address.errorMsg}
                   handleChange={value => this.handleInputChange('address', value)}
                 />
-                <FormControl
+                <InputControl
                   required
                   pattern="[0-9a-fA-F]{64}"
                   label="Account public key"
@@ -187,4 +190,5 @@ AccountEditorPage.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
+  saveAction: PropTypes.func.isRequired,
 };

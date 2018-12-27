@@ -10,6 +10,8 @@ export const REMOVE_ACCOUNT = 'REMOVE_ACCOUNT';
 export const IMPORT_KEY_INIT = 'IMPORT_KEY_INIT';
 export const IMPORT_KEY = 'IMPORT_KEY';
 export const SELECT_ACTIVE_ACCOUNT = 'SELECT_ACTIVE_ACCOUNT';
+export const SWITCH_NETWORK = 'SWITCH_NETWORK';
+
 
 export function create(password, seedPhrase, callback) {
   return { type: CREATE, password, seedPhrase, callback };
@@ -55,7 +57,10 @@ export function importKey({ name, publicKey, secretKey, password }) {
   return { type: IMPORT_KEY, name, publicKey, secretKey, password };
 }
 
+export function selectActiveAccount(accountAddress) {
+  return { type: SELECT_ACTIVE_ACCOUNT, accountAddress };
+}
 
-export function selectActiveAccount(account) {
-  return { type: SELECT_ACTIVE_ACCOUNT, account };
+export function switchNetwork(testnet) {
+  return { type: SWITCH_NETWORK, testnet };
 }

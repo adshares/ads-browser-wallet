@@ -456,7 +456,7 @@ function parseData(data) {
       throw new Error('Unknown type');
   }
 
-  return parser.decodeData;
+  return parser.decodedData;
 }
 
 module.exports = {

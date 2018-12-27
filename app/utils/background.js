@@ -16,7 +16,18 @@ function getSession(callback) {
     type: types.MSG_SESSION,
   }, (response) => {
     if (callback) {
-      callback(response.data && response.data.secret ? response.data.secret : null);
+      callback(response.data);
+    }
+  });
+}
+
+function changeNetwork(testnet = false, callback) {
+  chrome.runtime.sendMessage({
+    type: types.MSG_SESSION_NETWORK,
+    data: { testnet }
+  }, (response) => {
+    if (callback) {
+      callback(response.data);
     }
   });
 }
@@ -47,6 +58,7 @@ function sendResponse(sourceId, id, data, callback) {
 export default {
   startSession,
   getSession,
+  changeNetwork,
   removeSession,
   sendResponse
 };

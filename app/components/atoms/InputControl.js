@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './FromControl.css';
+import style from './InputControl.css';
 import ErrorMessage from './ErrorMessage';
 
-export const FormControl = ({
+const InputControl = ({
+  name,
   value,
   label,
   required,
@@ -16,18 +17,27 @@ export const FormControl = ({
   isInput,
   handleChange,
   rows,
-  type
+  type,
+  children,
 }) => {
   const handleInputChange = (e) => {
-    handleChange(e.target.value);
+    handleChange(e.target.value, e.target.name);
   };
 
+  const classes = [];
+  classes.push(style.inputWrapper);
+  if (isValid === false) {
+    classes.push(style.invalid);
+  }
+
   return (
-    <div className={style.inputWrapper}>
+    <div className={classes.join(' ')}>
       {isInput ? (
         <input
           type={type}
           id={`${label}`}
+          name={name}
+          type={type}
           required={required}
           readOnly={readOnly}
           value={value}
@@ -39,6 +49,7 @@ export const FormControl = ({
       ) : (
         <textarea
           id={`${label}`}
+          name={name}
           required={required}
           autoFocus={autoFocus}
           readOnly={readOnly}
@@ -53,14 +64,16 @@ export const FormControl = ({
       <label htmlFor={`${label}`} className={style.label}>
         {label}
       </label>
-      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+      {children}
+      {!isValid && !!errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </div>
   );
 };
 
-export default FormControl;
+export default InputControl;
 
-FormControl.propTypes = {
+InputControl.propTypes = {
+  name: PropTypes.string,
   value: PropTypes.string,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
@@ -73,5 +86,6 @@ FormControl.propTypes = {
   maxLength: PropTypes.number,
   handleChange: PropTypes.func,
   rows: PropTypes.number,
-  type: PropTypes.string
+  type: PropTypes.string,
+  children: PropTypes.any,
 };

@@ -1,11 +1,10 @@
 .welcomePage {
     text-align: center;
     padding: 15px;
-    height: 460px;
 }
 
 .logo {
-    margin: 20px auto 30px auto;
+    margin: 20px auto 29px auto;
 }
 
 .logo svg {
@@ -16,19 +15,38 @@
     margin-top: -25px;
 }
 
-.restore {
+.logo h3 {
+    color: var(--orange-dark);
+    margin: 15px 0;
+    line-height: 22px;
+}
+
+.links {
     margin-top: 20px;
     font-size: var(--font-smaller);
+}
+
+.mainnetLink {
+    color: var(--orange-dark);
 }
 
 .newPasswordPage {
     text-align: center;
     padding: 15px;
-    height: 460px;
 }
 
 .newPasswordPage header {
-    margin-bottom: 50px;
+    margin-bottom: 89px;
+}
+
+.newPasswordPage h1 {
+    margin: 20px 0;
+}
+
+.newPasswordPage h3 {
+    color: var(--orange-dark);
+    margin: 15px 0;
+    line-height: 22px;
 }
 
 .newPasswordPage form {
@@ -38,7 +56,16 @@
 .regulationsPage {
     text-align: center;
     padding: 15px;
-    height: 460px;
+}
+
+.regulationsPage h1 {
+    margin: 20px 0;
+}
+
+.regulationsPage h3 {
+    color: var(--orange-dark);
+    margin: 15px 0;
+    line-height: 22px;
 }
 
 .regulations {
@@ -55,11 +82,20 @@
 .seedPhrasePage {
     text-align: center;
     padding: 15px;
-    height: 460px;
 }
 
 .seedPhrasePage header {
-    margin-bottom: 35px;
+    margin-bottom: 34px;
+}
+
+.seedPhrasePage h1 {
+    margin: 20px 0;
+}
+
+.seedPhrasePage h3 {
+    color: var(--orange-dark);
+    margin: 15px 0;
+    line-height: 22px;
 }
 
 .seedPhrasePage form {

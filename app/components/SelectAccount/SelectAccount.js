@@ -14,10 +14,6 @@ export default class SelectAccount extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.setActiveOption(this.props.options[0]);
-  }
-
   setActiveOption(option) {
     this.props.selectAccount(option);
   }
@@ -33,11 +29,9 @@ export default class SelectAccount extends React.Component {
       return <div />;
     }
     const { showOptions } = this.state;
-    const { selectedAccount } = this.props;
-
-    console.log("\n ===========> ", selectedAccount)
-
-    const options = !!this.props.options.length && this.props.options.map((option, index) => {
+    const { selectedAccount, options } = this.props;
+    const activeOption = options.find(account => account.address === selectedAccount);
+    const results = !!options.length && options.map((option, index) => {
       if (option.address !== selectedAccount) {
         return (
           <li
@@ -58,22 +52,20 @@ export default class SelectAccount extends React.Component {
         className={`${style.select} ${showOptions && style.selectActive}`}
         onMouseLeave={() => this.toggleShowOptions(false)}
       >
-        {selectedAccount && (
-          <div
-            tabIndex="0"
-            role="button"
-            className={`${style.option} ${style.optionActive}`}
-            onClick={() => this.toggleShowOptions(!showOptions)}
-            onKeyDown={() => this.toggleShowOptions(true)}
-          >
-            <span className={style.optionName}> {selectedAccount.name} </span>
-            <span className={style.optionAccount}> {selectedAccount.address} </span>
-          </div>
-        )}
+        <div
+          tabIndex="0"
+          role="button"
+          className={`${style.option} ${style.optionActive}`}
+          onClick={() => this.toggleShowOptions(!showOptions)}
+          onKeyDown={() => this.toggleShowOptions(true)}
+        >
+          <span className={style.optionName}> {activeOption.name} </span>
+          <span className={style.optionAccount}> {activeOption.address} </span>
+        </div>
 
         <ul className={`${style.optionList} ${showOptions && style.optionListActive}`}>
           <div className={style.scrollableList}>
-            {showOptions && options}
+            {showOptions && results}
           </div>
           {showOptions && (
             <li className={`${style.option} ${style.optionAdd}`}>
@@ -95,5 +87,5 @@ export default class SelectAccount extends React.Component {
 SelectAccount.propTypes = {
   options: PropTypes.array.isRequired,
   selectAccount: PropTypes.func,
-  selectedAccount: PropTypes.object || undefined,
+  selectedAccount: PropTypes.string || undefined,
 };

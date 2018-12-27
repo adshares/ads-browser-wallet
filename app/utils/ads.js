@@ -178,9 +178,6 @@ function getPublicKey(secretKey) {
  * @returns {string} signature 64 bytes
  */
 function sign(data, publicKey, secretKey) {
-  console.log('SIGN 1', data)
-  console.log('SIGN 2', publicKey)
-  console.log('SIGN 3', secretKey)
   return byteToHex(NaCl.sign.detached(
     hexToByte(sanitizeHex(data)),
     hexToByte(sanitizeHex(secretKey + publicKey)),

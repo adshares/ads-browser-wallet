@@ -94,7 +94,7 @@ export default class SignForm extends FormComponent {
   handleCancelClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.rejectAction();
+    this.props.cancelAction();
   }
 
   renderCommand(type, fields) {
@@ -426,6 +426,7 @@ SignForm.propTypes = {
   acceptAction: PropTypes.func.isRequired,
   rejectAction: PropTypes.func.isRequired,
   cancelLink: PropTypes.any,
+  cancelAction: PropTypes.func,
   noLinks: PropTypes.bool,
   showLoader: PropTypes.bool,
 };

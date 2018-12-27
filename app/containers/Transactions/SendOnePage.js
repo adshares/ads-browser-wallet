@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
-import { cleanForm, inputChanged, transactionRejected } from '../../actions/transactionActions';
+import {
+  cleanForm,
+  inputChanged,
+  transactionRejected
+} from '../../actions/transactionActions';
 import { validateForm, sendTransaction } from '../../thunks/transactionThunk';
 import TransactionPage from './TransactionPage';
 import Form from '../../components/atoms/Form';

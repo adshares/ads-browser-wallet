@@ -100,11 +100,13 @@ const actionsMap = {
     };
   },
 
-  [actions.TRANSACTION_REJECTED](state, action) {
+  [actions.TRANSACTION_REJECTED](state) {
     return {
       ...state,
-      ...action,
-      ...initialState
+      isSignRequired: false,
+      accountHash: null,
+      transactionData: null,
+      signature: null,
     };
   },
 

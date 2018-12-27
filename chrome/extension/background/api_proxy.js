@@ -20,7 +20,6 @@ export default function handleMessage(message, sourceId, callback) {
     case types.MSG_INFO:
       return callback(getInfo());
     case types.MSG_PUSH:
-      console.log(message);
       queue.push({
         sourceId,
         testnet: message.testnet,
@@ -31,7 +30,6 @@ export default function handleMessage(message, sourceId, callback) {
       });
       break;
     case types.MSG_SIGN:
-      console.debug(message);
       queue.pushUnique({
         sourceId,
         testnet: !!message.testnet,

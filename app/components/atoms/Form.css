@@ -2,7 +2,7 @@
     margin-bottom: 15px;
 }
 
-.form input, .form textarea {
+.form input, .form textarea, .form select {
     background-color: var(--white);
     font-size: var(--font-small);
     transition: all 250ms ease;
@@ -14,7 +14,7 @@
     outline: 0;
 }
 
-.form input:focus, .form textarea:focus {
+.form input:focus, .form textarea:focus, .form select:focus {
     border-color: var(--blue-dark);
 }
 
@@ -28,6 +28,12 @@
     padding: 15px;
 }
 
-form input[readonly], .form textarea[readonly] {
+.form select {
+    line-height: 30px;
+    text-indent: 5px;
+    height: 30px;
+}
+
+form input[readonly], .form textarea[readonly], .form select[readonly] {
     background-color: var(--grayish-white);
 }

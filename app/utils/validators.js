@@ -19,7 +19,6 @@ const name = ({ pageName, value, vault }) => {
   return null;
 };
 const publicKey = ({ value, inputs, vault, pageName }) => {
-  console.log('ADS.validateKey(value)', ADS.validateKey(value));
   if (!ADS.validateKey(value)) {
     return 'Please provide an valid public key';
   }

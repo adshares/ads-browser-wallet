@@ -21,11 +21,7 @@ const initialVault = {
   selectedAccount: null,
 };
 
-const actionsMap = {};
-
 export default function (vault = initialVault, action) {
-  console.log('vault na samej gorze', vault);
-  console.log('action', action);
 
   switch (action.type) {
     case actions.VAULT_CREATE: {

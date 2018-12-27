@@ -1,20 +1,20 @@
 export const TOGGLE_AUTHORISATION_DIALOG_GLOBAL = 'TOGGLE_AUTHORISATION_DIALOG_GLOBAL';
-export const PASS_INPUT_CHANGED = 'PASS_INPUT_CHANGED';
-export const PASS_INPUT_VALIDATION_SUCCESS = 'PASS_INPUT_VALIDATION_SUCCESS';
-export const PASS_INPUT_VALIDATION_FAILED = 'PASS_INPUT_VALIDATION_FAILED';
+export const GLOBAL_PASS_INPUT_CHANGED = 'GLOBAL_PASS_INPUT_CHANGED';
+export const GLOBAL_PASS_INPUT_VALIDATION_SUCCESS = 'GLOBAL_PASS_INPUT_VALIDATION_SUCCESS';
+export const GLOBAL_PASS_INPUT_VALIDATION_FAILED = 'GLOBAL_PASS_INPUT_VALIDATION_FAILED';
 
-const handlePasswordChange = (pageName, inputValue) => ({
-  type: PASS_INPUT_CHANGED,
+const handlePasswordChange = (inputValue) => ({
+  type: GLOBAL_PASS_INPUT_CHANGED,
   inputValue
 });
 
-const passInputValidateSuccess = (pageName, valid) => ({
-  type: PASS_INPUT_VALIDATION_SUCCESS,
+const passInputValidateSuccess = (valid) => ({
+  type: GLOBAL_PASS_INPUT_CHANGED,
   valid
 });
 
-const passInputValidateFailed = (pageName, errorMsg) => ({
-  type: PASS_INPUT_VALIDATION_FAILED,
+const passInputValidateFailed = (errorMsg) => ({
+  type: GLOBAL_PASS_INPUT_CHANGED,
   errorMsg
 });
 

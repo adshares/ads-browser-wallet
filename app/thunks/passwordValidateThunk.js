@@ -1,10 +1,10 @@
 import {
   passInputValidateFailed,
   passInputValidateSuccess,
-  formClean
+  formClean,
+  toggleAuthorisationDialog
 } from '../actions/form';
 import * as vaultActions from '../actions/vault';
-import {toggleAuthorisationDialog} from '../actions/actions';
 import * as validators from '../utils/validators';
 
 export default function (pageName, vaultActionType) {
@@ -39,7 +39,6 @@ export default function (pageName, vaultActionType) {
 
       callbackActionProps.password = auth.password.value;
       const vaultAction = vaultActions[actionName];
-      console.log('v action', callbackActionProps);
       actionsToDispatch.concat([
         dispatch(passInputValidateSuccess(pageName, true)),
         dispatch(toggleAuthorisationDialog(pageName, false)),

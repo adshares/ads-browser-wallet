@@ -13,7 +13,7 @@ const authState = {
 
 export default function (state = authState, action) {
   switch (action.type) {
-    case actions.TOGGLE_AUTHORISATION_DIALOG: {
+    case actions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL: {
       return {
         ...state,
         auth: {
@@ -22,7 +22,7 @@ export default function (state = authState, action) {
         }
       };
     }
-    case actions.PASS_INPUT_CHANGED: {
+    case actions.GLOBAL_PASS_INPUT_CHANGED: {
       return {
         ...state,
         auth: {
@@ -34,7 +34,7 @@ export default function (state = authState, action) {
         }
       };
     }
-    case actions.PASS_INPUT_VALIDATION_FAILED: {
+    case actions.GLOBAL_PASS_INPUT_VALIDATION_FAILED: {
       return {
         ...state,
         auth: {
@@ -46,7 +46,7 @@ export default function (state = authState, action) {
         }
       };
     }
-    case actions.PASS_INPUT_VALIDATION_SUCCESS: {
+    case actions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS: {
       return {
         ...state,
         auth: {

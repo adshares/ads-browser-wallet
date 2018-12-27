@@ -52,7 +52,7 @@ export function validateForm(transactionType) {
       );
 
       if (isFormValid) {
-        const account = vault.accounts[0];
+        const account = vault.accounts.find(a => a.address === vault.selectedAccount);
         const command = {};
         command[ADS.TX_FIELDS.TYPE] = transactionType;
         command[ADS.TX_FIELDS.SENDER] = account.address;
@@ -80,5 +80,14 @@ export function validateForm(transactionType) {
 }
 
 export function sendTransaction(transactionType) {
-
+  return (dispatch, getState) => {
+    const { transactions, vault } = getState();
+    if (!transactions[transactionType]) {
+      throw new Error(`Transaction ${transactionType} does not exist in store!`);
+    }
+    const transaction = transactions[transactionType];
+    const account = vault.accounts.find(a => a.address === vault.selectedAccount);
+    const signature = ADS.sign(transaction.transactionData, account.publicKey, account.secretKey);
+    console.debug(transaction.transactionData, signature);
+  };
 }

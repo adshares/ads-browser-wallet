@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
+import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';

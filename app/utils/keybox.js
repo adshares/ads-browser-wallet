@@ -1,8 +1,15 @@
 import bip39 from 'bip39';
-import { getMasterKeyFromSeed, derivePath, getPublicKeyFromSeed as getPkFromSeed} from './ed25519-hd-key';
+import {
+  getMasterKeyFromSeed,
+  derivePath,
+  getPublicKeyFromSeed as getPkFromSeed
+} from './ed25519-hd-key';
 import { hexToByte } from './utils';
 
-export const getPublicKeyFromSecret = secretKey => getPkFromSeed(hexToByte(secretKey)).toString('hex').slice(2).toUpperCase();
+const getPublicKeyFromSecret = secretKey => getPkFromSeed(hexToByte(secretKey))
+  .toString('hex')
+  .slice(2)
+  .toUpperCase();
 
 function generateKeyPair(seed, path) {
   let key;
@@ -13,9 +20,13 @@ function generateKeyPair(seed, path) {
   }
   return {
     type: 'auto',
-    secretKey: key.toString('hex').toUpperCase(),
+    secretKey: key.toString('hex')
+      .toUpperCase(),
     // slice(2) because public key is left pad with '00'
-    publicKey: getPkFromSeed(key).toString('hex').slice(2).toUpperCase(),
+    publicKey: getPkFromSeed(key)
+      .toString('hex')
+      .slice(2)
+      .toUpperCase(),
   };
 }
 
@@ -34,7 +45,8 @@ function generateKeys(seed, quantity) {
     ...generateKeyPair(seed)
   });
   for (let i = 1; i < quantity; i++) {
-    const n = i.toString().padStart(2, '0');
+    const n = i.toString()
+      .padStart(2, '0');
     keys.push({
       name: `N${n}`,
       ...generateNextKey(seed, i)
@@ -44,14 +56,30 @@ function generateKeys(seed, quantity) {
   return keys;
 }
 
+function generateNewKeys(seed, currentAmount, quantity = currentAmount + 5) {
+  const keys = [];
+ // hack +1 is because one of the key is named master so we start number ith gap between numerated keys names
+  for (let i = currentAmount + 1; i <= quantity; i++) {
+    const n = i.toString()
+      .padStart(2, '0');
+    keys.push({
+      name: `N${n}`,
+      type: 'auto',
+      ...generateNextKey(seed, i)
+    });
+  }
+  return keys;
+}
+
 function generateSeedPhrase() {
   return bip39.generateMnemonic();
 }
 
-export default {
+export {
   getPublicKeyFromSecret,
   seedPhraseToHex,
   generateKeys,
   generateNextKey,
   generateSeedPhrase,
+  generateNewKeys
 };

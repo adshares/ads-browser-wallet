@@ -9,6 +9,7 @@ export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
 export const REMOVE_ACCOUNT = 'REMOVE_ACCOUNT';
 export const IMPORT_KEY_INIT = 'IMPORT_KEY_INIT';
 export const IMPORT_KEY = 'IMPORT_KEY';
+export const SAVE_GENERATED_KEYS = 'SAVE_GENERATED_KEYS';
 export const SELECT_ACTIVE_ACCOUNT = 'SELECT_ACTIVE_ACCOUNT';
 export const SWITCH_NETWORK = 'SWITCH_NETWORK';
 
@@ -63,4 +64,12 @@ export function selectActiveAccount(accountAddress) {
 
 export function switchNetwork(testnet) {
   return { type: SWITCH_NETWORK, testnet };
+}
+
+export function selectActiveAccount(account) {
+  return { type: SELECT_ACTIVE_ACCOUNT, account };
+}
+
+export function saveGeneratedKeys(keys) {
+  return { type: SAVE_GENERATED_KEYS, keys };
 }

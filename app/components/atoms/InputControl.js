@@ -21,7 +21,7 @@ const InputControl = ({
   children,
 }) => {
   const handleInputChange = (e) => {
-    handleChange(e.target.value, e.target.name);
+    handleChange(e.target.value, name);
   };
 
   const classes = [];
@@ -63,8 +63,8 @@ const InputControl = ({
       <label htmlFor={`${label}`} className={style.label}>
         {label}
       </label>
-      {children}
-      {!isValid && !!errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+        {children}
+      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </div>
   );
 };
@@ -86,5 +86,5 @@ InputControl.propTypes = {
   handleChange: PropTypes.func,
   rows: PropTypes.number,
   type: PropTypes.string,
-  children: PropTypes.any,
+  children: PropTypes.node,
 };

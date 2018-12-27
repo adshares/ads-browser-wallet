@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './checkboxControl.css';
 
-export const CheckboxControl = ({ checked, desc, handleChange }) => {
+const CheckboxControl = ({ checked, desc, handleChange }) => {
   const handleChanges = (e) => {
     if (e.keyCode && e.keyCode !== 13) return;
     handleChange(e.target.checked);

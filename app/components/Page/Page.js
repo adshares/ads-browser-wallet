@@ -9,6 +9,7 @@ import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import ConfirmDialog from '../confirmDialog/confirmDialog';
+import LoaderOverlay from '../atoms/LoaderOverlay';
 import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vault';
 import * as FormActions from '../../actions/form';
@@ -34,7 +35,7 @@ export default class Page extends React.Component {
       return this.props.vault.selectedAccount;
     } else if (this.props.vault.accounts.length > 0) {
       this.props.actions.vault.selectActiveAccount(this.props.vault.accounts[0].address);
-      return this.props.vault.accounts[0];
+      return this.props.vault.accounts[0].address;
     }
   };
 

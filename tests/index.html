@@ -63,6 +63,14 @@
     </tr>
     <tr>
         <td>
+            <label for="pk">public key:</label>
+        </td>
+        <td>
+            <input type="text" id="pk" value=""/>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <label for="signature">signature:</label>
         </td>
         <td>
@@ -184,8 +192,8 @@
       return this.sendMessage('push', { message });
     }
 
-    signTransaction(data, hash, newTab = false) {
-      return this.sendMessage('sign', { data, hash }, { newTab });
+    signTransaction(data, hash, publicKey, newTab = false) {
+      return this.sendMessage('sign', { data, hash, publicKey }, { newTab });
     }
   }
 
@@ -227,12 +235,13 @@
         console.log('index.html: btn-add-tx');
         const txData = document.getElementById('data').value;
         const txAccountHashin = document.getElementById('hashin').value;
+        const txPublicKey = document.getElementById('pk').value;
         const txNewTab = document.getElementById('newTab').checked;
         const txSignature = document.getElementById('signature');
         const txStatus = document.getElementById('btn-tx-status');
         txSignature.value = '';
         txStatus.innerText = '...';
-        wallet.signTransaction(txData, txAccountHashin, txNewTab).then((data) => {
+        wallet.signTransaction(txData, txAccountHashin, txPublicKey, txNewTab).then((data) => {
             console.debug('sign ok:', data);
             txStatus.innerText = data.status;
             txSignature.value = data.signature || '---';

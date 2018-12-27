@@ -46,6 +46,6 @@ export function vaultImportKey({ name, publicKey, secretKey, password }) {
 }
 
 
-export function selectActiveAccount(account) {
-  return { type: SELECT_ACTIVE_ACCOUNT, account };
+export function selectActiveAccount(accountAddress) {
+  return { type: SELECT_ACTIVE_ACCOUNT, accountAddress };
 }

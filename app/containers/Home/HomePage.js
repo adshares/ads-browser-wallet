@@ -19,15 +19,16 @@ import config from '../../config/config';
 
 export default class HomePage extends React.PureComponent {
   renderShortcuts() {
-    const { selectedAccount } = this.props.vault;
-    const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${selectedAccount.address}`;
-    const amount = selectedAccount.balance ? formatAdsMoney(selectedAccount.balance, 4, '.', ' ') : null;
+    const { selectedAccount, accounts } = this.props.vault;
+    const accountData = accounts.find(account => account.address === selectedAccount);
+    const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${accountData.address}`;
+    const amount = accountData.balance ? formatAdsMoney(accountData.balance, 4, '.', ' ') : null;
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
     const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
     return (
       <div>
         <Box className={style.box} icon={faGlobe} layout="info">
-          <small title="Account name">{selectedAccount.name}</small>
+          <small title="Account name">{accountData.name}</small>
           <div className={style.balance} title="Account balance">
             {amountInt}
             <small>{amountDec}</small>
@@ -37,7 +38,7 @@ export default class HomePage extends React.PureComponent {
           <hr/>
           <div className={style.details}>
             <span title="Account address">
-              {selectedAccount.address}&nbsp;&nbsp;
+              {accountData.address}&nbsp;&nbsp;
               <FontAwesomeIcon icon={faCopy}/>
             </span>
             <a href={detailsLink} target="_blank" rel="noopener noreferrer">

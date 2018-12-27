@@ -1,21 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import Link from "react-router-dom/es/Link";
-import ButtonLink from "../atoms/ButtonLink";
-import SelectAccount from "../SelectAccount/SelectAccount";
-import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
-import ConfirmDialog from "../confirmDialog/confirmDialog";
-import LoaderOverlay from '../atoms/LoaderOverlay';
-import Timer from "../Timer/Timer";
-import * as VaultActions from "../../actions/vault";
-import * as FormActions from "../../actions/form";
-import logo from "../../assets/logo_blue.svg";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import Link from 'react-router-dom/es/Link';
+import ButtonLink from '../atoms/ButtonLink';
+import SelectAccount from '../SelectAccount/SelectAccount';
+import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
+import ConfirmDialog from '../confirmDialog/confirmDialog';
+import Timer from '../Timer/Timer';
+import * as VaultActions from '../../actions/vault';
+import * as FormActions from '../../actions/form';
+import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';
-import style from "./Page.css";
+import style from './Page.css';
 
 @connect(
   state => ({
@@ -34,7 +33,7 @@ export default class Page extends React.Component {
     if (this.props.vault.selectedAccount) {
       return this.props.vault.selectedAccount;
     } else if (this.props.vault.accounts.length > 0) {
-      this.props.actions.vault.selectActiveAccount(this.props.vault.accounts[0]);
+      this.props.actions.vault.selectActiveAccount(this.props.vault.accounts[0].address);
       return this.props.vault.accounts[0];
     }
   };

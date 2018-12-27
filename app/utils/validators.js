@@ -18,16 +18,14 @@ const name = ({ pageName, value, vault }) => {
   }
   return null;
 };
-
-const publicKey = ({ value, inputs, vault }) => {
-  if (!inputs.secretKey || !inputs.secretKey.value) {
-    throw new Error('Provide secretKey to full fil publicKey validation');
-  }
-
+const publicKey = ({ value, inputs, vault, pageName }) => {
   if (!ADS.validateKey(value)) {
     return 'Please provide an valid public key';
   }
   const keys = vault.keys;
+
+  console.log('pageName', pageName)
+  console.log('warunek ', pageName === AccountEditorPage.PAGE_NAME && !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value))
   if (pageName === KeysImporterPage.PAGE_NAME) {
     if (!inputs.secretKey || !inputs.secretKey.value) {
       throw new Error('Provide secretKey to full fil publicKey validation');
@@ -44,6 +42,8 @@ const publicKey = ({ value, inputs, vault }) => {
        your imported keys limit`;
     }
   } else if (pageName === AccountEditorPage.PAGE_NAME && !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
+    console.log('keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)',keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value) )
+    console.log('weszlo', )
     return 'Cannot find a key in storage. Please import secret key first.';
   }
   return null;

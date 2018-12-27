@@ -14,7 +14,7 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import { InputControl } from '../../components/atoms/FormControl';
+import InputControl from '../../components/atoms/InputControl';
 import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate } from '../../actions/form';
 import { importKeyInit } from '../../actions/vault';
 import { CheckboxControl } from '../../components/atoms/checkboxControl';
@@ -93,7 +93,7 @@ export default class KeysImporterPage extends FormComponent {
             KeysImporterPage.PAGE_NAME,
           );
           this.props.actions.importKeyInit();
-        }
+        }}
         password={password}
         autenticationModalOpen={authModalOpen}
         cancelLink={'/'}

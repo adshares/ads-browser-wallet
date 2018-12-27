@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 
 import {
     inputValidateSuccess,
-    inputValidateFailed,
+    inputValidateFailure,
     formValidationSuccess,
-    formValidationFailed,
+    formValidationFailure,
+    toggleAuthorisationDialog,
     FORM_VALIDATE
 } from '../actions/form';
-import { toggleAuthorisationDialog } from '../actions/actions';
 import * as validators from '../utils/validators';
 import { validatePagesBranch } from './helpers';
 
@@ -32,14 +32,13 @@ export default (action$, store) =>
                   if (!validator) {
                     throw new Error(`No validator is defined for name ${inputName}`);
                   }
-
                   if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
                     errorMsg = validator({ value: inputProps.value, vault, inputs, pageName });
                   }
                   const isInputValid = errorMsg === null;
                   const actionToDispatch = isInputValid
                     ? inputValidateSuccess(pageName, inputName)
-                    : inputValidateFailed(pageName, inputName, errorMsg);
+                    : inputValidateFailure(pageName, inputName, errorMsg);
                   return {
                     isFormValid: acc.isFormValid === false ? false : isInputValid,
                     actionsToDispatch: [...acc.actionsToDispatch, actionToDispatch]
@@ -54,8 +53,8 @@ export default (action$, store) =>
                   toggleAuthorisationDialog(pageName, true),
                   formValidationSuccess(pageName)
                 ])
-                : Observable.from([...actionsToDispatch, formValidationFailed(pageName)]);
+                : Observable.from([...actionsToDispatch, formValidationFailure(pageName)]);
           }
-          return Observable.of(formValidationFailed(pageName));
+          return Observable.of(formValidationFailure(pageName));
         }),
     );

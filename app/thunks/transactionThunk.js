@@ -37,7 +37,7 @@ export function validateForm(transactionType) {
           }
 
           if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
-            errorMsg = validator({ value: inputProps.value, inputs, transactionType });
+            errorMsg = validator({ value: inputProps.value, inputs, transactionType, pageName: undefined });
           }
           const isInputValid = errorMsg === null;
           const action = isInputValid

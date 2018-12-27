@@ -26,7 +26,7 @@ const InputControl = ({
 
   const classes = [];
   classes.push(style.inputWrapper);
-  if (isValid === false) {
+  if (errorMessage) {
     classes.push(style.invalid);
   }
 
@@ -37,7 +37,6 @@ const InputControl = ({
           type={type}
           id={`${label}`}
           name={name}
-          type={type}
           required={required}
           readOnly={readOnly}
           value={value}

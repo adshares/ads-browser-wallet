@@ -93,6 +93,7 @@ export {
   passwordChange,
   inputValidateSuccess,
   inputValidateFailure,
+    passInputValidate,
   passInputValidateFailure,
   passInputValidateSuccess,
     formValidate,

@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import validateFormThunk from '../../thunks/formThunk';
-import passwordValidateThunk from '../../thunks/passwordValidateThunk';
 import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
@@ -16,9 +14,8 @@ import config from '../../config/config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
-import { VAULT_ADD_ACCOUNT } from '../../actions/vault';
-import { InputControl } from '../../components/atoms/InputControl';
-import { handleInputChange, handlePasswordChange, toggleVisibility, passInputValidate, formValidate, formClean } from '../../actions/form';
+import InputControl from '../../components/atoms/InputControl';
+import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate, formClean } from '../../actions/form';
 
 @connect(
   state => ({
@@ -28,12 +25,12 @@ import { handleInputChange, handlePasswordChange, toggleVisibility, passInputVal
   dispatch => ({
     actions: bindActionCreators(
       {
-        handleInputChange,
-        handlePasswordChange,
+        handleInputChange: inputChange,
+        handlePasswordChange: passwordChange,
         formValidate,
         passInputValidate,
         toggleVisibility,
-        formclean
+        formClean
       },
       dispatch
     )

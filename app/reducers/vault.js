@@ -1,5 +1,5 @@
 import * as actions from '../actions/vault';
-import KeyBox from '../utils/keybox';
+import KeyBox, {getPublicKeyFromSecret} from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
 import {
@@ -94,7 +94,10 @@ export default function (vault = initialVault, action) {
       const address = action.address.toUpperCase();
       const name = action.name;
       const publicKey = action.publicKey.toUpperCase();
-      const key = vault.keys.find(k => k.publicKey === action.publicKey);
+      const key = vault.keys.find(k =>
+        k.publicKey ? k.publicKey === action.publicKey
+        : getPublicKeyFromSecret(k.secretKey) === action.publicKey
+      );
       const updatedVault = {
         ...initialVault,
         ...vault,

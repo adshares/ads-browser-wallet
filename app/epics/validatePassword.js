@@ -2,7 +2,7 @@ import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import {
-  passInputValidateFailed,
+  passInputValidateFailure,
   passInputValidateSuccess,
     PASS_INPUT_VALIDATE,
 } from '../actions/form';
@@ -26,6 +26,6 @@ export default (action$, store) =>
           return isInputValid ? Observable.from([
             passInputValidateSuccess(pageName, true),
             toggleAuthorisationDialog(pageName, false),
-          ]) : Observable.of(passInputValidateFailed(pageName, errorMsg));
+          ]) : Observable.of(passInputValidateFailure(pageName, errorMsg));
         }),
 );

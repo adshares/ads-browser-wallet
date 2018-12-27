@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
-import { handleInputChange } from '../../actions/form';
-import validateFormThunk from '../../thunks/validateThunk';
+import { cleanForm, inputChanged, transactionRejected } from '../../actions/transactionActions';
+import { validateForm, sendTransaction } from '../../thunks/transactionThunk';
 import TransactionPage from './TransactionPage';
 import Form from '../../components/atoms/Form';
-import FormControl from '../../components/atoms/FormControl';
+import InputControl from '../../components/atoms/InputControl';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
 import ADS from '../../utils/ads';
@@ -17,72 +16,72 @@ import style from './TransactionPage.css';
 
 @connect(
   state => ({
-    page: state.pages.SendOnePage
+    ...state.transactions[ADS.TX_TYPES.SEND_ONE]
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        handleInputChange,
-        validateFormThunk,
+        cleanForm,
+        inputChanged,
+        validateForm,
+        transactionRejected,
+        sendTransaction,
       },
       dispatch
     )
   })
 )
 export default class SendOnePage extends TransactionPage {
-  static PAGE_NAME = 'SendOnePage';
   constructor(props) {
     super(ADS.TX_TYPES.SEND_ONE, props);
   }
 
   renderForm() {
     const {
-      page: {
-        inputs: { address, amount, message }
-      }
+      inputs: { address, amount, message }
     } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormControl
+        <InputControl
           name="address"
           label={fieldLabels.recipient}
           value={address.value}
           isValid={address.isValid}
           required
           isInput
-          handleChange={value => this.handleInputChange('address', value)}
+          handleChange={this.handleInputChange}
           errorMessage={address.errorMsg}
         />
         <div className={style.amount}>
-          <FormControl
+          <InputControl
             name="amount"
             label={fieldLabels.amount}
             value={amount.value}
             isValid={amount.isValid}
             required
             isInput
-            handleChange={value => this.handleInputChange('amount', value)}
+            type="number"
+            handleChange={this.handleInputChange}
             errorMessage={amount.errorMsg}
-          >
-            <span>ADS</span>
-          </FormControl>
+          ><span>ADS</span></InputControl>
         </div>
-        <FormControl
+        <InputControl
           name="message"
           label={fieldLabels.message}
           value={message.value}
           isValid={message.isValid}
           rows={2}
-          handleChange={value => this.handleInputChange('message', value)}
+          handleChange={this.handleInputChange}
           errorMessage={message.errorMsg}
         />
         <div className={style.buttons}>
           <ButtonLink
             to={this.getReferrer()}
+            onClick={this.handleCancelClick}
             inverse
             icon="left"
             layout="info"
-            disabled={this.state.isSubmitted}
+            disabled={this.props.isSubmitted}
           >
             <FontAwesomeIcon icon={faTimes} /> Cancel
           </ButtonLink>
@@ -90,7 +89,7 @@ export default class SendOnePage extends TransactionPage {
             type="submit"
             icon="right"
             layout="info"
-            disabled={this.state.isSubmitted}
+            disabled={this.props.isSubmitted}
           >Next <FontAwesomeIcon icon={faChevronRight} />
           </Button>
         </div>

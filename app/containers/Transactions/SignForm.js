@@ -40,6 +40,12 @@ export default class SignForm extends FormComponent {
     this.props.rejectAction();
   }
 
+  handleCancelClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.rejectAction();
+  }
+
   renderCommand(type, fields) {
     switch (type) {
       case 'broadcast':
@@ -279,12 +285,21 @@ export default class SignForm extends FormComponent {
     );
   }
 
+  renderDataErrorPage() {
+    return this.renderErrorPage(
+      400,
+      'Malformed transaction data',
+      this.props.cancelLink,
+      this.handleCancelClick
+    );
+  }
+
   render() {
     const { transaction } = this.props;
     console.log(transaction);
 
     if (!transaction || !transaction.data) {
-      return this.renderErrorPage(400, 'Malformed transaction data');
+      return this.renderDataErrorPage();
     }
 
     let command;
@@ -292,7 +307,7 @@ export default class SignForm extends FormComponent {
       command = ADS.decodeCommand(transaction.data);
     } catch (err) {
       if (err instanceof TransactionDataError) {
-        return this.renderErrorPage(400, 'Malformed transaction data');
+        return this.renderDataErrorPage();
       }
       throw err;
     }
@@ -308,6 +323,7 @@ export default class SignForm extends FormComponent {
         title={typeLabels[type] || type}
         subTitle={`${sender}`}
         cancelLink={this.props.cancelLink}
+        onCancelClick={this.handleCancelClick}
         noLinks={this.props.noLinks}
         showLoader={this.props.showLoader}
       >

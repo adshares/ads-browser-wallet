@@ -46,6 +46,7 @@ export default class Page extends React.Component {
       title,
       subTitle,
       cancelLink,
+      onCancelClick,
       noLinks,
       scroll,
       smallTitle,
@@ -80,6 +81,7 @@ export default class Page extends React.Component {
       menu = (
         <ButtonLink
           to={cancelLink}
+          onClick={onCancelClick}
           className={style.close}
           size="small"
           inverse
@@ -142,6 +144,7 @@ Page.propTypes = {
   title: PropTypes.string,
   subTitle: PropTypes.string,
   cancelLink: PropTypes.any,
+  onCancelClick: PropTypes.func,
   noLinks: PropTypes.bool,
   smallTitle: PropTypes.bool,
   scroll: PropTypes.bool,

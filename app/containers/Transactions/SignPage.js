@@ -70,8 +70,10 @@ export default class SignPage extends PageComponent {
         acceptAction={this.handleAccept}
         rejectAction={this.handleReject}
         cancelLink={this.getReferrer()}
+        onCancelClick={this.handleReject}
         noLinks={this.state.popup}
         showLoader={this.state.isSubmitted}
+        history={this.props.history}
       />
     );
   }

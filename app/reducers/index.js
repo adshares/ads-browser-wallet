@@ -5,16 +5,19 @@ import queue from './queue';
 import KeysImporterPage from './KeyImporterReducer';
 import AccountEditorPage from './AccountEditorReducer';
 import authDialog from './AuthDialogReducer';
-import SendOnePage from './SendOneReducer';
+import SendOneReducer from './SendOneReducer';
+import ADS from '../utils/ads';
 
 export default history => combineReducers({
   router: connectRouter(history),
   authDialog,
   vault,
   queue,
+  transactions: combineReducers({
+    [ADS.TX_TYPES.SEND_ONE]: SendOneReducer
+  }),
   pages: combineReducers({
     KeysImporterPage,
     AccountEditorPage,
-    SendOnePage,
   })
 });

@@ -53,30 +53,30 @@ const TX_FIELDS = {
  */
 const TX_TYPES = {
   BROADCAST: 'broadcast',
-  SEND_ONE: 'send_one',
-  SEND_MANY: 'send_many',
-  CREATE_ACCOUNT: 'create_account',
-  CREATE_NODE: 'create_node',
-  RETRIEVE_FUNDS: 'retrieve_funds',
   CHANGE_ACCOUNT_KEY: 'change_account_key',
   CHANGE_NODE_KEY: 'change_node_key',
+  CREATE_ACCOUNT: 'create_account',
+  CREATE_NODE: 'create_node',
+  LOG_ACCOUNT: 'log_account',
+  GET_ACCOUNT: 'get_account',
+  GET_ACCOUNTS: 'get_accounts',
+  GET_BLOCK: 'get_block',
+  GET_BLOCKS: 'get_blocks',
+  GET_BROADCAST: 'get_broadcast',
+  GET_FIELDS: 'get_fields',
+  GET_LOG: 'get_log',
+  GET_MESSAGE: 'get_message',
+  GET_MESSAGE_LIST: 'get_message_list',
+  GET_SIGNATURES: 'get_signatures',
+  GET_TRANSACTION: 'get_transaction',
+  GET_VIPKEYS: 'get_vipkeys',
+  RETRIEVE_FUNDS: 'retrieve_funds',
+  SEND_MANY: 'send_many',
+  SEND_ONE: 'send_one',
   SET_ACCOUNT_STATUS: 'set_account_status',
   SET_NODE_STATUS: 'set_node_status',
   UNSET_ACCOUNT_STATUS: 'unset_account_status',
   UNSET_NODE_STATUS: 'unset_node_status',
-  LOG_ACCOUNT: 'log_account',
-  GET_ACCOUNT: 'get_account',
-  GET_LOG: 'get_log',
-  GET_BROADCAST: 'get_broadcast',
-  GET_BLOCKS: 'get_blocks',
-  GET_TRANSACTION: 'get_transaction',
-  GET_VIPKEYS: 'get_vipkeys',
-  GET_SIGNATURES: 'get_signatures',
-  GET_BLOCK: 'get_block',
-  GET_ACCOUNTS: 'get_accounts',
-  GET_MESSAGE_LIST: 'get_message_list',
-  GET_MESSAGE: 'get_message',
-  GET_FIELDS: 'get_fields',
 };
 
 /**
@@ -153,6 +153,24 @@ function formatAddress(nodeId, userAccountId) {
 }
 
 /**
+ *
+ * @param address
+ * @returns {{nodeId: string, userAccountId: string, checksum: string}}
+ */
+function splitAddress(address) {
+  const addressRegexp = /^([0-9a-fA-F]{4})-([0-9a-fA-F]{8})-([0-9a-fA-FX]{4})$/;
+  const matches = addressRegexp.exec(address);
+  if (!matches) {
+    return null;
+  }
+  return {
+    nodeId: sanitizeHex(matches[1]),
+    userAccountId: sanitizeHex(matches[2]),
+    checksum: matches[3] === 'XXXX' ? addressChecksum(matches[1], matches[2]) : sanitizeHex(matches[3])
+  };
+}
+
+/**
  * Checks if ADS account address is valid.
  *
  * @param address e.g. 0001-00000001-8B4E
@@ -163,15 +181,12 @@ function validateAddress(address) {
     return false;
   }
 
-  const addressRegexp = /^([0-9a-fA-F]{4})-([0-9a-fA-F]{8})-([0-9a-fA-F]{4})$/;
-  const matches = addressRegexp.exec(address);
-
-  if (!matches || matches.length !== 4) {
+  const parts = splitAddress(address);
+  if (!parts || !parts.nodeId || !parts.userAccountId || !parts.checksum) {
     return false;
   }
 
-  const crc = sanitizeHex(matches[3]);
-  return crc === 'XXXX' || crc === addressChecksum(matches[1], matches[2]);
+  return parts.checksum === addressChecksum(parts.nodeId, parts.userAccountId);
 }
 
 /**
@@ -232,10 +247,76 @@ function validateSignature(signature, publicKey, secretKey) {
   }
 }
 
+class Encoder {
+  constructor(obj) {
+    this.obj = obj;
+    this.data = '';
+    this.parsed = null;
+    this.encode(TX_FIELDS.TYPE);
+  }
+
+  encode(fieldName) {
+    let data;
+    const val = this.obj[fieldName];
+    switch (fieldName) {
+      case TX_FIELDS.ADDRESS:
+      case TX_FIELDS.SENDER: {
+        const address = splitAddress(val);
+        const node = fixByteOrder(this.pad(address.nodeId, 4));
+        const user = fixByteOrder(this.pad(address.userAccountId, 8));
+        data = node + user;
+        break;
+      }
+      case TX_FIELDS.AMOUNT: {
+        data = fixByteOrder(this.pad(val.toString(16), 16));
+        break;
+      }
+      case TX_FIELDS.MESSAGE_ID:
+      case TX_FIELDS.NODE_MESSAGE_ID: {
+        data = fixByteOrder(this.pad(val.toString(16), 8));
+        break;
+      }
+      case TX_FIELDS.MSG: {
+        data = this.obj[TX_FIELDS.TYPE] === TX_TYPES.SEND_ONE ? this.pad(val, 64) : val;
+        break;
+      }
+      case TX_FIELDS.TIME: {
+        const time = Math.floor(val.getTime() / 1000);
+        data = fixByteOrder(this.pad(time.toString(16), 8));
+        break;
+      }
+      case TX_FIELDS.TYPE: {
+        const type = Object.keys(TX_TYPES_MAP).find(key => TX_TYPES_MAP[key] === val);
+        data = this.pad(type, 2);
+        break;
+      }
+      default:
+        throw new TransactionDataError('Invalid transaction field type');
+    }
+    this.parsed = data;
+    this.data += data;
+
+    return this;
+  }
+
+  get lastEncodedField() {
+    return this.parsed;
+  }
+
+  get encodedData() {
+    return this.data;
+  }
+
+  pad(field, length) {
+    return field.padStart(length, '0');
+  }
+}
+
 class Decoder {
   constructor(data) {
     this.data = data;
     this.resp = {};
+    this.parsed = null;
   }
 
   decode(fieldName) {
@@ -275,7 +356,9 @@ class Decoder {
         break;
       }
       case TX_FIELDS.MSG: {
-        const expectedLength = (this.resp[TX_FIELDS.TYPE] === 'send_one') ? 64 : this.resp[TX_FIELDS.MSG_LEN] * 2;
+        const expectedLength = (this.resp[TX_FIELDS.TYPE] === TX_TYPES.SEND_ONE) ?
+          64 :
+          this.resp[TX_FIELDS.MSG_LEN] * 2;
         this.validateLength(expectedLength);
         parsed = this.data;
         this.data = '';
@@ -391,7 +474,7 @@ class Decoder {
     return this.parsed;
   }
 
-  get decodeData() {
+  get decodedData() {
     return this.resp;
   }
 
@@ -409,7 +492,23 @@ class Decoder {
  * @returns {string}
  */
 function encodeCommand(command) {
+  const encoder = new Encoder(command);
 
+  switch (command[TX_FIELDS.TYPE]) {
+    case TX_TYPES.SEND_ONE:
+      encoder.encode(TX_FIELDS.SENDER)
+        .encode(TX_FIELDS.MESSAGE_ID)
+        .encode(TX_FIELDS.TIME)
+        .encode(TX_FIELDS.ADDRESS)
+        .encode(TX_FIELDS.AMOUNT)
+        .encode(TX_FIELDS.MSG);
+      break;
+
+    default:
+      throw new TransactionDataError('Unknown type of transaction');
+  }
+
+  return encoder.encodedData;
 }
 
 /**
@@ -423,7 +522,7 @@ function decodeCommand(data) {
   const type = decoder.lastDecodedField;
 
   switch (type) {
-    case 'broadcast':
+    case TX_TYPES.BROADCAST:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
@@ -431,14 +530,14 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.MSG);
       break;
 
-    case 'change_account_key':
+    case TX_TYPES.CHANGE_ACCOUNT_KEY:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.PUBLIC_KEY);
       break;
 
-    case 'change_node_key':
+    case TX_TYPES.CHANGE_NODE_KEY:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
@@ -446,7 +545,7 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.PUBLIC_KEY);
       break;
 
-    case 'create_account':
+    case TX_TYPES.CREATE_ACCOUNT:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
@@ -455,50 +554,50 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.PUBLIC_KEY);
       break;
 
-    case 'create_node':
+    case TX_TYPES.CREATE_NODE:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME);
       break;
 
-    case 'get_account':
+    case TX_TYPES.GET_ACCOUNT:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.ADDRESS)
         .decode(TX_FIELDS.TIME);
       break;
 
-    case 'get_accounts':
+    case TX_TYPES.GET_ACCOUNTS:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.BLOCK_ID)// previous block id
         .decode(TX_FIELDS.NODE_ID);
       break;
 
-    case 'get_block':
+    case TX_TYPES.GET_BLOCK:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.BLOCK_ID)// previous block id
         .decode(TX_FIELDS.TIME);
       break;
 
-    case 'get_blocks':
+    case TX_TYPES.GET_BLOCKS:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.BLOCK_ID_FROM)
         .decode(TX_FIELDS.BLOCK_ID_TO);
       break;
 
-    case 'get_broadcast':
+    case TX_TYPES.GET_BROADCAST:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.BLOCK_ID)
         .decode(TX_FIELDS.TIME);
       break;
 
-    case 'get_log':
+    case TX_TYPES.GET_LOG:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME);
       break;
 
-    case 'get_message':
+    case TX_TYPES.GET_MESSAGE:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.BLOCK_ID)
@@ -506,44 +605,44 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.NODE_MESSAGE_ID);
       break;
 
-    case 'get_message_list':
+    case TX_TYPES.GET_MESSAGE_LIST:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.BLOCK_ID);
       break;
 
-    case 'get_signatures':
+    case TX_TYPES.GET_SIGNATURES:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.BLOCK_ID);
       break;
 
-    case 'get_transaction':
+    case TX_TYPES.GET_TRANSACTION:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.TRANSACTION_ID);
       break;
 
-    case 'get_vipkeys':
+    case TX_TYPES.GET_VIPKEYS:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.VIP_HASH);
       break;
 
-    case 'log_account':
+    case TX_TYPES.LOG_ACCOUNT:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME);
       break;
 
-    case 'retrieve_funds':
+    case TX_TYPES.RETRIEVE_FUNDS:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
         .decode(TX_FIELDS.ADDRESS);
       break;
 
-    case 'send_many':
+    case TX_TYPES.SEND_MANY:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
@@ -551,7 +650,7 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.WIRES);
       break;
 
-    case 'send_one':
+    case TX_TYPES.SEND_ONE:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
@@ -560,8 +659,8 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.MSG);
       break;
 
-    case 'set_account_status':
-    case 'unset_account_status':
+    case TX_TYPES.SET_ACCOUNT_STATUS:
+    case TX_TYPES.UNSET_ACCOUNT_STATUS:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
@@ -569,8 +668,8 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.STATUS_ACCOUNT);
       break;
 
-    case 'set_node_status':
-    case 'unset_node_status':
+    case TX_TYPES.SET_NODE_STATUS:
+    case TX_TYPES.UNSET_NODE_STATUS:
       decoder.decode(TX_FIELDS.SENDER)
         .decode(TX_FIELDS.MESSAGE_ID)
         .decode(TX_FIELDS.TIME)
@@ -578,14 +677,14 @@ function decodeCommand(data) {
         .decode(TX_FIELDS.STATUS_NODE);
       break;
 
-    case 'get_fields':// function `get_fields` does not return `tx.data`
+    case TX_TYPES.GET_FIELDS:// function `get_fields` does not return `tx.data`
       throw new TransactionDataError('Transaction is not parsable');
 
     default:
       throw new TransactionDataError('Unknown type of transaction');
   }
 
-  return decoder.decodeData;
+  return decoder.decodedData;
 }
 
 /**

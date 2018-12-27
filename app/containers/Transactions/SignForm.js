@@ -309,7 +309,7 @@ export default class SignForm extends FormComponent {
         subTitle={`${sender}`}
         cancelLink={this.props.cancelLink}
         noLinks={this.props.noLinks}
-        loading={this.props.loading}
+        showLoader={this.props.showLoader}
       >
         {this.renderSignForm(transaction, command, key)}
       </Page>
@@ -319,9 +319,10 @@ export default class SignForm extends FormComponent {
 
 SignForm.propTypes = {
   transaction: PropTypes.object.isRequired,
+  vault: PropTypes.object.isRequired,
   acceptAction: PropTypes.func.isRequired,
   rejectAction: PropTypes.func.isRequired,
   cancelLink: PropTypes.any,
   noLinks: PropTypes.bool,
-  loading: PropTypes.bool,
+  showLoader: PropTypes.bool,
 };

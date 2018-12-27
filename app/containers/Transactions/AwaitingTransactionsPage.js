@@ -49,7 +49,7 @@ export default class AwaitingTransactionsPage extends React.PureComponent {
           icon="left"
           to={{
             pathname: `/transactions/${item.sourceId}/${item.id}/sign`,
-            state: { referrer: this.props.location }
+            state: { referrer: this.props.history.location }
           }}
         ><FontAwesomeIcon icon={faList} /> Details</ButtonLink>
       </div>
@@ -72,6 +72,6 @@ export default class AwaitingTransactionsPage extends React.PureComponent {
 }
 
 AwaitingTransactionsPage.propTypes = {
-  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   queue: PropTypes.array.isRequired,
 };

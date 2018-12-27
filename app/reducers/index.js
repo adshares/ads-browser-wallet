@@ -5,6 +5,7 @@ import queue from './queue';
 import KeysImporterPage from './KeyImporterReducer';
 import AccountEditorPage from './AccountEditorReducer';
 import authDialog from './AuthDialogReducer';
+import SendOnePage from './SendOneReducer';
 
 export default history => combineReducers({
   router: connectRouter(history),
@@ -14,5 +15,6 @@ export default history => combineReducers({
   pages: combineReducers({
     KeysImporterPage,
     AccountEditorPage,
+    SendOnePage,
   })
 });

@@ -93,6 +93,7 @@ export default class Page extends React.Component {
 
     return (
       <section>
+        {this.props.showLoader && <LoaderOverlay />}
         {autenticationModalOpen && (
           <ConfirmDialog
             showDialog
@@ -148,4 +149,5 @@ Page.propTypes = {
   onDialogSubmit: PropTypes.func,
   password: PropTypes.object,
   autenticationModalOpen: PropTypes.bool,
+  showLoader: PropTypes.bool,
 };

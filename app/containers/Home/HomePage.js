@@ -25,31 +25,26 @@ export default class HomePage extends React.PureComponent {
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
     const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
     return (
-      <div>
-        <Box className={style.box} icon={faGlobe} layout="info">
+      <Box className={style.box} icon={faGlobe} layout="info">
           <small title="Account name">{selectedAccount.name}</small>
-          <div className={style.balance} title="Account balance">
-            {amountInt}
-            <small>{amountDec}</small>
-            &nbsp;
-            <small>ADS</small>
-          </div>
-          <hr/>
-          <div className={style.details}>
-            <span title="Account address">
+        <div className={style.balance} title="Account balance">
+          {amountInt}<small>{amountDec}</small>&nbsp;
+          <small>ADS</small>
+        </div>
+        <hr />
+        <div className={style.details}>
+          <span title="Account address">
               {selectedAccount.address}&nbsp;&nbsp;
-              <FontAwesomeIcon icon={faCopy}/>
-            </span>
-            <a href={detailsLink} target="_blank" rel="noopener noreferrer">
-              Details
-            </a>
-          </div>
-          <ButtonLink to="/transactions/sendOne" layout="contrast" size="wide" icon="left">
-            <FontAwesomeIcon icon={faPaperPlane}/> Send transaction
-          </ButtonLink>
-
-        </Box>
-      </div>
+            <FontAwesomeIcon icon={faCopy} />
+          </span>
+          <a href={detailsLink} target="_blank" rel="noopener noreferrer">
+            Details
+          </a>
+        </div>
+        <ButtonLink to="/transactions/send-one" layout="contrast" size="wide" icon="left">
+          <FontAwesomeIcon icon={faPaperPlane} /> Send transaction
+        </ButtonLink>
+      </Box>
     );
   }
 
@@ -81,7 +76,7 @@ export default class HomePage extends React.PureComponent {
     );
 
     return (
-      <Page>
+      <Page className={style.page}>
         {filteredQueue.length > 0 ?
           <ButtonLink to="/transactions/awaiting" layout="success" size="wide" icon="left">
             <FontAwesomeIcon icon={faSignature}/> Awaiting transactions ({filteredQueue.length})

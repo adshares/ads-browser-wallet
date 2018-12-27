@@ -52,31 +52,62 @@ const TX_FIELDS = {
  * Transaction types
  */
 const TX_TYPES = {
-  '03': 'broadcast',
-  '04': 'send_one',
-  '05': 'send_many',
-  '06': 'create_account',
-  '07': 'create_node',
-  '08': 'retrieve_funds',
-  '09': 'change_account_key',
-  '0A': 'change_node_key',
-  '0B': 'set_account_status',
-  '0C': 'set_node_status',
-  '0D': 'unset_account_status',
-  '0E': 'unset_node_status',
-  '0F': 'log_account',
-  10: 'get_account',
-  11: 'get_log',
-  12: 'get_broadcast',
-  13: 'get_blocks',
-  14: 'get_transaction',
-  15: 'get_vipkeys',
-  16: 'get_signatures',
-  17: 'get_block',
-  18: 'get_accounts',
-  19: 'get_message_list',
-  '1A': 'get_message',
-  '1B': 'get_fields',
+  BROADCAST: 'broadcast',
+  SEND_ONE: 'send_one',
+  SEND_MANY: 'send_many',
+  CREATE_ACCOUNT: 'create_account',
+  CREATE_NODE: 'create_node',
+  RETRIEVE_FUNDS: 'retrieve_funds',
+  CHANGE_ACCOUNT_KEY: 'change_account_key',
+  CHANGE_NODE_KEY: 'change_node_key',
+  SET_ACCOUNT_STATUS: 'set_account_status',
+  SET_NODE_STATUS: 'set_node_status',
+  UNSET_ACCOUNT_STATUS: 'unset_account_status',
+  UNSET_NODE_STATUS: 'unset_node_status',
+  LOG_ACCOUNT: 'log_account',
+  GET_ACCOUNT: 'get_account',
+  GET_LOG: 'get_log',
+  GET_BROADCAST: 'get_broadcast',
+  GET_BLOCKS: 'get_blocks',
+  GET_TRANSACTION: 'get_transaction',
+  GET_VIPKEYS: 'get_vipkeys',
+  GET_SIGNATURES: 'get_signatures',
+  GET_BLOCK: 'get_block',
+  GET_ACCOUNTS: 'get_accounts',
+  GET_MESSAGE_LIST: 'get_message_list',
+  GET_MESSAGE: 'get_message',
+  GET_FIELDS: 'get_fields',
+};
+
+/**
+ * Transaction types map
+ */
+const TX_TYPES_MAP = {
+  '03': TX_TYPES.BROADCAST,
+  '04': TX_TYPES.SEND_ONE,
+  '05': TX_TYPES.SEND_MANY,
+  '06': TX_TYPES.CREATE_ACCOUNT,
+  '07': TX_TYPES.CREATE_NODE,
+  '08': TX_TYPES.RETRIEVE_FUNDS,
+  '09': TX_TYPES.CHANGE_ACCOUNT_KEY,
+  '0A': TX_TYPES.CHANGE_NODE_KEY,
+  '0B': TX_TYPES.SET_ACCOUNT_STATUS,
+  '0C': TX_TYPES.SET_NODE_STATUS,
+  '0D': TX_TYPES.UNSET_ACCOUNT_STATUS,
+  '0E': TX_TYPES.UNSET_NODE_STATUS,
+  '0F': TX_TYPES.LOG_ACCOUNT,
+  10: TX_TYPES.GET_ACCOUNT,
+  11: TX_TYPES.GET_LOG,
+  12: TX_TYPES.GET_BROADCAST,
+  13: TX_TYPES.GET_BLOCKS,
+  14: TX_TYPES.GET_TRANSACTION,
+  15: TX_TYPES.GET_VIPKEYS,
+  16: TX_TYPES.GET_SIGNATURES,
+  17: TX_TYPES.GET_BLOCK,
+  18: TX_TYPES.GET_ACCOUNTS,
+  19: TX_TYPES.GET_MESSAGE_LIST,
+  '1A': TX_TYPES.GET_MESSAGE,
+  '1B': TX_TYPES.GET_FIELDS,
 };
 
 /**
@@ -139,7 +170,8 @@ function validateAddress(address) {
     return false;
   }
 
-  return sanitizeHex(matches[3]) === addressChecksum(matches[1], matches[2]);
+  const crc = sanitizeHex(matches[3]);
+  return crc === 'XXXX' || crc === addressChecksum(matches[1], matches[2]);
 }
 
 /**
@@ -308,7 +340,7 @@ class Decoder {
         this.validateLength(2);
         // intentional lack of reverse - 1 byte does not need to be reversed
         const type = this.data.substr(0, 2);
-        parsed = TX_TYPES[type];
+        parsed = TX_TYPES_MAP[type];
         this.data = this.data.substr(2);
         break;
       }

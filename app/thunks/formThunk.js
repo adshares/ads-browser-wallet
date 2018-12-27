@@ -1,8 +1,8 @@
 import {
   inputValidateSuccess,
-  inputValidateFailed,
+  inputValidateFailure,
   formValidationSuccess,
-  formValidationFailed,
+  formValidationFailure,
   toggleAuthorisationDialog
 } from '../actions/form';
 
@@ -30,7 +30,7 @@ export default function (pageName) {
           const isInputValid = errorMsg === null;
           const action = isInputValid
             ? dispatch(inputValidateSuccess(pageName, inputName))
-            : dispatch(inputValidateFailed(pageName, inputName, errorMsg));
+            : dispatch(inputValidateFailure(pageName, inputName, errorMsg));
           return {
             isFormValid: acc.isFormValid === false ? false : isInputValid,
             actionsToDispatch: [...acc.actionsToDispatch, action]
@@ -45,11 +45,11 @@ export default function (pageName) {
           dispatch(formValidationSuccess(pageName)) // only for info purposes
         ]);
       } else {
-        actionsToDispatch.push([dispatch(formValidationFailed(pageName))]); // to prevent from sendingg
+        actionsToDispatch.push([dispatch(formValidationFailure(pageName))]); // to prevent from sendingg
       }
 
       return Promise.all(actionsToDispatch);
     }
-    return Promise.resolve(dispatch(formValidationFailed(pageName)));
+    return Promise.resolve(dispatch(formValidationFailure(pageName)));
   };
 }

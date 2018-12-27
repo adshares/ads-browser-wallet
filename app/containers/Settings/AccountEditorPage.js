@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import validateFormThunk from '../../thunks/validateThunk';
+import validateFormThunk from '../../thunks/formThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
 import { InvalidPasswordError, ItemNotFound, UnknownPublicKeyError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
@@ -19,7 +19,7 @@ import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import { VAULT_ADD_ACCOUNT } from '../../actions/vault';
 import { InputControl } from '../../components/atoms/InputControl';
-import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
+import { inputChange, passwordChange, toggleVisibility } from '../../actions/form';
 
 @connect(
   state => ({
@@ -29,8 +29,8 @@ import { handleInputChange, handlePasswordChange, toggleVisibility } from '../..
   dispatch => ({
     actions: bindActionCreators(
       {
-        handleInputChange,
-        handlePasswordChange,
+        handleInputChange: inputChange,
+        handlePasswordChange: passwordChange,
         validateFormThunk,
         passwordValidateThunk,
         toggleVisibility,

@@ -6,8 +6,8 @@ export const PASS_INPUT_VALIDATION_FAILED = 'PASS_INPUT_VALIDATION_FAILED';
 export const INPUT_VALIDATION_SUCCESS = 'INPUT_VALIDATION_SUCCESS';
 export const INPUT_VALIDATION_FAILED = 'INPUT_VALIDATION_FAILED';
 export const FORM_VALIDATION_SUCCESS = 'FORM_VALIDATION_SUCCESS';
-export const FORM_VALIDATION_FAILED = 'FORM_VALIDATION_FAILED';
-export const FORM_CLEANING = 'FORM_CLEANED';
+export const FORM_VALIDATION_FAILURE = 'FORM_VALIDATION_FAILURE';
+export const FORM_CLEAN = 'FORM_CLEAN';
 export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
 
 const passInputValidateSuccess = (pageName, valid) => ({
@@ -16,7 +16,7 @@ const passInputValidateSuccess = (pageName, valid) => ({
   valid
 });
 
-const passInputValidateFailed = (pageName, errorMsg) => ({
+const passInputValidateFailure = (pageName, errorMsg) => ({
   type: PASS_INPUT_VALIDATION_FAILED,
   pageName,
   errorMsg
@@ -28,7 +28,7 @@ const inputValidateSuccess = (pageName, inputName) => ({
   inputName,
 });
 
-const inputValidateFailed = (pageName, inputName, errorMsg) => ({
+const inputValidateFailure = (pageName, inputName, errorMsg) => ({
   type: INPUT_VALIDATION_FAILED,
   pageName,
   inputName,
@@ -40,24 +40,24 @@ const formValidationSuccess = pageName => ({
   pageName
 });
 
-const formValidationFailed = pageName => ({
-  type: FORM_VALIDATION_FAILED,
+const formValidationFailure = pageName => ({
+  type: FORM_VALIDATION_FAILURE,
   pageName
 });
 
 const formClean = pageName => ({
-  type: FORM_CLEANING,
+  type: FORM_CLEAN,
   pageName
 });
 
-const handleInputChange = (pageName, inputName, inputValue) => ({
+const inputChange = (pageName, inputName, inputValue) => ({
   type: INPUT_CHANGED,
   pageName,
   inputName,
   inputValue
 });
 
-const handlePasswordChange = (pageName, inputValue) => ({
+const passwordChange = (pageName, inputValue) => ({
   type: PASS_INPUT_CHANGED,
   pageName,
   inputValue
@@ -76,14 +76,14 @@ const toggleAuthorisationDialog = (pageName, isOpen) => ({
 });
 
 export {
-  handleInputChange,
-  handlePasswordChange,
+  inputChange,
+  passwordChange,
   inputValidateSuccess,
-  inputValidateFailed,
-  passInputValidateFailed,
+  inputValidateFailure,
+  passInputValidateFailure,
   passInputValidateSuccess,
   formValidationSuccess,
-  formValidationFailed,
+  formValidationFailure,
   formClean,
   toggleVisibility,
   toggleAuthorisationDialog

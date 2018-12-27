@@ -93,7 +93,7 @@ const actionsMap = {
       ...action.payload
     };
   },
-  [actions.FORM_VALIDATION_FAILED](state, action) {
+  [actions.FORM_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
       ...action.payload

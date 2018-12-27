@@ -15,9 +15,9 @@ import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import { InputControl } from '../../components/atoms/InputControl';
-import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
+import { inputChange, passwordChange, toggleVisibility } from '../../actions/form';
 import { VAULT_IMPORT_KEY } from '../../actions/vault';
-import validateFormThunk from '../../thunks/validateThunk';
+import validateFormThunk from '../../thunks/formThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
 import { CheckboxControl } from '../../components/atoms/checkboxControl';
 
@@ -29,8 +29,8 @@ import { CheckboxControl } from '../../components/atoms/checkboxControl';
   dispatch => ({
     actions: bindActionCreators(
       {
-        handleInputChange,
-        handlePasswordChange,
+        handleInputChange: inputChange,
+        handlePasswordChange: passwordChange,
         validateFormThunk,
         passwordValidateThunk,
         toggleVisibility,

@@ -124,13 +124,13 @@ const actionsMap = {
       ...action.payload
     };
   },
-  [actions.FORM_VALIDATION_FAILED](state, action) {
+  [actions.FORM_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
       ...action.payload
     };
   },
-  [actions.FORM_CLEANING](state, action) {
+  [actions.FORM_CLEAN](state, action) {
     return {
       ...state,
       ...action,

@@ -1,5 +1,5 @@
 import {
-  passInputValidateFailed,
+  passInputValidateFailure,
   passInputValidateSuccess,
   formClean,
   toggleAuthorisationDialog
@@ -47,7 +47,7 @@ export default function (pageName, vaultActionType) {
       ]);
     } else {
       actionsToDispatch.push(
-        dispatch(passInputValidateFailed(pageName, errorMsg))
+        dispatch(passInputValidateFailure(pageName, errorMsg))
       ); // to prevent from sendingg
     }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
-import config from '../../config';
+import config from '../../config/config';
 import style from './Timer.css';
 
 export default class Timer extends React.Component {

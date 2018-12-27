@@ -15,6 +15,7 @@ import AwaitingTransactionsPage from './Transactions/AwaitingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
+import config from '../config/config';
 import AccountKeysPage from './Settings/AccountKeysPage';
 
 function NotFoundErrorPage(props) {
@@ -46,6 +47,19 @@ function PrivateRoute({ ...params }) {
   );
 }
 
+function SwitchNetwork({ ...params }) {
+  const { url } = params.match.params;
+  if (!!params.testnet !== !!config.testnet) {
+    params.switchAction(params.testnet);
+    chrome.storage.local.remove('router', () => {
+      window.location.hash = `#${url || '/'}`;
+      window.location.reload();
+    });
+    return <div />;
+  }
+  return <Redirect to={url} />;
+}
+
 @connect(
   //FIXME remove fallbacks
   state => ({
@@ -62,7 +76,6 @@ export default class Rooting extends Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
@@ -80,7 +93,21 @@ export default class Rooting extends Component {
         <Switch>
           <Route
             exact
-              path="/restore"
+            path="/testnet:url(.*)"
+            render={props =>
+              <SwitchNetwork testnet switchAction={actions.switchNetwork} {...props} />
+            }
+          />
+          <Route
+            exact
+            path="/mainnet:url(.*)"
+            render={props =>
+              <SwitchNetwork switchAction={actions.switchNetwork} {...props} />
+            }
+          />
+          <Route
+            exact
+            path="/restore"
             render={props =>
               <RestorePage restoreAction={actions.create} {...props} />
             }
@@ -157,7 +184,7 @@ export default class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/transactions/:source(.+)/:id(.+)/sign"
+            path="/transactions/:source(.+)/:id(.+)/:action(sign|popup-sign)"
             vault={vault}
             render={props =>
               <SignPage vault={vault} queue={queue} {...props} />

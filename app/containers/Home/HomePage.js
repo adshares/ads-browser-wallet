@@ -15,7 +15,7 @@ import Box from '../../components/atoms/Box';
 import Logo from '../../components/Logo/Logo';
 import { formatAdsMoney } from '../../utils/ads';
 import style from './HomePage.css';
-import config from '../../config';
+import config from '../../config/config';
 
 export default class HomePage extends React.PureComponent {
   renderShortcuts() {
@@ -75,7 +75,10 @@ export default class HomePage extends React.PureComponent {
 
   render() {
     const { vault, queue } = this.props;
-    const filteredQueue = queue.filter(t => t.type === 'sign');
+    const filteredQueue = queue.filter(t =>
+      !!config.testnet === !!t.testnet &&
+      t.type === 'sign'
+    );
 
     return (
       <Page>

@@ -1,14 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import PageComponent from './PageComponent';
 
-export default class FormComponent extends React.PureComponent {
-
-  getReferrer(defaultLocation = '/') {
-    if (this.props.location && this.props.location.state) {
-      return this.props.location.state.referrer || defaultLocation;
-    }
-    return defaultLocation;
-  }
+export default class FormComponent extends PageComponent {
 
   handleInputChange = (event, callback) => {
     const target = event.target;
@@ -26,7 +18,3 @@ export default class FormComponent extends React.PureComponent {
     });
   };
 }
-
-FormComponent.propTypes = {
-  location: PropTypes.object.isRequired,
-};

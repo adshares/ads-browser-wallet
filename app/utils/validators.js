@@ -1,7 +1,7 @@
 import ADS from './ads';
 import VaultCrypt from './vaultcrypt';
 import KeysImporterPage from '../containers/Settings/KeysImporterPage';
-import config from '../config';
+import config from '../config/config';
 import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 import { getPublicKeyFromSecret } from './keybox';
 

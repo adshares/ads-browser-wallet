@@ -10,7 +10,7 @@ import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import Logo from '../../components/Logo/Logo';
-import config from '../../config';
+import config from '../../config/config';
 import style from './RegisterPage.css';
 
 export default class RegisterPage extends FormComponent {
@@ -70,17 +70,21 @@ export default class RegisterPage extends FormComponent {
         <header className={style.logo}>
           <Logo withoutName />
           <h1>Live by ADS</h1>
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non turpis ligula.
-          Suspendisse ultricies suscipit volutpat. Nulla a dui suscipit, vehicula metus sed,
-          molestie nibh.
+          Suspendisse ultricies suscipit volutpat. Nulla a dui suscipit, vehicula metus.
         </p>
         <ButtonLink to="/register/password" icon="right" layout="info">
           Start <FontAwesomeIcon icon={faChevronRight} />
         </ButtonLink>
-        <div className={style.restore}>
-          <Link to={'/restore'}>Restore the account from a seed</Link>
+        <div className={style.links}>
+          <Link to={'/restore'}>Restore the account from a seed</Link><br />
+          {config.testnet ?
+            <Link to={'/mainnet'} className={style.mainnetLink}>Switch to the mainnet</Link> :
+            <Link to={'/testnet'}>Switch to the testnet</Link>
+          }
         </div>
       </div>
     );
@@ -91,6 +95,7 @@ export default class RegisterPage extends FormComponent {
       <div className={style.newPasswordPage}>
         <header>
           <h1>Setup password</h1>
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box icon={faInfo} layout="info">
           Your password should be obscure and must be at least 8 characters long.
@@ -137,6 +142,7 @@ export default class RegisterPage extends FormComponent {
       <div className={style.regulationsPage}>
         <header>
           <h1>Terms and conditions</h1>
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <div className={style.regulations}>{config.regulations}</div>
         <div className={style.buttons}>
@@ -156,6 +162,7 @@ export default class RegisterPage extends FormComponent {
       <div className={style.seedPhrasePage}>
         <header>
           <h1>Mnemonic seed phrase</h1>
+          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box title="Warning" layout="warning" icon={faExclamation}>
           A seed phrase includes all the information needed to recover a wallet.

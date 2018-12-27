@@ -11,12 +11,11 @@ const accountAndKeyNameMaxLength = 16;
 const accountsLimit = 20;
 
 const importedKeysLimit = 20;
+const testnet = false;
 
 const operatorUrl = 'https://operator.adshares.net/';
 
-const testnetOperatorUrl = 'https://operator.e11.click/';
-
-const apiDocUrl= 'https://github.com/adshares/ads/wiki/ADS-API#';
+const vaultStorageKey = 'vault';
 
 const regulations =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
@@ -36,24 +35,8 @@ const regulations =
   'Cras ut velit a felis volutpat vestibulum nec nec lectus. In hendrerit convallis faucibus.'
 ;
 
-const getAccountLink = 'https://github.com/adshares/ads/wiki/How-to-get-an-account';
-
-const proxyConnectionName = 'ads-wallet-proxy';
-
-const vaultStorageKey = 'vault';
-
-const testnetVaultStorageKey = 'testnet-vault';
-
-const queueStorageKey = 'queue';
-
-const testnetQueueStorageKey = 'testnet-queue';
-
-const routerStorageKey = 'router';
-
-const sessionMaxAge = 60 * 60 * 1000;
-
-
 export default {
+  testnet,
   blockLength,
   dividentLength,
   passwordMinLength,
@@ -62,15 +45,6 @@ export default {
   accountsLimit,
   importedKeysLimit,
   operatorUrl,
-  testnetOperatorUrl,
-  apiDocUrl,
-  regulations,
-  getAccountLink,
-  proxyConnectionName,
   vaultStorageKey,
-  testnetVaultStorageKey,
-  queueStorageKey,
-  testnetQueueStorageKey,
-  routerStorageKey,
-  sessionMaxAge,
+  regulations,
 };

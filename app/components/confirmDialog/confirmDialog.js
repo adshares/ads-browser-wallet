@@ -5,7 +5,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import Form from '../../components/atoms/Form';
 import style from './confirmDialog.css';
 import Button from '../atoms/Button';
-import FormControl from '../atoms/FormControl';
+import InputControl from '../atoms/InputControl';
 
 const ConfirmDialog = ({ showDialog, password, handlePasswordChange, onSubmit }) => (
   <div className={`${style.dialog} ${showDialog && style.dialogOpen}`}>
@@ -18,7 +18,7 @@ const ConfirmDialog = ({ showDialog, password, handlePasswordChange, onSubmit })
         <FontAwesomeIcon icon={faLock} className={style.dialogHeaderIcon} />
           Please authenticate yourself
         </h2>
-      <FormControl
+      <InputControl
         isInput
         required
         label="password"

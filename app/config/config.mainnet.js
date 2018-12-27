@@ -1,18 +1,4 @@
-const blockLength = 512;
-
-const dividentLength = 2048;
-
-const passwordMinLength = 1;
-
-const initKeysQuantity = 11;
-
-const accountAndKeyNameMaxLength = 16;
-
-const accountsLimit = 20;
-
-const importedKeysLimit = 20;
 const testnet = false;
-
 const operatorUrl = 'https://operator.adshares.net/';
 
 const vaultStorageKey = 'vault';
@@ -37,13 +23,6 @@ const regulations =
 
 export default {
   testnet,
-  blockLength,
-  dividentLength,
-  passwordMinLength,
-  initKeysQuantity,
-  accountAndKeyNameMaxLength,
-  accountsLimit,
-  importedKeysLimit,
   operatorUrl,
   vaultStorageKey,
   regulations,

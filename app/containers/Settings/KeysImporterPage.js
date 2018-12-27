@@ -14,12 +14,12 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import {FormControl} from '../../components/atoms/FormControl';
+import { InputControl } from '../../components/atoms/InputControl';
 import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
 import { VAULT_IMPORT_KEY } from '../../actions/vault';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
-import { Checkbox } from '../../components/atoms/checkbox';
+import { CheckboxControl } from '../../components/atoms/checkboxControl';
 
 @connect(
   state => ({
@@ -99,9 +99,9 @@ export default class KeysImporterPage extends FormComponent {
         autenticationModalOpen={authModalOpen}
         cancelLink={'/'}
       >
-        {this.state.showLoader && <LoaderOverlay />}
+        {this.state.showLoader && <LoaderOverlay/>}
         <Form onSubmit={this.handleSubmit}>
-          <FormControl
+          <InputControl
             label="Name"
             value={name.value}
             isValid={name.isValid}
@@ -110,7 +110,7 @@ export default class KeysImporterPage extends FormComponent {
             handleChange={value => this.handleInputChange('name', value)}
             errorMessage={name.errorMsg}
           />
-          <FormControl
+          <InputControl
             label="Secret key"
             value={secretKey.value}
             isValid={secretKey.isValid}
@@ -119,12 +119,12 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={secretKey.errorMsg}
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
-          <Checkbox
+          <CheckboxControl
             checked={publicKey.checked} desc="Import with public key"
             handleChange={value => this.toggleVisibility('publicKey', value)}
           />
           {publicKey.shown &&
-          <FormControl
+          <InputControl
             label="Public key"
             value={publicKey.value}
             isValid={publicKey.isValid}
@@ -143,7 +143,7 @@ export default class KeysImporterPage extends FormComponent {
               layout="info"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+              <FontAwesomeIcon icon={faTimes}/> Cancel
             </ButtonLink>
             <Button
               type="submit"
@@ -152,7 +152,7 @@ export default class KeysImporterPage extends FormComponent {
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight} />
+              <FontAwesomeIcon icon={faChevronRight}/>
             </Button>
           </div>
         </Form>

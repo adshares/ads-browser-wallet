@@ -18,7 +18,7 @@ import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import { VAULT_ADD_ACCOUNT } from '../../actions/vault';
-import { FormControl } from '../../components/atoms/FormControl';
+import { InputControl } from '../../components/atoms/InputControl';
 import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
 
 @connect(
@@ -104,7 +104,7 @@ export default class AccountEditorPage extends FormComponent {
     const { name, address, publicKey } = this.props.page.inputs;
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormControl
+        <InputControl
           required
           isInput
           maxLength={config.accountNameAndKeyMaxLength}
@@ -114,7 +114,7 @@ export default class AccountEditorPage extends FormComponent {
           handleChange={value => this.handleInputChange('name', value)}
         />
 
-        <FormControl
+        <InputControl
           required
           isInput
           label="Account address"
@@ -123,7 +123,7 @@ export default class AccountEditorPage extends FormComponent {
           handleChange={value => this.handleInputChange('address', value)}
         />
 
-        <FormControl
+        <InputControl
           required
           pattern="[0-9a-fA-F]{64}"
           label="Account public key"

@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import KeyBox from './keybox';
+import * as KeyBox from './keybox';
 import config from '../config/config';
 
 const SEED_PHRASE = 'p';

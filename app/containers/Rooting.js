@@ -16,7 +16,7 @@ import SignPage from './Transactions/SignPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 import config from '../config/config';
-import AccountKeysPage from './Settings/AccountKeysPage';
+import DetailsPage from './Settings/DetailsPage';
 
 function NotFoundErrorPage(props) {
   return (
@@ -163,7 +163,16 @@ export default class Rooting extends Component {
             path="/accounts/:address([0-9A-F-]+)/keys"
             vault={vault}
             render={props =>
-              <AccountKeysPage vault={vault} {...props} />
+              <DetailsPage accounts={vault.accounts} type="account" {...props} />
+            }
+          />
+
+          <PrivateRoute
+            exact
+            path="/keys/:pk([0-9a-fA-F]{64})/"
+            vault={vault}
+            render={props =>
+              <DetailsPage keys={vault.keys} type="key" {...props} />
             }
           />
           <PrivateRoute

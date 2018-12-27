@@ -17,8 +17,24 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import Page from '../../components/Page/Page';
+import { KeysList } from './KeysList';
+import { generateNewKeys } from '../../utils/keybox';
 
 export default class SettingsPage extends FormComponent {
+
+  handleRpcServerSave = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+  showSeedPhrase = () => {
+    this.setState({
+      isSeedPhraseVisible: true
+    });
+  };
+  removeAccount = (address) => {
+    const password = '';
+    this.props.actions.removeAccount(address, password);
+  };
 
   constructor(props) {
     super(props);
@@ -27,22 +43,6 @@ export default class SettingsPage extends FormComponent {
       isSeedPhraseVisible: false,
     };
   }
-
-  handleRpcServerSave = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
-  showSeedPhrase = () => {
-    this.setState({
-      isSeedPhraseVisible: true
-    });
-  };
-
-  removeAccount = (address) => {
-    const password = '';
-    this.props.actions.removeAccount(address, password);
-  };
 
   renderAccountsSettings() {
     return (
@@ -161,12 +161,17 @@ export default class SettingsPage extends FormComponent {
   }
 
   render() {
+    const { location, vault: { keys, seed } } = this.props;
     return (
       <Page className={style.page} title="Settings" scroll cancelLink="/">
         {this.renderAccountsSettings()}
         {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}
         {this.renderStorageSettings()}
+        <KeysList
+          location={location} type="auto" keys={keys}
+          createAction={() => generateNewKeys(seed, keys.length)}
+        />
       </Page>
     );
   }

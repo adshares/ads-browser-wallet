@@ -71,3 +71,9 @@
 .buttons a:first-child {
     margin-right: 50px;
 }
+
+.list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

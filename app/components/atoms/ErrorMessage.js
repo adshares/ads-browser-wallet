@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 import style from './ErrorMessage.css';
 
-export const ErrorMessage = ({ errorMessage }) => (
+const ErrorMessage = ({ errorMessage }) => (
   <div className={style.errorBox}>
     <FontAwesomeIcon icon={faExclamation} />
     <span className={style.errorMessage} >{errorMessage} </span>

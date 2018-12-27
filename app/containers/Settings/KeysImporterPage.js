@@ -14,7 +14,7 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import { InputControl } from '../../components/atoms/InputControl';
+import InputControl from '../../components/atoms/InputControl';
 import { inputChange, passwordChange, toggleVisibility } from '../../actions/form';
 import { VAULT_IMPORT_KEY } from '../../actions/vault';
 import validateFormThunk from '../../thunks/formThunk';
@@ -165,5 +165,4 @@ KeysImporterPage.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
-  saveAction: PropTypes.func.isRequired
 };

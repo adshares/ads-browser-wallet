@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import style from './InputControl.css';
 import ErrorMessage from './ErrorMessage';
 
-export const InputControl = ({
+const InputControl = ({
   value,
   label,
   required,

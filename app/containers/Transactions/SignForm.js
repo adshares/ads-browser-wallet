@@ -7,7 +7,7 @@ import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
-import Checkbox from '../../components/atoms/checkbox';
+import CheckboxControl from '../../components/atoms/checkboxControl';
 import ADS from '../../utils/ads';
 import { formatDate } from '../../utils/utils';
 import { typeLabels, fieldLabels } from './labels';
@@ -257,7 +257,7 @@ export default class SignForm extends FormComponent {
             {this.renderCommand(type, rest)}
             <tr className={style.showAdvanced}>
               <td colSpan="2">
-                <Checkbox
+                <CheckboxControl
                   checked={this.state.showAdvanced}
                   desc="Show advanced data"
                   handleChange={this.toggleAdvanced}

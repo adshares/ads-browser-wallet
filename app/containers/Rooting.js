@@ -147,7 +147,7 @@ export default class Rooting extends Component {
             path="/accounts/import"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} saveAction={actions.addAccount} {...props} />
+              <AccountEditorPage vault={vault} {...props} />
             }
           />
           <PrivateRoute

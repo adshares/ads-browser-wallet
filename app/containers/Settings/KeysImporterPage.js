@@ -11,17 +11,15 @@ import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
-import ConfirmDialog from '../../components/confirmDialog/confirmDialog';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import ADS from '../../utils/ads';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import FormControl from '../../components/atoms/FormControl';
+import { InputControl } from '../../components/atoms/InputControl';
 import { handleInputChange, handlePasswordChange, toggleVisibility } from '../../actions/form';
 import { VAULT_IMPORT_KEY } from '../../actions/vault';
 import validateFormThunk from '../../thunks/validateThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
-import { Checkbox } from '../../components/atoms/checkbox';
+import { CheckboxControl } from '../../components/atoms/checkboxControl';
 
 @connect(
   state => ({
@@ -66,45 +64,17 @@ export default class KeysImporterPage extends FormComponent {
     this.props.actions.validateFormThunk(KeysImporterPage.PAGE_NAME);
   };
 
-  onAuthenticated = (password) => {
-    this.setState({
-      isSubmitted: false,
-      showLoader: true
-    });
-
-    try {
-      this.props.saveAction(
-        this.nameInput.current.value,
-        this.publicKeyInput.current.value,
-        this.secretKeyInput.current.value,
-        password
-      );
-      this.props.history.push('/');
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  };
-
   constructor(props) {
     super(props);
-    this.nameInput = React.createRef();
-    this.publicKeyInput = React.createRef();
-    this.secretKeyInput = React.createRef();
-
     this.state = {
-      isSubmitted: false,
-      password: null,
       showLoader: false
     };
   }
 
   render() {
     const {
-      vault,
       page: {
-        auth: { authModalOpen, authConfirmed, password },
-        isSubmitted,
+        auth: { authModalOpen, password },
         inputs: { name, publicKey, secretKey }
       }
     } = this.props;
@@ -113,10 +83,10 @@ export default class KeysImporterPage extends FormComponent {
       <Page
         className={style.page}
         title="Import key"
-        onPasswordInputChange={e =>
+        onPasswordInputChange={value =>
           this.props.actions.handlePasswordChange(
             KeysImporterPage.PAGE_NAME,
-            e.target.value
+            value
           )
         }
         onDialogSubmit={() =>
@@ -125,13 +95,13 @@ export default class KeysImporterPage extends FormComponent {
             VAULT_IMPORT_KEY
           )
         }
-        passwordValue={password.value}
+        password={password}
         autenticationModalOpen={authModalOpen}
         cancelLink={'/'}
       >
-        {this.state.showLoader && <LoaderOverlay />}
+        {this.state.showLoader && <LoaderOverlay/>}
         <Form onSubmit={this.handleSubmit}>
-          <FormControl
+          <InputControl
             label="Name"
             value={name.value}
             isValid={name.isValid}
@@ -140,7 +110,7 @@ export default class KeysImporterPage extends FormComponent {
             handleChange={value => this.handleInputChange('name', value)}
             errorMessage={name.errorMsg}
           />
-          <FormControl
+          <InputControl
             label="Secret key"
             value={secretKey.value}
             isValid={secretKey.isValid}
@@ -149,9 +119,12 @@ export default class KeysImporterPage extends FormComponent {
             errorMessage={secretKey.errorMsg}
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
-          <Checkbox checked={publicKey.checked} desc="Import with public key" handleChange={value => this.toggleVisibility('publicKey', value)} />
+          <CheckboxControl
+            checked={publicKey.checked} desc="Import with public key"
+            handleChange={value => this.toggleVisibility('publicKey', value)}
+          />
           {publicKey.shown &&
-          <FormControl
+          <InputControl
             label="Public key"
             value={publicKey.value}
             isValid={publicKey.isValid}
@@ -170,7 +143,7 @@ export default class KeysImporterPage extends FormComponent {
               layout="info"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+              <FontAwesomeIcon icon={faTimes}/> Cancel
             </ButtonLink>
             <Button
               type="submit"
@@ -179,7 +152,7 @@ export default class KeysImporterPage extends FormComponent {
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight} />
+              <FontAwesomeIcon icon={faChevronRight}/>
             </Button>
           </div>
         </Form>

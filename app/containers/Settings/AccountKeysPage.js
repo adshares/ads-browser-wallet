@@ -7,7 +7,7 @@ import Form from '../../components/atoms/Form';
 import Box from '../../components/atoms/Box';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import FormControl from '../../components/atoms/FormControl';
+import InputControl from '../../components/atoms/InputControl';
 
 export default class AccountKeysPage extends FormComponent {
   render() {
@@ -30,9 +30,9 @@ export default class AccountKeysPage extends FormComponent {
                 The secret key must not be transferred to anyone.
               </Box>
 
-              <FormControl label="Account address" readOnly rows={1} value={account.address} />
-              <FormControl label="Public key" readOnly value={account.publicKey} />
-              <FormControl label="Secret key" readOnly value={account.secretKey} />
+              <InputControl label="Account address" readOnly rows={1} value={account.address} />
+              <InputControl label="Public key" readOnly value={account.publicKey} />
+              <InputControl label="Secret key" readOnly value={account.secretKey} />
             </Form>
           )
         }

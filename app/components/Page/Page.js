@@ -30,6 +30,15 @@ import style from "./Page.css";
   })
 )
 export default class Page extends React.Component {
+  getSelectedAccount = () => {
+    if (this.props.vault.selectedAccount) {
+      return this.props.vault.selectedAccount;
+    } else if (this.props.vault.accounts.length > 0) {
+      this.props.actions.vault.selectActiveAccount(this.props.vault.accounts[0]);
+      return this.props.vault.accounts[0];
+    }
+  };
+
   render() {
     const {
       vault,
@@ -44,7 +53,7 @@ export default class Page extends React.Component {
       className,
       onPasswordInputChange,
       onDialogSubmit,
-      passwordValue,
+      password,
       autenticationModalOpen,
     } = this.props;
 
@@ -84,13 +93,12 @@ export default class Page extends React.Component {
 
     return (
       <section>
-        {this.props.loading && <LoaderOverlay />}
         {autenticationModalOpen && (
           <ConfirmDialog
             showDialog
-            onChange={onPasswordInputChange}
+            handlePasswordChange={onPasswordInputChange}
             onSubmit={onDialogSubmit}
-            passwordValue={passwordValue}
+            password={password}
           />
         )}
         <header className={headerClass}>
@@ -109,7 +117,10 @@ export default class Page extends React.Component {
               {title} {subTitle ? <small>{subTitle}</small> : ''}
             </h1>
           ) : (
-            <SelectAccount options={vault.accounts} />
+            <SelectAccount
+              options={vault.accounts} selectedAccount={this.getSelectedAccount()}
+              selectAccount={actions.vault.selectActiveAccount}
+            />
           )}
           {menu}
         </header>
@@ -133,5 +144,8 @@ Page.propTypes = {
   noLinks: PropTypes.bool,
   smallTitle: PropTypes.bool,
   scroll: PropTypes.bool,
-  loading: PropTypes.bool,
+  onPasswordInputChange: PropTypes.func,
+  onDialogSubmit: PropTypes.func,
+  password: PropTypes.object,
+  autenticationModalOpen: PropTypes.bool,
 };

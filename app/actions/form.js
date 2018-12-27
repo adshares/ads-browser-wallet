@@ -1,3 +1,4 @@
+export const TOGGLE_AUTHORISATION_DIALOG = 'TOGGLE_AUTHORISATION_DIALOG';
 export const INPUT_CHANGED = 'INPUT_CHANGED';
 export const PASS_INPUT_CHANGED = 'PASS_INPUT_CHANGED';
 export const PASS_INPUT_VALIDATION_SUCCESS = 'PASS_INPUT_VALIDATION_SUCCESS';
@@ -11,11 +12,13 @@ export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
 
 const passInputValidateSuccess = (pageName, valid) => ({
   type: PASS_INPUT_VALIDATION_SUCCESS,
+  pageName,
   valid
 });
 
 const passInputValidateFailed = (pageName, errorMsg) => ({
   type: PASS_INPUT_VALIDATION_FAILED,
+  pageName,
   errorMsg
 });
 
@@ -66,6 +69,12 @@ const toggleVisibility = (pageName, inputName, shown) => ({
   shown,
 });
 
+const toggleAuthorisationDialog = (pageName, isOpen) => ({
+  type: TOGGLE_AUTHORISATION_DIALOG,
+  isOpen,
+  pageName
+});
+
 export {
   handleInputChange,
   handlePasswordChange,
@@ -76,5 +85,6 @@ export {
   formValidationSuccess,
   formValidationFailed,
   formClean,
-    toggleVisibility
+  toggleVisibility,
+  toggleAuthorisationDialog
 };

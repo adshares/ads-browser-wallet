@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './FromControl.css';
+import style from './InputControl.css';
 import ErrorMessage from './ErrorMessage';
 
-export const FormControl = ({
+export const InputControl = ({
   value,
   label,
   required,
@@ -26,6 +26,7 @@ export const FormControl = ({
     <div className={style.inputWrapper}>
       {isInput ? (
         <input
+          type={type}
           id={`${label}`}
           required={required}
           readOnly={readOnly}
@@ -45,6 +46,7 @@ export const FormControl = ({
           value={value}
           maxLength={maxLength}
           className={style.input}
+          rows={rows}
           onChange={handleInputChange}
         />
       )}
@@ -56,9 +58,9 @@ export const FormControl = ({
   );
 };
 
-export default FormControl;
+export default InputControl;
 
-FormControl.propTypes = {
+InputControl.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,

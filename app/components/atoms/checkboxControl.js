@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './checkbox.css';
+import style from './checkboxControl.css';
 
-const Checkbox = ({ checked, desc, handleChange }) => {
-  const handleClick = (e) => {
-    handleChange(e.target.checked);
-  };
-
-  const handleKeyDown = (e) => {
+export const CheckboxControl = ({ checked, desc, handleChange }) => {
+  const handleChanges = (e) => {
     if (e.keyCode && e.keyCode !== 13) return;
-    handleChange(!checked);
+    handleChange(e.target.checked);
   };
 
   return (
@@ -20,8 +16,7 @@ const Checkbox = ({ checked, desc, handleChange }) => {
         type="checkbox"
         id="check"
         checked={checked}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
+        onChange={handleChanges}
       />
       <label htmlFor="check" className={style.checked}>
         <svg viewBox={[0, 0, 50, 50].join()} className={style.checkedSvg}>
@@ -33,9 +28,9 @@ const Checkbox = ({ checked, desc, handleChange }) => {
   );
 };
 
-export default Checkbox;
+export default CheckboxControl;
 
-Checkbox.propTypes = {
+CheckboxControl.propTypes = {
   checked: PropTypes.bool,
   desc: PropTypes.string.isRequired,
   handleChange: PropTypes.func,

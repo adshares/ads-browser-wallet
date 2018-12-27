@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { faExclamation } from '@fortawesome/free-solid-svg-icons/index';
-import Form from '../../components/atoms/Form';
-import Box from '../../components/atoms/Box';
-import ADS from '../../utils/ads';
 import style from './SettingsPage.css';
 import Page from '../../components/Page/Page';
-import InputControl from '../../components/atoms/InputControl';
 import PageComponent from '../../components/PageComponent';
 import { KeysList } from './KeysList';
 import { generateNewKeys } from '../../utils/keybox';
@@ -37,7 +32,7 @@ class KeysSettings extends PageComponent {
 export default KeysSettings;
 
 KeysSettings.propTypes = {
-  seed: PropTypes.array,
+  seed: PropTypes.string,
   keys: PropTypes.array,
   location: PropTypes.object.isRequired,
   saveGeneratedKeysAction: PropTypes.func,

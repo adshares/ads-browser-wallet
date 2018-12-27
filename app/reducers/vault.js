@@ -82,7 +82,7 @@ export default function (vault = initialVault, action) {
 
     case actions.SWITCH_NETWORK: {
       BgClient.changeNetwork(action.testnet, (data) => {
-        console.log('VAULT_SWITCH_NETWORK', data);
+        console.log('SWITCH_NETWORK', data);
       });
       return vault;
     }
@@ -179,7 +179,7 @@ export default function (vault = initialVault, action) {
       return updatedVault;
     }
 
-    case actions.VAULT_SAVE_GENERATED_KEYS: {
+    case actions.SAVE_GENERATED_KEYS: {
       return {
         ...vault,
         keys: [

@@ -30,11 +30,12 @@ import style from './Page.css';
 )
 export default class Page extends React.Component {
   getSelectedAccount = () => {
-    if (this.props.vault.selectedAccount) {
-      return this.props.vault.selectedAccount;
-    } else if (this.props.vault.accounts.length > 0) {
-      this.props.actions.vault.selectActiveAccount(this.props.vault.accounts[0].address);
-      return this.props.vault.accounts[0];
+    const {selectedAccount, accounts} = this.props.vault
+    if (selectedAccount) {
+      return selectedAccount;
+    } else if (accounts.length > 0) {
+      this.props.actions.vault.selectActiveAccount(accounts[0].address);
+      return accounts[0].address;
     }
   };
 

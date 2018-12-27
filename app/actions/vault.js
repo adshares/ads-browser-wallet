@@ -66,10 +66,6 @@ export function switchNetwork(testnet) {
   return { type: SWITCH_NETWORK, testnet };
 }
 
-export function selectActiveAccount(account) {
-  return { type: SELECT_ACTIVE_ACCOUNT, account };
-}
-
 export function saveGeneratedKeys(keys) {
   return { type: SAVE_GENERATED_KEYS, keys };
 }

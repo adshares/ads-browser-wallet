@@ -164,5 +164,4 @@ KeysImporterPage.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
-  saveAction: PropTypes.func.isRequired
 };

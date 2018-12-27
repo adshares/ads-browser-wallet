@@ -176,7 +176,7 @@ export default class Rooting extends Component {
             render={props =>
               <KeysSettings
                 keys={vault.keys} seed={vault.seed}
-                saveGeneratedKeysAction={actions.vaultSaveGeneratedKeys}{...props}
+                saveGeneratedKeysAction={actions.saveGeneratedKeys}{...props}
               />
             }
           />

@@ -5,6 +5,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from '../reducers';
 import storage from '../utils/storage';
+import { createEpicMiddleware } from 'redux-observable';
+import rootEpic from '../epics';
+
+const epicMiddleware = createEpicMiddleware(rootEpic);
 
 export default function (initialState, history) {
   const composeEnhancers = composeWithDevTools({
@@ -12,7 +16,7 @@ export default function (initialState, history) {
   });
 
   const enhancer = composeEnhancers(
-    applyMiddleware(thunk, routerMiddleware(history), logger),
+    applyMiddleware(epicMiddleware, routerMiddleware(history), logger),
     storage(),
   );
 

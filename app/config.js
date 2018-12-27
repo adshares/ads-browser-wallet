@@ -6,7 +6,7 @@ const passwordMinLength = 1;
 
 const initKeysQuantity = 11;
 
-const accountNameMaxLength = 16;
+const accountAndKeyNameMaxLength = 16;
 
 const accountsLimit = 20;
 
@@ -58,7 +58,7 @@ export default {
   dividentLength,
   passwordMinLength,
   initKeysQuantity,
-  accountNameMaxLength,
+  accountAndKeyNameMaxLength,
   accountsLimit,
   importedKeysLimit,
   operatorUrl,

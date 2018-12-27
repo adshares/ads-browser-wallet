@@ -153,7 +153,7 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erease}>
+        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erase}>
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>

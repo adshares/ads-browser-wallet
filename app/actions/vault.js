@@ -1,41 +1,61 @@
-export const VAULT_CREATE = 'VAULT_CREATE';
-export const VAULT_EREASE = 'VAULT_EREASE';
-export const VAULT_UNSEAL = 'VAULT_UNSEAL';
-export const VAULT_SEAL = 'VAULT_SEAL';
-export const VAULT_ADD_ACCOUNT = 'VAULT_ADD_ACCOUNT';
-export const VAULT_UPDATE_ACCOUNT = 'VAULT_UPDATE_ACCOUNT';
-export const VAULT_REMOVE_ACCOUNT = 'VAULT_REMOVE_ACCOUNT';
-export const VAULT_IMPORT_KEY = 'VAULT_IMPORT_KEY';
-
+export const CREATE = 'CREATE';
+export const ERASE = 'ERASE';
+export const UNSEAL = 'UNSEAL';
+export const SEAL = 'SEAL';
+export const ADD_ACCOUNT_INIT = 'ADD_ACCOUNT_INIT';
+export const ADD_ACCOUNT = 'ADD_ACCOUNT';
+export const UPDATE_ACCOUNT_INIT = 'UPDATE_ACCOUNT_INIT';
+export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
+export const REMOVE_ACCOUNT = 'REMOVE_ACCOUNT';
+export const IMPORT_KEY_INIT = 'IMPORT_KEY_INIT';
+export const IMPORT_KEY = 'IMPORT_KEY';
+export const SELECT_ACTIVE_ACCOUNT = 'SELECT_ACTIVE_ACCOUNT';
 
 export function create(password, seedPhrase, callback) {
-  return { type: VAULT_CREATE, password, seedPhrase, callback };
+  return { type: CREATE, password, seedPhrase, callback };
 }
 
-export function erease() {
-  return { type: VAULT_EREASE };
+export function erase() {
+  return { type: ERASE };
 }
 
 export function unseal(password) {
-  return { type: VAULT_UNSEAL, password };
+  return { type: UNSEAL, password };
 }
 
 export function seal() {
-  return { type: VAULT_SEAL };
+  return { type: SEAL };
 }
 
-export function addAccount(address, name, publicKey, password, callback) {
-  return { type: VAULT_ADD_ACCOUNT, address, name, publicKey, password, callback };
+export function addAccountInit() {
+  return { type: ADD_ACCOUNT_INIT };
 }
 
-export function updateAccount(address, name, publicKey, password, callback) {
-  return { type: VAULT_UPDATE_ACCOUNT, address, name, publicKey, password, callback };
+export function addAccount({ address, name, publicKey, password }) {
+  return { type: ADD_ACCOUNT, address, name, publicKey, password };
 }
 
-export function removeAccount(address, password, callback) {
-  return { type: VAULT_REMOVE_ACCOUNT, address, password, callback };
+export function updateAccountInit() {
+  return { type: UPDATE_ACCOUNT_INIT };
+}
+
+export function updateAccount({ address, name, publicKey, password }) {
+  return { type: UPDATE_ACCOUNT, address, name, publicKey, password };
+}
+
+export function removeAccount({ address, password }) {
+  return { type: REMOVE_ACCOUNT, address, password };
+}
+
+export function importKeyInit() {
+  return { type: IMPORT_KEY_INIT };
 }
 
 export function importKey({ name, publicKey, secretKey, password }) {
-  return { type: VAULT_IMPORT_KEY, name, publicKey, secretKey, password };
+  return { type: IMPORT_KEY, name, publicKey, secretKey, password };
+}
+
+
+export function selectActiveAccount(account) {
+  return { type: SELECT_ACTIVE_ACCOUNT, account };
 }

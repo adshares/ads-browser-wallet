@@ -2,7 +2,7 @@ import bip39 from 'bip39';
 import { getMasterKeyFromSeed, derivePath, getPublicKeyFromSeed as getPkFromSeed} from './ed25519-hd-key';
 import { hexToByte } from './utils';
 
-const getPublicKeyFromSecret = secretKey => getPkFromSeed(hexToByte(secretKey)).toString('hex').slice(2).toUpperCase();
+export const getPublicKeyFromSecret = secretKey => getPkFromSeed(hexToByte(secretKey)).toString('hex').slice(2).toUpperCase();
 
 function generateKeyPair(seed, path) {
   let key;
@@ -15,7 +15,7 @@ function generateKeyPair(seed, path) {
     type: 'auto',
     secretKey: key.toString('hex').toUpperCase(),
     // slice(2) because public key is left pad with '00'
-    publicKey: getPkFromSeed(key).toString('hex').toUpperCase(),
+    publicKey: getPkFromSeed(key).toString('hex').slice(2).toUpperCase(),
   };
 }
 

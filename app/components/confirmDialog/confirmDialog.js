@@ -10,7 +10,6 @@ import FormControl from '../atoms/FormControl';
 const ConfirmDialog = ({ showDialog, password, handlePasswordChange, onSubmit }) => (
   <div className={`${style.dialog} ${showDialog && style.dialogOpen}`}>
     <Form
-      onSubmit={onSubmit}
       className={`${style.dialogForm} ${showDialog &&
         style.dialogFormOpen}`}
     >

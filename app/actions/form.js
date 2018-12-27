@@ -1,13 +1,21 @@
 export const INPUT_CHANGED = 'INPUT_CHANGED';
 export const PASS_INPUT_CHANGED = 'PASS_INPUT_CHANGED';
+export const PASS_INPUT_VALIDATE = 'PASS_INPUT_VALIDATE';
 export const PASS_INPUT_VALIDATION_SUCCESS = 'PASS_INPUT_VALIDATION_SUCCESS';
 export const PASS_INPUT_VALIDATION_FAILED = 'PASS_INPUT_VALIDATION_FAILED';
 export const INPUT_VALIDATION_SUCCESS = 'INPUT_VALIDATION_SUCCESS';
 export const INPUT_VALIDATION_FAILED = 'INPUT_VALIDATION_FAILED';
+export const FORM_VALIDATE = 'FORM_VALIDATE';
 export const FORM_VALIDATION_SUCCESS = 'FORM_VALIDATION_SUCCESS';
 export const FORM_VALIDATION_FAILED = 'FORM_VALIDATION_FAILED';
 export const FORM_CLEANING = 'FORM_CLEANED';
 export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
+
+const passInputValidate = (pageName, actionCallback) => ({
+  type: PASS_INPUT_VALIDATE,
+  pageName,
+  actionCallback,
+});
 
 const passInputValidateSuccess = (pageName, valid) => ({
   type: PASS_INPUT_VALIDATION_SUCCESS,
@@ -32,6 +40,11 @@ const inputValidateFailed = (pageName, inputName, errorMsg) => ({
   pageName,
   inputName,
   errorMsg
+});
+
+const formValidate = pageName => ({
+  type: FORM_VALIDATE,
+  pageName
 });
 
 const formValidationSuccess = pageName => ({
@@ -73,8 +86,10 @@ export {
   handlePasswordChange,
   inputValidateSuccess,
   inputValidateFailed,
+    passInputValidate,
   passInputValidateFailed,
   passInputValidateSuccess,
+    formValidate,
   formValidationSuccess,
   formValidationFailed,
   formClean,

@@ -80,7 +80,7 @@ export default class Rooting extends Component {
         <Switch>
           <Route
             exact
-              path="/restore"
+            path="/restore"
             render={props =>
               <RestorePage restoreAction={actions.create} {...props} />
             }
@@ -120,7 +120,7 @@ export default class Rooting extends Component {
             path="/accounts/import"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} saveAction={actions.addAccount} {...props} />
+              <AccountEditorPage vault={vault} saveAction={actions.addAccountInit}{...props} />
             }
           />
           <PrivateRoute
@@ -128,7 +128,7 @@ export default class Rooting extends Component {
             path="/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} saveAction={actions.updateAccount} {...props} />
+              <AccountEditorPage vault={vault} saveAction={actions.updateAccountInit} {...props} />
             }
           />
           <PrivateRoute

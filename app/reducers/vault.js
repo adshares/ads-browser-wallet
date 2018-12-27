@@ -52,7 +52,7 @@ export default function (vault = initialVault, action) {
     case actions.SELECT_ACTIVE_ACCOUNT: {
       return {
         ...vault,
-        selectedAccount: action.account
+        selectedAccount: action.accountAddress
       };
     }
 

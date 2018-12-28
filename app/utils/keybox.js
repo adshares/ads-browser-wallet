@@ -41,14 +41,14 @@ function generateNextKey(seed, index) {
 function generateKeys(seed, quantity) {
   const keys = [];
   keys.push({
-    name: 'master',
+    name: 'Master',
     ...generateKeyPair(seed)
   });
   for (let i = 1; i < quantity; i++) {
     const n = i.toString()
       .padStart(2, '0');
     keys.push({
-      name: `N${n}`,
+      name: `M${n}`,
       ...generateNextKey(seed, i)
     });
   }

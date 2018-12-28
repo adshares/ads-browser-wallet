@@ -17,7 +17,7 @@ import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
 import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate } from '../../actions/form';
 import { importKeyInit } from '../../actions/vault';
-import { CheckboxControl } from '../../components/atoms/checkboxControl';
+import { CheckboxControl } from '../../components/atoms/CheckboxControl';
 
 @connect(
   state => ({
@@ -119,7 +119,7 @@ export default class KeysImporterPage extends FormComponent {
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
           <CheckboxControl
-            checked={publicKey.checked} desc="Import with public key"
+            checked={publicKey.checked} label="Import with public key"
             handleChange={value => this.toggleVisibility('publicKey', value)}
           />
           {publicKey.shown &&

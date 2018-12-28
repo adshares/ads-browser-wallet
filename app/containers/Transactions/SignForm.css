@@ -76,6 +76,18 @@
     content: '' !important;
 }
 
+.keys td {
+    vertical-align: middle !important;
+}
+
+.keyLabel * {
+    display: block;
+}
+
+.keyLabel small {
+    color: var(--blue-dark);
+}
+
 .buttons {
     text-align: center;
     margin-bottom: 0 !important;

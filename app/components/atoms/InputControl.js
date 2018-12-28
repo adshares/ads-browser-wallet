@@ -44,6 +44,7 @@ const InputControl = ({
           maxLength={maxLength}
           className={style.input}
           onChange={handleInputChange}
+          placeholder=" "
         />
       ) : (
         <textarea
@@ -58,6 +59,7 @@ const InputControl = ({
           className={style.input}
           rows={rows}
           onChange={handleInputChange}
+          placeholder=" "
         />
       )}
       <label htmlFor={`${label}`} className={style.label}>

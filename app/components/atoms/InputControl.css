@@ -21,7 +21,7 @@
 }
 
 .input:focus + .label,
-.input:valid + .label,
+.input:not(:placeholder-shown) + .label,
 .input:read-only + .label {
     font-size: 90%;
     transform: translate3d(0, -100%, 0);

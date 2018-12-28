@@ -9,6 +9,7 @@ import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import ConfirmDialog from '../confirmDialog/confirmDialog';
+import LoaderOverlay from '../atoms/LoaderOverlay';
 import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vault';
 import * as FormActions from '../../actions/form';
@@ -111,7 +112,8 @@ export default class Page extends React.Component {
             ) : (
               <Link to="/">
                 <img src={logo} alt="Adshares wallet" />
-          </Link>)}
+              </Link>
+             )}
             {config.testnet ? <span>TESTNET</span> : ''}
           </div>
           {title ? (

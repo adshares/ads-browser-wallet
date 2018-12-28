@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
-import { cleanForm, inputChanged, transactionRejected } from '../../actions/transactionActions';
+import {
+  cleanForm,
+  inputChanged,
+  transactionRejected
+} from '../../actions/transactionActions';
 import { validateForm, sendTransaction } from '../../thunks/transactionThunk';
 import TransactionPage from './TransactionPage';
 import Form from '../../components/atoms/Form';
 import InputControl from '../../components/atoms/InputControl';
+import CheckboxControl from '../../components/atoms/CheckboxControl';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
 import ADS from '../../utils/ads';
@@ -38,7 +43,7 @@ export default class SendOnePage extends TransactionPage {
 
   renderForm() {
     const {
-      inputs: { address, amount, message }
+      inputs: { address, amount, message, rawMessage }
     } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -65,15 +70,24 @@ export default class SendOnePage extends TransactionPage {
             errorMessage={amount.errorMsg}
           ><span>ADS</span></InputControl>
         </div>
-        <InputControl
-          name="message"
-          label={fieldLabels.message}
-          value={message.value}
-          isValid={message.isValid}
-          rows={2}
-          handleChange={this.handleInputChange}
-          errorMessage={message.errorMsg}
-        />
+        <div className={style.message}>
+          <InputControl
+            name="message"
+            label={fieldLabels.message}
+            value={message.value}
+            isValid={message.isValid}
+            rows={2}
+            handleChange={this.handleInputChange}
+            errorMessage={message.errorMsg}
+          >
+            <CheckboxControl
+              name="rawMessage"
+              label="Hexadecimal data"
+              checked={rawMessage.value}
+              handleChange={this.handleInputChange}
+            />
+          </InputControl>
+        </div>
         <div className={style.buttons}>
           <ButtonLink
             to={this.getReferrer()}

@@ -1,4 +1,5 @@
 const testnet = false;
+
 const operatorUrl = 'https://operator.adshares.net/';
 
 const vaultStorageKey = 'vault';

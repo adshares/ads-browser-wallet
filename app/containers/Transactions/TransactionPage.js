@@ -47,6 +47,12 @@ export default class TransactionPage extends PageComponent {
     );
   }
 
+  handleSignCancel = () => {
+    this.props.actions.transactionRejected(
+      this.transactionType
+    );
+  }
+
   render() {
     const {
       vault,
@@ -68,8 +74,8 @@ export default class TransactionPage extends PageComponent {
           vault={vault}
           acceptAction={this.handleAccept}
           rejectAction={this.handleReject}
+          cancelAction={this.handleSignCancel}
           cancelLink={this.getReferrer()}
-          onCancelClick={this.handleSignCancel}
           showLoader={isSubmitted}
           history={history}
         />

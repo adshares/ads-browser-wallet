@@ -15,6 +15,23 @@
     margin-left: 20px;
 }
 
+.message {
+    margin-top: 40px;
+}
+
+.message > div > div:first-of-type {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 90%;
+}
+
+.message > div > div:first-of-type label {
+    width: 16px;
+    height: 16px;
+;
+}
+
 .buttons {
     margin-top: 30px;
     text-align: center;

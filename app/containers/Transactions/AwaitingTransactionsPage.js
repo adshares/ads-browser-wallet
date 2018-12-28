@@ -63,7 +63,7 @@ export default class AwaitingTransactionsPage extends React.PureComponent {
     );
 
     return (
-      <Page className={style.page} title="Awaiting Transactions" scroll cancelLink="/">
+      <Page className={style.page} title="Awaiting Transactions" scroll cancelLink={this.getReferrer()}>
         Awaiting [<b>{queue.length}</b>]:
         {queue.map(item => this.renderItem(item))}
       </Page>

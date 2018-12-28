@@ -67,7 +67,7 @@
     padding: 0;
     padding-right: 10px;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 460px;
 }
 

@@ -47,13 +47,15 @@ export const KeysList = ({
                 size="small"
                 layout="warning"
                 title="Show keys"
-              ><FontAwesomeIcon icon={faKey} /></ButtonLink>
-              <Button
+              ><FontAwesomeIcon icon={faKey}/></ButtonLink>
+              {type === 'imported' &&
+              (<Button
                 onClick={removeAction}
                 size="small"
                 layout="danger"
                 title="Delete key"
-              ><FontAwesomeIcon icon={faTrashAlt} /></Button>
+              ><FontAwesomeIcon icon={faTrashAlt}/></Button>)
+              }
             </span>
           </li>
         )}
@@ -61,16 +63,16 @@ export const KeysList = ({
       }
 
       {type === 'imported' ? (
-        <ButtonLink
-          to={{
-            pathname: '/keys/import',
-            state: { referrer: location }
-          }}
-          icon="left"
-          size="wide"
-          layout="info"
-        >
-          <FontAwesomeIcon icon={faPlus} /> Import key
+          <ButtonLink
+            to={{
+              pathname: '/keys/import',
+              state: { referrer: location }
+            }}
+            icon="left"
+            size="wide"
+            layout="info"
+          >
+            <FontAwesomeIcon icon={faPlus}/> Import key
           </ButtonLink>
         ) :
         <Button
@@ -79,7 +81,7 @@ export const KeysList = ({
           size="wide"
           layout="info"
         >
-          <FontAwesomeIcon icon={faPlus} /> Generate 5 new key pairs
+          <FontAwesomeIcon icon={faPlus}/> Generate 5 new key pairs
         </Button>
       }
 

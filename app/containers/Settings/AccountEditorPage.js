@@ -116,7 +116,7 @@ export default class AccountEditorPage extends FormComponent {
           this.props.saveAction();
         }}
         password={password}
-        autenticationModalOpen={authModalOpen}
+        authenticationModalOpen={authModalOpen}
         cancelLink={this.getReferrer()}
       >
         {this.state.isSubmitted && <LoaderOverlay />}

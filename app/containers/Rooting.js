@@ -15,10 +15,13 @@ import SendOnePage from './Transactions/SendOnePage';
 import AwaitingTransactionsPage from './Transactions/AwaitingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
-import * as VaultActions from '../actions/vault';
+import * as actions from '../actions/vault';
+import * as formActions from '../actions/form';
+import * as settingsActions from '../actions/settings';
 import config from '../config/config';
 import DetailsPage from './Settings/DetailsPage';
 import KeysSettings from './Settings/KeysSettings';
+import PasswordUpdatePage from './Settings/PasswordUpdatePage';
 
 function NotFoundErrorPage(props) {
   return (
@@ -32,7 +35,7 @@ function NotFoundErrorPage(props) {
 
 function PrivateRoute({ ...params }) {
   if (params.vault.empty) {
-    return <Redirect to="/register" />;
+    return <Redirect to="/register"/>;
   }
   if (params.vault.sealed) {
     return (
@@ -57,9 +60,9 @@ function SwitchNetwork({ ...params }) {
       window.location.hash = `#${url || '/'}`;
       window.location.reload();
     });
-    return <div />;
+    return <div/>;
   }
-  return <Redirect to={url} />;
+  return <Redirect to={url}/>;
 }
 
 @connect(
@@ -68,9 +71,14 @@ function SwitchNetwork({ ...params }) {
     router: state.router || {},
     vault: state.vault || {},
     queue: state.queue || [],
+    pages: state.pages,
   }),
   dispatch => ({
-    actions: bindActionCreators(VaultActions, dispatch)
+    actions: bindActionCreators({
+      ...actions,
+      ...formActions,
+      ...settingsActions
+    }, dispatch)
   })
 )
 export default class Rooting extends Component {
@@ -87,7 +95,7 @@ export default class Rooting extends Component {
   }
 
   render() {
-    const { router, vault, queue, actions } = this.props;
+    const { router, vault, queue, pages, actions } = this.props;
     console.debug(router.location.pathname);
 
     return (
@@ -157,7 +165,10 @@ export default class Rooting extends Component {
             path="/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} saveAction={actions.updateAccountInit} {...props} />
+              <AccountEditorPage
+                vault={vault}
+                saveAction={actions.updateAccountInit} {...props}
+              />
             }
           />
           <PrivateRoute
@@ -220,7 +231,23 @@ export default class Rooting extends Component {
               <SendOnePage vault={vault} {...props} />
             }
           />
-          <Route path="/" component={NotFoundErrorPage} />
+
+          <PrivateRoute
+            exact
+            path="/password"
+            vault={vault}
+            render={props =>
+              <PasswordUpdatePage
+                vault={vault}
+                store={pages.SettingsPage}
+                location={history.location}
+                formValidate={actions.formValidate}
+                changePasswordInit={actions.changePasswordInit}
+                onChange={actions.inputChange} {...props}
+              />
+            }
+          />
+          <Route path="/" component={NotFoundErrorPage}/>
         </Switch>
       </div>
     );

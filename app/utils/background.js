@@ -11,6 +11,17 @@ function startSession(secret, callback) {
   });
 }
 
+function updateSession(secret, callback) {
+  chrome.runtime.sendMessage({
+    type: types.MSG_PUSH,
+    data: { secret }
+  }, (response) => {
+    if (callback) {
+      callback(response.data);
+    }
+  });
+}
+
 function getSession(callback) {
   chrome.runtime.sendMessage({
     type: types.MSG_SESSION,
@@ -50,7 +61,7 @@ function sendResponse(sourceId, id, data, callback) {
     data,
   }, (response) => {
     if (callback) {
-      callback(response.error ? { error: response.error } : response.data);
+      callback(window.atob(response.data));
     }
   });
 }

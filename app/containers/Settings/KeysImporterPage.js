@@ -95,8 +95,8 @@ export default class KeysImporterPage extends FormComponent {
           this.props.actions.importKeyInit();
         }}
         password={password}
-        autenticationModalOpen={authModalOpen}
-        cancelLink={'/'}
+        authenticationModalOpen={authModalOpen}
+        cancelLink={this.getReferrer()}
       >
         {this.state.showLoader && <LoaderOverlay />}
         <Form onSubmit={this.handleSubmit}>
@@ -136,7 +136,7 @@ export default class KeysImporterPage extends FormComponent {
           <div className={style.buttons}>
             <ButtonLink
               className={style.cancel}
-              to={'/'}
+              to={this.getReferrer()}
               inverse
               icon="left"
               layout="info"
@@ -151,7 +151,7 @@ export default class KeysImporterPage extends FormComponent {
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight}/>
+              <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>
         </Form>

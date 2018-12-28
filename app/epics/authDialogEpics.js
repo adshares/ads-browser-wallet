@@ -9,7 +9,7 @@ import { validatePagesBranch } from './helpers';
 export const cleanForm = (action$) => action$.pipe(
     ofType(PASS_INPUT_VALIDATION_SUCCESS),
     switchMap(action => action$.pipe(
-        ofType(vaultActions.IMPORT_KEY, vaultActions.ADD_ACCOUNT),
+        ofType(vaultActions.IMPORT_KEY, vaultActions.ADD_ACCOUNT, ),
         take(1),
         mapTo(formClean(action.pageName))
     )
@@ -72,6 +72,7 @@ export const importKeysEpic = (action$, store) => action$.pipe(
           const { pages } = store.getState();
 
           validatePagesBranch(pages, pageName);
+
           const { auth, inputs } = pages[pageName];
           return Observable.of(vaultActions.importKey({
             secretKey: inputs.secretKey.value,

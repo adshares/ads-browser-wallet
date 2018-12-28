@@ -24,8 +24,6 @@ const publicKey = ({ value, inputs, vault, pageName }) => {
   }
   const keys = vault.keys;
 
-  console.log('pageName', pageName)
-  console.log('warunek ', pageName === AccountEditorPage.PAGE_NAME && !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value))
   if (pageName === KeysImporterPage.PAGE_NAME) {
     if (!inputs.secretKey || !inputs.secretKey.value) {
       throw new Error('Provide secretKey to full fil publicKey validation');
@@ -42,8 +40,6 @@ const publicKey = ({ value, inputs, vault, pageName }) => {
        your imported keys limit`;
     }
   } else if (pageName === AccountEditorPage.PAGE_NAME && !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
-    console.log('keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)',keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value) )
-    console.log('weszlo', )
     return 'Cannot find a key in storage. Please import secret key first.';
   }
   return null;
@@ -62,6 +58,26 @@ const secretKey = ({ value, vault }) => {
 const password = ({ value, vault }) => {
   if (!VaultCrypt.checkPassword(vault, value)) {
     return 'Invalid password';
+  }
+  return null;
+};
+
+const currentPassword = ({ value, vault }) => password({ value, vault });
+
+const newPassword = ({ value, vault }) => {
+  // TODO add password validation
+  if (!value) {
+    return 'New password field is reguired';
+  }
+  if (VaultCrypt.checkPassword(vault, value)) {
+    return 'New password cannot match old one';
+  }
+  return null;
+};
+
+const repeatedPassword = ({ value, inputs }) => {
+  if (inputs.newPassword.value !== value) {
+    return 'Passwords are not identical';
   }
   return null;
 };
@@ -94,4 +110,15 @@ const message = ({ value }) => {
   return null;
 };
 
-export { name, publicKey, secretKey, password, address, amount, message };
+export {
+  name,
+  publicKey,
+  secretKey,
+  password,
+  address,
+  amount,
+  message,
+  currentPassword,
+  newPassword,
+  repeatedPassword
+};

@@ -49,6 +49,8 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.SELECT_ACTIVE_ACCOUNT: {
+      BgClient.getSession(console.log)
+
       return {
         ...vault,
         selectedAccount: action.accountAddress

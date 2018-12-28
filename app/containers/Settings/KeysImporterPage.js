@@ -17,7 +17,7 @@ import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
 import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate } from '../../actions/form';
 import { importKeyInit } from '../../actions/vault';
-import { CheckboxControl } from '../../components/atoms/CheckboxControl';
+import CheckboxControl from '../../components/atoms/CheckboxControl';
 
 @connect(
   state => ({

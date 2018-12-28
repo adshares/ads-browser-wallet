@@ -15,7 +15,7 @@ import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
-import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate, formClean } from '../../actions/form';
+import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate, accountEditFormValidate, formClean } from '../../actions/form';
 
 @connect(
   state => ({
@@ -28,6 +28,7 @@ import { inputChange, passwordChange, toggleVisibility, passInputValidate, formV
         handleInputChange: inputChange,
         handlePasswordChange: passwordChange,
         formValidate,
+        accountEditFormValidate,
         passInputValidate,
         toggleVisibility,
         formClean
@@ -43,7 +44,7 @@ export default class AccountEditorPage extends FormComponent {
   constructor(props) {
     super(props);
 
-    let selectedAccount;
+    let selectedAccount = null;
     const { address } = this.props.match.params;
 
     if (address) {
@@ -55,24 +56,30 @@ export default class AccountEditorPage extends FormComponent {
 
     this.state = {
       account: selectedAccount,
-      name: '',
-      address: '',
-      publicKey: '',
-      password: '',
       isSubmitted: false,
     };
-
-    if (selectedAccount) {
-      this.state.name = selectedAccount.name;
-      this.state.address = selectedAccount.address;
-      this.state.publicKey = selectedAccount.publicKey;
+  }
+  componentDidMount() {
+    if (this.state.account) {
+      this.handleInputChange('name', this.state.account.name);
+      this.handleInputChange('address', this.state.account.address);
+      this.handleInputChange('publicKey', this.state.account.publicKey);
     }
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.actions.formValidate(AccountEditorPage.PAGE_NAME);
+    this.state.account ?
+      this.props.actions.accountEditFormValidate(
+          AccountEditorPage.PAGE_NAME,
+        {
+          name: this.state.account.name,
+          address: this.state.account.address,
+          publicKey: this.state.account.publicKey,
+        }
+      )
+      : this.props.actions.formValidate(AccountEditorPage.PAGE_NAME);
   };
 
   handleCancel = () => {

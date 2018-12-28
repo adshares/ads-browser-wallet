@@ -1,3 +1,5 @@
+import * as KeyBox from './keybox';
+
 /**
  * @param byteArray Uint8Array
  * @returns {*}
@@ -85,4 +87,18 @@ export function formatDate(value, showTime = true, utc = false) {
     time = `${val.getHours().toString().padStart(2, '0')}:${val.getMinutes().toString().padStart(2, '0')}:${val.getSeconds().toString().padStart(2, '0')}`;
   }
   return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
+}
+
+export function findAccountByAddressInVault(vault, address) {
+  return vault.accounts.find(a => a.address === address);
+}
+export function findIfPublicKeyExist(vault, publicKey) {
+  return vault.keys.find(k =>
+        k.publicKey ? k.publicKey === publicKey
+        : KeyBox.getPublicKeyFromSecret(k.secretKey) === publicKey
+      );
+}
+
+export function findAccountByNameInVault(vault, name) {
+  return vault.accounts.find(a => a.name === name);
 }

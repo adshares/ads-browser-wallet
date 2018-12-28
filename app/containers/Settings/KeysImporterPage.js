@@ -19,7 +19,7 @@ import { inputChange, passwordChange, toggleVisibility } from '../../actions/for
 import { VAULT_IMPORT_KEY } from '../../actions/vault';
 import validateFormThunk from '../../thunks/formThunk';
 import passwordValidateThunk from '../../thunks/passwordValidateThunk';
-import { CheckboxControl } from '../../components/atoms/checkboxControl';
+import { CheckboxControl } from '../../components/atoms/CheckboxControl';
 
 @connect(
   state => ({
@@ -120,7 +120,7 @@ export default class KeysImporterPage extends FormComponent {
             handleChange={value => this.handleInputChange('secretKey', value)}
           />
           <CheckboxControl
-            checked={publicKey.checked} desc="Import with public key"
+            checked={publicKey.checked} label="Import with public key"
             handleChange={value => this.toggleVisibility('publicKey', value)}
           />
           {publicKey.shown &&

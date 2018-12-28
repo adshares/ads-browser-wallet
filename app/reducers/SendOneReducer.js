@@ -23,6 +23,12 @@ const initialState = {
       isValid: null,
       value: '',
       errorMsg: ''
+    },
+    rawMessage: {
+      noValid: true,
+      isValid: true,
+      value: true,
+      errorMsg: ''
     }
   }
 };

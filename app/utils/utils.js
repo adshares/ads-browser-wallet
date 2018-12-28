@@ -27,6 +27,17 @@ export function hexToByte(str) {
   return new Uint8Array(a);
 }
 
+export function stringToHex(str) {
+  const result = [];
+  let hex;
+  for (let i = 0; i < str.length; i++) {
+    hex = Number(str.charCodeAt(i)).toString(16).padStart(2, '0');
+    result.push(hex);
+  }
+
+  return result.join('');
+}
+
 /**
  * @param str string
  * @returns {string}

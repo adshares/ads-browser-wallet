@@ -69,13 +69,15 @@ export default class AccountEditorPage extends FormComponent {
     }
   }
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     this.props.actions.formValidate(AccountEditorPage.PAGE_NAME);
   };
 
   handleCancel = () => {
     this.props.actions.formClean(AccountEditorPage.PAGE_NAME);
-  }
+  };
 
   handleInputChange = (inputName, inputValue) => {
     this.props.actions.handleInputChange(

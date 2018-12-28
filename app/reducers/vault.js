@@ -1,5 +1,5 @@
 import * as actions from '../actions/vault';
-import KeyBox from '../utils/keybox';
+import * as KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
 import {
@@ -22,9 +22,8 @@ const initialVault = {
 };
 
 export default function (vault = initialVault, action) {
-
   switch (action.type) {
-    case actions.VAULT_CREATE: {
+    case actions.CREATE: {
       BgClient.startSession(window.btoa(action.password));
       const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
       const vaultKeys = vault.keys ? vault.keys : [];
@@ -42,7 +41,7 @@ export default function (vault = initialVault, action) {
       return newVault;
     }
 
-    case actions.VAULT_EREASE: {
+    case actions.ERASE: {
       //TODO check password
       BgClient.removeSession();
       VaultCrypt.erase();
@@ -56,7 +55,7 @@ export default function (vault = initialVault, action) {
       };
     }
 
-    case actions.VAULT_UNSEAL: {
+    case actions.UNSEAL: {
       if (!VaultCrypt.checkPassword(vault, action.password)) {
         throw new InvalidPasswordError();
       }
@@ -71,7 +70,7 @@ export default function (vault = initialVault, action) {
       };
     }
 
-    case actions.VAULT_SEAL: {
+    case actions.SEAL: {
       BgClient.removeSession();
       return {
         ...initialVault,
@@ -81,22 +80,24 @@ export default function (vault = initialVault, action) {
       };
     }
 
-    case actions.VAULT_SWITCH_NETWORK: {
+    case actions.SWITCH_NETWORK: {
       BgClient.changeNetwork(action.testnet, (data) => {
-        console.log('VAULT_SWITCH_NETWORK', data);
+        console.log('SWITCH_NETWORK', data);
       });
       return vault;
     }
 
-
-    case actions.VAULT_ADD_ACCOUNT: {
+    case actions.ADD_ACCOUNT: {
       if (vault.accounts.length >= config.accountsLimit) {
         throw new AccountsLimitError(config.accountsLimit);
       }
       const address = action.address.toUpperCase();
       const name = action.name;
       const publicKey = action.publicKey.toUpperCase();
-      const key = vault.keys.find(k => k.publicKey === action.publicKey);
+      const key = vault.keys.find(k =>
+        k.publicKey ? k.publicKey === action.publicKey
+        : KeyBox.getPublicKeyFromSecret(k.secretKey) === action.publicKey
+      );
       const updatedVault = {
         ...initialVault,
         ...vault,
@@ -113,7 +114,7 @@ export default function (vault = initialVault, action) {
       return updatedVault;
     }
 
-    case actions.VAULT_UPDATE_ACCOUNT: {
+    case actions.UPDATE_ACCOUNT: {
       if (!VaultCrypt.checkPassword(vault, action.password)) {
         throw new InvalidPasswordError();
       }
@@ -145,7 +146,7 @@ export default function (vault = initialVault, action) {
       return updatedVault;
     }
 
-    case actions.VAULT_REMOVE_ACCOUNT: {
+    case actions.REMOVE_ACCOUNT: {
       if (!VaultCrypt.checkPassword(vault, action.password)) {
         throw new InvalidPasswordError();
       }
@@ -164,10 +165,10 @@ export default function (vault = initialVault, action) {
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
       return updatedVault;
-      }
+    }
 
-    case actions.VAULT_IMPORT_KEY: {
-      const updatedVault = {...vault};
+    case actions.IMPORT_KEY: {
+      const updatedVault = { ...vault };
       updatedVault.keys.push({
         type: 'imported',
         name: action.name,
@@ -176,6 +177,16 @@ export default function (vault = initialVault, action) {
       });
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
       return updatedVault;
+    }
+
+    case actions.SAVE_GENERATED_KEYS: {
+      return {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          ...action.keys
+        ]
+      };
     }
     default:
       return vault;

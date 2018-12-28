@@ -32,7 +32,8 @@ const actionsMap = {
         ...state.inputs,
         [action.inputName]: {
           ...state.inputs[action.inputName],
-          errorMsg: action.errorMsg
+          errorMsg: action.errorMsg,
+          isValid: false,
         }
       }
     };

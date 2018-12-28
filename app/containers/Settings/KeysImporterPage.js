@@ -14,12 +14,10 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
-import { InputControl } from '../../components/atoms/InputControl';
-import { inputChange, passwordChange, toggleVisibility } from '../../actions/form';
-import { VAULT_IMPORT_KEY } from '../../actions/vault';
-import validateFormThunk from '../../thunks/formThunk';
-import passwordValidateThunk from '../../thunks/passwordValidateThunk';
-import { CheckboxControl } from '../../components/atoms/CheckboxControl';
+import InputControl from '../../components/atoms/InputControl';
+import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate } from '../../actions/form';
+import { importKeyInit } from '../../actions/vault';
+import CheckboxControl from '../../components/atoms/CheckboxControl';
 
 @connect(
   state => ({
@@ -31,9 +29,10 @@ import { CheckboxControl } from '../../components/atoms/CheckboxControl';
       {
         handleInputChange: inputChange,
         handlePasswordChange: passwordChange,
-        validateFormThunk,
-        passwordValidateThunk,
+        formValidate,
+        passInputValidate,
         toggleVisibility,
+        importKeyInit,
       },
       dispatch
     )
@@ -61,7 +60,7 @@ export default class KeysImporterPage extends FormComponent {
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.actions.validateFormThunk(KeysImporterPage.PAGE_NAME);
+    this.props.actions.formValidate(KeysImporterPage.PAGE_NAME);
   };
 
   constructor(props) {
@@ -89,17 +88,17 @@ export default class KeysImporterPage extends FormComponent {
             value
           )
         }
-        onDialogSubmit={() =>
-          this.props.actions.passwordValidateThunk(
+        onDialogSubmit={() => {
+          this.props.actions.passInputValidate(
             KeysImporterPage.PAGE_NAME,
-            VAULT_IMPORT_KEY
-          )
-        }
+          );
+          this.props.actions.importKeyInit();
+        }}
         password={password}
         autenticationModalOpen={authModalOpen}
         cancelLink={'/'}
       >
-        {this.state.showLoader && <LoaderOverlay/>}
+        {this.state.showLoader && <LoaderOverlay />}
         <Form onSubmit={this.handleSubmit}>
           <InputControl
             label="Name"
@@ -165,5 +164,4 @@ KeysImporterPage.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
-  saveAction: PropTypes.func.isRequired
 };

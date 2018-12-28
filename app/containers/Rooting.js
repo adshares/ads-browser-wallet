@@ -17,7 +17,8 @@ import SignPage from './Transactions/SignPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
 import config from '../config/config';
-import AccountKeysPage from './Settings/AccountKeysPage';
+import DetailsPage from './Settings/DetailsPage';
+import KeysSettings from './Settings/KeysSettings';
 
 function NotFoundErrorPage(props) {
   return (
@@ -148,7 +149,7 @@ export default class Rooting extends Component {
             path="/accounts/import"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} {...props} />
+              <AccountEditorPage vault={vault} saveAction={actions.addAccountInit}{...props} />
             }
           />
           <PrivateRoute
@@ -156,7 +157,7 @@ export default class Rooting extends Component {
             path="/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} saveAction={actions.updateAccount} {...props} />
+              <AccountEditorPage vault={vault} saveAction={actions.updateAccountInit} {...props} />
             }
           />
           <PrivateRoute
@@ -164,7 +165,27 @@ export default class Rooting extends Component {
             path="/accounts/:address([0-9A-F-]+)/keys"
             vault={vault}
             render={props =>
-              <AccountKeysPage vault={vault} {...props} />
+              <DetailsPage accounts={vault.accounts} type="account" {...props} />
+            }
+          />
+
+          <PrivateRoute
+            exact
+            path="/keys"
+            vault={vault}
+            render={props =>
+              <KeysSettings
+                keys={vault.keys} seed={vault.seed}
+                saveGeneratedKeysAction={actions.saveGeneratedKeys}{...props}
+              />
+            }
+          />
+          <PrivateRoute
+            exact
+            path="/keys/:pk([0-9a-fA-F]{64})/"
+            vault={vault}
+            render={props =>
+              <DetailsPage keys={vault.keys} type="key" {...props} />
             }
           />
           <PrivateRoute
@@ -172,7 +193,7 @@ export default class Rooting extends Component {
             path="/keys/import"
             vault={vault}
             render={props =>
-              <KeysImporterPage vault={vault} saveAction={actions.importKey} {...props} />
+              <KeysImporterPage vault={vault} {...props} />
             }
           />
           <PrivateRoute

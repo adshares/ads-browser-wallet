@@ -71,6 +71,7 @@ const TX_TYPES = {
   GET_TRANSACTION: 'get_transaction',
   GET_VIPKEYS: 'get_vipkeys',
   RETRIEVE_FUNDS: 'retrieve_funds',
+  SEND_AGAIN: 'send_again',
   SEND_MANY: 'send_many',
   SEND_ONE: 'send_one',
   SET_ACCOUNT_STATUS: 'set_account_status',
@@ -119,8 +120,8 @@ const TX_TYPES_MAP = {
 function crc16(data) {
   const d = hexToByte(sanitizeHex(data));
 
-  /*eslint no-bitwise: ["error", { "allow": ["^", "^=", "&", ">>", "<<"] }]*/
   let crc = 0x1d0f;
+  /*eslint no-bitwise: ["error", { "allow": ["^", "^=", "&", ">>", "<<"] }]*/
   for (const b of d) {
     let x = (crc >> 8) ^ b;
     x ^= x >> 4;
@@ -196,6 +197,7 @@ function validateAddress(address) {
  * @returns {boolean}
  */
 function validateKey(key) {
+  console.debug('validateKey', key);
   if (!key) {
     return false;
   }
@@ -761,4 +763,6 @@ export default {
   decodeMessage,
   formatAdsMoney,
   formatClickMoney,
+  formatAddress,
+  splitAddress,
 };

@@ -29,6 +29,10 @@ export function hexToByte(str) {
   return new Uint8Array(a);
 }
 
+/**
+ * @param str
+ * @returns {string}
+ */
 export function stringToHex(str) {
   const result = [];
   let hex;
@@ -63,10 +67,6 @@ export function fixByteOrder(data) {
     .join('');
 }
 
-export function searchForExistingKey(newKey, keys, type) {
-  keys.find(key => key.type === newKey.type);
-}
-
 /**
  * Format date YYYY-MM-DDDD HH:MM:SS
  *
@@ -87,6 +87,20 @@ export function formatDate(value, showTime = true, utc = false) {
     time = `${val.getHours().toString().padStart(2, '0')}:${val.getMinutes().toString().padStart(2, '0')}:${val.getSeconds().toString().padStart(2, '0')}`;
   }
   return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
+}
+
+/**
+ * Generate pseudo UUID v4.
+ *
+ * @returns {string}
+ */
+export function uuidv4() {
+  /*eslint no-bitwise: ["error", { "allow": ["|", "&" ] }]*/
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : ((r & 0x3) | 0x8);
+    return v.toString(16);
+  });
 }
 
 export function findAccountByAddressInVault(vault, address) {

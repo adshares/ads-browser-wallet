@@ -1,7 +1,11 @@
 import * as actions from '../actions/form';
+import * as settingsActions from '../actions/settingsActions';
 import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 
 const initialState = {
+  publicKey: '',
+  publicKeyLoading: false,
+  publicKeyErrorMsg: '',
   isSubmitted: false,
   auth: {
     password: {
@@ -14,11 +18,6 @@ const initialState = {
   },
   inputs: {
     name: {
-      isValid: false,
-      value: '',
-      errorMsg: ''
-    },
-    publicKey: {
       isValid: false,
       value: '',
       errorMsg: ''
@@ -145,7 +144,31 @@ const actionsMap = {
         authModalOpen: action.isOpen
       }
     };
-  }
+  },
+  [settingsActions.IMPORT_ACCOUNT_PK](state) {
+    return {
+      ...state,
+      publicKey: '',
+      publicKeyLoading: true,
+      publicKeyErrorMsg: '',
+    };
+  },
+  [settingsActions.IMPORT_ACCOUNT_PK_SUCCESS](state, action) {
+    return {
+      ...state,
+      publicKey: action.publicKey,
+      publicKeyLoading: false,
+      publicKeyErrorMsg: '',
+    };
+  },
+  [settingsActions.IMPORT_ACCOUNT_PK_FAILURE](state, action) {
+    return {
+      ...state,
+      publicKey: action.publicKey,
+      publicKeyLoading: false,
+      publicKeyErrorMsg: action.errorMsg,
+    };
+  },
 };
 
 export default function (state = initialState, action) {

@@ -2,6 +2,7 @@ import * as actions from '../actions/vault';
 import * as KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
+import ADS from '../../app/utils/ads';
 import {
   InvalidPasswordError,
   AccountsLimitError,
@@ -92,7 +93,8 @@ export default function (vault = initialVault, action) {
       if (vault.accounts.length >= config.accountsLimit) {
         throw new AccountsLimitError(config.accountsLimit);
       }
-      const address = action.address.toUpperCase();
+      const { nodeId, userAccountId } = ADS.splitAddress(action.address);
+      const address = ADS.formatAddress(nodeId, userAccountId);
       const name = action.name;
       const publicKey = action.publicKey.toUpperCase();
       const key = findIfPublicKeyExist(vault, action.publicKey);

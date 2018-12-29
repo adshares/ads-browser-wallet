@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons/index';
+import { faChevronRight, faTimes, faCheck, faInfo, faSpinner, faExclamation } from '@fortawesome/free-solid-svg-icons/index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
@@ -15,7 +15,8 @@ import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
-import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate, accountEditFormValidate, formClean } from '../../actions/form';
+import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate, formClean } from '../../actions/form';
+import { importAccountPublicKey } from '../../actions/settingsActions';
 
 @connect(
   state => ({
@@ -31,7 +32,8 @@ import { inputChange, passwordChange, toggleVisibility, passInputValidate, formV
         accountEditFormValidate,
         passInputValidate,
         toggleVisibility,
-        formClean
+        formClean,
+        importAccountPublicKey
       },
       dispatch
     )
@@ -56,7 +58,6 @@ export default class AccountEditorPage extends FormComponent {
 
     this.state = {
       account: selectedAccount,
-      isSubmitted: false,
     };
   }
   componentDidMount() {
@@ -97,8 +98,10 @@ export default class AccountEditorPage extends FormComponent {
   render() {
     const {
       page: {
+        publicKey, publicKeyLoading, publicKeyErrorMsg,
+        isSubmitted,
         auth: { authModalOpen, password },
-        inputs: { name, address, publicKey },
+        inputs: { name, address },
       }
     } = this.props;
     const limitWarning =
@@ -125,8 +128,9 @@ export default class AccountEditorPage extends FormComponent {
         password={password}
         autenticationModalOpen={authModalOpen}
         cancelLink={this.getReferrer()}
+        onCancelClick={this.handleCancel}
       >
-        {this.state.isSubmitted && <LoaderOverlay />}
+        {isSubmitted && <LoaderOverlay />}
         {limitWarning ? (
           <div>
             <Box layout="warning" icon={faInfo}>
@@ -137,7 +141,7 @@ export default class AccountEditorPage extends FormComponent {
             </ButtonLink>
           </div>
             ) : (
-              <Form>
+              <Form onSubmit={this.handleSubmit}>
                 <InputControl
                   required
                   isInput
@@ -155,20 +159,31 @@ export default class AccountEditorPage extends FormComponent {
                   errorMessage={address.errorMsg}
                   handleChange={value => this.handleInputChange('address', value)}
                 />
-                <InputControl
-                  required
-                  pattern="[0-9a-fA-F]{64}"
-                  label="Account public key"
-                  value={publicKey.value}
-                  errorMessage={publicKey.errorMsg}
-                  handleChange={value => this.handleInputChange('publicKey', value)}
-                />
+                {publicKey || publicKeyLoading || publicKeyErrorMsg ?
+                  <InputControl
+                    required
+                    readOnly
+                    label="Account public key"
+                    value={publicKey}
+                    errorMessage={publicKeyErrorMsg}
+                  >
+                    {publicKeyLoading ?
+                      <div className={style.inputLoader}>
+                        <FontAwesomeIcon
+                          className={style.inputSpinner}
+                          icon={faSpinner}
+                          title="loading"
+                        />
+                      </div>
+                    : '' }
+                  </InputControl>
+                  : '' }
                 <div className={style.buttons}>
                   <ButtonLink
                     to={this.getReferrer()}
                     inverse
                     icon="left"
-                    disabled={this.state.isSubmitted}
+                    disabled={isSubmitted}
                     layout="info"
                     onClick={this.handleCancel}
                   >
@@ -178,8 +193,7 @@ export default class AccountEditorPage extends FormComponent {
                     name="button"
                     icon="right"
                     layout="info"
-                    disabled={this.state.isSubmitted}
-                    onClick={this.handleSubmit}
+                    disabled={publicKeyLoading || publicKeyErrorMsg || isSubmitted}
                   >
                     {this.state.account ? 'Save' : 'Import'}
                     <FontAwesomeIcon icon={faChevronRight} />

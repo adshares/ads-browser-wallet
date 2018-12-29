@@ -19,6 +19,7 @@ const initialVault = {
   seedPhrase: '',
   seed: '',
   keys: [],
+  keyCount: config.initKeysQuantity,
   accounts: [],
   selectedAccount: null,
 };
@@ -148,22 +149,12 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.REMOVE_ACCOUNT: {
-      if (!VaultCrypt.checkPassword(vault, action.password)) {
-        throw new InvalidPasswordError();
-      }
-
-      const address = action.address.toUpperCase();
-      const account = findAccountByAddressInVault(vault, address);
-
-      if (!account) {
-        throw new ItemNotFound('account', action.address);
-      }
 
       const updatedVault = {
         ...initialVault,
         ...vault,
+        accounts: action.updatedAccounts
       };
-      updatedVault.accounts = vault.accounts.filter(a => a.address !== address);
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
       return updatedVault;
@@ -181,14 +172,28 @@ export default function (vault = initialVault, action) {
       return updatedVault;
     }
 
-    case actions.SAVE_GENERATED_KEYS: {
-      return {
+    case actions.REMOVE_KEY: {
+      const updatedVault = {
         ...vault,
+        keys: action.keysArr
+      };
+
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      return updatedVault;
+    }
+
+    case actions.SAVE_GENERATED_KEYS: {
+      const updatedVault = {
+        ...vault,
+        keyCount: action.newKeyCount,
         keys: [
           ...vault.keys,
           ...action.keys
         ]
       };
+
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      return updatedVault;
     }
     default:
       return vault;

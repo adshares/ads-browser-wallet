@@ -29,10 +29,11 @@ export default class SettingsPage extends FormComponent {
       isSeedPhraseVisible: true
     });
   };
-  removeAccount = (address) => {
-    const password = '';
-    this.props.actions.removeAccount(address, password);
-  };
+
+  removeAccountAction = (address) => {
+    this.props.toggleAuthDialog(true);
+    this.props.removeAccount(address);
+  }
 
   constructor(props) {
     super(props);
@@ -73,7 +74,7 @@ export default class SettingsPage extends FormComponent {
                   title="Show account keys"
                 ><FontAwesomeIcon icon={faKey} /></ButtonLink>
                 <Button
-                  onClick={() => this.removeAccount(account.address)}
+                  onClick={() => this.removeAccountAction(account.address)}
                   size="small"
                   layout="danger"
                   title="Delete account"
@@ -163,4 +164,6 @@ SettingsPage.propTypes = {
   history: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  removeAccount: PropTypes.func,
+  toggleAuthDialog: PropTypes.func,
 };

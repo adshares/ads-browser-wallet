@@ -94,5 +94,12 @@ const message = ({ value }) => {
   return null;
 };
 
+const removeKey = ({ secretKey, vault }) => {
+  const hasAccount = vault.accounts.find(account => account.secretKey === secretKey);
+  if (hasAccount) {
+    return `Account ${hasAccount.name} use this key. Please remove account first`;
+  }
+  return null;
+};
 
-export { name, publicKey, secretKey, password, address, amount, message};
+export { name, publicKey, secretKey, password, address, amount, message, removeKey };

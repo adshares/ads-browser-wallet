@@ -149,7 +149,12 @@ export default class Rooting extends Component {
             path="/accounts/import"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} saveAction={actions.addAccountInit}{...props} />
+              <AccountEditorPage
+                vault={vault}
+                saveAction={actions.addAccountInit}
+                accountEditFormValidate={actions.accountEditFormValidate}
+                {...props}
+              />
             }
           />
           <PrivateRoute
@@ -157,7 +162,12 @@ export default class Rooting extends Component {
             path="/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
             render={props =>
-              <AccountEditorPage vault={vault} saveAction={actions.updateAccountInit} {...props} />
+              <AccountEditorPage
+                vault={vault}
+                saveAction={actions.updateAccountInit}
+                accountEditFormValidate={actions.accountEditFormValidate}
+                {...props}
+              />
             }
           />
           <PrivateRoute

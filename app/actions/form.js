@@ -9,6 +9,10 @@ export const INPUT_VALIDATION_FAILED = 'INPUT_VALIDATION_FAILED';
 export const FORM_VALIDATE = 'FORM_VALIDATE';
 export const FORM_VALIDATION_SUCCESS = 'FORM_VALIDATION_SUCCESS';
 export const FORM_VALIDATION_FAILURE = 'FORM_VALIDATION_FAILURE';
+export const ACCOUNT_EDIT_FORM_VALIDATE = 'ACCOUNT_EDIT_FORM_VALIDATE';
+export const ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS = 'ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS';
+export const ACCOUNT_EDIT_FORM_VALIDATION_FAILURE = 'ACCOUNT_EDIT_FORM_VALIDATION_FAILURE';
+
 export const FORM_CLEAN = 'FORM_CLEAN';
 export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
 
@@ -58,6 +62,22 @@ const formValidationFailure = pageName => ({
   pageName
 });
 
+const accountEditFormValidate = (pageName, initialInputValues) => ({
+  type: ACCOUNT_EDIT_FORM_VALIDATE,
+  pageName,
+  initialInputValues
+});
+
+const accountEditFormValidationSuccess = pageName => ({
+  type: ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS,
+  pageName
+});
+
+const accountEditFormValidationFailure = pageName => ({
+  type: ACCOUNT_EDIT_FORM_VALIDATION_FAILURE,
+  pageName
+});
+
 const formClean = pageName => ({
   type: FORM_CLEAN,
   pageName
@@ -101,5 +121,8 @@ export {
   formValidationFailure,
   formClean,
   toggleVisibility,
-  toggleAuthorisationDialog
+  toggleAuthorisationDialog,
+    accountEditFormValidate,
+    accountEditFormValidationFailure,
+    accountEditFormValidationSuccess
 };

@@ -5,11 +5,11 @@ import { mergeMap, mapTo, switchMap, take } from 'rxjs/operators';
 import * as vaultActions from '../actions/vault';
 import { PASS_INPUT_VALIDATION_SUCCESS, formClean } from '../actions/form';
 import { validatePagesBranch } from './helpers';
-
+// to do redirect to previos pages
 export const cleanForm = (action$) => action$.pipe(
     ofType(PASS_INPUT_VALIDATION_SUCCESS),
     switchMap(action => action$.pipe(
-        ofType(vaultActions.IMPORT_KEY, vaultActions.ADD_ACCOUNT),
+        ofType(vaultActions.IMPORT_KEY, vaultActions.ADD_ACCOUNT, vaultActions.UPDATE_ACCOUNT),
         take(1),
         mapTo(formClean(action.pageName))
     )

@@ -9,6 +9,7 @@ import {
   ItemNotFound,
 } from '../actions/errors';
 import config from '../config/config';
+import { findAccountByAddressInVault, findIfPublicKeyExist } from '../utils/utils';
 
 const initialVault = {
   empty: true,
@@ -94,10 +95,8 @@ export default function (vault = initialVault, action) {
       const address = action.address.toUpperCase();
       const name = action.name;
       const publicKey = action.publicKey.toUpperCase();
-      const key = vault.keys.find(k =>
-        k.publicKey ? k.publicKey === action.publicKey
-        : KeyBox.getPublicKeyFromSecret(k.secretKey) === action.publicKey
-      );
+      const key = findIfPublicKeyExist(vault, action.publicKey);
+
       const updatedVault = {
         ...initialVault,
         ...vault,
@@ -122,13 +121,13 @@ export default function (vault = initialVault, action) {
       const address = action.address.toUpperCase();
       const name = action.name;
       const publicKey = action.publicKey.toUpperCase();
-      const key = vault.keys.find(k => k.publicKey === publicKey);
+      const key = findIfPublicKeyExist(vault, action.publicKey);
 
       if (!key) {
         throw new UnknownPublicKeyError(action.publicKey);
       }
 
-      const account = vault.accounts.find(a => a.address === address);
+      const account = findAccountByAddressInVault(vault, address);
       if (!account) {
         throw new ItemNotFound('account', action.address);
       }
@@ -152,7 +151,8 @@ export default function (vault = initialVault, action) {
       }
 
       const address = action.address.toUpperCase();
-      const account = vault.accounts.find(a => a.address === address);
+      const account = findAccountByAddressInVault(vault, address);
+
       if (!account) {
         throw new ItemNotFound('account', action.address);
       }

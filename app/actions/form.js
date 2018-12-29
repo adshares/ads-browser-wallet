@@ -113,16 +113,16 @@ export {
   passwordChange,
   inputValidateSuccess,
   inputValidateFailure,
-    passInputValidate,
+  passInputValidate,
   passInputValidateFailure,
   passInputValidateSuccess,
-    formValidate,
+  formValidate,
   formValidationSuccess,
   formValidationFailure,
   formClean,
   toggleVisibility,
   toggleAuthorisationDialog,
-    accountEditFormValidate,
-    accountEditFormValidationFailure,
-    accountEditFormValidationSuccess
+  accountEditFormValidate,
+  accountEditFormValidationFailure,
+  accountEditFormValidationSuccess
 };

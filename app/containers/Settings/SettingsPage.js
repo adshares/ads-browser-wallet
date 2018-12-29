@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faShieldAlt,
   faTrashAlt,
-  faSave,
   faExclamation,
   faPlus,
   faPencilAlt,
@@ -38,7 +37,6 @@ export default class SettingsPage extends FormComponent {
   constructor(props) {
     super(props);
     this.state = {
-      rpcServer: 'https://rpc.adsahres.net',
       isSeedPhraseVisible: false,
     };
   }
@@ -64,7 +62,7 @@ export default class SettingsPage extends FormComponent {
                   size="small"
                   title="Edit account"
                   layout="info"
-                ><FontAwesomeIcon icon={faPencilAlt}/></ButtonLink>
+                ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
                 <ButtonLink
                   to={{
                     pathname: `/accounts/${account.address}/keys`,
@@ -73,13 +71,13 @@ export default class SettingsPage extends FormComponent {
                   size="small"
                   layout="warning"
                   title="Show account keys"
-                ><FontAwesomeIcon icon={faKey}/></ButtonLink>
+                ><FontAwesomeIcon icon={faKey} /></ButtonLink>
                 <Button
                   onClick={() => this.removeAccount(account.address)}
                   size="small"
                   layout="danger"
                   title="Delete account"
-                ><FontAwesomeIcon icon={faTrashAlt}/></Button>
+                ><FontAwesomeIcon icon={faTrashAlt} /></Button>
               </span>
             </li>
           )}
@@ -94,30 +92,8 @@ export default class SettingsPage extends FormComponent {
           size="wide"
           layout="info"
         >
-          <FontAwesomeIcon icon={faPlus}/> Add account
+          <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
-      </div>
-    );
-  }
-
-  renderRPCServerSettings() {
-    return (
-      <div className={style.section}>
-        <h3>RPC server</h3>
-        <Form onSubmit={this.handleRpcServerSave}>
-          <div>
-            <input
-              required
-              placeholder="RPC server URL"
-              name="rpcServer"
-              value={this.state.rpcServer}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <Button type="submit" icon="left" size="wide" layout="info">
-            <FontAwesomeIcon icon={faSave}/> Change
-          </Button>
-        </Form>
       </div>
     );
   }
@@ -139,8 +115,8 @@ export default class SettingsPage extends FormComponent {
                 readOnly
               />
             </div> :
-            <Button layout="danger" icon="left" size="wide" onClick={this.showSeedPhrase}>
-              <FontAwesomeIcon icon={faShieldAlt}/> Reveal seed phrase
+            <Button layout="warning" icon="left" size="wide" onClick={this.showSeedPhrase}>
+              <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
             </Button>
           }
         </Form>
@@ -153,7 +129,7 @@ export default class SettingsPage extends FormComponent {
       <div className={style.section}>
         <h3>Erase storage</h3>
         <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erase}>
-          <FontAwesomeIcon icon={faTrashAlt}/> Erase storage
+          <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>
     );
@@ -176,10 +152,8 @@ export default class SettingsPage extends FormComponent {
           ><FontAwesomeIcon icon={faPencilAlt} /> Manage Keys</ButtonLink>
         </div>
         {this.renderAccountsSettings()}
-        {this.renderRPCServerSettings()}
         {this.renderSeedPhraseSettings()}
         {this.renderStorageSettings()}
-
       </Page>
     );
   }

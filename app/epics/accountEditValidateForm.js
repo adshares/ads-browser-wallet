@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
-import { mergeMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { mergeMap, withLatestFrom } from 'rxjs/operators';
+import { of, from } from 'rxjs';
 
 import {
     inputValidateSuccess,
@@ -14,7 +14,7 @@ import { publicKey as publicKeyGeneralValidator } from '../utils/validators';
 import config from '../config/config';
 import ADS from '../utils/ads';
 import { findAccountByAddressInVault, findAccountByNameInVault } from '../utils/utils';
-import AccountEditorPage from "../containers/Settings/AccountEditorPage";
+import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 
 const validators = {
   publicKey: ({ value, vault, initialInputValues, inputs }) => {
@@ -51,12 +51,13 @@ const validators = {
   },
 };
 
-export default (action$, store) =>
+export default (action$, state$) =>
     action$.pipe(
         ofType(ACCOUNT_EDIT_FORM_VALIDATE),
-        mergeMap((action) => {
+        withLatestFrom(state$),
+        mergeMap(([action, state]) => {
           const { pageName, initialInputValues } = action;
-          const { vault, pages } = store.getState();
+          const { vault, pages } = state;
 
           validatePagesBranch(pages, pageName);
 
@@ -86,13 +87,13 @@ export default (action$, store) =>
               );
 
             return isFormValid
-                ? Observable.from([
+                ? from([
                   ...actionsToDispatch,
                   toggleAuthorisationDialog(pageName, true),
                   accountEditFormValidationSuccess(pageName)
                 ])
-                : Observable.from([...actionsToDispatch, accountEditFormValidationFailure(pageName)]);
+                : from([...actionsToDispatch, accountEditFormValidationFailure(pageName)]);
           }
-          return Observable.of(accountEditFormValidationFailure(pageName));
+          return of(accountEditFormValidationFailure(pageName));
         }),
     );

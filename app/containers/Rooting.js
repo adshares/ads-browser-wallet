@@ -12,7 +12,7 @@ import SettingsPage from './Settings/SettingsPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeysImporterPage from './Settings/KeysImporterPage';
 import SendOnePage from './Transactions/SendOnePage';
-import AwaitingTransactionsPage from './Transactions/AwaitingTransactionsPage';
+import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
@@ -208,10 +208,10 @@ export default class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/transactions/awaiting"
+            path="/transactions/pending"
             vault={vault}
             render={props =>
-              <AwaitingTransactionsPage vault={vault} queue={queue} {...props} />
+              <PendingTransactionsPage vault={vault} queue={queue} {...props} />
             }
           />
           <PrivateRoute

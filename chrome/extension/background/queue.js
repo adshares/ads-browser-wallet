@@ -42,11 +42,9 @@ function pop(sourceId, id, callback) {
       t => t.sourceId === sourceId && t.id === id
     );
     saveQueue(
-      queue
-      //   .filter(
-      //   t => t.sourceId !== sourceId || t.id !== id
-      // )
-      ,
+      queue.filter(
+        t => t.sourceId !== sourceId || t.id !== id
+      ),
       () => { if (callback) { callback(transaction); } }
     );
   });

@@ -84,8 +84,8 @@ export default class HomePage extends React.PureComponent {
     return (
       <Page className={style.page}>
         {filteredQueue.length > 0 ?
-          <ButtonLink to="/transactions/awaiting" layout="success" size="wide" icon="left">
-            <FontAwesomeIcon icon={faSignature}/> Awaiting transactions ({filteredQueue.length})
+          <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
+            <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})
           </ButtonLink> : ''}
         {vault.selectedAccount ? this.renderShortcuts() : this.renderConfigure()}
       </Page>

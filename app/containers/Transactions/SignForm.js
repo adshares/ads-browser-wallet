@@ -92,9 +92,11 @@ export default class SignForm extends FormComponent {
   }
 
   handleCancelClick = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props.cancelAction();
+    if (this.props.cancelAction) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.props.cancelAction();
+    }
   }
 
   renderCommand(type, fields) {

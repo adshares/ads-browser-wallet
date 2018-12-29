@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList } from '@fortawesome/free-solid-svg-icons/index'
+import { faList, faCheck, faChevronLeft } from '@fortawesome/free-solid-svg-icons/index'
 import Page from '../../components/Page/Page';
 import ErrorPage from '../ErrorPage';
 import ButtonLink from '../../components/atoms/ButtonLink';
+import Box from '../../components/atoms/Box';
 import ADS from '../../utils/ads';
 import { TransactionDataError } from '../../actions/errors';
 import { formatDate } from '../../utils/utils';
 import { typeLabels } from './labels';
 import config from '../../config/config';
-import style from './AwaitingTransactionsPage.css';
+import style from './PendingTransactionsPage.css';
 
-export default class AwaitingTransactionsPage extends React.PureComponent {
+export default class PendingTransactionsPage extends React.PureComponent {
 
   renderErrorPage(code, message) {
     return (
@@ -63,15 +64,26 @@ export default class AwaitingTransactionsPage extends React.PureComponent {
     );
 
     return (
-      <Page className={style.page} title="Awaiting Transactions" scroll cancelLink="/">
-        Awaiting [<b>{queue.length}</b>]:
-        {queue.map(item => this.renderItem(item))}
+      <Page className={style.page} title="Pending Transactions" scroll={queue.length > 3} cancelLink="/">
+        {queue.length === 0 ?
+          <React.Fragment>
+            <Box layout="success" title="All right!" icon={faCheck}>
+              There are no pending transactions
+            </Box>
+            <ButtonLink to="/" size="wide" icon="left" layout="info">
+              <FontAwesomeIcon icon={faChevronLeft} />Back
+            </ButtonLink>
+          </React.Fragment> :
+          <React.Fragment>
+            {queue.map(item => this.renderItem(item))}
+          </React.Fragment>
+        }
       </Page>
     );
   }
 }
 
-AwaitingTransactionsPage.propTypes = {
+PendingTransactionsPage.propTypes = {
   history: PropTypes.object.isRequired,
   queue: PropTypes.array.isRequired,
 };

@@ -1,9 +1,9 @@
-
 import { combineEpics } from 'redux-observable';
 import validateForm from './validateForm';
 import validatePassword from './validatePassword';
 import { addAccountEpic, importKeysEpic, cleanForm, updateAccountEpic } from './authDialogEpics';
 import accountEditValidateForm from './accountEditValidateForm';
+import editAccountEpic from './editAccountEpic';
 
 export default combineEpics(
     validateForm,
@@ -13,4 +13,5 @@ export default combineEpics(
     importKeysEpic,
     cleanForm,
     updateAccountEpic,
+  editAccountEpic,
 );

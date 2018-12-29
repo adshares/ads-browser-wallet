@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
-import { mergeMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { mergeMap, withLatestFrom } from 'rxjs/operators';
+import { of, from } from 'rxjs';
 
 import {
     inputValidateSuccess,
@@ -13,12 +13,13 @@ import {
 import * as validators from '../utils/validators';
 import { validatePagesBranch } from './helpers';
 
-export default (action$, store) =>
+export default (action$, state$) =>
     action$.pipe(
         ofType(FORM_VALIDATE),
-        mergeMap((action) => {
+        withLatestFrom(state$),
+        mergeMap(([action, state]) => {
           const { pageName } = action;
-          const { vault, pages } = store.getState();
+          const { vault, pages } = state;
 
           validatePagesBranch(pages, pageName);
 
@@ -48,13 +49,16 @@ export default (action$, store) =>
               );
 
             return isFormValid
-                ? Observable.from([
+                ? from([
                   ...actionsToDispatch,
                   toggleAuthorisationDialog(pageName, true),
                   formValidationSuccess(pageName)
                 ])
-                : Observable.from([...actionsToDispatch, formValidationFailure(pageName)]);
+                : from([
+                  ...actionsToDispatch,
+                  formValidationFailure(pageName)
+                ]);
           }
-          return Observable.of(formValidationFailure(pageName));
+          return of(formValidationFailure(pageName));
         }),
     );

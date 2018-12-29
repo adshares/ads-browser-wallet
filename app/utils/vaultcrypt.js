@@ -63,13 +63,18 @@ function decrypt(encryptedVault, password) {
       }
     )),
   };
+  console.debug(decryptedVault.keys);
   const keys = [
-    ...decryptedVault.keys,
+    ...decryptedVault.keys.map(key => ({
+      ...key,
+      publicKey: KeyBox.getPublicKeyFromSecret(key.secretKey),
+    })),
     ...KeyBox.generateKeys(
       decryptedVault.seed,
       decryptedVault.keyCount || config.initKeysQuantity
     )
   ];
+  console.debug(keys);
   const accounts = decryptedVault.accounts.map(account => ({
     ...account,
     secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,

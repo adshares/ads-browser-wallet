@@ -9,7 +9,7 @@ import Page from '../../components/Page/Page';
 import InputControl from '../../components/atoms/InputControl';
 import PageComponent from '../../components/PageComponent';
 
-class DetailsPage extends PageComponent {
+class KeyDetailsPage extends PageComponent {
 
   render() {
     const { accounts, type, keys } = this.props;
@@ -43,7 +43,7 @@ class DetailsPage extends PageComponent {
               <InputControl label="Public key" readOnly value={chosenElement.publicKey} />
               <InputControl label="Secret key" readOnly value={chosenElement.secretKey} />
               {type === 'key' && (
-              <InputControl label="Signature" readOnly rows={4} value={signature} />
+              <InputControl label="Signature" readOnly rows={3} value={signature} />
             )}
             </Form>
         )
@@ -53,9 +53,9 @@ class DetailsPage extends PageComponent {
   }
 }
 
-export default DetailsPage;
+export default KeyDetailsPage;
 
-DetailsPage.propTypes = {
+KeyDetailsPage.propTypes = {
   type: PropTypes.string.isRequired,
   accounts: PropTypes.array,
   selectedAccount: PropTypes.string,

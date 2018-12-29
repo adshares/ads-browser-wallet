@@ -1,5 +1,7 @@
 const testnet = true;
 
+const adsRpcHost = 'https://rpc.e11.click/';
+
 const operatorUrl = 'https://operator.e11.click/';
 
 const vaultStorageKey = 'testnet-vault';
@@ -24,6 +26,7 @@ const regulations =
 
 export default {
   testnet,
+  adsRpcHost,
   operatorUrl,
   vaultStorageKey,
   regulations,

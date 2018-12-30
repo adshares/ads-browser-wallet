@@ -323,7 +323,7 @@ export default class SignForm extends FormComponent {
         <td>
           <select name="key" value={key ? key.publicKey : ''} required onChange={this.handleKeySelect}>
             <option>Select key</option>
-            {keys.map(k => (
+            {keys.filter(k => k.publicKey).map(k => (
               <option key={k.publicKey} value={k.publicKey}>
                 {k.name}: {k.publicKey.substr(0, 8)}…{k.publicKey.substr(k.publicKey.length - 8)}
               </option>

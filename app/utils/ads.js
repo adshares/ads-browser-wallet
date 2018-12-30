@@ -197,7 +197,6 @@ function validateAddress(address) {
  * @returns {boolean}
  */
 function validateKey(key) {
-  console.debug('validateKey', key);
   if (!key) {
     return false;
   }

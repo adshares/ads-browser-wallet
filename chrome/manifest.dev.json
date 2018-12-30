@@ -4,7 +4,7 @@
   "description": "Chrome extension which can be used to sign ADS blockchain transactions",
   "author": "https://adshares.net/",
   "permissions": [ "storage", "unlimitedStorage" ],
-  "content_security_policy": "default-src 'self'; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src http://localhost:3000 https://localhost:3000 http://127.0.0.12:5000 data:; style-src * 'unsafe-inline' 'self' blob:; img-src 'self' data:;font-src 'self' https://fonts.gstatic.com",
+  "content_security_policy": "default-src 'self'; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src http://localhost:3000 https://localhost:3000 http://127.0.0.12:5000 https://rpc.adshares.net https://rpc.e11.click data:; style-src * 'unsafe-inline' 'self' blob:; img-src 'self' data:;font-src 'self' https://fonts.gstatic.com",
   "background": {
     "page": "background.html"
   },

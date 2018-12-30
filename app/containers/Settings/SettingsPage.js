@@ -167,4 +167,5 @@ SettingsPage.propTypes = {
   history: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  toggleAuthDialog: PropTypes.func,
 };

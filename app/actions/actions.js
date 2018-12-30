@@ -7,6 +7,7 @@ export const GLOBAL_PASS_INPUT_VALIDATION_FAILED = 'GLOBAL_PASS_INPUT_VALIDATION
 export const RETRIEVE_ACCOUNT_DATA_IN_INTERVALS = 'RETRIEVE_ACCOUNT_DATA_IN_INTERVALS';
 export const RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS = 'RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS';
 export const RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_FAILURE = 'RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_FAILURE';
+export const RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_STOP = 'RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_STOP';
 
 export const handleGlobalPassInputChange = (inputValue) => ({
   type: GLOBAL_PASS_INPUT_CHANGED,
@@ -48,4 +49,8 @@ export const retrieveAccountDataInIntervalsSuccess = (account) => ({
 export const retrieveAccountDataInIntervalsFailure = (error) => ({
   type: RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_FAILURE,
   error,
+});
+
+export const retrieveAccountDataInIntervalsStop = () => ({
+  type: RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_STOP,
 });

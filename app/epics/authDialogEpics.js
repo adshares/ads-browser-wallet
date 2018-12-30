@@ -26,7 +26,6 @@ export const addAccountEpic = (action$, state$) => action$.pipe(
     mergeMap(() => {
       const { pageName } = action;
       const { pages, vault: { selectedAccount } } = state;
-      console.log('HERE');
       validatePagesBranch(pages, pageName);
       const { auth, inputs, publicKey } = pages[pageName];
 

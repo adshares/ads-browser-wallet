@@ -46,11 +46,6 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.ERASE: {
-      //TODO check password
-      BgClient.removeSession();
-      localStorage.removeItem('selectedAccount');
-
-      VaultCrypt.erase();
       return initialVault;
     }
 

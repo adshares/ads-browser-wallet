@@ -1,5 +1,6 @@
 export const CREATE = 'CREATE';
 export const ERASE = 'ERASE';
+export const ERASE_INIT = 'ERASE_INIT';
 export const UNSEAL = 'UNSEAL';
 export const UNSEAL_INIT = 'UNSEAL_INIT';
 export const SEAL = 'SEAL';
@@ -25,6 +26,10 @@ export function create(password, seedPhrase, callback) {
 
 export function erase() {
   return { type: ERASE };
+}
+
+export function eraseInit() {
+  return { type: ERASE_INIT };
 }
 
 export function unsealInit(password) {

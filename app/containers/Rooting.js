@@ -149,9 +149,8 @@ export default class Rooting extends Component {
             vault={vault}
             render={props =>
               <SettingsPage
-                vault={vault} actions={actions}
-                removeAccount={actions.removeAccountInit}
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                vault={vault}
+                actions={actions}
                 {...props}
               />
             }

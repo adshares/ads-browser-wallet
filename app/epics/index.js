@@ -8,7 +8,11 @@ import {
   updateAccountEpic,
 } from './authDialogEpics';
 import {
-  removeKeyEpic, removeAccountEpic, saveGeneratedKeysEpic, cleanGlobalAuthDialog,
+  removeKeyEpic,
+  removeAccountEpic,
+  saveGeneratedKeysEpic,
+  cleanGlobalAuthDialog,
+  eraseStorageEpic,
 } from './globalAuthDialogEpics';
 import accountEditValidateForm from './accountEditValidateForm';
 import editAccountEpic from './editAccountEpic';
@@ -29,6 +33,7 @@ export default combineEpics(
   removeKeyEpic,
   removeAccountEpic,
   saveGeneratedKeysEpic,
+  eraseStorageEpic,
   cleanGlobalAuthDialog,
   retrieveAccountDataInIntervals,
   unsealInit,

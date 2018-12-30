@@ -32,7 +32,7 @@ export default class SettingsPage extends FormComponent {
 
   removeAccountAction = (address) => {
     this.props.toggleAuthDialog(true);
-    this.props.removeAccount(address);
+    this.props.actions.removeAccountInit(address);
   }
 
   constructor(props) {
@@ -164,6 +164,5 @@ SettingsPage.propTypes = {
   history: PropTypes.object.isRequired,
   vault: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  removeAccount: PropTypes.func,
   toggleAuthDialog: PropTypes.func,
 };

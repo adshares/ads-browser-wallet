@@ -125,7 +125,7 @@ export default class Rooting extends Component {
             exact
             path="/login"
             render={props =>
-              <LoginPage loginAction={actions.unseal} {...props} />
+              <LoginPage loginAction={actions.unsealInit} {...props} />
             }
           /> : ''}
           {vault.empty ? <Route
@@ -149,8 +149,8 @@ export default class Rooting extends Component {
             vault={vault}
             render={props =>
               <SettingsPage
-                vault={vault} actions={actions}
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                vault={vault}
+                actions={actions}
                 {...props}
               />
             }

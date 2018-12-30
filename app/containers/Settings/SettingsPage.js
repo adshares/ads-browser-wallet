@@ -31,9 +31,9 @@ export default class SettingsPage extends FormComponent {
   };
 
   removeAccountAction = (address) => {
-    this.props.toggleAuthDialog(true);
+    this.props.actions.toggleGlobalAuthorisationDialog(true);
     this.props.actions.removeAccountInit(address);
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -129,7 +129,10 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={this.props.actions.erase}>
+        <Button layout="danger" icon="left" size="wide" onClick={() => {
+          this.props.actions.eraseInit();
+          this.props.actions.toggleGlobalAuthorisationDialog(true);
+        }}>
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>

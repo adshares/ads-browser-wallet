@@ -27,7 +27,6 @@ function encrypt(vault, password) {
   const keys = vault.keys
     .filter(key => key.type && key.type !== 'auto')
     .map(({ publicKey, ...keysToKeep }) => keysToKeep);
-
   const crypt = CryptoJS.AES.encrypt(JSON.stringify({
     [SEED_PHRASE]: vault.seedPhrase,
     [SEED]: vault.seed,
@@ -40,8 +39,8 @@ function encrypt(vault, password) {
         [ACCOUNT_PUBLIC_KEY]: account.publicKey,
       }
     )),
-  }), password).toString();
-  console.log('crypt', crypt);
+  }), password)
+    .toString();
   return crypt;
 }
 

@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, from, empty } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
 
@@ -25,16 +25,18 @@ export const addAccountEpic = (action$, state$) => action$.pipe(
     take(1),
     mergeMap(() => {
       const { pageName } = action;
-      const { pages } = state;
-
+      const { pages, vault: { selectedAccount } } = state;
       validatePagesBranch(pages, pageName);
       const { auth, inputs, publicKey } = pages[pageName];
-      return of(vaultActions.addAccount({
+
+
+      return from([vaultActions.addAccount({
           address: inputs.address.value,
           name: inputs.name.value,
           publicKey,
           password: auth.password.value,
-        })
+        }), !selectedAccount ? vaultActions.selectActiveAccount(inputs.address.value) :
+        empty()]
       );
     })
     )

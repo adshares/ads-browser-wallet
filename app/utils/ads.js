@@ -718,7 +718,7 @@ function decodeMessage(value, onlyPrintable = true) {
 }
 
 function formatAdsMoney(amount, precision = 4, decimal = '.', thousand = ',') {
-  return (amount || 0).toFixed(precision).replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
+  return (Number(amount) || 0).toFixed(precision).replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
 }
 
 function formatClickMoney(value, precision, trim, decimal, thousand) {

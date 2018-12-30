@@ -16,9 +16,11 @@ import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
 import * as VaultActions from '../actions/vault';
+import * as Actions from '../actions/actions';
 import config from '../config/config';
 import KeyDetailsPage from './Settings/KeyDetailsPage';
 import KeysSettings from './Settings/KeysSettings';
+import ConfirmDialog from '../components/confirmDialog/confirmDialog';
 
 function NotFoundErrorPage(props) {
   return (
@@ -68,9 +70,14 @@ function SwitchNetwork({ ...params }) {
     router: state.router || {},
     vault: state.vault || {},
     queue: state.queue || [],
+    authDialog: state.authDialog,
   }),
   dispatch => ({
-    actions: bindActionCreators(VaultActions, dispatch)
+    actions: bindActionCreators(
+      {
+        ...VaultActions,
+        ...Actions,
+      }, dispatch)
   })
 )
 export default class Rooting extends Component {
@@ -87,7 +94,7 @@ export default class Rooting extends Component {
   }
 
   render() {
-    const { router, vault, queue, actions } = this.props;
+    const { router, vault, queue, actions, authDialog } = this.props;
     console.debug(router.location.pathname);
 
     return (
@@ -141,7 +148,12 @@ export default class Rooting extends Component {
             path="/settings"
             vault={vault}
             render={props =>
-              <SettingsPage vault={vault} actions={actions} {...props} />
+              <SettingsPage
+                vault={vault} actions={actions}
+                removeAccount={actions.removeAccountInit}
+                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                {...props}
+              />
             }
           />
           <PrivateRoute
@@ -186,7 +198,9 @@ export default class Rooting extends Component {
             render={props =>
               <KeysSettings
                 keys={vault.keys} seed={vault.seed}
-                saveGeneratedKeysAction={actions.saveGeneratedKeys}{...props}
+                removeKeyAction={actions.removeKeyInit}
+                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                saveGeneratedKeysAction={actions.saveGeneratedKeysInit}{...props}
               />
             }
           />
@@ -230,8 +244,17 @@ export default class Rooting extends Component {
               <SendOnePage vault={vault} {...props} />
             }
           />
+
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>
+        {authDialog.authModalOpen && (
+          <ConfirmDialog
+            showDialog
+            handlePasswordChange={actions.handleGlobalPassInputChange}
+            onSubmit={actions.globalPassInputValidate}
+            password={authDialog.password}
+          />
+        )}
       </div>
     );
   }

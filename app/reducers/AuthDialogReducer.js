@@ -4,7 +4,7 @@ const authState = {
   password: {
     isValid: false,
     value: '',
-    errorMsg: ''
+    errorMsg: null,
   },
   authModalOpen: false,
   authConfirmed: false
@@ -12,51 +12,46 @@ const authState = {
 
 
 export default function (state = authState, action) {
+  console.log(action.type);
   switch (action.type) {
     case actions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL: {
       return {
         ...state,
-        auth: {
-          ...state.auth,
-          authModalOpen: action.isOpen
-        }
+        authModalOpen: action.isOpen
       };
     }
     case actions.GLOBAL_PASS_INPUT_CHANGED: {
       return {
         ...state,
-        auth: {
-          ...state.auth,
-          password: {
-            ...state.auth.password,
-            value: action.inputValue
-          }
+        password: {
+          ...state.password,
+          value: action.inputValue
         }
       };
     }
     case actions.GLOBAL_PASS_INPUT_VALIDATION_FAILED: {
       return {
         ...state,
-        auth: {
-          ...state.auth,
-          password: {
-            ...state.auth.password,
-            errorMsg: action.errorMsg
-          }
+        password: {
+          ...state.password,
+          errorMsg: action.errorMsg
         }
       };
     }
     case actions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS: {
       return {
         ...state,
-        auth: {
-          ...state.auth,
-          password: {
-            ...state.auth.password,
-            errorMsg: null,
-            isValid: action.inputValue
-          }
+        password: {
+          ...state.password,
+          errorMsg: null,
+          isValid: true,
         }
+      };
+    }
+
+    case actions.CLEAN_AUTHORISATION_DIALOG_GLOBAL: {
+      return {
+        ...authState
       };
     }
     default:

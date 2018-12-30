@@ -9,8 +9,14 @@ import { generateNewKeys } from '../../utils/keybox';
 class KeysSettings extends PageComponent {
   generateKeys() {
     const generatedKeys = generateNewKeys(this.props.seed, this.props.keys.length);
+    this.props.toggleAuthDialog(true);
     this.props.saveGeneratedKeysAction(generatedKeys);
   }
+
+  removeAction = (secretKey) => {
+    this.props.toggleAuthDialog(true);
+    this.props.removeKeyAction(secretKey);
+  };
   render() {
     const { keys, location } = this.props;
 
@@ -19,7 +25,7 @@ class KeysSettings extends PageComponent {
         className={style.page} title="Keys Settings" smallTitle
         cancelLink={this.getReferrer()} scroll
       >
-        <KeysList keys={keys} location={location} type="imported" />
+        <KeysList keys={keys} location={location} removeAction={secretKey => this.removeAction(secretKey)} type="imported" />
         <KeysList
           keys={keys} location={location} type="auto"
           createAction={() => this.generateKeys()}
@@ -36,5 +42,7 @@ KeysSettings.propTypes = {
   keys: PropTypes.array,
   location: PropTypes.object.isRequired,
   saveGeneratedKeysAction: PropTypes.func,
+  removeKeyAction: PropTypes.func,
+  toggleAuthDialog: PropTypes.func,
 };
 

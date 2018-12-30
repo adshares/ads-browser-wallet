@@ -1,31 +1,33 @@
 export const TOGGLE_AUTHORISATION_DIALOG_GLOBAL = 'TOGGLE_AUTHORISATION_DIALOG_GLOBAL';
+export const CLEAN_AUTHORISATION_DIALOG_GLOBAL = 'CLEAN_AUTHORISATION_DIALOG_GLOBAL';
 export const GLOBAL_PASS_INPUT_CHANGED = 'GLOBAL_PASS_INPUT_CHANGED';
+export const GLOBAL_PASS_INPUT_VALIDATE = 'GLOBAL_PASS_INPUT_VALIDATE';
 export const GLOBAL_PASS_INPUT_VALIDATION_SUCCESS = 'GLOBAL_PASS_INPUT_VALIDATION_SUCCESS';
 export const GLOBAL_PASS_INPUT_VALIDATION_FAILED = 'GLOBAL_PASS_INPUT_VALIDATION_FAILED';
 
-const handlePasswordChange = (inputValue) => ({
+export const handleGlobalPassInputChange = (inputValue) => ({
   type: GLOBAL_PASS_INPUT_CHANGED,
   inputValue
 });
 
-const passInputValidateSuccess = (valid) => ({
-  type: GLOBAL_PASS_INPUT_CHANGED,
-  valid
+export const globalPassInputValidate = () => ({
+  type: GLOBAL_PASS_INPUT_VALIDATE,
 });
 
-const passInputValidateFailed = (errorMsg) => ({
-  type: GLOBAL_PASS_INPUT_CHANGED,
+export const globalPassInputValidateSuccess = () => ({
+  type: GLOBAL_PASS_INPUT_VALIDATION_SUCCESS,
+});
+
+export const globalPassInputValidateFailed = (errorMsg) => ({
+  type: GLOBAL_PASS_INPUT_VALIDATION_FAILED,
   errorMsg
 });
 
-const toggleAuthorisationDialog = (isOpen) => ({
+export const toggleGlobalAuthorisationDialog = (isOpen) => ({
   type: TOGGLE_AUTHORISATION_DIALOG_GLOBAL,
   isOpen,
 });
 
-export {
-  handlePasswordChange,
-  passInputValidateSuccess,
-  passInputValidateFailed,
-  toggleAuthorisationDialog
-};
+export const cleanGlobalAuthorisationDialog = () => ({
+  type: CLEAN_AUTHORISATION_DIALOG_GLOBAL,
+});

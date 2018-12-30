@@ -11,6 +11,7 @@ import {
 } from '../actions/errors';
 import config from '../config/config';
 import { findAccountByAddressInVault, findIfPublicKeyExist } from '../utils/utils';
+import { RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS } from '../actions/actions';
 
 const initialVault = {
   empty: true,
@@ -47,11 +48,15 @@ export default function (vault = initialVault, action) {
     case actions.ERASE: {
       //TODO check password
       BgClient.removeSession();
+      localStorage.removeItem('selectedAccount');
+
       VaultCrypt.erase();
       return initialVault;
     }
 
     case actions.SELECT_ACTIVE_ACCOUNT: {
+      localStorage.setItem('selectedAccount', action.accountAddress);
+
       return {
         ...vault,
         selectedAccount: action.accountAddress
@@ -59,16 +64,12 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.UNSEAL: {
-      if (!VaultCrypt.checkPassword(vault, action.password)) {
-        throw new InvalidPasswordError();
-      }
 
-      BgClient.startSession(window.btoa(action.password));
-      const unsealedVault = VaultCrypt.decrypt(vault, action.password);
       return {
         ...initialVault,
         ...vault,
-        ...unsealedVault,
+        ...action.unsealedVault,
+
         sealed: false,
       };
     }
@@ -85,7 +86,6 @@ export default function (vault = initialVault, action) {
 
     case actions.SWITCH_NETWORK: {
       BgClient.changeNetwork(action.testnet, (data) => {
-        console.log('SWITCH_NETWORK', data);
       });
       return vault;
     }
@@ -149,7 +149,6 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.REMOVE_ACCOUNT: {
-
       const updatedVault = {
         ...initialVault,
         ...vault,
@@ -194,6 +193,17 @@ export default function (vault = initialVault, action) {
 
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
       return updatedVault;
+    }
+
+    case RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS: {
+      const accounts = vault.accounts.map(acount => acount.address === action.account.address ? {
+        ...acount,
+        ...action.account
+      } : acount);
+      return {
+        ...vault,
+        accounts,
+      };
     }
     default:
       return vault;

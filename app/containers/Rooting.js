@@ -125,7 +125,7 @@ export default class Rooting extends Component {
             exact
             path="/login"
             render={props =>
-              <LoginPage loginAction={actions.unseal} {...props} />
+              <LoginPage loginAction={actions.unsealInit} {...props} />
             }
           /> : ''}
           {vault.empty ? <Route

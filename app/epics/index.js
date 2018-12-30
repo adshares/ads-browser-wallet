@@ -13,6 +13,8 @@ import {
 import accountEditValidateForm from './accountEditValidateForm';
 import editAccountEpic from './editAccountEpic';
 import validateGlobalPassword from './validateGlobalPassword';
+import retrieveAccountDataInIntervals from './retrieveAccountDataInIntervals';
+import unsealInit from './unsealInit';
 
 export default combineEpics(
   validateForm,
@@ -28,4 +30,6 @@ export default combineEpics(
   removeAccountEpic,
   saveGeneratedKeysEpic,
   cleanGlobalAuthDialog,
+  retrieveAccountDataInIntervals,
+  unsealInit,
 );

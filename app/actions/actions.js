@@ -4,6 +4,9 @@ export const GLOBAL_PASS_INPUT_CHANGED = 'GLOBAL_PASS_INPUT_CHANGED';
 export const GLOBAL_PASS_INPUT_VALIDATE = 'GLOBAL_PASS_INPUT_VALIDATE';
 export const GLOBAL_PASS_INPUT_VALIDATION_SUCCESS = 'GLOBAL_PASS_INPUT_VALIDATION_SUCCESS';
 export const GLOBAL_PASS_INPUT_VALIDATION_FAILED = 'GLOBAL_PASS_INPUT_VALIDATION_FAILED';
+export const RETRIEVE_ACCOUNT_DATA_IN_INTERVALS = 'RETRIEVE_ACCOUNT_DATA_IN_INTERVALS';
+export const RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS = 'RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS';
+export const RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_FAILURE = 'RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_FAILURE';
 
 export const handleGlobalPassInputChange = (inputValue) => ({
   type: GLOBAL_PASS_INPUT_CHANGED,
@@ -30,4 +33,19 @@ export const toggleGlobalAuthorisationDialog = (isOpen) => ({
 
 export const cleanGlobalAuthorisationDialog = () => ({
   type: CLEAN_AUTHORISATION_DIALOG_GLOBAL,
+});
+
+export const retrieveAccountDataInIntervals = (initialAccount) => ({
+  type: RETRIEVE_ACCOUNT_DATA_IN_INTERVALS,
+  initialAccount,
+});
+
+export const retrieveAccountDataInIntervalsSuccess = (account) => ({
+  type: RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
+  account,
+});
+
+export const retrieveAccountDataInIntervalsFailure = (error) => ({
+  type: RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_FAILURE,
+  error,
 });

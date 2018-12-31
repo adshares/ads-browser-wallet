@@ -9,7 +9,6 @@ export default class {
   }
 
   send(data) {
-    console.debug('send', data);
     return fetch(this.host, {
       method: 'POST',
       headers: {
@@ -84,7 +83,6 @@ export default class {
       if (!response || !response.tx) {
         throw new RpcError('RPC Server Response Error');
       }
-      console.debug('response', response);
       return {
         id: response.tx.id,
         fee: response.tx.fee,

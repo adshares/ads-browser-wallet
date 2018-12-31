@@ -101,7 +101,6 @@ const sendTransaction = (action, state, adsRpc) => {
 
   const { nodeId } = ADS.splitAddress(vault.selectedAccount);
   const node = vault.nodes.find(n => n.id === nodeId);
-  console.debug(node);
 
   if (!node) {
     return of(transactionFailure(

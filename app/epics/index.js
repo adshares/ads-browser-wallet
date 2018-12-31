@@ -22,6 +22,10 @@ import {
   retrieveNodesEpic
 } from './retrieveDataEpics';
 import unsealInit from './unsealEpic';
+import {
+  validateTransactionFormEpic,
+  sendTransactionEpic
+} from './transactionEpics';
 
 export default combineEpics(
   validateForm,
@@ -41,4 +45,6 @@ export default combineEpics(
   retrieveAccountEpic,
   retrieveNodesEpic,
   unsealInit,
+  validateTransactionFormEpic,
+  sendTransactionEpic,
 );

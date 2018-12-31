@@ -2,15 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons/index';
+import { faChevronRight, faExclamation, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons/index'
 import {
   cleanForm,
   inputChanged,
-  transactionRejected
+  validateForm,
+  transactionAccepted,
+  transactionRejected,
 } from '../../actions/transactionActions';
-import { validateForm, sendTransaction } from '../../thunks/transactionThunk';
 import TransactionPage from './TransactionPage';
 import Form from '../../components/atoms/Form';
+import Box from '../../components/atoms/Box';
 import InputControl from '../../components/atoms/InputControl';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -29,8 +31,8 @@ import style from './TransactionPage.css';
         cleanForm,
         inputChanged,
         validateForm,
+        transactionAccepted,
         transactionRejected,
-        sendTransaction,
       },
       dispatch
     )
@@ -108,6 +110,19 @@ export default class SendOnePage extends TransactionPage {
           </Button>
         </div>
       </Form>
+    );
+  }
+
+  renderSuccessInfo() {
+    const {
+      inputs: { transactionId, transactionFee }
+    } = this.props;
+
+    return (
+      <Box title="Transaction sent" layout="success" icon={faCheck}>
+        Transaction id: {transactionId}<br />
+        Transaction fee: {transactionFee}
+      </Box>
     );
   }
 }

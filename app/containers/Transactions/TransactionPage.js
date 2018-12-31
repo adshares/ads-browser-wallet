@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 import PageComponent from '../../components/PageComponent';
 import Page from '../../components/Page/Page';
+import Box from '../../components/atoms/Box';
 import SignForm from './SignForm';
 import { typeLabels } from './labels';
 import style from './TransactionPage.css';
@@ -35,7 +37,7 @@ export default class TransactionPage extends PageComponent {
   }
 
   handleAccept = (signature) => {
-    this.props.actions.sendTransaction(
+    this.props.actions.transactionAccepted(
       this.transactionType,
       signature
     );
@@ -58,11 +60,13 @@ export default class TransactionPage extends PageComponent {
       vault,
       isSignRequired,
       isSubmitted,
+      isTransactionSent,
       accountHash,
       transactionData,
+      errorMsg,
       history
     } = this.props;
-console.debug(vault);
+
     if (isSignRequired) {
       const transaction = {
         hash: accountHash,
@@ -86,9 +90,14 @@ console.debug(vault);
         className={style.page}
         cancelLink={this.getReferrer()}
         onCancelClick={this.handleCancelClick}
+        showLoader={isSubmitted}
+        history={history}
       >
         <h2>{typeLabels[this.transactionType]}</h2>
-        {this.renderForm()}
+        {errorMsg ? <Box title="Transaction error" layout="warning" icon={faExclamation}>
+          {errorMsg}
+        </Box> : ''}
+        {isTransactionSent ? this.renderSuccessInfo() : this.renderForm()}
       </Page>
     );
   }
@@ -102,6 +111,6 @@ TransactionPage.propTypes = {
     inputChanged: PropTypes.func.isRequired,
     validateForm: PropTypes.func.isRequired,
     transactionRejected: PropTypes.func.isRequired,
-    sendTransaction: PropTypes.func.isRequired,
+    transactionAccepted: PropTypes.func.isRequired,
   })
 };

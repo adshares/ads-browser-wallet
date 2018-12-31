@@ -82,9 +82,7 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.SWITCH_NETWORK: {
-      BgClient.changeNetwork(action.testnet, (data) => {
-        console.log('SWITCH_NETWORK', data);
-      });
+      BgClient.changeNetwork(action.testnet);
       return vault;
     }
 

@@ -17,9 +17,11 @@ import {
 import accountEditValidateForm from './accountEditValidateForm';
 import editAccountEpic from './editAccountEpic';
 import validateGlobalPassword from './validateGlobalPassword';
-import retrieveAccountDataInIntervals from './retrieveAccountDataInIntervals';
-import retrieveNodesDataInIntervals from './retrieveNodesDataInIntervals';
-import unsealInit from './unsealInit';
+import {
+  retrieveAccountEpic,
+  retrieveNodesEpic
+} from './retrieveDataEpics';
+import unsealInit from './unsealEpic';
 
 export default combineEpics(
   validateForm,
@@ -36,7 +38,7 @@ export default combineEpics(
   saveGeneratedKeysEpic,
   eraseStorageEpic,
   cleanGlobalAuthDialog,
-  retrieveAccountDataInIntervals,
-  retrieveNodesDataInIntervals,
+  retrieveAccountEpic,
+  retrieveNodesEpic,
   unsealInit,
 );

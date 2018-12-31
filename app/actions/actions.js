@@ -18,7 +18,7 @@ export const adsWalletInit = () => ({
   type: ADS_WALLET_INIT,
 });
 
-export const handleGlobalPassInputChange = (inputValue) => ({
+export const handleGlobalPassInputChange = inputValue => ({
   type: GLOBAL_PASS_INPUT_CHANGED,
   inputValue
 });
@@ -31,12 +31,12 @@ export const globalPassInputValidateSuccess = () => ({
   type: GLOBAL_PASS_INPUT_VALIDATION_SUCCESS,
 });
 
-export const globalPassInputValidateFailed = (errorMsg) => ({
+export const globalPassInputValidateFailed = errorMsg => ({
   type: GLOBAL_PASS_INPUT_VALIDATION_FAILED,
   errorMsg
 });
 
-export const toggleGlobalAuthorisationDialog = (isOpen) => ({
+export const toggleGlobalAuthorisationDialog = isOpen => ({
   type: TOGGLE_AUTHORISATION_DIALOG_GLOBAL,
   isOpen,
 });
@@ -45,7 +45,7 @@ export const cleanGlobalAuthorisationDialog = () => ({
   type: CLEAN_AUTHORISATION_DIALOG_GLOBAL,
 });
 
-export const retrieveAccountDataInIntervals = (initialAccount) => ({
+export const retrieveAccountDataInIntervals = initialAccount => ({
   type: RETRIEVE_ACCOUNT_DATA_IN_INTERVALS,
   initialAccount,
 });

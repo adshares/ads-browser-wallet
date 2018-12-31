@@ -1,9 +1,10 @@
 import { ofType } from 'redux-observable';
-import { of, from } from 'rxjs'; // works for RxJS v6
+import { of, concat } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 import { InvalidPasswordError } from '../actions/errors';
 import {
   retrieveAccountDataInIntervals,
+  retrieveAccountDataInIntervalsStop,
 } from '../actions/actions';
 import * as vaultActions from '../actions/vault';
 import VaultCrypt from '../utils/vaultcrypt';
@@ -22,13 +23,10 @@ export default (action$, state$) => action$.pipe(
     const unsealedVault = {
       ...VaultCrypt.decrypt(vault, action.password),
     };
-    return unsealedVault.selectedAccount ?
-      from([
-        vaultActions.unseal(unsealedVault),
-        retrieveAccountDataInIntervals()
-      ]) :
-      of(
-        vaultActions.unseal(unsealedVault),
-      );
+    return concat(
+      of(vaultActions.unseal(unsealedVault)),
+      of(retrieveAccountDataInIntervalsStop()),
+      of(retrieveAccountDataInIntervals())
+    );
   })
 );

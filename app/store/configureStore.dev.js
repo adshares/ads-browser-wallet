@@ -1,5 +1,4 @@
 import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createEpicMiddleware } from 'redux-observable';
@@ -9,6 +8,7 @@ import config from '../config/config';
 import createRootReducer from '../reducers';
 import storage from '../utils/storage';
 import rootEpic from '../epics';
+import { adsWalletInit } from '../actions/actions';
 
 
 export default function (initialState, history) {
@@ -36,5 +36,6 @@ export default function (initialState, history) {
       store.replaceReducer(nextRootReducer);
     });
   }
+  store.dispatch(adsWalletInit());
   return store;
 }

@@ -62,7 +62,6 @@ function decrypt(encryptedVault, password) {
       }
     )),
   };
-  console.debug(decryptedVault.keys);
   const keys = [
     ...decryptedVault.keys.map(key => ({
       ...key,
@@ -73,19 +72,19 @@ function decrypt(encryptedVault, password) {
       decryptedVault.keyCount || config.initKeysQuantity
     )
   ];
-  console.debug(keys);
   const accounts = decryptedVault.accounts.map(account => ({
     ...account,
     secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
-    balance: Math.random() * 1000,
-    messageId: 100,
-    hash: '34B6A08D20E5DDEF5127D797B6155E2C7D292D01AB9775408AB7A217A72AE983',
+    balance: null,
+    messageId: null,
+    hash: null,
   }));
 
   return {
     ...decryptedVault,
     keys,
     accounts,
+    selectedAccount: accounts.length > 0 ? accounts[0].address : null,
   };
 }
 

@@ -11,7 +11,10 @@ import {
 } from '../actions/errors';
 import config from '../config/config';
 import { findAccountByAddressInVault, findIfPublicKeyExist } from '../utils/utils';
-import { RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS } from '../actions/actions';
+import {
+  RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
+  RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS
+} from '../actions/actions';
 
 const initialVault = {
   empty: true,
@@ -23,6 +26,7 @@ const initialVault = {
   keyCount: config.initKeysQuantity,
   accounts: [],
   selectedAccount: null,
+  nodes: [],
 };
 
 export default function (vault = initialVault, action) {
@@ -50,8 +54,7 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.SELECT_ACTIVE_ACCOUNT: {
-      localStorage.setItem('selectedAccount', action.accountAddress);
-
+      chrome.storage.local.set({ [config.accountStorageKey]: action.accountAddress })
       return {
         ...vault,
         selectedAccount: action.accountAddress
@@ -59,7 +62,6 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.UNSEAL: {
-
       return {
         ...initialVault,
         ...vault,
@@ -201,6 +203,15 @@ export default function (vault = initialVault, action) {
         accounts,
       };
     }
+
+    case RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS: {
+      return {
+        ...vault,
+        nodes: action.nodes,
+      };
+    }
+
+
     default:
       return vault;
   }

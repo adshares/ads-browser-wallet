@@ -62,7 +62,7 @@ export default class TransactionPage extends PageComponent {
       transactionData,
       history
     } = this.props;
-
+console.debug(vault);
     if (isSignRequired) {
       const transaction = {
         hash: accountHash,

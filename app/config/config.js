@@ -11,6 +11,7 @@ const config = {
   vaultStorageKey: 'vault',
   queueStorageKey: 'queue',
   routerStorageKey: 'router',
+  accountStorageKey: 'account',
   proxyConnectionName: 'ads-wallet-proxy',
   adsRpcHost: 'https://rpc.adshares.net/',
   operatorUrl: 'https://operator.adshares.net/',

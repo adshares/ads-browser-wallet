@@ -43,18 +43,24 @@ BgClient.getSession((session) => {
   const VaultCrypt = require('../../app/utils/vaultcrypt');
   const Root = require('../../app/containers/Root');
 
-  chrome.storage.local.get([config.routerStorageKey, config.queueStorageKey], (obj) => {
+  chrome.storage.local.get([
+    config.routerStorageKey,
+    config.queueStorageKey,
+    config.accountStorageKey
+  ], (obj) => {
     const initialState = {
       router: JSON.parse(obj[config.routerStorageKey] || '{}'),
       queue: JSON.parse(obj[config.queueStorageKey] || '[]'),
     };
-
+    console.log('init', obj);
     VaultCrypt.load((vault) => {
       initialState.vault = vault;
       if (!vault.empty && vault.sealed && session.secret) {
+        const decrypted = VaultCrypt.decrypt(vault, window.atob(session.secret));
         initialState.vault = {
           ...vault,
-          ...VaultCrypt.decrypt(vault, window.atob(session.secret)),
+          ...decrypted,
+          selectedAccount: obj[config.accountStorageKey] || decrypted.selectedAccount,
           sealed: false,
         };
       }

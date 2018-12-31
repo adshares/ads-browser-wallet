@@ -25,6 +25,7 @@ export default class SelectAccount extends React.Component {
   }
 
   render() {
+    console.debug('SelectAccount', this.props.selectedAccount);
     if (this.props.options.length === 0) {
       return <div />;
     }

@@ -19,10 +19,8 @@ export default (action$, state$) => action$.pipe(
     }
 
     BgClient.startSession(window.btoa(action.password));
-    const selectedAccount = localStorage.getItem('selectedAccount') || null;
     const unsealedVault = {
       ...VaultCrypt.decrypt(vault, action.password),
-      selectedAccount,
     };
     return unsealedVault.selectedAccount ?
       from([

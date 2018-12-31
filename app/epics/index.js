@@ -18,6 +18,7 @@ import accountEditValidateForm from './accountEditValidateForm';
 import editAccountEpic from './editAccountEpic';
 import validateGlobalPassword from './validateGlobalPassword';
 import retrieveAccountDataInIntervals from './retrieveAccountDataInIntervals';
+import retrieveNodesDataInIntervals from './retrieveNodesDataInIntervals';
 import unsealInit from './unsealInit';
 
 export default combineEpics(
@@ -36,5 +37,6 @@ export default combineEpics(
   eraseStorageEpic,
   cleanGlobalAuthDialog,
   retrieveAccountDataInIntervals,
+  retrieveNodesDataInIntervals,
   unsealInit,
 );

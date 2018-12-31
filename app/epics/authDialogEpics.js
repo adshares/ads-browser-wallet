@@ -1,7 +1,6 @@
 import { of, from, empty } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
-
 import * as vaultActions from '../actions/vault';
 import { PASS_INPUT_VALIDATION_SUCCESS, formClean } from '../actions/form';
 import { validatePagesBranch } from './helpers';
@@ -17,7 +16,7 @@ export const cleanForm = action$ => action$.pipe(
   )
 );
 
-export const addAccountEpic = (action$, state$) => action$.pipe(
+export const addAccountEpic = (action$, state$, { history }) => action$.pipe(
   ofType(PASS_INPUT_VALIDATION_SUCCESS),
   withLatestFrom(state$),
   switchMap(([action, state]) => action$.pipe(
@@ -28,22 +27,22 @@ export const addAccountEpic = (action$, state$) => action$.pipe(
       const { pages, vault: { selectedAccount } } = state;
       validatePagesBranch(pages, pageName);
       const { auth, inputs, publicKey } = pages[pageName];
-
-
-      return from([vaultActions.addAccount({
+      history.push('/settings');
+      return from(
+        [vaultActions.addAccount({
           address: inputs.address.value,
           name: inputs.name.value,
           publicKey,
           password: auth.password.value,
         }), !selectedAccount ? vaultActions.selectActiveAccount(inputs.address.value) :
-        empty()]
+          empty()]
       );
     })
     )
   )
 );
 
-export const updateAccountEpic = (action$, state$) => action$.pipe(
+export const updateAccountEpic = (action$, state$, { history }) => action$.pipe(
   ofType(PASS_INPUT_VALIDATION_SUCCESS),
   withLatestFrom(state$),
   switchMap(([action, state]) => action$.pipe(
@@ -55,7 +54,10 @@ export const updateAccountEpic = (action$, state$) => action$.pipe(
 
       validatePagesBranch(pages, pageName);
       const { auth, inputs } = pages[pageName];
-      return of(vaultActions.updateAccount({
+      history.push('/settings');
+
+      return of(
+        vaultActions.updateAccount({
           address: inputs.address.value,
           name: inputs.name.value,
           publicKey: inputs.publicKey.value,
@@ -67,7 +69,7 @@ export const updateAccountEpic = (action$, state$) => action$.pipe(
   )
 );
 
-export const importKeysEpic = (action$, state$) => action$.pipe(
+export const importKeysEpic = (action$, state$, { history }) => action$.pipe(
   ofType(PASS_INPUT_VALIDATION_SUCCESS),
   withLatestFrom(state$),
   switchMap(([action, state]) => action$.pipe(
@@ -79,7 +81,9 @@ export const importKeysEpic = (action$, state$) => action$.pipe(
 
       validatePagesBranch(pages, pageName);
       const { auth, inputs } = pages[pageName];
-      return of(vaultActions.importKey({
+      history.push('/keys');
+      return of(
+        vaultActions.importKey({
           secretKey: inputs.secretKey.value,
           name: inputs.name.value,
           publicKey: inputs.publicKey.value,

@@ -3,7 +3,7 @@ import { ofType } from 'redux-observable';
 import { mergeMap, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import * as vaultActions from '../actions/vault';
 import { PASS_INPUT_VALIDATION_SUCCESS, formClean } from '../actions/form';
-import { validatePagesBranch } from './helpers';
+import { validatePagesBranch, getReferrer } from './helpers';
 
 // TODO redirect to previous pages
 export const cleanForm = action$ => action$.pipe(
@@ -27,7 +27,8 @@ export const addAccountEpic = (action$, state$, { history }) => action$.pipe(
       const { pages, vault: { selectedAccount } } = state;
       validatePagesBranch(pages, pageName);
       const { auth, inputs, publicKey } = pages[pageName];
-      history.push('/settings');
+      history.push(getReferrer(history, '/settings'));
+
       return from(
         [vaultActions.addAccount({
           address: inputs.address.value,
@@ -54,7 +55,7 @@ export const updateAccountEpic = (action$, state$, { history }) => action$.pipe(
 
       validatePagesBranch(pages, pageName);
       const { auth, inputs } = pages[pageName];
-      history.push('/settings');
+      history.push(getReferrer(history, '/settings'));
 
       return of(
         vaultActions.updateAccount({
@@ -81,7 +82,8 @@ export const importKeysEpic = (action$, state$, { history }) => action$.pipe(
 
       validatePagesBranch(pages, pageName);
       const { auth, inputs } = pages[pageName];
-      history.push('/keys');
+      history.push(getReferrer(history, '/keys'));
+
       return of(
         vaultActions.importKey({
           secretKey: inputs.secretKey.value,

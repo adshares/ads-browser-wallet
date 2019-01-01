@@ -54,7 +54,7 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.SELECT_ACTIVE_ACCOUNT: {
-      chrome.storage.local.set({ [config.accountStorageKey]: action.accountAddress });
+      chrome.storage.local.remove(config.accountStorageKey);
       return {
         ...vault,
         selectedAccount: action.accountAddress
@@ -150,7 +150,7 @@ export default function (vault = initialVault, action) {
       const checkSelectedAccount = action.updatedAccounts.find(
         account => account.address === vault.selectedAccount);
       if (!checkSelectedAccount) {
-        chrome.storage.local.set({ [config.accountStorageKey]: null });
+        chrome.storage.local.remove(config.accountStorageKey);
       }
 
       const updatedVault = {

@@ -7,6 +7,7 @@ import * as authActions from '../actions/actions';
 import { removeKey as removeKeyValidator } from '../utils/validators';
 import BgClient from '../utils/background';
 import VaultCrypt from '../utils/vaultcrypt';
+import config from '../config/config';
 
 // TODO redirect to previous pages
 export const cleanGlobalAuthDialog = action$ => action$.pipe(
@@ -30,7 +31,7 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
 
       const { secretKey } = action;
       // TODO display error message
-      removeKeyValidator(secretKey);
+      removeKeyValidator({ secretKey, vault });
       const updatedKeys = vault.keys
         .filter(key => key.secretKey !== secretKey);
       return of(vaultActions.removeKey(updatedKeys, authDialog.password.value));
@@ -65,7 +66,7 @@ export const eraseStorageEpic = (action$, state$) => action$.pipe(
     withLatestFrom(state$),
     mergeMap(() => {
       BgClient.removeSession();
-      localStorage.removeItem('selectedAccount');
+      chrome.storage.local.set({ [config.accountStorageKey]: null });
       VaultCrypt.erase();
 
       return from([vaultActions.erase(),

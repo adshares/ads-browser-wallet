@@ -46,3 +46,6 @@
     margin-right: 16px;
 }
 
+.buttonsContainer button:first-of-type {
+    margin-left: 15px;
+}

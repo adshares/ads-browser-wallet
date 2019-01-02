@@ -40,12 +40,15 @@ export const KeysList = ({
               <span>{key.publicKey.slice(0, 16)}</span>
             </span>
             <span className={style.accountActions}>
-              <Button
-                onClick={() => showKeys(`/keys/${key.publicKey}`)}
+              <ButtonLink
+                to={{
+                  pathname: `keys/${key.publicKey}`,
+                  state: { referrer: location }
+                }}
                 size="small"
                 layout="warning"
                 title="Show keys"
-              ><FontAwesomeIcon icon={faKey}/></Button>
+              ><FontAwesomeIcon icon={faKey}/></ButtonLink>
               {type === 'imported' && (
                 <Button
                   onClick={() => removeAction(key.secretKey)}

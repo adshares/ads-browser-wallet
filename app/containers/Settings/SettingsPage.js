@@ -21,11 +21,6 @@ export default class SettingsPage extends FormComponent {
     this.props.actions.removeAccountInit(address);
   };
 
-  showProtectedDataAction = (path) => {
-    this.props.actions.toggleGlobalAuthorisationDialog(true);
-    this.props.actions.previewSecretDataInit(path);
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -54,13 +49,16 @@ export default class SettingsPage extends FormComponent {
                   size="small"
                   title="Edit account"
                   layout="info"
-                ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
-                <Button
-                  onClick={() => this.showProtectedDataAction(`/accounts/${account.address}/keys`)}
+                ><FontAwesomeIcon icon={faPencilAlt}/></ButtonLink>
+                <ButtonLink
+                  to={{
+                    pathname: `/accounts/${account.address}/keys`,
+                    state: { referrer: this.props.history.location }
+                  }}
                   size="small"
                   layout="warning"
                   title="Show account keys"
-                ><FontAwesomeIcon icon={faKey} /></Button>
+                ><FontAwesomeIcon icon={faKey} /></ButtonLink>
                 <Button
                   onClick={() => this.removeAccountAction(account.address)}
                   size="small"
@@ -121,14 +119,17 @@ export default class SettingsPage extends FormComponent {
         </div>
         {this.renderAccountsSettings()}
         <div className={style.section}>
-          <h3>Reveal seed phrase</h3>
-          <Button
-            onClick={() => this.showProtectedDataAction('/seedPhrase')}
+          <h3>Account settings</h3>
+          <ButtonLink
+            to={{
+              pathname: '/seedPhrase',
+              state: { referrer: this.props.location }
+            }}
             size="wide"
             title="Reveal seed phrase"
             layout="warning"
             icon="left"
-          ><FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase</Button>
+          ><FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase</ButtonLink>
         </div>
         {this.renderStorageSettings()}
       </Page>

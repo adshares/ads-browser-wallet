@@ -1,6 +1,7 @@
 export const ADS_WALLET_INIT = 'ADS_WALLET_INIT';
 export const PREVIEW_SECRET_DATA_INIT = 'PREVIEW_SECRET_DATA_INIT';
 export const PREVIEW_SECRET_DATA = 'PREVIEW_SECRET_DATA';
+export const REMOVE_ACCESS_TO_PROTECTED_DATA = 'REMOVE_ACCESS_TO_PROTECTED_DATA';
 export const TOGGLE_AUTHORISATION_DIALOG_GLOBAL = 'TOGGLE_AUTHORISATION_DIALOG_GLOBAL';
 export const CLEAN_AUTHORISATION_DIALOG_GLOBAL = 'CLEAN_AUTHORISATION_DIALOG_GLOBAL';
 export const GLOBAL_PASS_INPUT_CHANGED = 'GLOBAL_PASS_INPUT_CHANGED';
@@ -20,14 +21,16 @@ export const adsWalletInit = () => ({
   type: ADS_WALLET_INIT,
 });
 
-export const previewSecretDataInit = (path) => ({
+export const previewSecretDataInit = () => ({
   type: PREVIEW_SECRET_DATA_INIT,
-  path
 });
 
-export const previewSecretData = (path) => ({
+export const previewSecretData = () => ({
   type: PREVIEW_SECRET_DATA,
-  path
+});
+
+export const removeAccesForProtectedData = () => ({
+  type: REMOVE_ACCESS_TO_PROTECTED_DATA,
 });
 
 export const handleGlobalPassInputChange = inputValue => ({

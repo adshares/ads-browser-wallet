@@ -90,6 +90,7 @@ export default class Page extends React.Component {
         {autenticationModalOpen && (
           <ConfirmDialog
             showDialog
+            cancelLink={cancelLink}
             handlePasswordChange={onPasswordInputChange}
             onSubmit={onDialogSubmit}
             password={password}

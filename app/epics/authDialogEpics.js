@@ -10,7 +10,6 @@ import {
 } from '../actions/form';
 import { validatePagesBranch, getReferrer } from './helpers';
 
-// TODO redirect to previous pages
 export const cleanForm = action$ => action$.pipe(
   ofType(PASS_INPUT_VALIDATION_SUCCESS),
   switchMap(action => action$.pipe(

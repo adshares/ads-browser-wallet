@@ -9,9 +9,22 @@ import Page from '../../components/Page/Page';
 import InputControl from '../../components/atoms/InputControl';
 import PageComponent from '../../components/PageComponent';
 
-class KeyDetailsPage extends PageComponent {
+class DetailsPage extends PageComponent {
 
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showProtectedContent: false
+    };
+  }
+
+
+  componentDidMount() {
+    this.props.previewSecretData();
+    this.props.toggleAuthDialog(true);
+  }
+
+  renderContent() {
     const { accounts, type, keys, seed } = this.props;
     const { address, pk } = this.props.match.params;
     const chosenAccount = type === 'account' && accounts.find(a => a.address === address);
@@ -63,14 +76,50 @@ class KeyDetailsPage extends PageComponent {
       </Page>
     );
   }
+
+  renderFakeBackground = () => (
+    <Page
+      className={style.page} title="XXXXX XXXX" smallTitle
+    >
+      <Form>
+        <Box layout="warning" icon={faExclamation}>
+             Store the seed phrase safely. Only the public key and signatures can be revealed.
+             The seed phrase must not be transferred to anyone.
+           </Box>
+        <InputControl
+          value="XXXX XXXXX XXXX" rows={1} readOnly label="XXXXXX XXXXX"
+        />
+        <InputControl
+          value="XXXX XXXXX XXXX" rows={1} readOnly label="XXXXXX XXXXX"
+        />
+        <InputControl
+          value="XXXX XXXXX XXXX" rows={1} readOnly label="XXXXXX XXXXX"
+        />
+      </Form>
+    </Page>
+     );
+
+  render() {
+    return (
+      <div
+        className={style.pageContainer}
+      >
+        {this.props.authConfirmed ? this.renderContent() : this.renderFakeBackground()}
+
+      </div>
+    );
+  }
 }
 
-export default KeyDetailsPage;
+export default DetailsPage;
 
-KeyDetailsPage.propTypes = {
+DetailsPage.propTypes = {
   type: PropTypes.string.isRequired,
   accounts: PropTypes.array,
   selectedAccount: PropTypes.string,
   keys: PropTypes.array,
+  toggleAuthDialog: PropTypes.func.isRequired,
+  previewSecretData: PropTypes.func.isRequired,
+  authConfirmed: PropTypes.bool,
 };
 

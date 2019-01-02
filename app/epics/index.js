@@ -16,6 +16,7 @@ import {
   eraseStorageEpic,
   previewSecretDataEpic,
   redirectionEpic,
+  removeAccessRightsForProtectedDataEpic,
 } from './globalAuthDialogEpics';
 import accountEditValidateForm from './accountEditValidateForm';
 import editAccountEpic from './editAccountEpic';
@@ -53,4 +54,5 @@ export default combineEpics(
   redirectionFormEpic,
   validateTransactionFormEpic,
   sendTransactionEpic,
+  removeAccessRightsForProtectedDataEpic
 );

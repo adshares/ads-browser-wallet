@@ -140,7 +140,7 @@ const actionsMap = {
     return {
       ...state,
       auth: {
-        ...state.auth,
+        ...initialState.auth,
         authModalOpen: action.isOpen
       }
     };

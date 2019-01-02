@@ -1,6 +1,6 @@
 import { of, from } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
 
 import * as vaultActions from '../actions/vault';
 import * as authActions from '../actions/actions';
@@ -8,14 +8,15 @@ import { removeKey as removeKeyValidator } from '../utils/validators';
 import BgClient from '../utils/background';
 import VaultCrypt from '../utils/vaultcrypt';
 import config from '../config/config';
+import { getReferrer } from './helpers';
 
-// TODO redirect to previous pages
 export const cleanGlobalAuthDialog = action$ => action$.pipe(
   ofType(
     vaultActions.REMOVE_ACCOUNT,
     vaultActions.REMOVE_KEY,
     vaultActions.SAVE_GENERATED_KEYS,
-    vaultActions.ERASE
+    vaultActions.ERASE,
+    authActions.PREVIEW_SECRET_DATA,
   ),
   mapTo(authActions.cleanGlobalAuthorisationDialog())
 );
@@ -37,6 +38,40 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
       return of(vaultActions.removeKey(updatedKeys, authDialog.password.value));
     })
     )
+  )
+);
+
+export const previewSecretDataEpic = (action$, state$, { history }) => action$.pipe(
+  ofType(authActions.PREVIEW_SECRET_DATA_INIT),
+  switchMap(action => action$.pipe(
+    ofType(authActions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS),
+    take(1),
+    withLatestFrom(state$),
+    mergeMap(() => {
+      const { path } = action;
+      history.push(path);
+      return of(authActions.previewSecretData(path));
+    })
+    ),
+  )
+);
+
+export const redirectionEpic = (action$, state$, { history }) => action$.pipe(
+  ofType(authActions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL),
+  switchMap(action => action$.pipe(
+    filter(() => action.isOpen === true),
+    ofType('@@router/LOCATION_CHANGE'),
+    take(1),
+    withLatestFrom(state$),
+    mergeMap(() => {
+      history.push(getReferrer(history, '/settings'));
+
+      return from([
+        authActions.toggleGlobalAuthorisationDialog(false),
+        authActions.cleanGlobalAuthorisationDialog()
+      ]);
+    })
+    ),
   )
 );
 

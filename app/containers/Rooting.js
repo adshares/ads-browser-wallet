@@ -197,6 +197,7 @@ export default class Rooting extends Component {
                 keys={vault.keys} seed={vault.seed}
                 removeKeyAction={actions.removeKeyInit}
                 toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                showKeys={actions.previewSecretDataInit}
                 saveGeneratedKeysAction={actions.saveGeneratedKeysInit}{...props}
               />
             }

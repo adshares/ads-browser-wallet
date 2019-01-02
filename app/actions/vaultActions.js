@@ -1,8 +1,10 @@
 export const CREATE = 'CREATE';
+export const CHANGE_PASSWORD = 'VAULT_CHANGE_PASSWORD';
 export const ERASE = 'ERASE';
 export const ERASE_INIT = 'ERASE_INIT';
 export const UNSEAL = 'UNSEAL';
-export const UNSEAL_INIT = 'UNSEAL_INIT';
+export const UNSEAL_SUCCESS = 'UNSEAL_SUCCESS';
+export const UNSEAL_FAILURE = 'UNSEAL_FAILURE';
 export const SEAL = 'SEAL';
 export const ADD_ACCOUNT_INIT = 'ADD_ACCOUNT_INIT';
 export const ADD_ACCOUNT = 'ADD_ACCOUNT';
@@ -24,6 +26,10 @@ export function create(password, seedPhrase, callback) {
   return { type: CREATE, password, seedPhrase, callback };
 }
 
+export function changePassword(password, callback) {
+  return { type: CHANGE_PASSWORD, password, callback };
+}
+
 export function erase() {
   return { type: ERASE };
 }
@@ -32,12 +38,16 @@ export function eraseInit() {
   return { type: ERASE_INIT };
 }
 
-export function unsealInit(password) {
-  return { type: UNSEAL_INIT, password };
+export function unseal(password) {
+  return { type: UNSEAL, password };
 }
 
-export function unseal(unsealedVault) {
-  return { type: UNSEAL, unsealedVault };
+export function unsealSuccess(unsealedVault) {
+  return { type: UNSEAL_SUCCESS, unsealedVault };
+}
+
+export function unsealFailure(errorMsg) {
+  return { type: UNSEAL_FAILURE, errorMsg };
 }
 
 export function seal() {
@@ -95,6 +105,7 @@ export function switchNetwork(testnet) {
 export function saveGeneratedKeysInit(keys) {
   return { type: SAVE_GENERATED_KEYS_INIT, keys };
 }
+
 export function saveGeneratedKeys(keys, newKeyCount, password) {
   return { type: SAVE_GENERATED_KEYS, keys, newKeyCount, password };
 }

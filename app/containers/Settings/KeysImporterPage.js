@@ -16,7 +16,7 @@ import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
 import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate } from '../../actions/form';
-import { importKeyInit } from '../../actions/vault';
+import { importKeyInit } from '../../actions/vaultActions';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 
 @connect(
@@ -95,8 +95,8 @@ export default class KeysImporterPage extends FormComponent {
           this.props.actions.importKeyInit();
         }}
         password={password}
-        autenticationModalOpen={authModalOpen}
-        cancelLink={'/'}
+        authenticationModalOpen={authModalOpen}
+        cancelLink={this.getReferrer()}
       >
         {this.state.showLoader && <LoaderOverlay />}
         <Form onSubmit={this.handleSubmit}>
@@ -136,13 +136,13 @@ export default class KeysImporterPage extends FormComponent {
           <div className={style.buttons}>
             <ButtonLink
               className={style.cancel}
-              to={'/'}
+              to={this.getReferrer()}
               inverse
               icon="left"
               layout="info"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes}/> Cancel
+              <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
               type="submit"
@@ -151,7 +151,7 @@ export default class KeysImporterPage extends FormComponent {
               disabled={this.state.isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight}/>
+              <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>
         </Form>

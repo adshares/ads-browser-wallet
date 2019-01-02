@@ -22,6 +22,7 @@ const name = ({ pageName, value, vault }) => {
   }
   return null;
 };
+
 const publicKey = ({ value, inputs, vault, pageName }) => {
   if (!ADS.validateKey(value)) {
     return 'Please provide an valid public key';
@@ -66,6 +67,28 @@ const password = ({ value, vault }) => {
   return null;
 };
 
+const currentPassword = ({ value, vault }) => password({ value, vault });
+
+const newPassword = ({ value, vault }) => {
+  if (!value) {
+    return 'New password field is required';
+  }
+  if (value.length < config.passwordMinLength) {
+    return `Password too short - min. length is ${config.passwordMinLength}`;
+  }
+  if (VaultCrypt.checkPassword(vault, value)) {
+    return 'New password cannot match old one';
+  }
+  return null;
+};
+
+const repeatedPassword = ({ value, inputs }) => {
+  if (inputs.newPassword.value !== value) {
+    return 'Passwords are not identical';
+  }
+  return null;
+};
+
 const address = ({ value, vault }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
@@ -94,12 +117,24 @@ const message = ({ value }) => {
   return null;
 };
 
-const removeKey = ({ secretKey, vault }) => {
-  const hasAccount = vault.accounts.find(account => account.secretKey === secretKey);
+const removeKey = ({ sk, vault }) => {
+  const hasAccount = vault.accounts.find(account => account.secretKey === sk);
   if (hasAccount) {
     return `Account ${hasAccount.name} use this key. Please remove account first`;
   }
   return null;
 };
 
-export { name, publicKey, secretKey, password, address, amount, message, removeKey };
+export {
+  name,
+  publicKey,
+  secretKey,
+  password,
+  newPassword,
+  currentPassword,
+  repeatedPassword,
+  address,
+  amount,
+  message,
+  removeKey
+};

@@ -9,14 +9,17 @@ import RestorePage from './Account/RestorePage';
 import RegisterPage from './Account/RegisterPage';
 import LoginPage from './Account/LoginPage';
 import SettingsPage from './Settings/SettingsPage';
+import PasswordChangePage from './Settings/PasswordChangePage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeysImporterPage from './Settings/KeysImporterPage';
 import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
-import * as VaultActions from '../actions/vault';
-import * as Actions from '../actions/actions';
+import * as vaultActions from '../actions/vaultActions';
+import * as formActions from '../actions/form';
+import * as settingsActions from '../actions/settingsActions';
+import * as commonActions from '../actions/actions';
 import config from '../config/config';
 import KeyDetailsPage from './Settings/KeyDetailsPage';
 import KeysSettings from './Settings/KeysSettings';
@@ -75,8 +78,10 @@ function SwitchNetwork({ ...params }) {
   dispatch => ({
     actions: bindActionCreators(
       {
-        ...VaultActions,
-        ...Actions,
+        ...vaultActions,
+        ...formActions,
+        ...settingsActions,
+        ...commonActions,
       }, dispatch)
   })
 )
@@ -85,7 +90,7 @@ export default class Rooting extends Component {
   static propTypes = {
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
   };
 
   componentWillUnmount() {
@@ -123,7 +128,7 @@ export default class Rooting extends Component {
             exact
             path="/login"
             render={props =>
-              <LoginPage loginAction={actions.unsealInit} {...props} />
+              <LoginPage vault={vault} loginAction={actions.unseal} {...props} />
             }
           /> : ''}
           {vault.empty ? <Route
@@ -155,13 +160,20 @@ export default class Rooting extends Component {
           />
           <PrivateRoute
             exact
+            path="/password"
+            vault={vault}
+            render={props =>
+              <PasswordChangePage vault={vault} {...props} />
+            }
+          />
+          <PrivateRoute
+            exact
             path="/accounts/import"
             vault={vault}
             render={props =>
               <AccountEditorPage
                 vault={vault}
                 saveAction={actions.addAccountInit}
-                accountEditFormValidate={actions.accountEditFormValidate}
                 {...props}
               />
             }
@@ -174,7 +186,6 @@ export default class Rooting extends Component {
               <AccountEditorPage
                 vault={vault}
                 saveAction={actions.updateAccountInit}
-                accountEditFormValidate={actions.accountEditFormValidate}
                 {...props}
               />
             }
@@ -242,7 +253,6 @@ export default class Rooting extends Component {
               <SendOnePage vault={vault} {...props} />
             }
           />
-
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>
         {authDialog.authModalOpen && (

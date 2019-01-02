@@ -12,7 +12,6 @@ const authState = {
 
 
 export default function (state = authState, action) {
-  console.log(action.type);
   switch (action.type) {
     case actions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL: {
       return {

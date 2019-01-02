@@ -227,8 +227,8 @@ function getPublicKey(secretKey) {
  */
 function sign(data, publicKey, secretKey) {
   return byteToHex(NaCl.sign.detached(
-    hexToByte(sanitizeHex(data)),
-    hexToByte(sanitizeHex(secretKey + publicKey)),
+    hexToByte(data),
+    hexToByte(secretKey + publicKey),
   )).toUpperCase();
 }
 
@@ -509,7 +509,7 @@ function encodeCommand(command) {
       throw new TransactionDataError('Unknown type of transaction');
   }
 
-  return encoder.encodedData;
+  return encoder.encodedData.toUpperCase();
 }
 
 /**
@@ -716,15 +716,12 @@ function decodeMessage(value, onlyPrintable = true) {
   return str.length > 0 ? str : '--- empty ---';
 }
 
-function formatAdsMoney(amount, precision = 4, decimal = '.', thousand = ',') {
-  return (Number(amount) || 0).toFixed(precision).replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
+function formatAdsMoney(amount, precision = 4, trim = false, decimal = '.', thousand = ',') {
+  return (Number(amount) || 0).toFixed(precision).replace(/([0-9]{2})(0+)$/, trim ? '$1' : '$1$2').replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
 }
 
-function formatClickMoney(value, precision, trim, decimal, thousand) {
-  const r = typeof trim === 'undefined' ? false : trim;
-  const p = typeof precision === 'undefined' ? 11 : Math.max(precision, 2);
-  const d = typeof decimal === 'undefined' ? '.' : decimal;
-  const t = typeof thousand === 'undefined' ? ',' : thousand;
+function formatClickMoney(value, precision = 11, trim = false, decimal = '.', thousand = ',') {
+  const p = Math.max(precision, 2);
   let v = value;
 
   v = (`${v || '0'}`).padStart(11, '0');
@@ -736,14 +733,14 @@ function formatClickMoney(value, precision, trim, decimal, thousand) {
     .toString()
     .padStart(p, '0')
   ;
-  if (r) {
+  if (trim) {
     b = b.replace(/([0-9]{2})0+$/, '$1');
   }
 
   return (
-    (j ? a.substr(0, j) + t : '') +
-    a.substr(j).replace(/(\d{3})(?=\d)/g, `$1${t}`) +
-    d +
+    (j ? a.substr(0, j) + thousand : '') +
+    a.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousand}`) +
+    decimal +
     b
   );
 }

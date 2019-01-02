@@ -3,11 +3,14 @@ import ADS from '../utils/ads';
 
 const initialState = {
   isSubmitted: false,
-  isSignRequired: false,
-  isTransactionSent: false,
   accountHash: null,
   transactionData: null,
+  isSignRequired: false,
   signature: null,
+  isTransactionSent: false,
+  transactionId: null,
+  transactionFee: null,
+  errorMsg: '',
   inputs: {
     address: {
       isValid: null,
@@ -47,6 +50,13 @@ const actionsMap = {
     };
   },
 
+  [actions.VALIDATE_FORM](state) {
+    return {
+      ...state,
+      isSubmitted: true,
+    };
+  },
+
   [actions.INPUT_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
@@ -78,14 +88,16 @@ const actionsMap = {
   [actions.FORM_VALIDATION_SUCCESS](state, action) {
     return {
       ...state,
-      ...action.payload
+      ...action.payload,
+      isSubmitted: false,
     };
   },
 
   [actions.FORM_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
-      ...action.payload
+      ...action.payload,
+      isSubmitted: false,
     };
   },
 
@@ -106,6 +118,15 @@ const actionsMap = {
     };
   },
 
+  [actions.TRANSACTION_ACCEPTED](state, action) {
+    return {
+      ...state,
+      isSignRequired: true,
+      signature: action.signature,
+      isSubmitted: true,
+    };
+  },
+
   [actions.TRANSACTION_REJECTED](state) {
     return {
       ...state,
@@ -113,6 +134,27 @@ const actionsMap = {
       accountHash: null,
       transactionData: null,
       signature: null,
+    };
+  },
+
+  [actions.TRANSACTION_SUCCESS](state, action) {
+    return {
+      ...state,
+      isSignRequired: false,
+      isSubmitted: false,
+      errorMsg: '',
+      isTransactionSent: true,
+      transactionId: action.transactionId,
+      transactionFee: action.transactionFee
+    };
+  },
+
+  [actions.TRANSACTION_FAILURE](state, action) {
+    return {
+      ...state,
+      isSignRequired: false,
+      isSubmitted: false,
+      errorMsg: action.errorMsg
     };
   },
 

@@ -40,3 +40,25 @@
 .buttons a:first-child {
     margin-right: 50px;
 }
+
+.transactionSuccess a {
+    margin: 10px 0;
+    font-size: var(--font-big);
+}
+
+.transactionSuccess small {
+    display: block;
+}
+.transactionSuccess small b {
+    display: block;
+    margin-top: 5px;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid var(--white);
+    font-weight: normal;
+ }

@@ -80,10 +80,10 @@ export function formatDate(value, showTime = true, utc = false) {
   let time;
   const val = value instanceof Date ? value : new Date(value);
   if (utc) {
-    date = `${val.getUTCFullYear()}-${val.getUTCMonth().toString().padStart(2, '0')}-${val.getUTCDate().toString().padStart(2, '0')}`;
+    date = `${val.getUTCFullYear()}-${(val.getUTCMonth() + 1).toString().padStart(2, '0')}-${val.getUTCDate().toString().padStart(2, '0')}`;
     time = `${val.getUTCHours().toString().padStart(2, '0')}:${val.getUTCMinutes().toString().padStart(2, '0')}:${val.getUTCSeconds().toString().padStart(2, '0')}`;
   } else {
-    date = `${val.getFullYear()}-${val.getMonth().toString().padStart(2, '0')}-${val.getDate().toString().padStart(2, '0')}`;
+    date = `${val.getFullYear()}-${(val.getMonth() + 1).toString().padStart(2, '0')}-${val.getDate().toString().padStart(2, '0')}`;
     time = `${val.getHours().toString().padStart(2, '0')}:${val.getMinutes().toString().padStart(2, '0')}:${val.getSeconds().toString().padStart(2, '0')}`;
   }
   return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;

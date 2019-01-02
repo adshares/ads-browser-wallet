@@ -10,7 +10,6 @@ export default class SignPage extends PageComponent {
     super(props);
 
     const { action, source, id } = this.props.match.params;
-    console.debug(config, this.props.queue);
     const message = this.props.queue.find(t =>
       !!config.testnet === !!t.testnet &&
       t.type === 'sign' &&

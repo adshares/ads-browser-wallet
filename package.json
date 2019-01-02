@@ -100,7 +100,6 @@
     "redux-devtools-extension": "^2.13.6",
     "redux-logger": "^3.0.6",
     "redux-observable": "^1.0.0",
-    "redux-thunk": "^2.0.1",
     "rxjs": "^6.3.3",
     "tweetnacl": "^1.0.0"
   }

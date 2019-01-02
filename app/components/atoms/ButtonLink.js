@@ -12,6 +12,7 @@ export default class ButtonLink extends React.Component {
       size,
       inverse,
       icon,
+      external,
       ...rest
     } = this.props;
 
@@ -33,7 +34,12 @@ export default class ButtonLink extends React.Component {
       classNames.push(className);
     }
     const styleClassName = classNames.join(' ');
-    return (
+
+    return external ? (
+      <a className={styleClassName} {...rest}>
+        {children}
+      </a>
+    ) : (
       <Link className={styleClassName} {...rest}>
         {children}
       </Link>
@@ -48,4 +54,5 @@ ButtonLink.propTypes = {
   size: PropTypes.string,
   inverse: PropTypes.bool,
   icon: PropTypes.string,
+  external: PropTypes.bool,
 };

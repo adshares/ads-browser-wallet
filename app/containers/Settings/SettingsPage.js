@@ -35,6 +35,11 @@ export default class SettingsPage extends FormComponent {
     this.props.actions.removeAccountInit(address);
   };
 
+  showKeysAction = (path) => {
+    this.props.actions.toggleGlobalAuthorisationDialog(true);
+    this.props.actions.previewSecretDataInit(path);
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -64,15 +69,12 @@ export default class SettingsPage extends FormComponent {
                   title="Edit account"
                   layout="info"
                 ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
-                <ButtonLink
-                  to={{
-                    pathname: `/accounts/${account.address}/keys`,
-                    state: { referrer: this.props.history.location }
-                  }}
+                <Button
+                  onClick={() => this.showKeysAction(`/accounts/${account.address}/keys`)}
                   size="small"
                   layout="warning"
                   title="Show account keys"
-                ><FontAwesomeIcon icon={faKey} /></ButtonLink>
+                ><FontAwesomeIcon icon={faKey} /></Button>
                 <Button
                   onClick={() => this.removeAccountAction(account.address)}
                   size="small"
@@ -129,10 +131,12 @@ export default class SettingsPage extends FormComponent {
     return (
       <div className={style.section}>
         <h3>Erase storage</h3>
-        <Button layout="danger" icon="left" size="wide" onClick={() => {
-          this.props.actions.eraseInit();
-          this.props.actions.toggleGlobalAuthorisationDialog(true);
-        }}>
+        <Button
+          layout="danger" icon="left" size="wide" onClick={() => {
+            this.props.actions.eraseInit();
+            this.props.actions.toggleGlobalAuthorisationDialog(true);
+          }}
+        >
           <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
         </Button>
       </div>

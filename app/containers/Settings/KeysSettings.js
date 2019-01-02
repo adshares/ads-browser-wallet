@@ -17,6 +17,11 @@ class KeysSettings extends PageComponent {
     this.props.toggleAuthDialog(true);
     this.props.removeKeyAction(secretKey);
   };
+
+  showKeysAction = (path) => {
+    this.props.toggleAuthDialog(true);
+    this.props.showKeys(path);
+  };
   render() {
     const { keys, location } = this.props;
 
@@ -25,9 +30,18 @@ class KeysSettings extends PageComponent {
         className={style.page} title="Keys Settings" smallTitle
         cancelLink={this.getReferrer()} scroll
       >
-        <KeysList keys={keys} location={location} removeAction={secretKey => this.removeAction(secretKey)} type="imported" />
         <KeysList
-          keys={keys} location={location} type="auto"
+          keys={keys}
+          location={location}
+          removeAction={secretKey => this.removeAction(secretKey)}
+          type="imported"
+          showKeys={path => this.showKeysAction(path)}
+        />
+        <KeysList
+          keys={keys}
+          location={location}
+          type="auto"
+          showKeys={path => this.showKeysAction(path)}
           createAction={() => this.generateKeys()}
         />
       </Page>
@@ -44,5 +58,6 @@ KeysSettings.propTypes = {
   saveGeneratedKeysAction: PropTypes.func,
   removeKeyAction: PropTypes.func,
   toggleAuthDialog: PropTypes.func,
+  showKeys: PropTypes.func.isRequired,
 };
 

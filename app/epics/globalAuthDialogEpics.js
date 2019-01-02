@@ -15,7 +15,8 @@ export const cleanGlobalAuthDialog = action$ => action$.pipe(
     vaultActions.REMOVE_ACCOUNT,
     vaultActions.REMOVE_KEY,
     vaultActions.SAVE_GENERATED_KEYS,
-    vaultActions.ERASE
+    vaultActions.ERASE,
+    authActions.PREVIEW_SECRET_DATA,
   ),
   mapTo(authActions.cleanGlobalAuthorisationDialog())
 );
@@ -37,6 +38,21 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
       return of(vaultActions.removeKey(updatedKeys, authDialog.password.value));
     })
     )
+  )
+);
+
+export const previewSecretDataEpic = (action$, state$, { history }) => action$.pipe(
+  ofType(authActions.PREVIEW_SECRET_DATA_INIT),
+  switchMap(action => action$.pipe(
+    ofType(authActions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS),
+    take(1),
+    withLatestFrom(state$),
+    mergeMap(() => {
+      const { path } = action;
+      history.push(path);
+      return of(authActions.previewSecretData(path));
+    })
+    ),
   )
 );
 

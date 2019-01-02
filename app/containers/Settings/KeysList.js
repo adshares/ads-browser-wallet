@@ -15,6 +15,7 @@ export const KeysList = ({
                            keys,
                            removeAction,
                            createAction,
+                           showKeys,
                            location,
                            type
                          }) => {
@@ -39,15 +40,12 @@ export const KeysList = ({
               <span>{key.publicKey.slice(0, 16)}</span>
             </span>
             <span className={style.accountActions}>
-              <ButtonLink
-                to={{
-                  pathname: `keys/${key.publicKey}`,
-                  state: { referrer: location }
-                }}
+              <Button
+                onClick={() => showKeys(`/keys/${key.publicKey}`)}
                 size="small"
                 layout="warning"
                 title="Show keys"
-              ><FontAwesomeIcon icon={faKey}/></ButtonLink>
+              ><FontAwesomeIcon icon={faKey}/></Button>
               {type === 'imported' && (
                 <Button
                   onClick={() => removeAction(key.secretKey)}
@@ -93,7 +91,8 @@ export const KeysList = ({
 KeysList.propTypes = {
   type: PropTypes.string.isRequired,
   keys: PropTypes.array.isRequired,
+  showKeys: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
-  removeAction: PropTypes.any,
-  createAction: PropTypes.any,
+  removeAction: PropTypes.func,
+  createAction: PropTypes.func,
 };

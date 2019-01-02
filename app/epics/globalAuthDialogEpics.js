@@ -58,8 +58,8 @@ export const previewSecretDataEpic = (action$, state$, { history }) => action$.p
 
 export const redirectionEpic = (action$, state$, { history }) => action$.pipe(
   ofType(authActions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL),
-  filter(action => action.isOpen === true),
-  switchMap(() => action$.pipe(
+  switchMap(action => action$.pipe(
+    filter(() => action.isOpen === true),
     ofType('@@router/LOCATION_CHANGE'),
     take(1),
     withLatestFrom(state$),

@@ -12,7 +12,9 @@ import {
   removeAccountEpic,
   saveGeneratedKeysEpic,
   cleanGlobalAuthDialog,
-  eraseStorageEpic, previewSecretDataEpic, redirectionEpic,
+  eraseStorageEpic,
+  previewSecretDataEpic,
+  redirectionEpic,
 } from './globalAuthDialogEpics';
 import accountEditValidateForm from './accountEditValidateForm';
 import editAccountEpic from './editAccountEpic';
@@ -42,4 +44,5 @@ export default combineEpics(
   retrieveNodesEpic,
   unsealInit,
   previewSecretDataEpic,
+  redirectionEpic,
 );

@@ -1,6 +1,6 @@
-import { of, from } from 'rxjs';
+import { of, from, empty } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
 
 import * as vaultActions from '../actions/vault';
 import * as authActions from '../actions/actions';
@@ -8,6 +8,7 @@ import { removeKey as removeKeyValidator } from '../utils/validators';
 import BgClient from '../utils/background';
 import VaultCrypt from '../utils/vaultcrypt';
 import config from '../config/config';
+import { getReferrer } from './helpers';
 
 // TODO redirect to previous pages
 export const cleanGlobalAuthDialog = action$ => action$.pipe(
@@ -51,6 +52,25 @@ export const previewSecretDataEpic = (action$, state$, { history }) => action$.p
       const { path } = action;
       history.push(path);
       return of(authActions.previewSecretData(path));
+    })
+    ),
+  )
+);
+
+export const redirectionEpic = (action$, state$, { history }) => action$.pipe(
+  ofType(authActions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL),
+  filter(action => action.isOpen === true),
+  switchMap(() => action$.pipe(
+    ofType('@@router/LOCATION_CHANGE'),
+    take(1),
+    withLatestFrom(state$),
+    mergeMap(() => {
+      history.push(getReferrer(history, '/settings'));
+
+      return from([
+        authActions.toggleGlobalAuthorisationDialog(false),
+        authActions.cleanGlobalAuthorisationDialog()
+      ]);
     })
     ),
   )

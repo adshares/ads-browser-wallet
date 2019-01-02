@@ -14,7 +14,7 @@ export default class TransactionPage extends PageComponent {
     this.transactionType = transactionType;
   }
 
-  handleCancelClick = () => {
+  handleCloseForm = () => {
     this.props.actions.cleanForm(
       this.transactionType
     );
@@ -89,7 +89,7 @@ export default class TransactionPage extends PageComponent {
       <Page
         className={style.page}
         cancelLink={this.getReferrer()}
-        onCancelClick={this.handleCancelClick}
+        onCancelClick={this.handleCloseForm}
         showLoader={isSubmitted}
         history={history}
       >

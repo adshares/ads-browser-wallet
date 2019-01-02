@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faExclamation, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons/index'
+import { faChevronRight, faTimes, faCheck, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import {
   cleanForm,
   inputChanged,
@@ -20,6 +20,7 @@ import Button from '../../components/atoms/Button';
 import ADS from '../../utils/ads';
 import { fieldLabels } from './labels';
 import style from './TransactionPage.css';
+import config from '../../config/config'
 
 @connect(
   state => ({
@@ -93,7 +94,7 @@ export default class SendOnePage extends TransactionPage {
         <div className={style.buttons}>
           <ButtonLink
             to={this.getReferrer()}
-            onClick={this.handleCancelClick}
+            onClick={this.handleCloseForm}
             inverse
             icon="left"
             layout="info"
@@ -114,15 +115,38 @@ export default class SendOnePage extends TransactionPage {
   }
 
   renderSuccessInfo() {
-    const {
-      inputs: { transactionId, transactionFee }
-    } = this.props;
+    const { transactionId, transactionFee } = this.props;
+    const addressLink = `${config.operatorUrl}blockexplorer/transactions/`;
 
     return (
-      <Box title="Transaction sent" layout="success" icon={faCheck}>
-        Transaction id: {transactionId}<br />
-        Transaction fee: {transactionFee}
-      </Box>
+      <React.Fragment>
+        <Box title="Success" layout="success" icon={faCheck} className={style.transactionSuccess}>
+          Transaction id:
+          <ButtonLink
+            external
+            href={`${addressLink}${transactionId}`}
+            icon="right"
+            layout="contrast"
+            size="wide"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+          </ButtonLink>
+          <small>Transaction fee:
+            <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
+          </small>
+        </Box>
+        <ButtonLink
+          to={this.getReferrer()}
+          onClick={this.handleCloseForm}
+          icon="left"
+          layout="info"
+          size="wide"
+        >
+          <FontAwesomeIcon icon={faTimes} /> Close
+        </ButtonLink>
+      </React.Fragment>
     );
   }
 }

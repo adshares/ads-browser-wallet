@@ -83,7 +83,6 @@ function SwitchNetwork({ ...params }) {
 export default class Rooting extends Component {
 
   static propTypes = {
-    router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
@@ -94,8 +93,7 @@ export default class Rooting extends Component {
   }
 
   render() {
-    const { router, vault, queue, actions, authDialog } = this.props;
-    console.debug(router.location.pathname);
+    const { vault, queue, actions, authDialog } = this.props;
 
     return (
       <div className={style.app}>

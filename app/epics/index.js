@@ -50,7 +50,7 @@ export default combineEpics(
   unsealInit,
   previewSecretDataEpic,
   redirectionEpic,
-  redirectionFormEpic
+  redirectionFormEpic,
   validateTransactionFormEpic,
   sendTransactionEpic,
 );

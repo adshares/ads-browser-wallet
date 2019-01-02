@@ -101,15 +101,6 @@ const actionsMap = {
     };
   },
 
-  [actions.TOGGLE_AUTHORISATION_DIALOG](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        authModalOpen: action.isOpen
-      }
-    };
-  }
 };
 
 export { actionsMap };

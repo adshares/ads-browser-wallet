@@ -1,8 +1,12 @@
 import { of, from, empty } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
 import * as vaultActions from '../actions/vault';
-import { PASS_INPUT_VALIDATION_SUCCESS, formClean } from '../actions/form';
+import {
+  PASS_INPUT_VALIDATION_SUCCESS,
+  formClean,
+  TOGGLE_AUTHORISATION_DIALOG, toggleAuthorisationDialog, passwordChange
+} from '../actions/form';
 import { validatePagesBranch, getReferrer } from './helpers';
 
 // TODO redirect to previous pages
@@ -40,6 +44,25 @@ export const addAccountEpic = (action$, state$, { history }) => action$.pipe(
       );
     })
     )
+  )
+);
+
+export const redirectionFormEpic = (action$, state$, { history }) => action$.pipe(
+  ofType(TOGGLE_AUTHORISATION_DIALOG),
+  filter(action => action.isOpen === true),
+  switchMap(action => action$.pipe(
+    ofType('@@router/LOCATION_CHANGE'),
+    take(1),
+    withLatestFrom(state$),
+    mergeMap(() => {
+      const { pageName } = action;
+      history.push(getReferrer(history, '/settings'));
+
+      return from([
+        toggleAuthorisationDialog(pageName, false),
+      ]);
+    })
+    ),
   )
 );
 

@@ -35,6 +35,15 @@ const initialState = {
 
 const actionsMap = {
   ...FormReducers,
+  [actions.TOGGLE_AUTHORISATION_DIALOG](state, action) {
+    return {
+      ...state,
+      auth: {
+        ...initialState.auth,
+        authModalOpen: action.isOpen
+      }
+    };
+  },
   [actions.FORM_CLEAN](state, action) {
     return {
       ...state,

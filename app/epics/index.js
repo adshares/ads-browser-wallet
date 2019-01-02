@@ -6,6 +6,7 @@ import {
   importKeysEpic,
   cleanForm,
   updateAccountEpic,
+  redirectionFormEpic
 } from './authDialogEpics';
 import {
   removeKeyEpic,
@@ -45,4 +46,5 @@ export default combineEpics(
   unsealInit,
   previewSecretDataEpic,
   redirectionEpic,
+  redirectionFormEpic
 );

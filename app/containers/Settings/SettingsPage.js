@@ -4,38 +4,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faShieldAlt,
   faTrashAlt,
-  faExclamation,
   faPlus,
   faPencilAlt,
   faKey,
 } from '@fortawesome/free-solid-svg-icons';
 import FormComponent from '../../components/FormComponent';
-import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
-import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import Page from '../../components/Page/Page';
 
 export default class SettingsPage extends FormComponent {
-  //FIXME remove if no longer needed
-  handleRpcServerSave = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
-  showSeedPhrase = () => {
-    this.setState({
-      isSeedPhraseVisible: true
-    });
-  };
 
   removeAccountAction = (address) => {
     this.props.actions.toggleGlobalAuthorisationDialog(true);
     this.props.actions.removeAccountInit(address);
   };
 
-  showKeysAction = (path) => {
+  showProtectedDataAction = (path) => {
     this.props.actions.toggleGlobalAuthorisationDialog(true);
     this.props.actions.previewSecretDataInit(path);
   };
@@ -70,7 +56,7 @@ export default class SettingsPage extends FormComponent {
                   layout="info"
                 ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
                 <Button
-                  onClick={() => this.showKeysAction(`/accounts/${account.address}/keys`)}
+                  onClick={() => this.showProtectedDataAction(`/accounts/${account.address}/keys`)}
                   size="small"
                   layout="warning"
                   title="Show account keys"
@@ -97,32 +83,6 @@ export default class SettingsPage extends FormComponent {
         >
           <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
-      </div>
-    );
-  }
-
-  renderSeedPhraseSettings() {
-    return (
-      <div className={style.section}>
-        <h3>Reveal seed phrase</h3>
-        <Form>
-          {this.state.isSeedPhraseVisible ?
-            <div>
-              <Box layout="warning" icon={faExclamation}>
-                Store the seed phrase safely. Only the public key and signatures can be revealed.
-                The seed phrase must not be transferred to anyone.
-              </Box>
-              <textarea
-                value={this.props.vault.seedPhrase}
-                rows="3"
-                readOnly
-              />
-            </div> :
-            <Button layout="warning" icon="left" size="wide" onClick={this.showSeedPhrase}>
-              <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
-            </Button>
-          }
-        </Form>
       </div>
     );
   }
@@ -160,7 +120,16 @@ export default class SettingsPage extends FormComponent {
           ><FontAwesomeIcon icon={faPencilAlt} /> Manage Keys</ButtonLink>
         </div>
         {this.renderAccountsSettings()}
-        {this.renderSeedPhraseSettings()}
+        <div className={style.section}>
+          <h3>Reveal seed phrase</h3>
+          <Button
+            onClick={() => this.showProtectedDataAction('/seedPhrase')}
+            size="wide"
+            title="Reveal seed phrase"
+            layout="warning"
+            icon="left"
+          ><FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase</Button>
+        </div>
         {this.renderStorageSettings()}
       </Page>
     );

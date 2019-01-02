@@ -44,7 +44,7 @@ export default combineEpics(
   retrieveAccountEpic,
   retrieveNodesEpic,
   unsealInit,
-  previewSecretDataEpic,
   redirectionEpic,
+  previewSecretDataEpic,
   redirectionFormEpic
 );

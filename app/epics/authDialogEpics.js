@@ -5,7 +5,8 @@ import * as vaultActions from '../actions/vault';
 import {
   PASS_INPUT_VALIDATION_SUCCESS,
   formClean,
-  TOGGLE_AUTHORISATION_DIALOG, toggleAuthorisationDialog, passwordChange
+  TOGGLE_AUTHORISATION_DIALOG,
+  toggleAuthorisationDialog,
 } from '../actions/form';
 import { validatePagesBranch, getReferrer } from './helpers';
 

@@ -12,11 +12,12 @@ import PageComponent from '../../components/PageComponent';
 class KeyDetailsPage extends PageComponent {
 
   render() {
-    const { accounts, type, keys } = this.props;
+    const { accounts, type, keys, seed } = this.props;
     const { address, pk } = this.props.match.params;
     const chosenAccount = type === 'account' && accounts.find(a => a.address === address);
     const key = type === 'key' && keys.find(k => k.publicKey === pk);
-    const chosenElement = chosenAccount || key;
+    const seedPhrase = type === 'seed';
+    const chosenElement = chosenAccount || key || seedPhrase;
     const signature = type === 'key' && ADS.sign('', key.publicKey, key.secretKey);
 
     return (
@@ -24,29 +25,40 @@ class KeyDetailsPage extends PageComponent {
         className={style.page} title={chosenElement.name} smallTitle
         cancelLink={this.getReferrer()}
       >
-        {!chosenElement ? (
+        {!chosenElement && (
           <Box layout="danger" icon={faExclamation} className={style.infoBox}>
             Cannot find chosen {type} in storage.
-          </Box>) : (
-            <Form>
-              <Box layout="warning" icon={faExclamation} className={style.infoBox}>
+          </Box>)}
+        {(chosenElement && (type === 'seed' ? (
+          <Form>
+            <Box layout="warning" icon={faExclamation}>
+              Store the seed phrase safely. Only the public key and signatures can be revealed.
+              The seed phrase must not be transferred to anyone.
+            </Box>
+            <InputControl
+              value={seed} rows={3} readOnly label="Seed Phrase"
+            />
+          </Form>
+        ) : (
+          <Form>
+            <Box layout="warning" icon={faExclamation} className={style.infoBox}>
               Store the secret keys safely. Only the public key and signatures can be revealed.
               The secret key must not be transferred to anyone.
             </Box>
-              {type === 'account' && (
+            {type === 'account' && (
               <InputControl
                 isInput
                 label="Account address" readOnly rows={1}
                 value={chosenElement.address}
               />
             )}
-              <InputControl label="Public key" readOnly value={chosenElement.publicKey} />
-              <InputControl label="Secret key" readOnly value={chosenElement.secretKey} />
-              {type === 'key' && (
-              <InputControl label="Signature" readOnly rows={3} value={signature} />
+            <InputControl label="Public key" readOnly value={chosenElement.publicKey} />
+            <InputControl label="Secret key" readOnly value={chosenElement.secretKey} />
+            {type === 'key' && (
+              <InputControl label="Signature" readOnly rows={4} value={signature} />
             )}
-            </Form>
-        )
+          </Form>
+        )))
         }
       </Page>
     );

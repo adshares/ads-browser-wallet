@@ -34,7 +34,7 @@ function NotFoundErrorPage(props) {
 
 function PrivateRoute({ ...params }) {
   if (params.vault.empty) {
-    return <Redirect to="/register" />;
+    return <Redirect to="/register"/>;
   }
   if (params.vault.sealed) {
     return (
@@ -59,9 +59,9 @@ function SwitchNetwork({ ...params }) {
       window.location.hash = `#${url || '/'}`;
       window.location.reload();
     });
-    return <div />;
+    return <div/>;
   }
-  return <Redirect to={url} />;
+  return <Redirect to={url}/>;
 }
 
 @connect(
@@ -192,6 +192,15 @@ export default class Rooting extends Component {
 
           <PrivateRoute
             exact
+            path="/seedPhrase"
+            vault={vault}
+            render={props =>
+              <KeyDetailsPage seed={vault.seedPhrase} type="seed" {...props} />
+            }
+          />
+
+          <PrivateRoute
+            exact
             path="/keys"
             vault={vault}
             render={props =>
@@ -245,7 +254,7 @@ export default class Rooting extends Component {
             }
           />
 
-          <Route path="/" component={NotFoundErrorPage} />
+          <Route path="/" component={NotFoundErrorPage}/>
         </Switch>
         {authDialog.authModalOpen && (
           <ConfirmDialog

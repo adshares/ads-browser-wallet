@@ -16,7 +16,7 @@ import Page from '../../components/Page/Page';
 import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
 import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate } from '../../actions/form';
-import { importKeyInit } from '../../actions/vault';
+import { importKeyInit } from '../../actions/vaultActions';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 
 @connect(

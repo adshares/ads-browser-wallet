@@ -11,7 +11,7 @@ import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import ConfirmDialog from '../confirmDialog/confirmDialog';
 import LoaderOverlay from '../atoms/LoaderOverlay';
 import Timer from '../Timer/Timer';
-import * as VaultActions from '../../actions/vault';
+import * as VaultActions from '../../actions/vaultActions';
 import * as FormActions from '../../actions/form';
 import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';

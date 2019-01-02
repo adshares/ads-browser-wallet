@@ -24,12 +24,12 @@ import {
   retrieveAccountEpic,
   retrieveNodesEpic
 } from './retrieveDataEpics';
-import unsealInit from './unsealEpic';
+import unsealEpic from './unsealEpic';
 import {
   validateTransactionFormEpic,
   sendTransactionEpic
 } from './transactionEpics';
-import { changePasswordEpic, cleanSettings } from './settingsEpics';
+import { changePasswordEpic } from './settingsEpics';
 
 export default combineEpics(
   validateForm,
@@ -40,7 +40,6 @@ export default combineEpics(
   importKeysEpic,
   cleanForm,
   changePasswordEpic,
-  cleanSettings,
   updateAccountEpic,
   editAccountEpic,
   removeKeyEpic,
@@ -50,7 +49,7 @@ export default combineEpics(
   cleanGlobalAuthDialog,
   retrieveAccountEpic,
   retrieveNodesEpic,
-  unsealInit,
+  unsealEpic,
   previewSecretDataEpic,
   redirectionEpic,
   redirectionFormEpic,

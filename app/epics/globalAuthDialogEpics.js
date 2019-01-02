@@ -2,7 +2,7 @@ import { of, from } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
 
-import * as vaultActions from '../actions/vault';
+import * as vaultActions from '../actions/vaultActions';
 import * as authActions from '../actions/actions';
 import { removeKey as removeKeyValidator } from '../utils/validators';
 import BgClient from '../utils/background';

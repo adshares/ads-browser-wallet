@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import vault from './vault';
+import vault from './VaultReducer';
 import queue from './queue';
 import KeysImporterPage from './KeyImporterReducer';
 import AccountEditorPage from './AccountEditorReducer';

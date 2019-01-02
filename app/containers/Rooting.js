@@ -16,7 +16,7 @@ import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
-import * as vaultActions from '../actions/vault';
+import * as vaultActions from '../actions/vaultActions';
 import * as formActions from '../actions/form';
 import * as settingsActions from '../actions/settingsActions';
 import * as commonActions from '../actions/actions';
@@ -73,7 +73,6 @@ function SwitchNetwork({ ...params }) {
     router: state.router || {},
     vault: state.vault || {},
     queue: state.queue || [],
-    pages: state.pages || {},
     authDialog: state.authDialog,
   }),
   dispatch => ({
@@ -92,7 +91,6 @@ export default class Rooting extends Component {
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    pages: PropTypes.object.isRequired,
   };
 
   componentWillUnmount() {
@@ -100,7 +98,7 @@ export default class Rooting extends Component {
   }
 
   render() {
-    const { vault, queue, actions, pages, authDialog } = this.props;
+    const { vault, queue, actions, authDialog } = this.props;
 
     return (
       <div className={style.app}>
@@ -130,7 +128,7 @@ export default class Rooting extends Component {
             exact
             path="/login"
             render={props =>
-              <LoginPage loginAction={actions.unsealInit} {...props} />
+              <LoginPage vault={vault} loginAction={actions.unseal} {...props} />
             }
           /> : ''}
           {vault.empty ? <Route
@@ -165,14 +163,7 @@ export default class Rooting extends Component {
             path="/password"
             vault={vault}
             render={props =>
-              <PasswordChangePage
-                vault={vault}
-                store={pages.SettingsPage}
-                location={history.location}
-                formValidate={actions.formValidate}
-                changePasswordInit={actions.changePasswordInit}
-                onChange={actions.inputChange} {...props}
-              />
+              <PasswordChangePage vault={vault} {...props} />
             }
           />
           <PrivateRoute
@@ -183,7 +174,6 @@ export default class Rooting extends Component {
               <AccountEditorPage
                 vault={vault}
                 saveAction={actions.addAccountInit}
-                accountEditFormValidate={actions.accountEditFormValidate}
                 {...props}
               />
             }
@@ -196,7 +186,6 @@ export default class Rooting extends Component {
               <AccountEditorPage
                 vault={vault}
                 saveAction={actions.updateAccountInit}
-                accountEditFormValidate={actions.accountEditFormValidate}
                 {...props}
               />
             }

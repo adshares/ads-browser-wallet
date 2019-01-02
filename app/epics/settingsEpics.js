@@ -1,35 +1,37 @@
-import { from, of } from 'rxjs';
+import { from, of, concat, merge } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, switchMap, take } from 'rxjs/operators';
-import BgClient from '../../app/utils/background';
-import { password } from '../utils/validators';
+import { mergeMap, withLatestFrom, map } from 'rxjs/operators';
 import * as settingsActions from '../actions/settingsActions';
+import * as vaultActions from '../actions/vaultActions';
 import {
-  formClean,
   FORM_VALIDATION_SUCCESS
 } from '../actions/form';
 
-export const changePasswordEpic = (action$, store) => action$.pipe(
+export const changePasswordEpic = (action$, state$) => action$.pipe(
   ofType(FORM_VALIDATION_SUCCESS),
-  switchMap(action => action$.pipe(
-    ofType(settingsActions.CHANGE_PASSWORD_INIT),
-    take(1),
-    mergeMap(() => {
-      const { vault, pages: { SettingsPage } } = store.getState();
-      const { inputs } = SettingsPage;
-      const promise = new Promise((resolve) => {
-        BgClient.startSession(window.btoa(inputs.newPassword.value), data =>
-          resolve(data));
-      }).then(data => password({ value: window.atob(data.secret), vault }) ?
-        settingsActions.saveChangedPasswordFailure(action.pageName) :
-        settingsActions.saveChangedPasswordSuccess(action.pageName));
-      return from(promise);
-    }),
+  mergeMap(() => merge(
+    action$.pipe(
+      ofType(settingsActions.SETTINGS_CHANGE_PASSWORD_INIT),
+      map(action => settingsActions.changePassword(action.pageName))
     ),
-  )
-);
+    action$.pipe(
+      ofType(settingsActions.SETTINGS_CHANGE_PASSWORD),
+      withLatestFrom(state$),
+      mergeMap(([action, state]) => {
+        const { pages: { SettingsPage: { inputs } } } = state;
+        let resolve;
+        const promise = new Promise((res) => {
+          resolve = res;
+        }).then(data => (data.error ?
+          settingsActions.passwordChangeFailure(action.pageName, data.error.message || 'Unknown error') :
+          settingsActions.passwordChangeSuccess(action.pageName)
+        )).catch(error => settingsActions.passwordChangeFailure(error.message || 'Unknown error'));
 
-export const cleanSettings = action$ => action$.pipe(
-  ofType(settingsActions.SAVE_CHANGED_PASSWORD_FAILURE, settingsActions.SAVE_CHANGED_PASSWORD_SUCCESS),
-  mergeMap(action => of(formClean(action.pageName)))
+        return concat(
+          of(vaultActions.changePassword(inputs.newPassword.value, resolve)),
+          from(promise),
+        );
+      })
+    ),
+  ))
 );

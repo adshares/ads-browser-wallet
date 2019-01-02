@@ -1,86 +1,146 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faTimes, faExclamation, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Page from '../../components/Page/Page';
 import PageComponent from '../../components/PageComponent';
 import InputControl from '../../components/atoms/InputControl';
 import Form from '../../components/atoms/Form';
+import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
 import style from './SettingsPage.css';
+import { inputChange, formValidate, formClean } from '../../actions/form';
+import { changePasswordInit } from '../../actions/settingsActions';
 
+@connect(
+  state => ({
+    vault: state.vault,
+    page: state.pages.SettingsPage
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        handleInputChange: inputChange,
+        formValidate,
+        formClean,
+        changePasswordInit,
+      },
+      dispatch
+    )
+  })
+)
 class PasswordChangePage extends PageComponent {
   static PAGE_NAME = 'SettingsPage';
 
-  handleInputChange = (inputName, inputValue) => {
-    this.props.onChange(
+  handleInputChange = (inputValue, inputName) => {
+    this.props.actions.handleInputChange(
       PasswordChangePage.PAGE_NAME,
-      inputValue,
       inputName,
+      inputValue,
     );
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.formValidate(PasswordChangePage.PAGE_NAME);
-    this.props.changePasswordInit(PasswordChangePage.PAGE_NAME);
+    this.props.actions.formValidate(PasswordChangePage.PAGE_NAME);
+    this.props.actions.changePasswordInit(PasswordChangePage.PAGE_NAME);
+  };
+
+  handleCloseForm = () => {
+    this.props.actions.formClean(PasswordChangePage.PAGE_NAME);
   };
 
   render() {
-    const { store: { inputs, isSubmitted } } = this.props;
+    const {
+      page: {
+        isSubmitted,
+        isPasswordChanged,
+        errorMsg,
+        inputs: { newPassword, repeatedPassword, currentPassword },
+      }
+    } = this.props;
     return (
-      <Page className={style.page} title="Change password" cancelLink={this.getReferrer()}>
-        <Form onSubmit={this.handleSubmit}>
-          <InputControl
-            label="New password"
-            isInput
-            type="password"
-            name="newPassword"
-            handleChange={(value, inputName) => this.handleInputChange(value, inputName)}
-            value={inputs.newPassword.value}
-            errorMessage={inputs.newPassword.errorMsg}
-          />
-          <InputControl
-            label="Repeat new password"
-            isInput
-            type="password"
-            name="repeatedPassword"
-            handleChange={(value, inputName) => this.handleInputChange(value, inputName)}
-            value={inputs.repeatedPassword.value}
-            errorMessage={inputs.repeatedPassword.errorMsg}
-          />
-          <InputControl
-            label="Current password"
-            isInput
-            type="password"
-            name="currentPassword"
-            handleChange={(value, inputName) => this.handleInputChange(value, inputName)}
-            value={inputs.currentPassword.value}
-            errorMessage={inputs.currentPassword.errorMsg}
-          />
-          <div className={style.buttons}>
+      <Page
+        className={style.page}
+        title="Change password"
+        cancelLink={this.getReferrer()}
+        onCancelClick={this.handleCloseForm}
+        showLoader={isSubmitted}
+        history={history}
+      >
+        {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
+          {errorMsg}
+        </Box> : ''}
+        {isPasswordChanged ?
+          <React.Fragment>
+            <Box title="Success" layout="success" icon={faCheck}>
+              Password has been change
+            </Box>
             <ButtonLink
-              className={style.cancel}
               to={this.getReferrer()}
-              inverse
+              onClick={this.handleCloseForm}
               icon="left"
               layout="info"
-              disabled={isSubmitted}
+              size="wide"
             >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+              <FontAwesomeIcon icon={faTimes} /> Close
             </ButtonLink>
-            <Button
-              type="submit"
-              icon="right"
-              layout="info"
-              disabled={isSubmitted}
-            >
-              Save <FontAwesomeIcon icon={faChevronRight} />
-            </Button>
-          </div>
-        </Form>
+          </React.Fragment> :
+          <Form onSubmit={this.handleSubmit}>
+            <InputControl
+              label="New password"
+              isInput
+              type="password"
+              name="newPassword"
+              handleChange={this.handleInputChange}
+              value={newPassword.value}
+              errorMessage={newPassword.errorMsg}
+            />
+            <InputControl
+              label="Repeat new password"
+              isInput
+              type="password"
+              name="repeatedPassword"
+              handleChange={this.handleInputChange}
+              value={repeatedPassword.value}
+              errorMessage={repeatedPassword.errorMsg}
+            />
+            <InputControl
+              label="Current password"
+              isInput
+              type="password"
+              name="currentPassword"
+              handleChange={this.handleInputChange}
+              value={currentPassword.value}
+              errorMessage={currentPassword.errorMsg}
+            />
+            <div className={style.buttons}>
+              <ButtonLink
+                className={style.cancel}
+                to={this.getReferrer()}
+                onClick={this.handleCloseForm}
+                inverse
+                icon="left"
+                layout="info"
+                disabled={isSubmitted}
+              >
+                <FontAwesomeIcon icon={faTimes} /> Cancel
+              </ButtonLink>
+              <Button
+                type="submit"
+                icon="right"
+                layout="info"
+                disabled={isSubmitted}
+              >
+                Save <FontAwesomeIcon icon={faChevronRight} />
+              </Button>
+            </div>
+          </Form>
+        }
       </Page>
     );
   }
@@ -89,10 +149,6 @@ class PasswordChangePage extends PageComponent {
 export default PasswordChangePage;
 
 PasswordChangePage.propTypes = {
-  seed: PropTypes.string,
-  keys: PropTypes.array,
-  store: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  formValidate: PropTypes.func.isRequired,
-  changePasswordInit: PropTypes.func.isRequired
+  history: PropTypes.object.isRequired,
+  vault: PropTypes.object.isRequired,
 };

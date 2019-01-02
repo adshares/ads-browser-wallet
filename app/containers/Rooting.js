@@ -9,14 +9,17 @@ import RestorePage from './Account/RestorePage';
 import RegisterPage from './Account/RegisterPage';
 import LoginPage from './Account/LoginPage';
 import SettingsPage from './Settings/SettingsPage';
+import PasswordChangePage from './Settings/PasswordChangePage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeysImporterPage from './Settings/KeysImporterPage';
 import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import style from './App.css';
-import * as VaultActions from '../actions/vault';
-import * as Actions from '../actions/actions';
+import * as vaultActions from '../actions/vault';
+import * as formActions from '../actions/form';
+import * as settingsActions from '../actions/settingsActions';
+import * as commonActions from '../actions/actions';
 import config from '../config/config';
 import KeyDetailsPage from './Settings/KeyDetailsPage';
 import KeysSettings from './Settings/KeysSettings';
@@ -70,13 +73,16 @@ function SwitchNetwork({ ...params }) {
     router: state.router || {},
     vault: state.vault || {},
     queue: state.queue || [],
+    pages: state.pages || {},
     authDialog: state.authDialog,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        ...VaultActions,
-        ...Actions,
+        ...vaultActions,
+        ...formActions,
+        ...settingsActions,
+        ...commonActions,
       }, dispatch)
   })
 )
@@ -85,7 +91,8 @@ export default class Rooting extends Component {
   static propTypes = {
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    pages: PropTypes.object.isRequired,
   };
 
   componentWillUnmount() {
@@ -93,7 +100,7 @@ export default class Rooting extends Component {
   }
 
   render() {
-    const { vault, queue, actions, authDialog } = this.props;
+    const { vault, queue, actions, pages, authDialog } = this.props;
 
     return (
       <div className={style.app}>
@@ -150,6 +157,21 @@ export default class Rooting extends Component {
                 vault={vault}
                 actions={actions}
                 {...props}
+              />
+            }
+          />
+          <PrivateRoute
+            exact
+            path="/password"
+            vault={vault}
+            render={props =>
+              <PasswordChangePage
+                vault={vault}
+                store={pages.SettingsPage}
+                location={history.location}
+                formValidate={actions.formValidate}
+                changePasswordInit={actions.changePasswordInit}
+                onChange={actions.inputChange} {...props}
               />
             }
           />
@@ -242,7 +264,6 @@ export default class Rooting extends Component {
               <SendOnePage vault={vault} {...props} />
             }
           />
-
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>
         {authDialog.authModalOpen && (

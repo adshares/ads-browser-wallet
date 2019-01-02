@@ -29,6 +29,7 @@ import {
   validateTransactionFormEpic,
   sendTransactionEpic
 } from './transactionEpics';
+import { changePasswordEpic, cleanSettings } from './settingsEpics';
 
 export default combineEpics(
   validateForm,
@@ -38,6 +39,8 @@ export default combineEpics(
   addAccountEpic,
   importKeysEpic,
   cleanForm,
+  changePasswordEpic,
+  cleanSettings,
   updateAccountEpic,
   editAccountEpic,
   removeKeyEpic,

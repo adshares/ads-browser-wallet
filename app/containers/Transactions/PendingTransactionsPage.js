@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList, faCheck, faChevronLeft } from '@fortawesome/free-solid-svg-icons/index'
+import { faList, faCheck, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import PageComponent from '../../components/PageComponent';
 import Page from '../../components/Page/Page';
 import ErrorPage from '../ErrorPage';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -13,7 +14,7 @@ import { typeLabels } from './labels';
 import config from '../../config/config';
 import style from './PendingTransactionsPage.css';
 
-export default class PendingTransactionsPage extends React.PureComponent {
+export default class PendingTransactionsPage extends PageComponent {
 
   renderErrorPage(code, message) {
     return (
@@ -64,7 +65,7 @@ export default class PendingTransactionsPage extends React.PureComponent {
     );
 
     return (
-      <Page className={style.page} title="Pending Transactions" scroll={queue.length > 3} cancelLink="/">
+      <Page className={style.page} title="Pending Transactions" scroll={queue.length > 3} cancelLink={this.getReferrer()}>
         {queue.length === 0 ?
           <React.Fragment>
             <Box layout="success" title="All right!" icon={faCheck}>

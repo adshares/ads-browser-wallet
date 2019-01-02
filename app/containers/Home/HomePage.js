@@ -22,7 +22,7 @@ export default class HomePage extends React.PureComponent {
     const { selectedAccount, accounts } = this.props.vault;
     const accountData = accounts.find(account => account.address === selectedAccount);
     const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${accountData.address}`;
-    const amount = accountData.balance ? formatAdsMoney(accountData.balance, 4, '.', ' ') : null;
+    const amount = accountData.balance ? formatAdsMoney(accountData.balance, 4) : null;
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
     const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
     return (

@@ -81,7 +81,11 @@ export default class SignForm extends FormComponent {
     event.stopPropagation();
 
     const { transaction, key } = this.state;
-    const signature = ADS.sign(transaction.data, key.publicKey, key.secretKey);
+    const signature = ADS.sign(
+      transaction.hash + transaction.data,
+      key.publicKey,
+      key.secretKey
+    );
     this.props.acceptAction(signature);
   }
 
@@ -202,7 +206,7 @@ export default class SignForm extends FormComponent {
   }
 
   renderSendMany(fields) {
-    const addresslink = `${config.operatorUrl}blockexplorer/accounts/`;
+    const addressLink = `${config.operatorUrl}blockexplorer/accounts/`;
     return (
       <React.Fragment>
         <tr className={style.wires}>
@@ -219,7 +223,7 @@ export default class SignForm extends FormComponent {
                 <tr key={recipient.address}>
                   <td>{index + 1}</td>
                   <td>
-                    <a href={`${addresslink}${recipient.address}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`${addressLink}${recipient.address}`} target="_blank" rel="noopener noreferrer">
                       {recipient.address}<FontAwesomeIcon icon={faExternalLinkAlt} />
                     </a>
                   </td>

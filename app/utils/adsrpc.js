@@ -9,7 +9,6 @@ export default class {
   }
 
   send(data) {
-    // console.debug('request', JSON.stringify(data));
     return fetch(this.host, {
       method: 'POST',
       headers: {
@@ -77,11 +76,8 @@ export default class {
     return this.request(
       ADS.TX_TYPES.SEND_AGAIN, {
         data,
-        cmd: {
-          signature,
-          host,
-          port,
-        }
+        signature,
+        _host: host
       }
     ).then((response) => {
       if (!response || !response.tx) {

@@ -18,7 +18,7 @@ import style from './SettingsPage.css';
 import Page from '../../components/Page/Page';
 
 export default class SettingsPage extends FormComponent {
-
+  //FIXME remove if no longer needed
   handleRpcServerSave = (event) => {
     event.preventDefault();
     event.stopPropagation();

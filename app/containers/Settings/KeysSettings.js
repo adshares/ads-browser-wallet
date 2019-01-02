@@ -7,21 +7,21 @@ import { KeysList } from './KeysList';
 import { generateNewKeys } from '../../utils/keybox';
 
 class KeysSettings extends PageComponent {
+  removeAction = (secretKey) => {
+    this.props.toggleAuthDialog(true);
+    this.props.removeKeyAction(secretKey);
+  };
+  showKeysAction = (path) => {
+    this.props.toggleAuthDialog(true);
+    this.props.showKeys(path);
+  };
+
   generateKeys() {
     const generatedKeys = generateNewKeys(this.props.seed, this.props.keys.length);
     this.props.toggleAuthDialog(true);
     this.props.saveGeneratedKeysAction(generatedKeys);
   }
 
-  removeAction = (secretKey) => {
-    this.props.toggleAuthDialog(true);
-    this.props.removeKeyAction(secretKey);
-  };
-
-  showKeysAction = (path) => {
-    this.props.toggleAuthDialog(true);
-    this.props.showKeys(path);
-  };
   render() {
     const { keys, location } = this.props;
 

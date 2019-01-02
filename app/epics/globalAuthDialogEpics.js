@@ -1,4 +1,4 @@
-import { of, from, empty } from 'rxjs';
+import { of, from } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
 
@@ -10,7 +10,6 @@ import VaultCrypt from '../utils/vaultcrypt';
 import config from '../config/config';
 import { getReferrer } from './helpers';
 
-// TODO redirect to previous pages
 export const cleanGlobalAuthDialog = action$ => action$.pipe(
   ofType(
     vaultActions.REMOVE_ACCOUNT,

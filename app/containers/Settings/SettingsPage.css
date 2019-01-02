@@ -5,7 +5,10 @@
 /*.page > div {*/
     /*height: 460px;*/
 /*}*/
-
+.pageContainer {
+    max-height: 100%;
+    height: 480px;
+}
 .section h3 {
     margin-top: 20px;
 }

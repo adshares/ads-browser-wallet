@@ -41,16 +41,14 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
   )
 );
 
-export const previewSecretDataEpic = (action$, state$, { history }) => action$.pipe(
+export const previewSecretDataEpic = (action$, state$) => action$.pipe(
   ofType(authActions.PREVIEW_SECRET_DATA_INIT),
-  switchMap(action => action$.pipe(
+  switchMap(() => action$.pipe(
     ofType(authActions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS),
     take(1),
     withLatestFrom(state$),
     mergeMap(() => {
-      const { path } = action;
-      history.push(path);
-      return of(authActions.previewSecretData(path));
+      return of(authActions.previewSecretData());
     })
     ),
   )
@@ -74,6 +72,20 @@ export const redirectionEpic = (action$, state$, { history }) => action$.pipe(
     ),
   )
 );
+
+export const removeAccessRightsForProtectedDataEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(authActions.PREVIEW_SECRET_DATA),
+    switchMap(() => action$.pipe(
+      ofType('@@router/LOCATION_CHANGE'),
+      take(1),
+      withLatestFrom(state$),
+      mergeMap(() => {
+        return of(authActions.removeAccesForProtectedData(false));
+      })
+      ),
+    )
+  );
 
 export const removeAccountEpic = (action$, state$) => action$.pipe(
   ofType(vaultActions.REMOVE_ACCOUNT_INIT),

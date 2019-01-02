@@ -5,11 +5,11 @@ import * as vaultActions from '../actions/vaultActions';
 import {
   PASS_INPUT_VALIDATION_SUCCESS,
   formClean,
-  TOGGLE_AUTHORISATION_DIALOG, toggleAuthorisationDialog, passwordChange
+  TOGGLE_AUTHORISATION_DIALOG,
+  toggleAuthorisationDialog,
 } from '../actions/form';
 import { validatePagesBranch, getReferrer } from './helpers';
 
-// TODO redirect to previous pages
 export const cleanForm = action$ => action$.pipe(
   ofType(PASS_INPUT_VALIDATION_SUCCESS),
   switchMap(action => action$.pipe(

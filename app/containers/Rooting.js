@@ -21,7 +21,7 @@ import * as formActions from '../actions/form';
 import * as settingsActions from '../actions/settingsActions';
 import * as commonActions from '../actions/actions';
 import config from '../config/config';
-import KeyDetailsPage from './Settings/KeyDetailsPage';
+import DetailsPage from './Settings/DetailsPage';
 import KeysSettings from './Settings/KeysSettings';
 import ConfirmDialog from '../components/confirmDialog/confirmDialog';
 
@@ -37,7 +37,7 @@ function NotFoundErrorPage(props) {
 
 function PrivateRoute({ ...params }) {
   if (params.vault.empty) {
-    return <Redirect to="/register" />;
+    return <Redirect to="/register"/>;
   }
   if (params.vault.sealed) {
     return (
@@ -62,9 +62,9 @@ function SwitchNetwork({ ...params }) {
       window.location.hash = `#${url || '/'}`;
       window.location.reload();
     });
-    return <div />;
+    return <div/>;
   }
-  return <Redirect to={url} />;
+  return <Redirect to={url}/>;
 }
 
 @connect(
@@ -98,7 +98,7 @@ export default class Rooting extends Component {
   }
 
   render() {
-    const { vault, queue, actions, authDialog } = this.props;
+    const { vault, queue, router, actions, authDialog } = this.props;
 
     return (
       <div className={style.app}>
@@ -195,7 +195,29 @@ export default class Rooting extends Component {
             path="/accounts/:address([0-9A-F-]+)/keys"
             vault={vault}
             render={props =>
-              <KeyDetailsPage accounts={vault.accounts} type="account" {...props} />
+              <DetailsPage
+                accounts={vault.accounts} type="account"
+                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                previewSecretData={actions.previewSecretDataInit}
+                authConfirmed={authDialog.authConfirmed}
+                {...props}
+              />
+            }
+          />
+
+          <PrivateRoute
+            exact
+            path="/seedPhrase"
+            vault={vault}
+            render={props =>
+              <DetailsPage
+                seed={vault.seedPhrase}
+                type="seed"
+                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                previewSecretData={actions.previewSecretDataInit}
+                authConfirmed={authDialog.authConfirmed}
+                {...props}
+              />
             }
           />
 
@@ -205,11 +227,12 @@ export default class Rooting extends Component {
             vault={vault}
             render={props =>
               <KeysSettings
-                keys={vault.keys} seed={vault.seed}
+                keys={vault.keys}
+                seed={vault.seed}
                 removeKeyAction={actions.removeKeyInit}
                 toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
                 showKeys={actions.previewSecretDataInit}
-                saveGeneratedKeysAction={actions.saveGeneratedKeysInit}{...props}
+                saveGeneratedKeysAction={actions.saveGeneratedKeysInit} {...props}
               />
             }
           />
@@ -218,7 +241,14 @@ export default class Rooting extends Component {
             path="/keys/:pk([0-9a-fA-F]{64})/"
             vault={vault}
             render={props =>
-              <KeyDetailsPage keys={vault.keys} type="key" {...props} />
+              <DetailsPage
+                keys={vault.keys}
+                type="key"
+                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
+                previewSecretData={actions.previewSecretDataInit}
+                authConfirmed={authDialog.authConfirmed}
+                {...props}
+              />
             }
           />
           <PrivateRoute
@@ -258,6 +288,9 @@ export default class Rooting extends Component {
         {authDialog.authModalOpen && (
           <ConfirmDialog
             showDialog
+            cancelLink={router.location.state ?
+              router.location.state.referrer.pathname :
+              router.location.pathname}
             handlePasswordChange={actions.handleGlobalPassInputChange}
             onSubmit={actions.globalPassInputValidate}
             password={authDialog.password}

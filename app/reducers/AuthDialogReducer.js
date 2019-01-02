@@ -48,11 +48,28 @@ export default function (state = authState, action) {
       };
     }
 
-    case actions.CLEAN_AUTHORISATION_DIALOG_GLOBAL: {
+    case actions.PREVIEW_SECRET_DATA: {
       return {
-        ...authState
+        ...authState,
+        authConfirmed: true
       };
     }
+
+    case actions.REMOVE_ACCESS_TO_PROTECTED_DATA: {
+      return {
+        ...authState,
+        authConfirmed: false
+      };
+    }
+
+    case actions.CLEAN_AUTHORISATION_DIALOG_GLOBAL: {
+      return {
+        ...authState,
+        authConfirmed: state.authConfirmed
+      };
+    }
+
+
     default:
       return state;
   }

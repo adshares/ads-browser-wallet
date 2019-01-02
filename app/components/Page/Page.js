@@ -46,7 +46,7 @@ export default class Page extends React.Component {
       onPasswordInputChange,
       onDialogSubmit,
       password,
-      autenticationModalOpen,
+      authenticationModalOpen,
     } = this.props;
 
     let classes = [];
@@ -87,7 +87,7 @@ export default class Page extends React.Component {
     return (
       <section>
         {this.props.showLoader && <LoaderOverlay />}
-        {autenticationModalOpen && (
+        {authenticationModalOpen && (
           <ConfirmDialog
             showDialog
             handlePasswordChange={onPasswordInputChange}
@@ -142,6 +142,6 @@ Page.propTypes = {
   onPasswordInputChange: PropTypes.func,
   onDialogSubmit: PropTypes.func,
   password: PropTypes.object,
-  autenticationModalOpen: PropTypes.bool,
+  authenticationModalOpen: PropTypes.bool,
   showLoader: PropTypes.bool,
 };

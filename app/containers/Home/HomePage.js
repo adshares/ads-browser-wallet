@@ -35,18 +35,18 @@ export default class HomePage extends React.PureComponent {
             &nbsp;
             <small>ADS</small>
           </div>
-          <hr/>
+          <hr />
           <div className={style.details}>
             <span title="Account address">
               {accountData.address}&nbsp;&nbsp;
-              <FontAwesomeIcon icon={faCopy}/>
+              <FontAwesomeIcon icon={faCopy} />
             </span>
             <a href={detailsLink} target="_blank" rel="noopener noreferrer">
               Details
             </a>
           </div>
           <ButtonLink to="/transactions/send-one" layout="contrast" size="wide" icon="left">
-            <FontAwesomeIcon icon={faPaperPlane}/> Send transaction
+            <FontAwesomeIcon icon={faPaperPlane} /> Send transaction
           </ButtonLink>
 
         </Box>
@@ -57,13 +57,13 @@ export default class HomePage extends React.PureComponent {
   renderConfigure() {
     return (
       <div className={style.configure}>
-        <Logo withoutLogo/>
+        <Logo withoutLogo />
         <Box icon={faInfo} inverse layout="warning">
-          You can use this plugin to sign ADS Operator&apos;s transactions.<br/>
+          You can use this plugin to sign ADS Operator&apos;s transactions.<br />
           If You want to send transactions directly, You have to import an account first.
         </Box>
         <ButtonLink to="/accounts/import" size="wide" icon="left" layout="info">
-          <FontAwesomeIcon icon={faPlus}/> Add account
+          <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
         <div className={style.helpLinks}>
           <a href={config.getAccountLink} target="_blank" rel="noopener noreferrer">

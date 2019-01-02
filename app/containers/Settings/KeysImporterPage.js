@@ -95,7 +95,7 @@ export default class KeysImporterPage extends FormComponent {
           this.props.actions.importKeyInit();
         }}
         password={password}
-        autenticationModalOpen={authModalOpen}
+        authenticationModalOpen={authModalOpen}
         cancelLink={'/'}
       >
         {this.state.showLoader && <LoaderOverlay />}

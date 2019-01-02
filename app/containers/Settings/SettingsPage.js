@@ -87,23 +87,38 @@ export default class SettingsPage extends FormComponent {
 
   renderStorageSettings() {
     return (
-      <div className={style.section}>
-        <h3>Erase storage</h3>
-        <Button
-          layout="danger" icon="left" size="wide" onClick={() => {
-            this.props.actions.eraseInit();
-            this.props.actions.toggleGlobalAuthorisationDialog(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
-        </Button>
-      </div>
+      <React.Fragment>
+        <div className={style.section}>
+          <h3>Account settings</h3>
+          <ButtonLink
+            to={{
+              pathname: '/password',
+              state: { referrer: this.props.history.location }
+            }}
+            size="wide"
+            title="Change password"
+            layout="info"
+            icon="left"
+          ><FontAwesomeIcon icon={faKey} /> Change password </ButtonLink>
+        </div>
+        <div className={style.section}>
+          <h3>Erase storage</h3>
+          <Button
+            layout="danger" icon="left" size="wide" onClick={() => {
+              this.props.actions.eraseInit();
+              this.props.actions.toggleGlobalAuthorisationDialog(true);
+            }}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
+          </Button>
+        </div>
+      </React.Fragment>
     );
   }
 
   render() {
     return (
-      <Page className={style.page} title="Settings" scroll cancelLink="/">
+      <Page className={style.page} title="Settings" scroll cancelLink={this.getReferrer()}>
         <div className={style.section}>
           <h3>Keys</h3>
           <ButtonLink

@@ -50,6 +50,8 @@ export const retrieveNodesEpic = (action$, state$, { adsRpc }) => action$.pipe(
   mergeMap(() =>
     timer(0, 60000)
       .pipe(
+        withLatestFrom(state$),
+        filter(([, state]) => state.vault.selectedAccount),
         switchMap(() =>
           from(adsRpc.getNodes())
             .pipe(

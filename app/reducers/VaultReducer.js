@@ -1,4 +1,4 @@
-import * as actions from '../actions/vault';
+import * as actions from '../actions/vaultActions';
 import * as KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
@@ -27,6 +27,7 @@ const initialVault = {
   accounts: [],
   selectedAccount: null,
   nodes: [],
+  loginErrorMsg: '',
 };
 
 export default function (vault = initialVault, action) {
@@ -49,6 +50,17 @@ export default function (vault = initialVault, action) {
       return newVault;
     }
 
+    case actions.CHANGE_PASSWORD: {
+      const newVault = {
+        ...initialVault,
+        ...vault,
+      };
+      newVault.secret = VaultCrypt.save(newVault, action.password, () => {
+        BgClient.startSession(window.btoa(action.password), action.callback);
+      });
+      return newVault;
+    }
+
     case actions.ERASE: {
       return initialVault;
     }
@@ -61,13 +73,21 @@ export default function (vault = initialVault, action) {
       };
     }
 
-    case actions.UNSEAL: {
+    case actions.UNSEAL_SUCCESS: {
       return {
         ...initialVault,
         ...vault,
         ...action.unsealedVault,
-
+        loginErrorMsg: '',
         sealed: false,
+      };
+    }
+
+    case actions.UNSEAL_FAILURE: {
+      return {
+        ...initialVault,
+        ...vault,
+        loginErrorMsg: action.errorMsg,
       };
     }
 
@@ -199,10 +219,10 @@ export default function (vault = initialVault, action) {
     }
 
     case RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS: {
-      const accounts = vault.accounts.map(acount => acount.address === action.account.address ? {
-        ...acount,
+      const accounts = vault.accounts.map(a => a.address === action.account.address ? {
+        ...a,
         ...action.account
-      } : acount);
+      } : a);
       return {
         ...vault,
         accounts,

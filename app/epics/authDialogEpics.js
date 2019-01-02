@@ -1,7 +1,7 @@
 import { of, from, empty } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
-import * as vaultActions from '../actions/vault';
+import * as vaultActions from '../actions/vaultActions';
 import {
   PASS_INPUT_VALIDATION_SUCCESS,
   formClean,

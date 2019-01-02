@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import vault from './vault';
+import vault from './VaultReducer';
 import queue from './queue';
 import KeysImporterPage from './KeyImporterReducer';
 import AccountEditorPage from './AccountEditorReducer';
+import SettingsPage from './SettingsReducer';
 import authDialog from './AuthDialogReducer';
 import SendOneReducer from './SendOneReducer';
 import ADS from '../utils/ads';
@@ -19,5 +20,6 @@ export default history => combineReducers({
   pages: combineReducers({
     KeysImporterPage,
     AccountEditorPage,
+    SettingsPage,
   })
 });

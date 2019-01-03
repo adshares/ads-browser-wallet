@@ -2,7 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { faChevronRight, faTimes, faCheck, faInfo, faSpinner, faExclamation } from '@fortawesome/free-solid-svg-icons/index'
+import {
+  faChevronRight,
+  faTimes,
+  faCheck,
+  faInfo,
+  faSpinner,
+  faExclamation
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
@@ -154,7 +161,7 @@ export default class AccountEditorPage extends FormComponent {
                 <InputControl
                   required
                   isInput
-                  readOnly={this.state.account}
+                  readOnly={!!this.state.account}
                   label="Account address"
                   value={address.value}
                   errorMessage={address.errorMsg}
@@ -166,7 +173,6 @@ export default class AccountEditorPage extends FormComponent {
                     readOnly
                     label="Account public key"
                     value={publicKey}
-                    errorMessage={publicKeyErrorMsg}
                   >
                     {publicKeyLoading ?
                       <div className={style.inputLoader}>
@@ -179,6 +185,12 @@ export default class AccountEditorPage extends FormComponent {
                     : '' }
                   </InputControl>
                   : '' }
+                {publicKeyErrorMsg ?
+                  <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
+                    {publicKeyErrorMsg}<br />
+                    You can still add this account, but you may have problems with transactions.
+                  </Box> : ''
+                }
                 <div className={style.buttons}>
                   <ButtonLink
                     to={this.getReferrer()}
@@ -194,7 +206,7 @@ export default class AccountEditorPage extends FormComponent {
                     name="button"
                     icon="right"
                     layout="info"
-                    disabled={publicKeyLoading || publicKeyErrorMsg || isSubmitted}
+                    disabled={publicKeyLoading || isSubmitted}
                   >
                     {this.state.account ? 'Save' : 'Import'}
                     <FontAwesomeIcon icon={faChevronRight} />

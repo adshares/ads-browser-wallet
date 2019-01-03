@@ -94,7 +94,7 @@ export default class TransactionPage extends PageComponent {
         history={history}
       >
         <h2>{typeLabels[this.transactionType]}</h2>
-        {errorMsg ? <Box title="Transaction error" layout="warning" icon={faExclamation}>
+        {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
           {errorMsg}
         </Box> : ''}
         {isTransactionSent ? this.renderSuccessInfo() : this.renderForm()}

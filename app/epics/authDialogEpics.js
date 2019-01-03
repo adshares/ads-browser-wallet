@@ -1,6 +1,6 @@
-import { of, from, empty } from 'rxjs';
+import { of, from, merge } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
+import { mergeMap, map, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
 import * as vaultActions from '../actions/vaultActions';
 import {
   PASS_INPUT_VALIDATION_SUCCESS,
@@ -28,23 +28,45 @@ export const addAccountEpic = (action$, state$, { history }) => action$.pipe(
     take(1),
     mergeMap(() => {
       const { pageName } = action;
-      const { pages, vault: { selectedAccount } } = state;
+      const { pages } = state;
+
       validatePagesBranch(pages, pageName);
-      const { auth, inputs, publicKey } = pages[pageName];
+      const { auth, inputs } = pages[pageName];
       history.push(getReferrer(history, '/settings'));
 
-      return from(
-        [vaultActions.addAccount({
+      return from([
+        vaultActions.addAccount({
           address: inputs.address.value,
           name: inputs.name.value,
-          publicKey,
           password: auth.password.value,
-        }), !selectedAccount ? vaultActions.selectActiveAccount(inputs.address.value) :
-          empty()]
-      );
+        }),
+        vaultActions.selectActiveAccount(inputs.address.value)
+      ]);
     })
-    )
-  )
+  ))
+);
+
+export const updateAccountEpic = (action$, state$, { history }) => action$.pipe(
+  ofType(PASS_INPUT_VALIDATION_SUCCESS),
+  withLatestFrom(state$),
+  switchMap(([action, state]) => action$.pipe(
+    ofType(vaultActions.UPDATE_ACCOUNT_INIT),
+    take(1),
+    map(() => {
+      const { pageName } = action;
+      const { pages } = state;
+
+      validatePagesBranch(pages, pageName);
+      const { auth, inputs } = pages[pageName];
+      history.push(getReferrer(history, '/settings'));
+
+      return vaultActions.updateAccount({
+        address: inputs.address.value,
+        name: inputs.name.value,
+        password: auth.password.value
+      });
+    })
+  ))
 );
 
 export const redirectionFormEpic = (action$, state$, { history }) => action$.pipe(
@@ -56,40 +78,13 @@ export const redirectionFormEpic = (action$, state$, { history }) => action$.pip
     withLatestFrom(state$),
     mergeMap(() => {
       const { pageName } = action;
-      history.push(getReferrer(history, '/settings'));
+      // history.push(getReferrer(history, '/settings'));
 
       return from([
         toggleAuthorisationDialog(pageName, false),
       ]);
     })
     ),
-  )
-);
-
-export const updateAccountEpic = (action$, state$, { history }) => action$.pipe(
-  ofType(PASS_INPUT_VALIDATION_SUCCESS),
-  withLatestFrom(state$),
-  switchMap(([action, state]) => action$.pipe(
-    ofType(vaultActions.UPDATE_ACCOUNT_INIT),
-    take(1),
-    mergeMap(() => {
-      const { pageName } = action;
-      const { pages } = state;
-
-      validatePagesBranch(pages, pageName);
-      const { auth, inputs } = pages[pageName];
-      history.push(getReferrer(history, '/settings'));
-
-      return of(
-        vaultActions.updateAccount({
-          address: inputs.address.value,
-          name: inputs.name.value,
-          publicKey: inputs.publicKey.value,
-          password: auth.password.value
-        })
-      );
-    })
-    )
   )
 );
 

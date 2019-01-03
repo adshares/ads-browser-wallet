@@ -196,6 +196,7 @@ export default class Rooting extends Component {
             vault={vault}
             render={props =>
               <DetailsPage
+                keys={vault.keys}
                 accounts={vault.accounts} type="account"
                 toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
                 previewSecretData={actions.previewSecretDataInit}
@@ -238,7 +239,7 @@ export default class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/keys/:pk([0-9a-fA-F]{64})/"
+            path="/keys/:publicKey([0-9a-fA-F]{64})/"
             vault={vault}
             render={props =>
               <DetailsPage

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Form from '../../components/atoms/Form';
 import style from './confirmDialog.css';
 import Button from '../atoms/Button';
@@ -19,7 +19,7 @@ class ConfirmDialog extends PageComponent {
           style.dialogFormOpen}`}
         >
           <h2>
-            <FontAwesomeIcon icon={faLock} className={style.dialogHeaderIcon}/>
+            <FontAwesomeIcon icon={faLock} className={style.dialogHeaderIcon} />
             Please authenticate yourself
           </h2>
           <InputControl
@@ -34,16 +34,20 @@ class ConfirmDialog extends PageComponent {
           />
           <div className={style.buttonsContainer}>
             <ButtonLink
+              layout="info"
+              inverse
+              icon="left"
               to={cancelLink}
             >
-              Cancel
+              <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
               type="button"
               layout="info"
+              icon="right"
               onClick={onSubmit}
             >
-              Confirm
+              Confirm <FontAwesomeIcon icon={faCheck} />
             </Button>
           </div>
 

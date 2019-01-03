@@ -31,8 +31,6 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
       const { vault, authDialog } = state;
 
       const { secretKey } = action;
-      // TODO display error message
-      removeKeyValidator({ secretKey, vault });
       const updatedKeys = vault.keys
         .filter(key => key.secretKey !== secretKey);
       return of(vaultActions.removeKey(updatedKeys, authDialog.password.value));

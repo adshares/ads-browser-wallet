@@ -26,10 +26,16 @@ class DetailsPage extends PageComponent {
 
   renderContent() {
     const { accounts, type, keys, seed } = this.props;
-    const { address, pk } = this.props.match.params;
+    const { address, publicKey } = this.props.match.params;
     const chosenAccount = type === 'account' && accounts.find(a => a.address === address);
-    const key = type === 'key' && keys.find(k => k.publicKey === pk);
     const seedPhrase = type === 'seed';
+    let pk;
+    if (type === 'key') {
+      pk = publicKey;
+    } else if (type === 'account') {
+      pk = chosenAccount.publicKey;
+    }
+    const key = pk && keys.find(k => k.publicKey === pk);
     const chosenElement = chosenAccount || key || seedPhrase;
     const signature = type === 'key' && ADS.sign('', key.publicKey, key.secretKey);
 
@@ -66,7 +72,7 @@ class DetailsPage extends PageComponent {
               />
             )}
             <InputControl label="Public key" readOnly value={chosenElement.publicKey} />
-            <InputControl label="Secret key" readOnly value={chosenElement.secretKey} />
+            <InputControl label="Secret key" readOnly value={key.secretKey} />
             {type === 'key' && (
               <InputControl label="Signature" readOnly rows={4} value={signature} />
             )}

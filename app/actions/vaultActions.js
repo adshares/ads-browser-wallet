@@ -58,16 +58,16 @@ export function addAccountInit() {
   return { type: ADD_ACCOUNT_INIT };
 }
 
-export function addAccount({ address, name, publicKey, password }) {
-  return { type: ADD_ACCOUNT, address, name, publicKey, password };
+export function addAccount({ address, name, password }) {
+  return { type: ADD_ACCOUNT, address, name, password };
 }
 
 export function updateAccountInit() {
   return { type: UPDATE_ACCOUNT_INIT };
 }
 
-export function updateAccount({ address, name, publicKey, password }) {
-  return { type: UPDATE_ACCOUNT, address, name, publicKey, password };
+export function updateAccount({ address, name, password }) {
+  return { type: UPDATE_ACCOUNT, address, name, password };
 }
 
 export function removeAccountInit(address) {

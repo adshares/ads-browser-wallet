@@ -26,8 +26,9 @@
 
 .dialogForm {
     height: 250px;
-    padding: 32px;
-    width: 100%;
+    padding: 15px;
+    width: 85%;
+    margin: 0 auto;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0px 1px 20px rgba(126, 126, 126, 0.16), -1px 3px 11px rgba(126, 126, 126, 0.23);
     display: flex;
@@ -38,12 +39,20 @@
     transition: transform 0.4s linear;
 }
 
+.dialogForm > div {
+    width: 75%;
+}
+
 .dialogFormOpen {
     transform: translateY(0);
 }
 
 .dialogHeaderIcon {
     margin-right: 16px;
+}
+
+.buttonsContainer {
+    text-align: center;
 }
 
 .buttonsContainer button:first-of-type {

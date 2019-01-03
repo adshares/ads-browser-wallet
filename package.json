@@ -72,7 +72,9 @@
     "url-loader": "^1.1.2",
     "webpack": "^3.10.0",
     "webpack-hot-middleware": "^2.10.0",
-    "webpack-httpolyglot-server": "^0.3.0"
+    "webpack-httpolyglot-server": "^0.3.0",
+    "redux-devtools-extension": "^2.13.6",
+    "redux-logger": "^3.0.6"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
@@ -91,14 +93,10 @@
     "jsonrpc-lite": "^2.0.1",
     "prop-types": "^15.6.2",
     "react": "^16.4.0",
-    "react-dock": "^0.2.3",
     "react-dom": "^16.4.0",
-    "react-loadable": "^5.5.0",
     "react-redux": "^4.3.0",
     "react-router-dom": "^4.3.1",
     "redux": "^3.2.1",
-    "redux-devtools-extension": "^2.13.6",
-    "redux-logger": "^3.0.6",
     "redux-observable": "^1.0.0",
     "rxjs": "^6.3.3",
     "tweetnacl": "^1.0.0"

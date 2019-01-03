@@ -10,12 +10,12 @@ export default class Root extends Component {
     store: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
   };
-
   render() {
     const { store, history } = this.props;
+    console.log('============history', history)
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <ConnectedRouter history={history} location={history.location}>
           <Rooting />
         </ConnectedRouter>
       </Provider>

@@ -46,6 +46,7 @@ export default class Page extends React.Component {
       onPasswordInputChange,
       onDialogSubmit,
       password,
+      homeLink,
       authenticationModalOpen,
     } = this.props;
 
@@ -67,7 +68,7 @@ export default class Page extends React.Component {
     const wrapperClass = classes.join(' ');
     let menu;
     if (noLinks) {
-      menu = <div />;
+      menu = <div/>;
     } else if (cancelLink) {
       menu = (
         <ButtonLink
@@ -77,16 +78,15 @@ export default class Page extends React.Component {
           size="small"
           inverse
         >
-          <FontAwesomeIcon icon={faTimes} />
+          <FontAwesomeIcon icon={faTimes}/>
         </ButtonLink>
       );
     } else {
-      menu = <HamburgerMenu logoutAction={actions.vault.seal} />;
+      menu = <HamburgerMenu logoutAction={actions.vault.seal}/>;
     }
-
     return (
       <section>
-        {this.props.showLoader && <LoaderOverlay />}
+        {this.props.showLoader && <LoaderOverlay/>}
         {authenticationModalOpen && (
           <ConfirmDialog
             showDialog
@@ -98,13 +98,13 @@ export default class Page extends React.Component {
         )}
         <header className={headerClass}>
           <div className={style.logo}>
-            {noLinks ? (
-              <img src={logo} alt="Adshares wallet" />
+            {noLinks || !homeLink ? (
+              <img src={logo} alt="Adshares wallet"/>
             ) : (
               <Link to="/">
-                <img src={logo} alt="Adshares wallet" />
+                <img src={logo} alt="Adshares wallet"/>
               </Link>
-             )}
+            )}
             {config.testnet ? <span>TESTNET</span> : ''}
           </div>
           {title ? (
@@ -121,7 +121,7 @@ export default class Page extends React.Component {
         </header>
         <div className={wrapperClass}>{children}</div>
         <footer className={style.footer}>
-          <Timer />
+          <Timer/>
         </footer>
       </section>
     );
@@ -138,6 +138,7 @@ Page.propTypes = {
   cancelLink: PropTypes.any,
   onCancelClick: PropTypes.func,
   noLinks: PropTypes.bool,
+  homeLink: PropTypes.bool,
   smallTitle: PropTypes.bool,
   scroll: PropTypes.bool,
   onPasswordInputChange: PropTypes.func,

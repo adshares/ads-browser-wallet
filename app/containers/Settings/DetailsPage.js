@@ -36,7 +36,7 @@ class DetailsPage extends PageComponent {
     return (
       <Page
         className={style.page} title={chosenElement.name} smallTitle
-        cancelLink={this.getReferrer()}
+        cancelLink={this.getReferrer()} scroll
       >
         {!chosenElement && (
           <Box layout="danger" icon={faExclamation} className={style.infoBox}>

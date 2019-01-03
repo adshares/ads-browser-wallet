@@ -8,9 +8,17 @@ const address = ({ value }) => {
 };
 
 const amount = ({ value }) => {
-  if (!/^[0-9,.]*$/.test(value)) {
+  const matches = value.match(/^([0-9]*)[.,]?([0-9]*)$/);
+  if (!matches) {
     return 'Please provide an valid amount';
   }
+  if (parseInt(matches[1], 10) > 38758206) {
+    return 'Amount is too big';
+  }
+  if (matches[2].length > 11) {
+    return 'Amount is too small';
+  }
+
   return null;
 };
 
@@ -27,7 +35,7 @@ const message = ({ value, transactionType, inputs }) => {
     return 'Message can contain only hexadecimal characters';
   }
   if (value.length > maxLength) {
-    return `Massage too long (max ${maxLength} characters)`;
+    return `Massage is too long (max ${maxLength} characters)`;
   }
   return null;
 };

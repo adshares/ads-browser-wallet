@@ -78,15 +78,15 @@ export default class Page extends React.Component {
           size="small"
           inverse
         >
-          <FontAwesomeIcon icon={faTimes}/>
+          <FontAwesomeIcon icon={faTimes} />
         </ButtonLink>
       );
     } else {
-      menu = <HamburgerMenu logoutAction={actions.vault.seal}/>;
+      menu = <HamburgerMenu logoutAction={actions.vault.seal} />;
     }
     return (
       <section>
-        {this.props.showLoader && <LoaderOverlay/>}
+        {this.props.showLoader && <LoaderOverlay />}
         {authenticationModalOpen && (
           <ConfirmDialog
             showDialog
@@ -98,11 +98,11 @@ export default class Page extends React.Component {
         )}
         <header className={headerClass}>
           <div className={style.logo}>
-            {noLinks || !homeLink ? (
-              <img src={logo} alt="Adshares wallet"/>
+            {noLinks || homeLink === false ? (
+              <img src={logo} alt="Adshares wallet" />
             ) : (
               <Link to="/">
-                <img src={logo} alt="Adshares wallet"/>
+                <img src={logo} alt="Adshares wallet" />
               </Link>
             )}
             {config.testnet ? <span>TESTNET</span> : ''}

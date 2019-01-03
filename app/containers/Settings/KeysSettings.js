@@ -27,7 +27,7 @@ class KeysSettings extends PageComponent {
 
     return (
       <Page
-        className={style.page} title="Keys Settings" smallTitle
+        className={style.page} title="Keys Settings"
         cancelLink={this.getReferrer()} scroll
       >
         <KeysList

@@ -28,6 +28,24 @@ export default class SettingsPage extends FormComponent {
     };
   }
 
+  renderKeysSettings() {
+    return (
+      <div className={style.section}>
+        <h3>Keys</h3>
+        <ButtonLink
+          to={{
+            pathname: '/keys',
+            state: { referrer: this.props.location }
+          }}
+          size="wide"
+          title="Edit account"
+          layout="info"
+          icon="left"
+        ><FontAwesomeIcon icon={faPencilAlt} /> Manage Keys</ButtonLink>
+      </div>
+    );
+  }
+
   renderAccountsSettings() {
     return (
       <div className={style.section}>
@@ -49,7 +67,7 @@ export default class SettingsPage extends FormComponent {
                   size="small"
                   title="Edit account"
                   layout="info"
-                ><FontAwesomeIcon icon={faPencilAlt}/></ButtonLink>
+                ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
                 <ButtonLink
                   to={{
                     pathname: `/accounts/${account.address}/keys`,
@@ -85,11 +103,11 @@ export default class SettingsPage extends FormComponent {
     );
   }
 
-  renderStorageSettings() {
+  renderWalletSettings() {
     return (
-      <React.Fragment>
-        <div className={style.section}>
-          <h3>Account settings</h3>
+      <div className={style.section}>
+        <h3>Wallet settings</h3>
+        <p>
           <ButtonLink
             to={{
               pathname: '/password',
@@ -100,41 +118,8 @@ export default class SettingsPage extends FormComponent {
             layout="info"
             icon="left"
           ><FontAwesomeIcon icon={faKey} /> Change password </ButtonLink>
-        </div>
-        <div className={style.section}>
-          <h3>Erase storage</h3>
-          <Button
-            layout="danger" icon="left" size="wide" onClick={() => {
-              this.props.actions.eraseInit();
-              this.props.actions.toggleGlobalAuthorisationDialog(true);
-            }}
-          >
-            <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
-          </Button>
-        </div>
-      </React.Fragment>
-    );
-  }
-
-  render() {
-    return (
-      <Page className={style.page} title="Settings" scroll cancelLink={this.getReferrer()}>
-        <div className={style.section}>
-          <h3>Keys</h3>
-          <ButtonLink
-            to={{
-              pathname: '/keys',
-              state: { referrer: this.props.location }
-            }}
-            size="wide"
-            title="Edit account"
-            layout="info"
-            icon="left"
-          ><FontAwesomeIcon icon={faPencilAlt} /> Manage Keys</ButtonLink>
-        </div>
-        {this.renderAccountsSettings()}
-        <div className={style.section}>
-          <h3>Account settings</h3>
+        </p>
+        <p>
           <ButtonLink
             to={{
               pathname: '/seedPhrase',
@@ -145,8 +130,27 @@ export default class SettingsPage extends FormComponent {
             layout="warning"
             icon="left"
           ><FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase</ButtonLink>
-        </div>
-        {this.renderStorageSettings()}
+        </p>
+        <p>
+          <Button
+            layout="danger" icon="left" size="wide" onClick={() => {
+              this.props.actions.eraseInit();
+              this.props.actions.toggleGlobalAuthorisationDialog(true);
+            }}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
+          </Button>
+        </p>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <Page className={style.page} title="Settings" scroll cancelLink={this.getReferrer()}>
+        {this.renderKeysSettings()}
+        {this.renderAccountsSettings()}
+        {this.renderWalletSettings()}
       </Page>
     );
   }

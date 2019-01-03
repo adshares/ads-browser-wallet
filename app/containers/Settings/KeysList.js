@@ -48,7 +48,7 @@ export const KeysList = ({
                 size="small"
                 layout="warning"
                 title="Show keys"
-              ><FontAwesomeIcon icon={faKey}/></ButtonLink>
+              ><FontAwesomeIcon icon={faKey} /></ButtonLink>
               {type === 'imported' && (
                 <Button
                   onClick={() => removeAction(key.secretKey)}
@@ -81,7 +81,7 @@ export const KeysList = ({
           size="wide"
           layout="info"
         >
-          <FontAwesomeIcon icon={faPlus} /> Generate 5 new key pairs
+          <FontAwesomeIcon icon={faPlus} /> Generate more keys
         </Button>
     }
     </div>

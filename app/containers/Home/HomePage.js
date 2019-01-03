@@ -83,7 +83,7 @@ export default class HomePage extends React.PureComponent {
     );
 
     return (
-      <Page className={style.page} homeLink>
+      <Page className={style.page} homeLink={false}>
         {filteredQueue.length > 0 ?
           <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
             <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})

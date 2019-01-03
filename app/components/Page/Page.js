@@ -98,7 +98,7 @@ export default class Page extends React.Component {
         )}
         <header className={headerClass}>
           <div className={style.logo}>
-            {noLinks || homeLink ? (
+            {noLinks || !homeLink ? (
               <img src={logo} alt="Adshares wallet"/>
             ) : (
               <Link to="/">

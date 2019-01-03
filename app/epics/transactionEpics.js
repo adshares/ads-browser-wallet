@@ -38,14 +38,14 @@ const prepareTransaction = (transactionType, vault, inputs) => {
   const command = {};
   command[ADS.TX_FIELDS.TYPE] = transactionType;
   command[ADS.TX_FIELDS.SENDER] = account.address;
-  command[ADS.TX_FIELDS.MESSAGE_ID] = account.messageId;
+  command[ADS.TX_FIELDS.MESSAGE_ID] = account.messageId || '0';
   command[ADS.TX_FIELDS.TIME] = new Date();
   Object.keys(inputs).forEach((k) => {
     command[k] = sanitizeField(k, inputs[k].value, inputs);
   });
   const transactionData = ADS.encodeCommand(command);
 
-  return [transactionType, account.hash, transactionData];
+  return [transactionType, account.hash || '0', transactionData];
 };
 
 const validateForm = (action, state) => {

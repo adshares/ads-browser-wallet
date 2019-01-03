@@ -117,14 +117,6 @@ const message = ({ value }) => {
   return null;
 };
 
-const removeKey = ({ sk, vault }) => {
-  const hasAccount = vault.accounts.find(account => account.secretKey === sk);
-  if (hasAccount) {
-    return `Account ${hasAccount.name} use this key. Please remove account first`;
-  }
-  return null;
-};
-
 export {
   name,
   publicKey,
@@ -135,6 +127,5 @@ export {
   repeatedPassword,
   address,
   amount,
-  message,
-  removeKey
+  message
 };

@@ -39,6 +39,7 @@ const actionsMap = {
         [action.inputName]: {
           ...state.inputs[action.inputName],
           value: action.inputValue,
+          errorMsg: action.errorMsg
         }
       }
     };

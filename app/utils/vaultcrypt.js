@@ -9,7 +9,6 @@ const KEYS = 'k';
 const ACCOUNTS = 'a';
 const ACCOUNT_ADDRESS = 'a';
 const ACCOUNT_NAME = 'n';
-const ACCOUNT_PUBLIC_KEY = 'k';
 const SETTINGS = 'o';
 
 function checkPassword(vault, password) {
@@ -36,7 +35,6 @@ function encrypt(vault, password) {
       {
         [ACCOUNT_ADDRESS]: account.address,
         [ACCOUNT_NAME]: account.name,
-        [ACCOUNT_PUBLIC_KEY]: account.publicKey,
       }
     )),
   }), password)
@@ -58,7 +56,6 @@ function decrypt(encryptedVault, password) {
       {
         address: account[ACCOUNT_ADDRESS],
         name: account[ACCOUNT_NAME],
-        publicKey: account[ACCOUNT_PUBLIC_KEY],
       }
     )),
   };
@@ -74,7 +71,6 @@ function decrypt(encryptedVault, password) {
   ];
   const accounts = decryptedVault.accounts.map(account => ({
     ...account,
-    secretKey: keys.find(k => k.publicKey === account.publicKey).secretKey,
     balance: null,
     messageId: null,
     hash: null,

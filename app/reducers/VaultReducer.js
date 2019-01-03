@@ -113,8 +113,6 @@ export default function (vault = initialVault, action) {
       const { nodeId, userAccountId } = ADS.splitAddress(action.address);
       const address = ADS.formatAddress(nodeId, userAccountId);
       const name = action.name;
-      const publicKey = action.publicKey.toUpperCase();
-      const key = findIfPublicKeyExist(vault, action.publicKey);
 
       const updatedVault = {
         ...initialVault,
@@ -123,9 +121,7 @@ export default function (vault = initialVault, action) {
           ...vault.accounts,
           {
             address,
-            name,
-            publicKey,
-            secretKey: key.secretKey,
+            name
           }]
       };
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
@@ -139,12 +135,6 @@ export default function (vault = initialVault, action) {
 
       const address = action.address.toUpperCase();
       const name = action.name;
-      const publicKey = action.publicKey.toUpperCase();
-      const key = findIfPublicKeyExist(vault, action.publicKey);
-
-      if (!key) {
-        throw new UnknownPublicKeyError(action.publicKey);
-      }
 
       const account = findAccountByAddressInVault(vault, address);
       if (!account) {
@@ -152,9 +142,6 @@ export default function (vault = initialVault, action) {
       }
 
       account.name = name;
-      account.publicKey = publicKey;
-      account.secretKey = key.secretKey;
-
       const updatedVault = {
         ...initialVault,
         ...vault,

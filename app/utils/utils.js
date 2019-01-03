@@ -7,7 +7,8 @@ import * as KeyBox from './keybox';
 export function byteToHex(byteArray) {
   // parseInt is needed for eliminating invalid number of arguments warning for toString function
   return byteArray.reduce(
-    (output, elem) => (output + (`0${parseInt(elem, 10).toString(16)}`).slice(-2)),
+    (output, elem) => (output + (`0${parseInt(elem, 10)
+      .toString(16)}`).slice(-2)),
     '',
   );
 }
@@ -37,7 +38,9 @@ export function stringToHex(str) {
   const result = [];
   let hex;
   for (let i = 0; i < str.length; i++) {
-    hex = Number(str.charCodeAt(i)).toString(16).padStart(2, '0');
+    hex = Number(str.charCodeAt(i))
+      .toString(16)
+      .padStart(2, '0');
     result.push(hex);
   }
 
@@ -49,7 +52,8 @@ export function stringToHex(str) {
  * @returns {string}
  */
 export function sanitizeHex(str) {
-  return str.replace(/^0x/, '').toUpperCase();
+  return str.replace(/^0x/, '')
+    .toUpperCase();
 }
 
 /**
@@ -80,11 +84,29 @@ export function formatDate(value, showTime = true, utc = false) {
   let time;
   const val = value instanceof Date ? value : new Date(value);
   if (utc) {
-    date = `${val.getUTCFullYear()}-${(val.getUTCMonth() + 1).toString().padStart(2, '0')}-${val.getUTCDate().toString().padStart(2, '0')}`;
-    time = `${val.getUTCHours().toString().padStart(2, '0')}:${val.getUTCMinutes().toString().padStart(2, '0')}:${val.getUTCSeconds().toString().padStart(2, '0')}`;
+    date = `${val.getUTCFullYear()}-${(val.getUTCMonth() + 1).toString()
+      .padStart(2, '0')}-${val.getUTCDate()
+      .toString()
+      .padStart(2, '0')}`;
+    time = `${val.getUTCHours()
+      .toString()
+      .padStart(2, '0')}:${val.getUTCMinutes()
+      .toString()
+      .padStart(2, '0')}:${val.getUTCSeconds()
+      .toString()
+      .padStart(2, '0')}`;
   } else {
-    date = `${val.getFullYear()}-${(val.getMonth() + 1).toString().padStart(2, '0')}-${val.getDate().toString().padStart(2, '0')}`;
-    time = `${val.getHours().toString().padStart(2, '0')}:${val.getMinutes().toString().padStart(2, '0')}:${val.getSeconds().toString().padStart(2, '0')}`;
+    date = `${val.getFullYear()}-${(val.getMonth() + 1).toString()
+      .padStart(2, '0')}-${val.getDate()
+      .toString()
+      .padStart(2, '0')}`;
+    time = `${val.getHours()
+      .toString()
+      .padStart(2, '0')}:${val.getMinutes()
+      .toString()
+      .padStart(2, '0')}:${val.getSeconds()
+      .toString()
+      .padStart(2, '0')}`;
   }
   return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
 }
@@ -106,13 +128,34 @@ export function uuidv4() {
 export function findAccountByAddressInVault(vault, address) {
   return vault.accounts.find(a => a.address === address);
 }
+
 export function findIfPublicKeyExist(vault, publicKey) {
   return vault.keys.find(k =>
-        k.publicKey ? k.publicKey === publicKey
-        : KeyBox.getPublicKeyFromSecret(k.secretKey) === publicKey
-      );
+    k.publicKey ? k.publicKey === publicKey
+      : KeyBox.getPublicKeyFromSecret(k.secretKey) === publicKey
+  );
 }
 
 export function findAccountByNameInVault(vault, name) {
   return vault.accounts.find(a => a.name === name);
+}
+
+/**
+ * Copy passed text to clipboard. Works only with user events like e.g. click,
+ * due to the way Document.execCommand() works.
+ *
+ *  @param str {string}
+ *  @return {void}
+ */
+
+export function copyToClipboard(str) {
+  const el = document.createElement('textarea');
+  el.value = str;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
 }

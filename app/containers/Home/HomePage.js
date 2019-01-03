@@ -16,6 +16,7 @@ import Logo from '../../components/Logo/Logo';
 import { formatAdsMoney } from '../../utils/ads';
 import style from './HomePage.css';
 import config from '../../config/config';
+import { copyToClipboard } from '../../utils/utils';
 
 export default class HomePage extends React.PureComponent {
   renderShortcuts() {
@@ -37,7 +38,7 @@ export default class HomePage extends React.PureComponent {
           </div>
           <hr />
           <div className={style.details}>
-            <span title="Account address">
+            <span title="Copy account address" onClick={() => copyToClipboard(accountData.address)}>
               {accountData.address}&nbsp;&nbsp;
               <FontAwesomeIcon icon={faCopy} />
             </span>
@@ -82,7 +83,7 @@ export default class HomePage extends React.PureComponent {
     );
 
     return (
-      <Page className={style.page}>
+      <Page className={style.page} homeLink>
         {filteredQueue.length > 0 ?
           <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
             <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})

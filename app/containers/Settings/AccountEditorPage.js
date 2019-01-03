@@ -154,6 +154,7 @@ export default class AccountEditorPage extends FormComponent {
                 <InputControl
                   required
                   isInput
+                  readOnly={this.state.account}
                   label="Account address"
                   value={address.value}
                   errorMessage={address.errorMsg}

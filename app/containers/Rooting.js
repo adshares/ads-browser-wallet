@@ -67,26 +67,7 @@ function SwitchNetwork({ ...params }) {
   return <Redirect to={url} />;
 }
 
-@connect(
-  //FIXME remove fallbacks
-  state => ({
-    router: state.router || {},
-    vault: state.vault || {},
-    queue: state.queue || [],
-    authDialog: state.authDialog,
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        ...vaultActions,
-        ...formActions,
-        ...settingsActions,
-        ...commonActions,
-      }, dispatch)
-  })
-)
-export default class Rooting extends Component {
-
+class Rooting extends Component {
   static propTypes = {
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
@@ -303,3 +284,22 @@ export default class Rooting extends Component {
     );
   }
 }
+
+export default connect(
+  //FIXME remove fallbacks
+  state => ({
+    router: state.router || {},
+    vault: state.vault || {},
+    queue: state.queue || [],
+    authDialog: state.authDialog,
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        ...vaultActions,
+        ...formActions,
+        ...settingsActions,
+        ...commonActions,
+      }, dispatch)
+  })
+)(Rooting);

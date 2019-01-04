@@ -36,7 +36,6 @@ class DetailsPage extends PageComponent {
       pk = chosenAccount.publicKey;
     }
     const key = keys.find(k => k.publicKey === pk);
-    console.log('KEYS', key, keys, pk);
     const chosenElement = chosenAccount || key || seedPhrase;
     const signature = type === 'key' && ADS.sign('', key.publicKey, key.secretKey);
 

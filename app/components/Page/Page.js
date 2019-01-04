@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -17,19 +18,8 @@ import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';
 import style from './Page.css';
 
-@connect(
-  state => ({
-    vault: state.vault,
-    pages: state.pages
-  }),
-  dispatch => ({
-    actions: {
-      vault: bindActionCreators(VaultActions, dispatch),
-      form: bindActionCreators(FormActions, dispatch)
-    }
-  })
-)
-export default class Page extends React.Component {
+
+class Page extends React.Component {
   render() {
     const {
       vault,
@@ -127,6 +117,19 @@ export default class Page extends React.Component {
     );
   }
 }
+
+export default connect(
+  state => ({
+    vault: state.vault,
+    pages: state.pages
+  }),
+  dispatch => ({
+    actions: {
+      vault: bindActionCreators(VaultActions, dispatch),
+      form: bindActionCreators(FormActions, dispatch)
+    }
+  })
+)(Page);
 
 Page.propTypes = {
   children: PropTypes.any,

@@ -15,23 +15,7 @@ import style from './SettingsPage.css';
 import { inputChange, formValidate, formClean } from '../../actions/form';
 import { changePasswordInit } from '../../actions/settingsActions';
 
-@connect(
-  state => ({
-    vault: state.vault,
-    page: state.pages.SettingsPage
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        handleInputChange: inputChange,
-        formValidate,
-        formClean,
-        changePasswordInit,
-      },
-      dispatch
-    )
-  })
-)
+
 class PasswordChangePage extends PageComponent {
   static PAGE_NAME = 'SettingsPage';
 
@@ -146,7 +130,23 @@ class PasswordChangePage extends PageComponent {
   }
 }
 
-export default PasswordChangePage;
+export default connect(
+  state => ({
+    vault: state.vault,
+    page: state.pages.SettingsPage
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        handleInputChange: inputChange,
+        formValidate,
+        formClean,
+        changePasswordInit,
+      },
+      dispatch
+    )
+  })
+)(PasswordChangePage);
 
 PasswordChangePage.propTypes = {
   history: PropTypes.object.isRequired,

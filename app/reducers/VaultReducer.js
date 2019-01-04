@@ -1,4 +1,3 @@
-/* eslint-disable semi,no-console */
 import * as actions from '../actions/vaultActions';
 import * as KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
@@ -34,7 +33,6 @@ export default function (vault = initialVault, action) {
   switch (action.type) {
     case actions.CREATE: {
       BgClient.startSession(window.btoa(action.password));
-      console.log('reducer create', vault)
       const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
       const vaultKeys = vault.keys ? vault.keys : [];
       const newVault = {

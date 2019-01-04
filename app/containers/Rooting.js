@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -37,7 +36,6 @@ function NotFoundErrorPage(props) {
 }
 
 function PrivateRoute({ ...params }) {
-  console.log('params', { ...params });
   if (params.vault.empty) {
     return <Redirect to="/register" />;
   }
@@ -84,7 +82,6 @@ class Rooting extends Component {
 
   render() {
     const { vault, queue, router, actions, authDialog } = this.props;
-    console.log('VAULT ROOTING', vault);
 
     return (
       <div className={style.app}>

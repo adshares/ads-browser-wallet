@@ -1,6 +1,14 @@
 import { of, from } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
+import {
+  mergeMap,
+  mapTo,
+  switchMap,
+  take,
+  withLatestFrom,
+  filter,
+  takeUntil,
+} from 'rxjs/operators';
 
 import * as vaultActions from '../actions/vaultActions';
 import * as authActions from '../actions/actions';
@@ -33,7 +41,11 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
       const updatedKeys = vault.keys
         .filter(key => key.secretKey !== secretKey);
       return of(vaultActions.removeKey(updatedKeys, authDialog.password.value));
-    })
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL)
+      )
+    ),
     )
   )
 );
@@ -93,9 +105,13 @@ export const removeAccountEpic = (action$, state$) => action$.pipe(
       const updatedAccounts = vault.accounts
         .filter(account => account.address !== address);
       return of(vaultActions.removeAccount(updatedAccounts, authDialog.password.value));
-    })
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL)
+      )
+    ),
     )
-  )
+  ),
 );
 
 export const eraseStorageEpic = (action$, state$) => action$.pipe(
@@ -112,10 +128,15 @@ export const eraseStorageEpic = (action$, state$) => action$.pipe(
       return from([vaultActions.erase(),
         authActions.retrieveAccountDataInIntervalsStop()
       ]);
-    })
-    )
-  )
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL)
+      )
+    ),
+    ),
+  ),
 );
+
 export const saveGeneratedKeysEpic = (action$, state$) => action$.pipe(
   ofType(vaultActions.SAVE_GENERATED_KEYS_INIT),
   switchMap(action => action$.pipe(
@@ -127,7 +148,11 @@ export const saveGeneratedKeysEpic = (action$, state$) => action$.pipe(
       const { keys } = action;
       const newKeyCount = keyCount + keys.length;
       return of(vaultActions.saveGeneratedKeys(keys, newKeyCount, authDialog.password.value));
-    })
-    )
-  )
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL),
+      )
+    ),
+    ),
+  ),
 );

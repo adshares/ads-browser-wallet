@@ -35,7 +35,7 @@ class DetailsPage extends PageComponent {
     } else if (type === 'account') {
       pk = chosenAccount.publicKey;
     }
-    const key = pk && keys.find(k => k.publicKey === pk);
+    const key = keys.find(k => k.publicKey === pk);
     const chosenElement = chosenAccount || key || seedPhrase;
     const signature = type === 'key' && ADS.sign('', key.publicKey, key.secretKey);
 
@@ -72,7 +72,7 @@ class DetailsPage extends PageComponent {
               />
             )}
             <InputControl label="Public key" readOnly value={chosenElement.publicKey} />
-            <InputControl label="Secret key" readOnly value={key.secretKey} />
+            <InputControl label="Secret key" readOnly value={key && key.secretKey} />
             {type === 'key' && (
               <InputControl label="Signature" readOnly rows={4} value={signature} />
             )}

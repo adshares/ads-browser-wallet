@@ -21,8 +21,6 @@ import style from './Page.css';
 
 class Page extends React.Component {
   render() {
-    console.log('PAGE', this.props);
-
     const {
       vault,
       actions,

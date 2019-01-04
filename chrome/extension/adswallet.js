@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHashHistory } from 'history';
@@ -18,7 +17,6 @@ function renderDOM(Root, initialState, config) {
   }
   const createStore = require('../../app/store/configureStore');
 
-  console.debug('initialState', initialState);
   const store = createStore(initialState, history);
 
   chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -53,9 +51,7 @@ BgClient.getSession((session) => {
       router: JSON.parse(obj[config.routerStorageKey] || '{}'),
       queue: JSON.parse(obj[config.queueStorageKey] || '[]'),
     };
-    console.log('init', obj);
     VaultCrypt.load((vault) => {
-      console.log('VAULT', vault);
       initialState.vault = vault;
       if (!vault.empty && vault.sealed && session.secret) {
         const decrypted = VaultCrypt.decrypt(vault, window.atob(session.secret));

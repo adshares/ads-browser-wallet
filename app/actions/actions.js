@@ -16,7 +16,6 @@ export const RETRIEVE_NODES_DATA_IN_INTERVALS = 'RETRIEVE_NODES_DATA_IN_INTERVAL
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS = 'RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS';
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_FAILURE = 'RETRIEVE_NODES_DATA_IN_INTERVALS_FAILURE';
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_STOP = 'RETRIEVE_NODES_DATA_IN_INTERVALS_STOP';
-export const REMOVE_LISTENER_FOR_CURRENT_ACTION = 'REMOVE_LISTENER_FOR_CURRENT_ACTION';
 
 export const adsWalletInit = () => ({
   type: ADS_WALLET_INIT,
@@ -96,8 +95,4 @@ export const retrieveNodesDataInIntervalsFailure = error => ({
 
 export const retrieveNodesDataInIntervalsStop = () => ({
   type: RETRIEVE_NODES_DATA_IN_INTERVALS_STOP,
-});
-
-export const removeListenerForCurrentAction = () => ({
-  type: REMOVE_LISTENER_FOR_CURRENT_ACTION,
 });

@@ -22,6 +22,7 @@ function sanitizeField(name, value, inputs) {
   switch (name) {
     case ADS.TX_FIELDS.AMOUNT:
       matches = value.match(/^([0-9]*)[.,]?([0-9]*)$/);
+      // eslint-disable-next-line no-undef,new-cap
       return BigInt(matches[1] + matches[2].padEnd(11, '0'));
     case ADS.TX_FIELDS.MSG:
       if (inputs.rawMessage && !inputs.rawMessage.value) {

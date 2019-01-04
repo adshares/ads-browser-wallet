@@ -55,7 +55,7 @@ class ConfirmDialog extends PageComponent {
       </div>
     );
   }
-};
+}
 
 export default ConfirmDialog;
 

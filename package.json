@@ -51,8 +51,9 @@
     "crx": "^3.0.3",
     "css-loader": "^0.25.0",
     "css-modules-require-hook": "^4.0.5",
-    "eslint": "^3.9.1",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb": "^12.0.0",
+    "eslint-loader": "^2.1.1",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.5.0",
@@ -72,11 +73,11 @@
     "url-loader": "^1.1.2",
     "webpack": "^3.10.0",
     "webpack-hot-middleware": "^2.10.0",
-    "webpack-httpolyglot-server": "^0.3.0",
-    "redux-devtools-extension": "^2.13.6",
-    "redux-logger": "^3.0.6"
+    "webpack-httpolyglot-server": "^0.3.0"
   },
   "dependencies": {
+    "redux-devtools-extension": "^2.13.6",
+    "redux-logger": "^3.0.6",
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/react-fontawesome": "^0.1.3",

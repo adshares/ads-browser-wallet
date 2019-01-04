@@ -1,6 +1,6 @@
 import * as actions from '../actions/form';
 import KeysImporterPage from '../containers/Settings/KeysImporterPage';
-import { actionsMap as FormReducers } from './formControlsReducer';
+import FormReducers from './formControlsReducer';
 
 const initialState = {
   isSubmitted: false,

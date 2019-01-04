@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import * as KeyBox from './keybox';
 
 /**
@@ -130,6 +131,7 @@ export function findAccountByAddressInVault(vault, address) {
 }
 
 export function findIfPublicKeyExist(vault, publicKey) {
+// eslint-disable-next-line no-confusing-arrow
   return vault.keys.find(k =>
     k.publicKey ? k.publicKey === publicKey
       : KeyBox.getPublicKeyFromSecret(k.secretKey) === publicKey

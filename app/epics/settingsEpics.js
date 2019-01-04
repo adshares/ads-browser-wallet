@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { from, of, concat, merge } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, withLatestFrom, map } from 'rxjs/operators';

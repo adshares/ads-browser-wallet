@@ -44,7 +44,8 @@ const publicKey = ({ value, inputs, vault, pageName }) => {
       return `You've already imported ${config.importedKeysLimit}. To import more keys increase
        your imported keys limit`;
     }
-  } else if (pageName === AccountEditorPage.PAGE_NAME && !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
+  } else if (pageName === AccountEditorPage.PAGE_NAME &&
+    !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
     return 'Cannot find a key in storage. Please import secret key first.';
   }
   return null;

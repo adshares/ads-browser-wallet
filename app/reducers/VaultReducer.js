@@ -6,11 +6,10 @@ import ADS from '../../app/utils/ads';
 import {
   InvalidPasswordError,
   AccountsLimitError,
-  UnknownPublicKeyError,
   ItemNotFound,
 } from '../actions/errors';
 import config from '../config/config';
-import { findAccountByAddressInVault, findIfPublicKeyExist } from '../utils/utils';
+import { findAccountByAddressInVault } from '../utils/utils';
 import {
   RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
   RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS
@@ -206,6 +205,7 @@ export default function (vault = initialVault, action) {
     }
 
     case RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS: {
+    // eslint-disable-next-line no-confusing-arrow
       const accounts = vault.accounts.map(a => a.address === action.account.address ? {
         ...a,
         ...action.account

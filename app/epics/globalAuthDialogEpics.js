@@ -4,7 +4,6 @@ import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/o
 
 import * as vaultActions from '../actions/vaultActions';
 import * as authActions from '../actions/actions';
-import { removeKey as removeKeyValidator } from '../utils/validators';
 import BgClient from '../utils/background';
 import VaultCrypt from '../utils/vaultcrypt';
 import config from '../config/config';
@@ -45,9 +44,7 @@ export const previewSecretDataEpic = (action$, state$) => action$.pipe(
     ofType(authActions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS),
     take(1),
     withLatestFrom(state$),
-    mergeMap(() => {
-      return of(authActions.previewSecretData());
-    })
+    mergeMap(() => of(authActions.previewSecretData()))
     ),
   )
 );
@@ -78,9 +75,7 @@ export const removeAccessRightsForProtectedDataEpic = (action$, state$) =>
       ofType('@@router/LOCATION_CHANGE'),
       take(1),
       withLatestFrom(state$),
-      mergeMap(() => {
-        return of(authActions.removeAccesForProtectedData(false));
-      })
+      mergeMap(() => of(authActions.removeAccesForProtectedData(false)))
       ),
     )
   );

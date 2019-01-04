@@ -22,7 +22,15 @@ import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
-import { inputChange, passwordChange, toggleVisibility, passInputValidate, formValidate, formClean, accountEditFormValidate } from '../../actions/form';
+import {
+  inputChange,
+  passwordChange,
+  toggleVisibility,
+  passInputValidate,
+  formValidate,
+  formClean,
+  accountEditFormValidate
+} from '../../actions/form';
 import { importAccountPublicKey } from '../../actions/settingsActions';
 
 @connect(
@@ -78,6 +86,7 @@ export default class AccountEditorPage extends FormComponent {
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    // eslint-disable-next-line no-unused-expressions
     this.state.account ?
       this.props.actions.accountEditFormValidate(
           AccountEditorPage.PAGE_NAME,

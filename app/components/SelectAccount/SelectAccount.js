@@ -32,19 +32,20 @@ export default class SelectAccount extends React.Component {
     const { selectedAccount, options } = this.props;
     const activeOption = options.find(account => account.address === selectedAccount);
     const results = !!options.length && options.map((option, index) => {
-        if (option.address !== selectedAccount) {
-          return (
-            <li
-              tabIndex="0"
-              key={index} className={style.option} data-value={option.address}
-              onClick={() => this.setActiveOption(option.address)}
-            >
-              <span className={style.optionName}> {option.name} </span>
-              <span className={style.optionAccount}> {option.address} </span>
-            </li>
-          );
-        }
+      if (option.address !== selectedAccount) {
+        return (
+          <li
+            tabIndex="0"
+            key={index} className={style.option} data-value={option.address}
+            onClick={() => this.setActiveOption(option.address)}
+          >
+            <span className={style.optionName}> {option.name} </span>
+            <span className={style.optionAccount}> {option.address} </span>
+          </li>
+        );
       }
+      return null;
+    }
     );
 
     return (
@@ -75,7 +76,7 @@ export default class SelectAccount extends React.Component {
                 to="/accounts/import"
               >
                 Add account
-                <FontAwesomeIcon icon={faPlus} className={style.optionIcon}/>
+                <FontAwesomeIcon icon={faPlus} className={style.optionIcon} />
               </Link>
             </li>)}
         </ul>

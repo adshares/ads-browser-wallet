@@ -103,4 +103,4 @@ const actionsMap = {
 
 };
 
-export { actionsMap };
+export default actionsMap;

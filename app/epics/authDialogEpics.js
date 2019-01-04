@@ -1,4 +1,4 @@
-import { of, from, merge } from 'rxjs';
+import { of, from } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, map, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
 import * as vaultActions from '../actions/vaultActions';
@@ -69,7 +69,7 @@ export const updateAccountEpic = (action$, state$, { history }) => action$.pipe(
   ))
 );
 
-export const redirectionFormEpic = (action$, state$, { history }) => action$.pipe(
+export const redirectionFormEpic = (action$, state$) => action$.pipe(
   ofType(TOGGLE_AUTHORISATION_DIALOG),
   filter(action => action.isOpen === true),
   switchMap(action => action$.pipe(

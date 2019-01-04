@@ -68,7 +68,7 @@ export default class Page extends React.Component {
     const wrapperClass = classes.join(' ');
     let menu;
     if (noLinks) {
-      menu = <div/>;
+      menu = <div />;
     } else if (cancelLink) {
       menu = (
         <ButtonLink
@@ -121,7 +121,7 @@ export default class Page extends React.Component {
         </header>
         <div className={wrapperClass}>{children}</div>
         <footer className={style.footer}>
-          <Timer/>
+          <Timer />
         </footer>
       </section>
     );

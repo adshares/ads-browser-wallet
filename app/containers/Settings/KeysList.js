@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,13 +16,14 @@ export const KeysList = ({
                            keys,
                            removeAction,
                            createAction,
-                           showKeys,
                            location,
                            type
                          }) => {
   const filteredKeys = keys.filter(key => key.type === type)
     .map((k) => {
+      // eslint-disable-next-line no-prototype-builtins
       if (!k.hasOwnProperty('publicKey')) {
+      // eslint-disable-next-line no-param-reassign
         k.publicKey = getPublicKeyFromSecret(k.secretKey);
       }
       return k;
@@ -92,7 +94,6 @@ export const KeysList = ({
 KeysList.propTypes = {
   type: PropTypes.string.isRequired,
   keys: PropTypes.array.isRequired,
-  showKeys: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   removeAction: PropTypes.func,
   createAction: PropTypes.func,

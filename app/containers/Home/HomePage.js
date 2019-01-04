@@ -55,6 +55,7 @@ export default class HomePage extends React.PureComponent {
     );
   }
 
+// eslint-disable-next-line class-methods-use-this
   renderConfigure() {
     return (
       <div className={style.configure}>

@@ -9,7 +9,6 @@ import config from '../config/config';
 import { adsWalletInit } from '../actions/actions';
 
 export default function (initialState, history) {
-
   const adsRpc = new AdsRpc(config.adsRpcHost);
   const epicMiddleware = createEpicMiddleware({
     dependencies: { adsRpc, history }

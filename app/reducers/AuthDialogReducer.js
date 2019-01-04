@@ -2,9 +2,9 @@ import * as actions from '../actions/authDialogActions';
 
 const initialState = {
   uuid: null,
-  isOpened: false,
-  isConfirmed: false,
-  isRejected: false,
+  opened: false,
+  confirmed: false,
+  rejected: false,
 };
 
 export default function (state = initialState, action) {
@@ -13,25 +13,33 @@ export default function (state = initialState, action) {
       return {
         ...state,
         uuid: action.uuid,
-        isOpened: true,
-        isConfirmed: false,
-        isRejected: false,
+        opened: true,
+        confirmed: false,
+        rejected: false,
+      };
+    }
+    case actions.CLOSE_DIALOG: {
+      return {
+        ...state,
+        opened: false,
+        confirmed: false,
+        rejected: false,
       };
     }
     case actions.PASSWORD_CONFIRMED: {
       return {
         ...state,
-        isOpened: false,
-        isConfirmed: true,
-        isRejected: false,
+        opened: false,
+        confirmed: true,
+        rejected: false,
       };
     }
     case actions.PASSWORD_REJECTED: {
       return {
         ...state,
-        isOpened: false,
-        isConfirmed: false,
-        isRejected: true,
+        opened: false,
+        confirmed: false,
+        rejected: true,
       };
     }
     default:

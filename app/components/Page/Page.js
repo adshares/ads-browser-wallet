@@ -18,7 +18,7 @@ import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';
 import style from './Page.css';
 
-export default class Page extends React.Component {
+class Page extends React.Component {
 
   static propTypes = {
     children: PropTypes.any,
@@ -137,4 +137,3 @@ export default connect(
     }
   })
 )(Page);
-

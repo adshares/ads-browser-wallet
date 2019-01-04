@@ -1,10 +1,17 @@
 import { of, from } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
+import {
+  mergeMap,
+  mapTo,
+  switchMap,
+  take,
+  withLatestFrom,
+  filter,
+  takeUntil,
+} from 'rxjs/operators';
 
 import * as vaultActions from '../actions/vaultActions';
 import * as authActions from '../actions/actions';
-import { removeKey as removeKeyValidator } from '../utils/validators';
 import BgClient from '../utils/background';
 import VaultCrypt from '../utils/vaultcrypt';
 import config from '../config/config';
@@ -34,7 +41,11 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
       const updatedKeys = vault.keys
         .filter(key => key.secretKey !== secretKey);
       return of(vaultActions.removeKey(updatedKeys, authDialog.password.value));
-    })
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL)
+      )
+    ),
     )
   )
 );
@@ -45,9 +56,7 @@ export const previewSecretDataEpic = (action$, state$) => action$.pipe(
     ofType(authActions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS),
     take(1),
     withLatestFrom(state$),
-    mergeMap(() => {
-      return of(authActions.previewSecretData());
-    })
+    mergeMap(() => of(authActions.previewSecretData()))
     ),
   )
 );
@@ -78,9 +87,7 @@ export const removeAccessRightsForProtectedDataEpic = (action$, state$) =>
       ofType('@@router/LOCATION_CHANGE'),
       take(1),
       withLatestFrom(state$),
-      mergeMap(() => {
-        return of(authActions.removeAccesForProtectedData(false));
-      })
+      mergeMap(() => of(authActions.removeAccesForProtectedData(false)))
       ),
     )
   );
@@ -98,9 +105,13 @@ export const removeAccountEpic = (action$, state$) => action$.pipe(
       const updatedAccounts = vault.accounts
         .filter(account => account.address !== address);
       return of(vaultActions.removeAccount(updatedAccounts, authDialog.password.value));
-    })
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL)
+      )
+    ),
     )
-  )
+  ),
 );
 
 export const eraseStorageEpic = (action$, state$) => action$.pipe(
@@ -117,10 +128,15 @@ export const eraseStorageEpic = (action$, state$) => action$.pipe(
       return from([vaultActions.erase(),
         authActions.retrieveAccountDataInIntervalsStop()
       ]);
-    })
-    )
-  )
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL)
+      )
+    ),
+    ),
+  ),
 );
+
 export const saveGeneratedKeysEpic = (action$, state$) => action$.pipe(
   ofType(vaultActions.SAVE_GENERATED_KEYS_INIT),
   switchMap(action => action$.pipe(
@@ -132,7 +148,11 @@ export const saveGeneratedKeysEpic = (action$, state$) => action$.pipe(
       const { keys } = action;
       const newKeyCount = keyCount + keys.length;
       return of(vaultActions.saveGeneratedKeys(keys, newKeyCount, authDialog.password.value));
-    })
-    )
-  )
+    }),
+    takeUntil(action$.pipe(
+      ofType(authActions.CLEAN_AUTHORISATION_DIALOG_GLOBAL),
+      )
+    ),
+    ),
+  ),
 );

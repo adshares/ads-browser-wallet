@@ -33,29 +33,7 @@ import {
 } from '../../actions/form';
 import { importAccountPublicKey } from '../../actions/settingsActions';
 
-@connect(
-  state => ({
-    vault: state.vault,
-    page: state.pages.AccountEditorPage
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        handleInputChange: inputChange,
-        handlePasswordChange: passwordChange,
-        formValidate,
-        accountEditFormValidate,
-        passInputValidate,
-        toggleVisibility,
-        formClean,
-        importAccountPublicKey
-      },
-      dispatch
-    )
-  })
-)
-
-export default class AccountEditorPage extends FormComponent {
+class AccountEditorPage extends FormComponent {
   static PAGE_NAME = 'AccountEditorPage';
 
   constructor(props) {
@@ -227,6 +205,29 @@ export default class AccountEditorPage extends FormComponent {
     );
   }
 }
+
+export default connect(
+  state => ({
+    vault: state.vault,
+    page: state.pages.AccountEditorPage
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        handleInputChange: inputChange,
+        handlePasswordChange: passwordChange,
+        formValidate,
+        accountEditFormValidate,
+        passInputValidate,
+        toggleVisibility,
+        formClean,
+        importAccountPublicKey
+      },
+      dispatch
+    )
+  })
+)(AccountEditorPage);
+
 
 AccountEditorPage.propTypes = {
   history: PropTypes.object.isRequired,

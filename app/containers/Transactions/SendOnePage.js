@@ -22,24 +22,8 @@ import { fieldLabels } from './labels';
 import style from './TransactionPage.css';
 import config from '../../config/config';
 
-@connect(
-  state => ({
-    ...state.transactions[ADS.TX_TYPES.SEND_ONE]
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        cleanForm,
-        inputChanged,
-        validateForm,
-        transactionAccepted,
-        transactionRejected,
-      },
-      dispatch
-    )
-  })
-)
-export default class SendOnePage extends TransactionPage {
+
+class SendOnePage extends TransactionPage {
   constructor(props) {
     super(ADS.TX_TYPES.SEND_ONE, props);
   }
@@ -150,3 +134,21 @@ export default class SendOnePage extends TransactionPage {
     );
   }
 }
+
+export default connect(
+  state => ({
+    ...state.transactions[ADS.TX_TYPES.SEND_ONE]
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        cleanForm,
+        inputChanged,
+        validateForm,
+        transactionAccepted,
+        transactionRejected,
+      },
+      dispatch
+    )
+  })
+)(SendOnePage);

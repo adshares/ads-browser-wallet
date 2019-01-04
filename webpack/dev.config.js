@@ -52,7 +52,8 @@ const baseDevConfig = () => ({
         use: [
           {
             options: {
-              eslintPath: require.resolve('eslint')
+              eslintPath: require.resolve('eslint'),
+              emitWarning: true,
             },
             loader: require.resolve('eslint-loader')
           }
@@ -62,7 +63,7 @@ const baseDevConfig = () => ({
         oneOf: [
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
-          // `test` is equivalent to a match.
+          // A missing `test` is equivalent to a match.
           {
             test: /\.(ttf|eot|woff|woff2|jpe?g|png|svg)$/,
             loader: require.resolve('url-loader'),

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -36,6 +37,7 @@ function NotFoundErrorPage(props) {
 }
 
 function PrivateRoute({ ...params }) {
+  console.log('params', { ...params });
   if (params.vault.empty) {
     return <Redirect to="/register" />;
   }
@@ -67,26 +69,7 @@ function SwitchNetwork({ ...params }) {
   return <Redirect to={url} />;
 }
 
-@connect(
-  //FIXME remove fallbacks
-  state => ({
-    router: state.router || {},
-    vault: state.vault || {},
-    queue: state.queue || [],
-    authDialog: state.authDialog,
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        ...vaultActions,
-        ...formActions,
-        ...settingsActions,
-        ...commonActions,
-      }, dispatch)
-  })
-)
-export default class Rooting extends Component {
-
+class Rooting extends Component {
   static propTypes = {
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
@@ -101,6 +84,7 @@ export default class Rooting extends Component {
 
   render() {
     const { vault, queue, router, actions, authDialog } = this.props;
+    console.log('VAULT ROOTING', vault);
 
     return (
       <div className={style.app}>
@@ -303,3 +287,22 @@ export default class Rooting extends Component {
     );
   }
 }
+
+export default connect(
+  //FIXME remove fallbacks
+  state => ({
+    router: state.router || {},
+    vault: state.vault || {},
+    queue: state.queue || [],
+    authDialog: state.authDialog,
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        ...vaultActions,
+        ...formActions,
+        ...settingsActions,
+        ...commonActions,
+      }, dispatch)
+  })
+)(Rooting);

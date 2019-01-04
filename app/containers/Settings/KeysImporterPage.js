@@ -19,26 +19,7 @@ import { inputChange, passwordChange, toggleVisibility, passInputValidate, formV
 import { importKeyInit } from '../../actions/vaultActions';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 
-@connect(
-  state => ({
-    vault: state.vault,
-    page: state.pages.KeysImporterPage
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        handleInputChange: inputChange,
-        handlePasswordChange: passwordChange,
-        formValidate,
-        passInputValidate,
-        toggleVisibility,
-        importKeyInit,
-      },
-      dispatch
-    )
-  })
-)
-export default class KeysImporterPage extends FormComponent {
+class KeysImporterPage extends FormComponent {
   static PAGE_NAME = 'KeysImporterPage';
 
   handleInputChange = (inputName, inputValue) => {
@@ -159,6 +140,26 @@ export default class KeysImporterPage extends FormComponent {
     );
   }
 }
+
+export default connect(
+  state => ({
+    vault: state.vault,
+    page: state.pages.KeysImporterPage
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        handleInputChange: inputChange,
+        handlePasswordChange: passwordChange,
+        formValidate,
+        passInputValidate,
+        toggleVisibility,
+        importKeyInit,
+      },
+      dispatch
+    )
+  })
+)(KeysImporterPage);
 
 KeysImporterPage.propTypes = {
   history: PropTypes.object.isRequired,

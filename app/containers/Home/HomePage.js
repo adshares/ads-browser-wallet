@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -77,6 +78,8 @@ export default class HomePage extends React.PureComponent {
   }
 
   render() {
+    console.log('HOME PAGE', this.props);
+
     const { vault, queue } = this.props;
     const filteredQueue = queue.filter(t =>
       !!config.testnet === !!t.testnet &&

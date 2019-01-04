@@ -55,6 +55,7 @@ BgClient.getSession((session) => {
     };
     console.log('init', obj);
     VaultCrypt.load((vault) => {
+      console.log('VAULT', vault);
       initialState.vault = vault;
       if (!vault.empty && vault.sealed && session.secret) {
         const decrypted = VaultCrypt.decrypt(vault, window.atob(session.secret));

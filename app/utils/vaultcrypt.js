@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import CryptoJS from 'crypto-js';
 import * as KeyBox from './keybox';
 import config from '../config/config';
@@ -87,17 +88,24 @@ function decrypt(encryptedVault, password) {
 
 function load(callback) {
   const key = config.vaultStorageKey;
+// eslint-disable-next-line no-console
+  console.log('KEY', key);
   chrome.storage.sync.get(key, (result) => {
+// eslint-disable-next-line no-console
+    console.log('result', result, result[key]);
     const vault = {
       secret: result[key] || '',
       sealed: true,
       empty: !result[key] || result[key].length === 0,
     };
+// eslint-disable-next-line no-console
+    console.log('KEY 2', key);
     callback(vault);
   });
 }
 
 function save(vault, password, callback) {
+  console.log('SAVE', vault);
   const secret = encrypt(vault, password);
   chrome.storage.sync.set({ [config.vaultStorageKey]: secret || '' }, callback);
   return secret;

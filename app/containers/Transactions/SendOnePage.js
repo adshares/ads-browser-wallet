@@ -20,7 +20,7 @@ import Button from '../../components/atoms/Button';
 import ADS from '../../utils/ads';
 import { fieldLabels } from './labels';
 import style from './TransactionPage.css';
-import config from '../../config/config'
+import config from '../../config/config';
 
 @connect(
   state => ({

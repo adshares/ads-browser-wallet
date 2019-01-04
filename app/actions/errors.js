@@ -1,3 +1,4 @@
+/* eslint-disable no-proto */
 export function InvalidPasswordError() {
   this.constructor.prototype.__proto__ = Error.prototype;
   Error.captureStackTrace(this, this.constructor);

@@ -1,4 +1,3 @@
-
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
@@ -48,10 +47,22 @@ const baseDevConfig = () => ({
   module: {
     rules: [
       {
+        test: /\.(js|jsx|mjs)$/,
+        enforce: 'pre',
+        use: [
+          {
+            options: {
+              eslintPath: require.resolve('eslint')
+            },
+            loader: require.resolve('eslint-loader')
+          }
+        ]
+      },
+      {
         oneOf: [
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
-          // A missing `test` is equivalent to a match.
+          // `test` is equivalent to a match.
           {
             test: /\.(ttf|eot|woff|woff2|jpe?g|png|svg)$/,
             loader: require.resolve('url-loader'),
@@ -70,7 +81,8 @@ const baseDevConfig = () => ({
           }, {
             test: /\.css$/,
             use: ['style-loader', 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]', {
-              loader: 'postcss-loader', options: {
+              loader: 'postcss-loader',
+              options: {
                 plugins: () => [autoprefixer]
               }
             }]

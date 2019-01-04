@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 import NaCl from 'tweetnacl';
 import { byteToHex, hexToByte, sanitizeHex, fixByteOrder } from './utils';
 import { TransactionDataError } from '../actions/errors';
@@ -308,9 +309,7 @@ class Encoder {
     return this.data;
   }
 
-  pad(field, length) {
-    return field.padStart(length, '0');
-  }
+  pad = (field, length) => field.padStart(length, '0');
 }
 
 class Decoder {
@@ -336,6 +335,7 @@ class Decoder {
         this.validateLength(16);
         parsed = fixByteOrder(this.data.substr(0, 16));
         // parsed = formatMoney(parseInt(parsed, 16) / 100000000000, 11);
+        // eslint-disable-next-line new-cap,no-undef
         parsed = BigInt(`0x${parsed}`);
         this.data = this.data.substr(16);
         break;
@@ -448,6 +448,7 @@ class Decoder {
           const address = formatAddress(node, user);
           parsed.push({
             [TX_FIELDS.ADDRESS]: address,
+            // eslint-disable-next-line new-cap,no-undef
             [TX_FIELDS.AMOUNT]: BigInt(`0x${amount}`)
           });
           this.data = this.data.substr(28);

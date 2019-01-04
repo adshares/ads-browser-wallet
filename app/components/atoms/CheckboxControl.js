@@ -13,7 +13,7 @@ const CheckboxControl = ({ name, checked, label, handleChange }) => {
       <input
         name={name}
         tabIndex="0"
-        className={`${style.checkbox} ${ style.checkboxChecked}`}
+        className={`${style.checkbox} ${style.checkboxChecked}`}
         type="checkbox"
         id={label}
         checked={checked}

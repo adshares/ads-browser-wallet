@@ -37,7 +37,7 @@ function NotFoundErrorPage(props) {
 
 function PrivateRoute({ ...params }) {
   if (params.vault.empty) {
-    return <Redirect to="/register"/>;
+    return <Redirect to="/register" />;
   }
   if (params.vault.sealed) {
     return (
@@ -62,9 +62,9 @@ function SwitchNetwork({ ...params }) {
       window.location.hash = `#${url || '/'}`;
       window.location.reload();
     });
-    return <div/>;
+    return <div />;
   }
-  return <Redirect to={url}/>;
+  return <Redirect to={url} />;
 }
 
 @connect(
@@ -91,6 +91,8 @@ export default class Rooting extends Component {
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
+    router: PropTypes.object,
+    authDialog: PropTypes.object
   };
 
   componentWillUnmount() {

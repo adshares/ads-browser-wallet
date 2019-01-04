@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +25,7 @@ export default class Timer extends React.Component {
     clearInterval(this.intervalId);
   }
 
-  getBlockTime() {
+  getBlockTime = () => {
     const now = Math.floor(Date.now() / 1000);
     const block = Math.floor(now / config.blockLength) * config.blockLength;
     const nextBlock = block + config.blockLength;
@@ -35,7 +36,7 @@ export default class Timer extends React.Component {
       time: (nextBlock - now) + 1,
       dividend: block % (config.blockLength * config.dividentLength) === 0,
     };
-  }
+  };
 
   tick() {
     this.setState({

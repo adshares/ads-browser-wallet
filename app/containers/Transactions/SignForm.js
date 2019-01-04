@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,7 +67,7 @@ export default class SignForm extends FormComponent {
 
   toggleAdvanced = (visible) => {
     this.setState({ showAdvanced: visible });
-  }
+  };
 
   handleKeySelect = (event) => {
     let key = null;
@@ -74,7 +75,7 @@ export default class SignForm extends FormComponent {
       key = this.props.vault.keys.find(k => k.publicKey === event.target.value);
     }
     this.setState({ key });
-  }
+  };
 
   handleAccept = (event) => {
     event.preventDefault();
@@ -87,13 +88,13 @@ export default class SignForm extends FormComponent {
       key.secretKey
     );
     this.props.acceptAction(signature);
-  }
+  };
 
   handleReject = (event) => {
     event.preventDefault();
     event.stopPropagation();
     this.props.rejectAction();
-  }
+  };
 
   handleCancelClick = (event) => {
     if (this.props.cancelAction) {
@@ -101,7 +102,7 @@ export default class SignForm extends FormComponent {
       event.stopPropagation();
       this.props.cancelAction();
     }
-  }
+  };
 
   renderCommand(type, fields) {
     switch (type) {

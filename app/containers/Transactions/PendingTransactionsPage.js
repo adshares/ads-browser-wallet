@@ -65,10 +65,19 @@ export default class PendingTransactionsPage extends PageComponent {
     );
 
     return (
-      <Page className={style.page} title="Pending Transactions" scroll={queue.length > 3} cancelLink={this.getReferrer()}>
+      <Page
+        className={style.page}
+        title="Pending Transactions"
+        scroll={queue.length > 3}
+        cancelLink={this.getReferrer()}
+      >
         {queue.length === 0 ?
           <React.Fragment>
-            <Box layout="success" title="All right!" icon={faCheck}>
+            <Box
+              layout="success"
+              title="All right!"
+              icon={faCheck}
+            >
               There are no pending transactions
             </Box>
             <ButtonLink to="/" size="wide" icon="left" layout="info">

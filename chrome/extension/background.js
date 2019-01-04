@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { PostMessageError } from '../../app/actions/errors';
 import handlePopupApiMessage from './background/api_popup';
 import handleProxyApiMessage from './background/api_proxy';

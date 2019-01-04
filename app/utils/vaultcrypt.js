@@ -9,7 +9,7 @@ const KEYS = 'k';
 const ACCOUNTS = 'a';
 const ACCOUNT_ADDRESS = 'a';
 const ACCOUNT_NAME = 'n';
-const SETTINGS = 'o';
+// const SETTINGS = 'o';
 
 function checkPassword(vault, password) {
   try {
@@ -25,6 +25,7 @@ function checkPassword(vault, password) {
 function encrypt(vault, password) {
   const keys = vault.keys
     .filter(key => key.type && key.type !== 'auto')
+    // eslint-disable-next-line no-unused-vars
     .map(({ publicKey, ...keysToKeep }) => keysToKeep);
   const crypt = CryptoJS.AES.encrypt(JSON.stringify({
     [SEED_PHRASE]: vault.seedPhrase,

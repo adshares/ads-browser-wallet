@@ -72,7 +72,7 @@ export default class {
     });
   }
 
-  sendTransaction(data, signature, host, port) {
+  sendTransaction(data, signature, host) {
     return this.request(
       ADS.TX_TYPES.SEND_AGAIN, {
         data,

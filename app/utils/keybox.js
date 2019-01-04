@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import bip39 from 'bip39';
 import {
   getMasterKeyFromSeed,
@@ -58,12 +59,13 @@ function generateKeys(seed, quantity) {
 
 function generateNewKeys(seed, currentAmount, quantity = currentAmount + 5) {
   const keys = [];
- // hack +1 is because one of the key is named master so we start number ith gap between numerated keys names
+   // hack +1 is because one of the key is named master so we start number ith gap
+  // between numerated keys names
   for (let i = currentAmount; i <= quantity; i++) {
     const n = i.toString()
       .padStart(2, '0');
     keys.push({
-      name: `N${n}`,
+      name: `M${n}`,
       type: 'auto',
       ...generateNextKey(seed, i)
     });

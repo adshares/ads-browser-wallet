@@ -11,7 +11,6 @@ const InputControl = ({
   readOnly,
   pattern,
   autoFocus,
-  isValid,
   errorMessage,
   maxLength,
   isInput,
@@ -65,7 +64,7 @@ const InputControl = ({
       <label htmlFor={`${label}`} className={style.label}>
         {label}
       </label>
-        {children}
+      {children}
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </div>
   );
@@ -83,7 +82,6 @@ InputControl.propTypes = {
   pattern: PropTypes.string,
   autoFocus: PropTypes.bool,
   errorMessage: PropTypes.string,
-  isValid: PropTypes.bool,
   maxLength: PropTypes.number,
   handleChange: PropTypes.func,
   rows: PropTypes.number,

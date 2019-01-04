@@ -6,7 +6,8 @@ import {
   withLatestFrom,
   switchMap,
   takeUntil,
-  filter
+  filter,
+  tap
 } from 'rxjs/operators';
 import { RpcError } from '../actions/errors';
 import {
@@ -27,7 +28,7 @@ export const retrieveAccountEpic = (action$, state$, { adsRpc }) => action$.pipe
     timer(0, 5000)
       .pipe(
         withLatestFrom(state$),
-        filter(([, state]) => state.vault.selectedAccount),
+        filter(([, state]) => !!state.vault.selectedAccount),
         switchMap(([, state]) =>
           from(adsRpc.getAccount(state.vault.selectedAccount))
             .pipe(
@@ -51,7 +52,6 @@ export const retrieveNodesEpic = (action$, state$, { adsRpc }) => action$.pipe(
     timer(0, 60000)
       .pipe(
         withLatestFrom(state$),
-        filter(([, state]) => state.vault.selectedAccount),
         switchMap(() =>
           from(adsRpc.getNodes())
             .pipe(

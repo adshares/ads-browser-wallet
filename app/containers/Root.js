@@ -14,8 +14,8 @@ export default class Root extends Component {
     const { store, history } = this.props;
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history} location={history.location}>
-          <Rooting />
+        <ConnectedRouter history={history}>
+          <Rooting history={history} />
         </ConnectedRouter>
       </Provider>
     );

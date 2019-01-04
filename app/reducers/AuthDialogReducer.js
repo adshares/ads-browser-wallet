@@ -1,75 +1,39 @@
-import * as actions from '../actions/actions';
+import * as actions from '../actions/authDialogActions';
 
-const authState = {
-  password: {
-    isValid: false,
-    value: '',
-    errorMsg: null,
-  },
-  authModalOpen: false,
-  authConfirmed: false
+const initialState = {
+  uuid: null,
+  isOpened: false,
+  isConfirmed: false,
+  isRejected: false,
 };
 
-
-export default function (state = authState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
-    case actions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL: {
+    case actions.OPEN_DIALOG: {
       return {
         ...state,
-        authModalOpen: action.isOpen
+        uuid: action.uuid,
+        isOpened: true,
+        isConfirmed: false,
+        isRejected: false,
       };
     }
-    case actions.GLOBAL_PASS_INPUT_CHANGED: {
+    case actions.PASSWORD_CONFIRMED: {
       return {
         ...state,
-        password: {
-          ...state.password,
-          value: action.inputValue
-        }
+        isOpened: false,
+        isConfirmed: true,
+        isRejected: false,
       };
     }
-    case actions.GLOBAL_PASS_INPUT_VALIDATION_FAILED: {
+    case actions.PASSWORD_REJECTED: {
       return {
         ...state,
-        password: {
-          ...state.password,
-          errorMsg: action.errorMsg
-        }
+        isOpened: false,
+        isConfirmed: false,
+        isRejected: true,
       };
     }
-    case actions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS: {
-      return {
-        ...state,
-        password: {
-          ...state.password,
-          errorMsg: null,
-          isValid: true,
-        }
-      };
-    }
-
-    case actions.PREVIEW_SECRET_DATA: {
-      return {
-        ...authState,
-        authConfirmed: true
-      };
-    }
-
-    case actions.REMOVE_ACCESS_TO_PROTECTED_DATA: {
-      return {
-        ...authState,
-        authConfirmed: false
-      };
-    }
-
-    case actions.CLEAN_AUTHORISATION_DIALOG_GLOBAL: {
-      return {
-        ...authState,
-        authConfirmed: state.authConfirmed
-      };
-    }
-
-
     default:
       return state;
   }

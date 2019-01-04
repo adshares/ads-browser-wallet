@@ -15,15 +15,15 @@ import KeysImporterPage from './Settings/KeysImporterPage';
 import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
-import style from './App.css';
+import DetailsPage from './Settings/DetailsPage';
+import SeedPhrasePage from './Settings/SeedPhrasePage';
+import KeysSettings from './Settings/KeysSettings';
 import * as vaultActions from '../actions/vaultActions';
 import * as formActions from '../actions/form';
 import * as settingsActions from '../actions/settingsActions';
 import * as commonActions from '../actions/actions';
+import style from './App.css';
 import config from '../config/config';
-import DetailsPage from './Settings/DetailsPage';
-import KeysSettings from './Settings/KeysSettings';
-import ConfirmDialog from '../components/confirmDialog/confirmDialog';
 
 function NotFoundErrorPage(props) {
   return (
@@ -69,11 +69,11 @@ function SwitchNetwork({ ...params }) {
 
 class Rooting extends Component {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    router: PropTypes.object,
-    authDialog: PropTypes.object
+    authDialog: PropTypes.object.isRequired,
   };
 
   componentWillUnmount() {
@@ -81,7 +81,7 @@ class Rooting extends Component {
   }
 
   render() {
-    const { vault, queue, router, actions, authDialog } = this.props;
+    const { vault, queue, history, actions, authDialog } = this.props;
 
     return (
       <div className={style.app}>
@@ -133,17 +133,11 @@ class Rooting extends Component {
             exact
             path="/settings"
             vault={vault}
-            render={props =>
-              <SettingsPage
-                vault={vault}
-                actions={actions}
-                {...props}
-              />
-            }
+            component={SettingsPage}
           />
           <PrivateRoute
             exact
-            path="/password"
+            path="/settings/changePassword"
             vault={vault}
             render={props =>
               <PasswordChangePage vault={vault} {...props} />
@@ -151,7 +145,7 @@ class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/accounts/import"
+            path="/settings/accounts/import"
             vault={vault}
             render={props =>
               <AccountEditorPage
@@ -163,7 +157,7 @@ class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/accounts/:address([0-9A-F-]+)/edit"
+            path="/settings/accounts/:address([0-9A-F-]+)/edit"
             vault={vault}
             render={props =>
               <AccountEditorPage
@@ -175,7 +169,7 @@ class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/accounts/:address([0-9A-F-]+)/keys"
+            path="/settings/accounts/:address([0-9A-F-]+)/keys"
             vault={vault}
             render={props =>
               <DetailsPage
@@ -191,23 +185,16 @@ class Rooting extends Component {
 
           <PrivateRoute
             exact
-            path="/seedPhrase"
+            path="/settings/seedPhrase"
             vault={vault}
             render={props =>
-              <DetailsPage
-                seed={vault.seedPhrase}
-                type="seed"
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                previewSecretData={actions.previewSecretDataInit}
-                authConfirmed={authDialog.authConfirmed}
-                {...props}
-              />
+              <SeedPhrasePage vault={vault} {...props} />
             }
           />
 
           <PrivateRoute
             exact
-            path="/keys"
+            path="/settings/keys"
             vault={vault}
             render={props =>
               <KeysSettings
@@ -222,7 +209,7 @@ class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/keys/:publicKey([0-9a-fA-F]{64})/"
+            path="/settings/keys/:publicKey([0-9a-fA-F]{64})/"
             vault={vault}
             render={props =>
               <DetailsPage
@@ -237,7 +224,7 @@ class Rooting extends Component {
           />
           <PrivateRoute
             exact
-            path="/keys/import"
+            path="/settings/keys/import"
             vault={vault}
             render={props =>
               <KeysImporterPage vault={vault} {...props} />
@@ -269,17 +256,6 @@ class Rooting extends Component {
           />
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>
-        {authDialog.authModalOpen && (
-          <ConfirmDialog
-            showDialog
-            cancelLink={router.location.state ?
-              router.location.state.referrer.pathname :
-              router.location.pathname}
-            handlePasswordChange={actions.handleGlobalPassInputChange}
-            onSubmit={actions.globalPassInputValidate}
-            password={authDialog.password}
-          />
-        )}
       </div>
     );
   }

@@ -3,20 +3,18 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Form from '../../components/atoms/Form';
-import style from './confirmDialog.css';
+import style from './authDialog.css';
 import Button from '../atoms/Button';
 import InputControl from '../atoms/InputControl';
-import ButtonLink from '../atoms/ButtonLink';
 import PageComponent from '../PageComponent';
 
-class ConfirmDialog extends PageComponent {
+class AuthDialog extends PageComponent {
   render() {
-    const { showDialog, password, handlePasswordChange, onSubmit, cancelLink } = this.props;
+    const { handlePasswordChange, onSubmit, cancelLink } = this.props;
     return (
-      <div className={`${style.dialog} ${showDialog && style.dialogOpen}`}>
+      <div className={`${style.dialog} ${style.dialogOpen}`}>
         <Form
-          className={`${style.dialogForm} ${showDialog &&
-          style.dialogFormOpen}`}
+          className={`${style.dialogForm} ${style.dialogFormOpen}`}
         >
           <h2>
             <FontAwesomeIcon icon={faLock} className={style.dialogHeaderIcon} />
@@ -27,25 +25,25 @@ class ConfirmDialog extends PageComponent {
             required
             label="password"
             type="password"
-            value={password.value}
+            // value={password.value}
             handleChange={handlePasswordChange}
             className={style.inputPassword}
-            errorMessage={password.errorMsg}
+            // errorMessage={password.errorMsg}
           />
           <div className={style.buttonsContainer}>
-            <ButtonLink
+            <Button
               layout="info"
               inverse
               icon="left"
-              to={cancelLink}
+              onClick={this.handleCancelClick}
             >
               <FontAwesomeIcon icon={faTimes} /> Cancel
-            </ButtonLink>
+            </Button>
             <Button
               type="button"
               layout="info"
               icon="right"
-              onClick={onSubmit}
+              onClick={this.handleConfirmClick}
             >
               Confirm <FontAwesomeIcon icon={faCheck} />
             </Button>
@@ -57,12 +55,12 @@ class ConfirmDialog extends PageComponent {
   }
 }
 
-export default ConfirmDialog;
+export default AuthDialog;
 
-ConfirmDialog.propTypes = {
-  showDialog: PropTypes.bool,
-  password: PropTypes.object,
-  handlePasswordChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  cancelLink: PropTypes.any.isRequired,
+AuthDialog.propTypes = {
+  // showDialog: PropTypes.bool,
+  // password: PropTypes.object,
+  // handlePasswordChange: PropTypes.func,
+  // onSubmit: PropTypes.func,
+  // cancelLink: PropTypes.any.isRequired,
 };

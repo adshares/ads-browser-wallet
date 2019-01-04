@@ -12,6 +12,7 @@ import {
 
 import * as vaultActions from '../actions/vaultActions';
 import * as authActions from '../actions/actions';
+import * as authDialogActions from '../actions/authDialogActions';
 import BgClient from '../utils/background';
 import VaultCrypt from '../utils/vaultcrypt';
 import config from '../config/config';
@@ -50,15 +51,23 @@ export const removeKeyEpic = (action$, state$) => action$.pipe(
   )
 );
 
+// export const previewSecretDataEpic = (action$, state$) => action$.pipe(
+//   ofType(authActions.PREVIEW_SECRET_DATA_INIT),
+//   switchMap(() => action$.pipe(
+//     ofType(authActions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS),
+//     take(1),
+//     withLatestFrom(state$),
+//     mergeMap(() => of(authActions.previewSecretData()))
+//     ),
+//   )
+// );
+
 export const previewSecretDataEpic = (action$, state$) => action$.pipe(
   ofType(authActions.PREVIEW_SECRET_DATA_INIT),
-  switchMap(() => action$.pipe(
-    ofType(authActions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS),
-    take(1),
-    withLatestFrom(state$),
-    mergeMap(() => of(authActions.previewSecretData()))
-    ),
-  )
+  switchMap(() => {
+    const uuid = 123;
+    return of(authDialogActions.openDialog(uuid));
+  })
 );
 
 export const redirectionEpic = (action$, state$, { history }) => action$.pipe(
@@ -69,7 +78,7 @@ export const redirectionEpic = (action$, state$, { history }) => action$.pipe(
     take(1),
     withLatestFrom(state$),
     mergeMap(() => {
-      history.push(getReferrer(history, '/settings'));
+      // history.push(getReferrer(history, '/settings'));
 
       return from([
         authActions.toggleGlobalAuthorisationDialog(false),

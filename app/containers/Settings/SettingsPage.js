@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faShieldAlt,
@@ -8,25 +10,48 @@ import {
   faPencilAlt,
   faKey,
 } from '@fortawesome/free-solid-svg-icons';
+import { removeAccountInit, eraseInit } from '../../actions/vaultActions';
+import { toggleGlobalAuthorisationDialog } from '../../actions/actions';
 import FormComponent from '../../components/FormComponent';
+import Page from '../../components/Page/Page';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './SettingsPage.css';
-import Page from '../../components/Page/Page';
 
+@connect(
+  state => ({
+    vault: state.vault,
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        removeAccountInit,
+        eraseInit,
+        toggleGlobalAuthorisationDialog,
+      }, dispatch)
+  })
+)
 export default class SettingsPage extends FormComponent {
+
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    vault: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+      removeAccountInit: PropTypes.func.isRequired,
+      eraseInit: PropTypes.func.isRequired,
+      toggleGlobalAuthorisationDialog: PropTypes.func.isRequired,
+    }),
+  };
 
   removeAccountAction = (address) => {
     this.props.actions.toggleGlobalAuthorisationDialog(true);
     this.props.actions.removeAccountInit(address);
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSeedPhraseVisible: false,
-    };
-  }
+  eraseStorageAction = () => {
+    this.props.actions.toggleGlobalAuthorisationDialog(true);
+    this.props.actions.eraseInit();
+  };
 
   renderKeysSettings() {
     return (
@@ -34,15 +59,52 @@ export default class SettingsPage extends FormComponent {
         <h3>Keys</h3>
         <ButtonLink
           to={{
-            pathname: '/keys',
+            pathname: '/settings/keys',
             state: { referrer: this.props.location }
           }}
           size="wide"
-          title="Edit account"
+          title="Manage Keys"
           layout="info"
           icon="left"
         ><FontAwesomeIcon icon={faPencilAlt} /> Manage Keys</ButtonLink>
       </div>
+    );
+  }
+
+  renderAccountRow(account) {
+    return (
+      <React.Fragment>
+        <span className={style.accountLabel}>
+          <small>{account.name}</small>
+          <span>{account.address}</span>
+        </span>
+        <span className={style.accountActions}>
+          <ButtonLink
+            to={{
+              pathname: `/settings/accounts/${account.address}/edit`,
+              state: { referrer: this.props.history.location }
+            }}
+            size="small"
+            title="Edit account"
+            layout="info"
+          ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
+          <ButtonLink
+            to={{
+              pathname: `/settings/accounts/${account.address}/keys`,
+              state: { referrer: this.props.history.location }
+            }}
+            size="small"
+            title="Show account keys"
+            layout="warning"
+          ><FontAwesomeIcon icon={faKey} /></ButtonLink>
+          <Button
+            onClick={() => this.removeAccountAction(account.address)}
+            size="small"
+            title="Delete account"
+            layout="danger"
+          ><FontAwesomeIcon icon={faTrashAlt} /></Button>
+        </span>
+      </React.Fragment>
     );
   }
 
@@ -51,51 +113,21 @@ export default class SettingsPage extends FormComponent {
       <div className={style.section}>
         <h3>Accounts</h3>
         {this.props.vault.accounts.length > 0 &&
-        <ul className={style.accounts}>
-          {this.props.vault.accounts.map((account, index) =>
-            <li key={index}>
-              <span className={style.accountLabel}>
-                <small>{account.name}</small>
-                <span>{account.address}</span>
-              </span>
-              <span className={style.accountActions}>
-                <ButtonLink
-                  to={{
-                    pathname: `/accounts/${account.address}/edit`,
-                    state: { referrer: this.props.history.location }
-                  }}
-                  size="small"
-                  title="Edit account"
-                  layout="info"
-                ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
-                <ButtonLink
-                  to={{
-                    pathname: `/accounts/${account.address}/keys`,
-                    state: { referrer: this.props.history.location }
-                  }}
-                  size="small"
-                  layout="warning"
-                  title="Show account keys"
-                ><FontAwesomeIcon icon={faKey} /></ButtonLink>
-                <Button
-                  onClick={() => this.removeAccountAction(account.address)}
-                  size="small"
-                  layout="danger"
-                  title="Delete account"
-                ><FontAwesomeIcon icon={faTrashAlt} /></Button>
-              </span>
-            </li>
-          )}
-        </ul>
+          <ul className={style.accounts}>
+            {this.props.vault.accounts.map((account, index) =>
+              <li key={index}>{this.renderAccountRow(account)}</li>
+            )}
+          </ul>
         }
         <ButtonLink
           to={{
-            pathname: '/accounts/import',
+            pathname: '/settings/accounts/import',
             state: { referrer: this.props.history.location }
           }}
-          icon="left"
           size="wide"
+          title="Add account"
           layout="info"
+          icon="left"
         >
           <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
@@ -110,33 +142,38 @@ export default class SettingsPage extends FormComponent {
         <p>
           <ButtonLink
             to={{
-              pathname: '/password',
+              pathname: '/settings/changePassword',
               state: { referrer: this.props.history.location }
             }}
             size="wide"
             title="Change password"
             layout="info"
             icon="left"
-          ><FontAwesomeIcon icon={faKey} /> Change password </ButtonLink>
+          >
+            <FontAwesomeIcon icon={faKey} /> Change password
+          </ButtonLink>
         </p>
         <p>
           <ButtonLink
             to={{
-              pathname: '/seedPhrase',
-              state: { referrer: this.props.location }
+              pathname: '/settings/seedPhrase',
+              state: { referrer: this.props.history.location }
             }}
             size="wide"
             title="Reveal seed phrase"
             layout="warning"
             icon="left"
-          ><FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase</ButtonLink>
+          >
+            <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
+          </ButtonLink>
         </p>
         <p>
           <Button
-            layout="danger" icon="left" size="wide" onClick={() => {
-              this.props.actions.eraseInit();
-              this.props.actions.toggleGlobalAuthorisationDialog(true);
-            }}
+            onClick={() => this.eraseStorageAction()}
+            size="wide"
+            title="Erase storage"
+            layout="danger"
+            icon="left"
           >
             <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
           </Button>
@@ -155,10 +192,3 @@ export default class SettingsPage extends FormComponent {
     );
   }
 }
-
-SettingsPage.propTypes = {
-  history: PropTypes.object.isRequired,
-  vault: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
-  toggleAuthDialog: PropTypes.func,
-};

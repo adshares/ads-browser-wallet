@@ -9,7 +9,7 @@ import Link from 'react-router-dom/es/Link';
 import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
-import ConfirmDialog from '../confirmDialog/confirmDialog';
+import AuthDialog from '../authDialog/authDialog';
 import LoaderOverlay from '../atoms/LoaderOverlay';
 import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vaultActions';
@@ -18,8 +18,25 @@ import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';
 import style from './Page.css';
 
+export default class Page extends React.Component {
 
-class Page extends React.Component {
+  static propTypes = {
+    children: PropTypes.any,
+    className: PropTypes.string,
+    vault: PropTypes.object,
+    actions: PropTypes.object,
+    title: PropTypes.string,
+    subTitle: PropTypes.string,
+    cancelLink: PropTypes.any,
+    onCancelClick: PropTypes.func,
+    noLinks: PropTypes.bool,
+    homeLink: PropTypes.bool,
+    smallTitle: PropTypes.bool,
+    scroll: PropTypes.bool,
+    showLoader: PropTypes.bool,
+    authDialog: PropTypes.object,
+  };
+
   render() {
     const {
       vault,
@@ -29,15 +46,13 @@ class Page extends React.Component {
       cancelLink,
       onCancelClick,
       noLinks,
+      homeLink,
       scroll,
       smallTitle,
       children,
       className,
-      onPasswordInputChange,
-      onDialogSubmit,
-      password,
-      homeLink,
-      authenticationModalOpen,
+      showLoader,
+      authDialog,
     } = this.props;
 
     let classes = [];
@@ -76,16 +91,8 @@ class Page extends React.Component {
     }
     return (
       <section>
-        {this.props.showLoader && <LoaderOverlay />}
-        {authenticationModalOpen && (
-          <ConfirmDialog
-            showDialog
-            cancelLink={cancelLink}
-            handlePasswordChange={onPasswordInputChange}
-            onSubmit={onDialogSubmit}
-            password={password}
-          />
-        )}
+        {showLoader && <LoaderOverlay />}
+        {authDialog.isOpened && <AuthDialog />}
         <header className={headerClass}>
           <div className={style.logo}>
             {noLinks || homeLink === false ? (
@@ -131,22 +138,3 @@ export default connect(
   })
 )(Page);
 
-Page.propTypes = {
-  children: PropTypes.any,
-  className: PropTypes.string,
-  vault: PropTypes.object,
-  actions: PropTypes.object,
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
-  cancelLink: PropTypes.any,
-  onCancelClick: PropTypes.func,
-  noLinks: PropTypes.bool,
-  homeLink: PropTypes.bool,
-  smallTitle: PropTypes.bool,
-  scroll: PropTypes.bool,
-  onPasswordInputChange: PropTypes.func,
-  onDialogSubmit: PropTypes.func,
-  password: PropTypes.object,
-  authenticationModalOpen: PropTypes.bool,
-  showLoader: PropTypes.bool,
-};

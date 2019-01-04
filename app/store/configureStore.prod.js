@@ -1,11 +1,27 @@
-import { createStore, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { routerMiddleware } from 'connected-react-router';
+import { createEpicMiddleware } from 'redux-observable';
 import rootReducer from '../reducers';
+import rootEpic from '../epics';
+import AdsRpc from '../utils/adsrpc';
 import storage from '../utils/storage';
+import config from '../config/config';
+import { adsWalletInit } from '../actions/actions';
 
-const enhancer = compose(
-  storage()
-);
+export default function (initialState, history) {
 
-export default function (initialState) {
-  return createStore(rootReducer, initialState, enhancer);
+  const adsRpc = new AdsRpc(config.adsRpcHost);
+  const epicMiddleware = createEpicMiddleware({
+    dependencies: { adsRpc, history }
+  });
+
+  const enhancer = compose(
+    applyMiddleware(epicMiddleware, routerMiddleware(history)),
+    storage()
+  );
+  const store = createStore(rootReducer, initialState, enhancer);
+
+  epicMiddleware.run(rootEpic);
+  store.dispatch(adsWalletInit());
+  return store;
 }

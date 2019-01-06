@@ -21,13 +21,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isOpened: false,
-        isConfirmed: false,
-        isRejected: false,
       };
     }
     case actions.RESET_DIALOG: {
       return {
         ...initialState,
+      };
+    }
+    case actions.INVALID_PASSWORD: {
+      return {
+        ...state,
+        errorMsg: action.errorMsg,
       };
     }
     case actions.PASSWORD_CONFIRMED: {
@@ -42,10 +46,10 @@ export default function (state = initialState, action) {
     case actions.PASSWORD_REJECTED: {
       return {
         ...state,
-        isOpened: true,
+        isOpened: false,
         isConfirmed: false,
         isRejected: true,
-        errorMsg: action.errorMsg,
+        errorMsg: '',
       };
     }
     default:

@@ -1,6 +1,6 @@
 import { from, of, concat } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, withLatestFrom, switchMap, map, filter, take } from 'rxjs/operators';
+import { mergeMap, withLatestFrom, switchMap, map, filter, take, tap } from 'rxjs/operators';
 import BgClient from '../utils/background';
 import * as SA from '../actions/settingsActions';
 import * as VA from '../actions/vaultActions';
@@ -10,7 +10,7 @@ import {
 } from '../actions/formActions';
 import {
   PASSWORD_CONFIRMED,
-  CLOSE_DIALOG as CLOSE_AUTH_DIALOG,
+  PASSWORD_REJECTED,
   openDialog as openAuthDialog
 } from '../actions/authDialogActions';
 import { getReferrer } from './helpers';
@@ -20,10 +20,11 @@ export const secretDataAccessEpic = (action$, state$, { history }) => action$.pi
   switchMap(initAction => concat(
     of(openAuthDialog(initAction.name)),
     action$.pipe(
-      ofType(PASSWORD_CONFIRMED, CLOSE_AUTH_DIALOG),
+      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
       take(1),
+      filter(action => action.name === initAction.name),
       map((action) => {
-        if (action.type === CLOSE_AUTH_DIALOG) {
+        if (action.type === PASSWORD_REJECTED) {
           history.push(getReferrer(history, '/settings'));
           return SA.secretDataAccessDenied(action.name);
         }
@@ -38,10 +39,11 @@ export const eraseStorageEpic = action$ => action$.pipe(
   switchMap(() => concat(
     of(openAuthDialog(SA.ERASE_STORAGE)),
     action$.pipe(
-      ofType(PASSWORD_CONFIRMED, CLOSE_AUTH_DIALOG),
+      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
       take(1),
+      filter(action => action.name === SA.ERASE_STORAGE),
       mergeMap((action) => {
-        if (action.type === CLOSE_AUTH_DIALOG || action.name !== SA.ERASE_STORAGE) {
+        if (action.type === PASSWORD_REJECTED) {
           return of(SA.eraseStorageFailure('Access denied'));
         }
 
@@ -71,11 +73,12 @@ export const changePasswordEpic = (action$, state$) => action$.pipe(
       switchMap(() => concat(
         of(openAuthDialog(SA.CHANGE_PASSWORD)),
         action$.pipe(
-          ofType(PASSWORD_CONFIRMED, CLOSE_AUTH_DIALOG),
+          ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
           take(1),
+          filter(action => action.name === SA.CHANGE_PASSWORD),
           withLatestFrom(state$),
           mergeMap(([action, state]) => {
-            if (action.type === CLOSE_AUTH_DIALOG || action.name !== SA.CHANGE_PASSWORD) {
+            if (action.type === PASSWORD_REJECTED) {
               return of(SA.passwordChangeFailure(SA.CHANGE_PASSWORD, 'Access denied'));
             }
 
@@ -101,10 +104,11 @@ export const generateKeysEpic = action$ => action$.pipe(
   switchMap(initAction => concat(
     of(openAuthDialog(SA.GENERATE_KEYS)),
     action$.pipe(
-      ofType(PASSWORD_CONFIRMED, CLOSE_AUTH_DIALOG),
+      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
       take(1),
+      filter(action => action.name === SA.GENERATE_KEYS),
       mergeMap((action) => {
-        if (action.type === CLOSE_AUTH_DIALOG || action.name !== SA.GENERATE_KEYS) {
+        if (action.type === PASSWORD_REJECTED) {
           return of(SA.generateKeysFailure('Access denied'));
         }
 
@@ -132,11 +136,12 @@ export const saveKeyEpic = (action$, state$, { history }) => action$.pipe(
       switchMap(() => concat(
         of(openAuthDialog(SA.SAVE_KEY)),
         action$.pipe(
-          ofType(PASSWORD_CONFIRMED, CLOSE_AUTH_DIALOG),
+          ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
           take(1),
+          filter(action => action.name === SA.SAVE_KEY),
           withLatestFrom(state$),
           mergeMap(([action, state]) => {
-            if (action.type === CLOSE_AUTH_DIALOG || action.name !== SA.SAVE_KEY) {
+            if (action.type === PASSWORD_REJECTED) {
               return of(SA.saveKeyFailure(SA.SAVE_KEY, 'Access denied'));
             }
 
@@ -167,10 +172,11 @@ export const removeKeyEpic = action$ => action$.pipe(
   switchMap(initAction => concat(
     of(openAuthDialog(SA.REMOVE_KEY)),
     action$.pipe(
-      ofType(PASSWORD_CONFIRMED, CLOSE_AUTH_DIALOG),
+      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
       take(1),
+      filter(action => action.name === SA.REMOVE_KEY),
       mergeMap((action) => {
-        if (action.type === CLOSE_AUTH_DIALOG || action.name !== SA.REMOVE_KEY) {
+        if (action.type === PASSWORD_REJECTED) {
           return of(SA.removeKeyFailure(initAction.publicKey, 'Access denied'));
         }
 

@@ -3,7 +3,8 @@ import validateForm from './validateForm';
 import validatePassword from './validatePassword';
 import {
   confirmPasswordEpic,
-  openDialogEpic
+  openDialogEpic,
+  closeDialogEpic,
 } from './authDialogEpics';
 import accountEditValidateForm from './accountEditValidateForm';
 import editAccountEpic from './editAccountEpic';
@@ -36,6 +37,7 @@ export default combineEpics(
   validateTransactionFormEpic,
   sendTransactionEpic,
   openDialogEpic,
+  closeDialogEpic,
   confirmPasswordEpic,
   secretDataAccessEpic,
   changePasswordEpic,

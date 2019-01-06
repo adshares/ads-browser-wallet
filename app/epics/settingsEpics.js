@@ -1,6 +1,6 @@
 import { from, of, concat } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, withLatestFrom, switchMap, map, filter, take, tap } from 'rxjs/operators';
+import { mergeMap, withLatestFrom, switchMap, map, filter, take } from 'rxjs/operators';
 import BgClient from '../utils/background';
 import * as SA from '../actions/settingsActions';
 import * as VA from '../actions/vaultActions';

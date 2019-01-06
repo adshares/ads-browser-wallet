@@ -1,4 +1,4 @@
-import * as actions from '../actions/form';
+import * as actions from '../actions/formActions';
 
 const actionsMap = {
   [actions.INPUT_CHANGED](state, action) {

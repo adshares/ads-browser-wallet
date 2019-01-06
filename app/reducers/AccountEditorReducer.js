@@ -1,4 +1,4 @@
-import * as actions from '../actions/form';
+import * as actions from '../actions/formActions';
 import * as settingsActions from '../actions/settingsActions';
 import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 
@@ -130,7 +130,7 @@ const actionsMap = {
       ...action.payload
     };
   },
-  [actions.FORM_CLEAN](state, action) {
+  [actions.CLEAN_FORM](state, action) {
     return {
       ...state,
       ...action,

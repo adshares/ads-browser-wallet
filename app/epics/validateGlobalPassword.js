@@ -6,7 +6,7 @@ import {
   GLOBAL_PASS_INPUT_VALIDATE,
   globalPassInputValidateSuccess,
   toggleGlobalAuthorisationDialog,
-} from '../actions/actions';
+} from '../actions/walletActions';
 import * as validators from '../utils/validators';
 
 export default (action$, state$) =>

@@ -20,7 +20,7 @@ import {
   retrieveAccountDataInIntervalsSuccess,
   retrieveNodesDataInIntervalsFailure,
   retrieveNodesDataInIntervalsSuccess,
-} from '../actions/actions';
+} from '../actions/walletActions';
 
 export const retrieveAccountEpic = (action$, state$, { adsRpc }) => action$.pipe(
   ofType(ADS_WALLET_INIT, RETRIEVE_ACCOUNT_DATA_IN_INTERVALS),

@@ -18,12 +18,6 @@ class DetailsPage extends PageComponent {
     };
   }
 
-
-  componentDidMount() {
-    this.props.previewSecretData();
-    this.props.toggleAuthDialog(true);
-  }
-
   renderContent() {
     const { accounts, type, keys, seed } = this.props;
     const { address, publicKey } = this.props.match.params;

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHashHistory } from 'history';
 import BgClient from '../../app/utils/background';
-import { reload as reloadQueue } from '../../app/actions/queue';
+import { reload as reloadQueue } from '../../app/actions/queueActions';
 import './adswallet.css';
 
 

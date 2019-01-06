@@ -13,7 +13,7 @@ import { findAccountByAddressInVault } from '../utils/utils';
 import {
   RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
   RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS
-} from '../actions/actions';
+} from '../actions/walletActions';
 
 const initialVault = {
   empty: true,
@@ -42,7 +42,7 @@ export default function (vault = initialVault, action) {
         sealed: false,
         seedPhrase: action.seedPhrase,
         seed,
-        keys: [...vaultKeys, ...KeyBox.generateKeys(seed, config.initKeysQuantity)],
+        keys: [...vaultKeys, ...KeyBox.initKeys(seed, config.initKeysQuantity)],
         keyCount: config.initKeysQuantity,
       };
       newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);
@@ -55,12 +55,21 @@ export default function (vault = initialVault, action) {
         ...vault,
       };
       newVault.secret = VaultCrypt.save(newVault, action.password, () => {
-        BgClient.startSession(window.btoa(action.password), action.callback);
+        BgClient.startSession(window.btoa(action.password));
+        if (action.callback) {
+          action.callback();
+        }
       });
       return newVault;
     }
 
     case actions.ERASE: {
+      VaultCrypt.erase(() => {
+        chrome.storage.local.remove(config.accountStorageKey);
+        if (action.callback) {
+          action.callback();
+        }
+      });
       return initialVault;
     }
 
@@ -168,14 +177,35 @@ export default function (vault = initialVault, action) {
       return updatedVault;
     }
 
-    case actions.IMPORT_KEY: {
-      const updatedVault = { ...vault };
-      updatedVault.keys.push({
-        type: 'imported',
-        name: action.name,
-        secretKey: action.secretKey,
-        publicKey: action.publicKey,
-      });
+    case actions.GENERATE_KEYS: {
+      const keyCount = vault.keyCount + action.quantity;
+      const updatedVault = {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          ...KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount)
+        ],
+        keyCount,
+      };
+
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      return updatedVault;
+    }
+
+    case actions.ADD_KEY: {
+      const updatedVault = {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          {
+            type: 'imported',
+            name: action.name,
+            secretKey: action.secretKey,
+            publicKey: KeyBox.getPublicKeyFromSecret(action.secretKey),
+          }
+        ]
+      };
+
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
       return updatedVault;
     }
@@ -183,21 +213,7 @@ export default function (vault = initialVault, action) {
     case actions.REMOVE_KEY: {
       const updatedVault = {
         ...vault,
-        keys: action.keysArr
-      };
-
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-      return updatedVault;
-    }
-
-    case actions.SAVE_GENERATED_KEYS: {
-      const updatedVault = {
-        ...vault,
-        keyCount: action.newKeyCount,
-        keys: [
-          ...vault.keys,
-          ...action.keys
-        ]
+        keys: vault.keys.filter(k => k.type === 'auto' || k.publicKey !== action.publicKey)
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);

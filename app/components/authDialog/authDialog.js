@@ -6,12 +6,12 @@ import Form from '../../components/atoms/Form';
 import style from './authDialog.css';
 import Button from '../atoms/Button';
 import InputControl from '../atoms/InputControl';
-import FormComponent from '../FormComponent';
+import PageComponent from '../PageComponent';
 
-export default class AuthDialog extends FormComponent {
+export default class AuthDialog extends PageComponent {
 
   static propTypes = {
-    uuid: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     errorMsg: PropTypes.string,
     closeAction: PropTypes.func,
     confirmAction: PropTypes.func,
@@ -20,27 +20,29 @@ export default class AuthDialog extends FormComponent {
   constructor(props) {
     super(props);
     this.state = {
-      password: '',
-      isSubmitted: false,
+      password: ''
     };
+  }
+
+  handlePasswordChange = (value) => {
+    this.setState({
+      password: value
+    });
   }
 
   handleCancelClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
     if (this.props.closeAction) {
-      this.props.closeAction(this.props.uuid);
+      this.props.closeAction(this.props.name);
     }
   }
 
-  handleConfirmClick = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.setState({
-      isSubmitted: true
-    });
     if (this.props.confirmAction) {
-      this.props.confirmAction(this.props.uuid, this.state.password);
+      this.props.confirmAction(this.props.name, this.state.password);
     }
   }
 
@@ -49,23 +51,27 @@ export default class AuthDialog extends FormComponent {
       <div className={`${style.dialog} ${style.dialogOpen}`}>
         <Form
           className={`${style.dialogForm} ${style.dialogFormOpen}`}
+          onSubmit={this.handleSubmit}
         >
           <h2>
             <FontAwesomeIcon icon={faLock} className={style.dialogHeaderIcon} />
-            Please authenticate yourself {this.props.uuid}
+            Please authenticate yourself
           </h2>
           <InputControl
             isInput
             required
             label="password"
             type="password"
+            name="password"
             value={this.state.password}
             handleChange={this.handlePasswordChange}
             className={style.inputPassword}
             errorMessage={this.props.errorMsg}
+            autoFocus
           />
           <div className={style.buttonsContainer}>
             <Button
+              type="reset"
               layout="info"
               inverse
               icon="left"
@@ -74,11 +80,9 @@ export default class AuthDialog extends FormComponent {
               <FontAwesomeIcon icon={faTimes} /> Cancel
             </Button>
             <Button
-              type="button"
+              type="submit"
               layout="info"
               icon="right"
-              onClick={this.handleConfirmClick}
-              disabled={this.state.isSubmitted}
             >
               Confirm <FontAwesomeIcon icon={faCheck} />
             </Button>

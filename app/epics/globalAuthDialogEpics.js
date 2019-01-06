@@ -11,7 +11,7 @@ import {
 } from 'rxjs/operators';
 
 import * as vaultActions from '../actions/vaultActions';
-import * as authActions from '../actions/actions';
+import * as authActions from '../actions/walletActions';
 import * as authDialogActions from '../actions/authDialogActions';
 import BgClient from '../utils/background';
 import VaultCrypt from '../utils/vaultcrypt';

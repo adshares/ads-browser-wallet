@@ -6,7 +6,7 @@ import {
   passInputValidateSuccess,
   toggleAuthorisationDialog,
     PASS_INPUT_VALIDATE,
-} from '../actions/form';
+} from '../actions/formActions';
 import * as validators from '../utils/validators';
 import { validatePagesBranch } from './helpers';
 

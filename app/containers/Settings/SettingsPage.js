@@ -10,47 +10,30 @@ import {
   faPencilAlt,
   faKey,
 } from '@fortawesome/free-solid-svg-icons';
-import { removeAccountInit, eraseInit } from '../../actions/vaultActions';
-import { toggleGlobalAuthorisationDialog } from '../../actions/actions';
+import { removeAccount, eraseStorage } from '../../actions/settingsActions';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './SettingsPage.css';
 
-@connect(
-  state => ({
-    vault: state.vault,
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        removeAccountInit,
-        eraseInit,
-        toggleGlobalAuthorisationDialog,
-      }, dispatch)
-  })
-)
-export default class SettingsPage extends FormComponent {
+class SettingsPage extends FormComponent {
 
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     actions: PropTypes.shape({
-      removeAccountInit: PropTypes.func.isRequired,
-      eraseInit: PropTypes.func.isRequired,
-      toggleGlobalAuthorisationDialog: PropTypes.func.isRequired,
+      removeAccount: PropTypes.func.isRequired,
+      eraseStorage: PropTypes.func.isRequired,
     }),
   };
 
   removeAccountAction = (address) => {
-    this.props.actions.toggleGlobalAuthorisationDialog(true);
-    this.props.actions.removeAccountInit(address);
+    this.props.actions.removeAccount(address);
   };
 
   eraseStorageAction = () => {
-    this.props.actions.toggleGlobalAuthorisationDialog(true);
-    this.props.actions.eraseInit();
+    this.props.actions.eraseStorage();
   };
 
   renderKeysSettings() {
@@ -185,10 +168,24 @@ export default class SettingsPage extends FormComponent {
   render() {
     return (
       <Page className={style.page} title="Settings" scroll cancelLink={this.getReferrer()}>
-        {this.renderKeysSettings()}
         {this.renderAccountsSettings()}
+        {this.renderKeysSettings()}
         {this.renderWalletSettings()}
       </Page>
     );
   }
 }
+
+export default connect(
+  state => ({
+    vault: state.vault,
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        removeAccount,
+        eraseStorage,
+      }, dispatch)
+  })
+)(SettingsPage);
+

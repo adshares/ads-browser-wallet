@@ -1,45 +1,51 @@
 import * as actions from '../actions/authDialogActions';
 
 const initialState = {
-  uuid: null,
-  opened: false,
-  confirmed: false,
-  rejected: false,
+  name: null,
+  isOpened: false,
+  isConfirmed: false,
+  isRejected: false,
+  errorMsg: '',
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case actions.OPEN_DIALOG: {
       return {
-        ...state,
-        uuid: action.uuid,
-        opened: true,
-        confirmed: false,
-        rejected: false,
+        ...initialState,
+        name: action.name,
+        isOpened: true,
       };
     }
     case actions.CLOSE_DIALOG: {
       return {
         ...state,
-        opened: false,
-        confirmed: false,
-        rejected: false,
+        isOpened: false,
+        isConfirmed: false,
+        isRejected: false,
+      };
+    }
+    case actions.RESET_DIALOG: {
+      return {
+        ...initialState,
       };
     }
     case actions.PASSWORD_CONFIRMED: {
       return {
         ...state,
-        opened: false,
-        confirmed: true,
-        rejected: false,
+        isOpened: false,
+        isConfirmed: true,
+        isRejected: false,
+        errorMsg: '',
       };
     }
     case actions.PASSWORD_REJECTED: {
       return {
         ...state,
-        opened: false,
-        confirmed: false,
-        rejected: true,
+        isOpened: true,
+        isConfirmed: false,
+        isRejected: true,
+        errorMsg: action.errorMsg,
       };
     }
     default:

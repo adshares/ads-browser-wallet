@@ -1,20 +1,19 @@
-export const TOGGLE_AUTHORISATION_DIALOG = 'TOGGLE_AUTHORISATION_DIALOG';
-export const INPUT_CHANGED = 'INPUT_CHANGED';
-export const PASS_INPUT_CHANGED = 'PASS_INPUT_CHANGED';
-export const PASS_INPUT_VALIDATE = 'PASS_INPUT_VALIDATE';
-export const PASS_INPUT_VALIDATION_SUCCESS = 'PASS_INPUT_VALIDATION_SUCCESS';
-export const PASS_INPUT_VALIDATION_FAILED = 'PASS_INPUT_VALIDATION_FAILED';
-export const INPUT_VALIDATION_SUCCESS = 'INPUT_VALIDATION_SUCCESS';
-export const INPUT_VALIDATION_FAILED = 'INPUT_VALIDATION_FAILED';
-export const FORM_VALIDATE = 'FORM_VALIDATE';
-export const FORM_VALIDATION_SUCCESS = 'FORM_VALIDATION_SUCCESS';
+export const TOGGLE_AUTHORISATION_DIALOG = 'FORM_TOGGLE_AUTHORISATION_DIALOG';
+export const INPUT_CHANGED = 'FORM_INPUT_CHANGED';
+export const PASS_INPUT_CHANGED = 'FORM_PASS_INPUT_CHANGED';
+export const PASS_INPUT_VALIDATE = 'FORM_PASS_INPUT_VALIDATE';
+export const PASS_INPUT_VALIDATION_SUCCESS = 'FORM_PASS_INPUT_VALIDATION_SUCCESS';
+export const PASS_INPUT_VALIDATION_FAILED = 'FORM_PASS_INPUT_VALIDATION_FAILED';
+export const INPUT_VALIDATION_SUCCESS = 'FORM_INPUT_VALIDATION_SUCCESS';
+export const INPUT_VALIDATION_FAILED = 'FORM_INPUT_VALIDATION_FAILED';
+export const VALIDATE_FORM = 'FORM_VALIDATE_FORM';
+export const FORM_VALIDATION_SUCCESS = 'FORM_ALIDATION_SUCCESS';
 export const FORM_VALIDATION_FAILURE = 'FORM_VALIDATION_FAILURE';
-export const ACCOUNT_EDIT_FORM_VALIDATE = 'ACCOUNT_EDIT_FORM_VALIDATE';
-export const ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS = 'ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS';
-export const ACCOUNT_EDIT_FORM_VALIDATION_FAILURE = 'ACCOUNT_EDIT_FORM_VALIDATION_FAILURE';
-
-export const FORM_CLEAN = 'FORM_CLEAN';
-export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
+export const ACCOUNT_EDIT_FORM_VALIDATE = 'FORM_ACCOUNT_EDIT_FORM_VALIDATE';
+export const ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS = 'FORM_ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS';
+export const ACCOUNT_EDIT_FORM_VALIDATION_FAILURE = 'FORM_ACCOUNT_EDIT_FORM_VALIDATION_FAILURE';
+export const CLEAN_FORM = 'FORM_CLEAN_FORM';
+export const TOGGLE_VISIBILITY = 'FORM_TOGGLE_VISIBILITY';
 
 const passInputValidate = (pageName, actionCallback) => ({
   type: PASS_INPUT_VALIDATE,
@@ -47,8 +46,8 @@ const inputValidateFailure = (pageName, inputName, errorMsg) => ({
   errorMsg
 });
 
-const formValidate = pageName => ({
-  type: FORM_VALIDATE,
+const validateForm = pageName => ({
+  type: VALIDATE_FORM,
   pageName
 });
 
@@ -78,8 +77,8 @@ const accountEditFormValidationFailure = pageName => ({
   pageName
 });
 
-const formClean = pageName => ({
-  type: FORM_CLEAN,
+const cleanForm = pageName => ({
+  type: CLEAN_FORM,
   pageName
 });
 
@@ -116,10 +115,10 @@ export {
   passInputValidate,
   passInputValidateFailure,
   passInputValidateSuccess,
-  formValidate,
+  validateForm,
   formValidationSuccess,
   formValidationFailure,
-  formClean,
+  cleanForm,
   toggleVisibility,
   toggleAuthorisationDialog,
   accountEditFormValidate,

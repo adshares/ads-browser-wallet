@@ -27,10 +27,10 @@ import {
   passwordChange,
   toggleVisibility,
   passInputValidate,
-  formValidate,
-  formClean,
+  validateForm,
+  cleanForm,
   accountEditFormValidate
-} from '../../actions/form';
+} from '../../actions/formActions';
 import { importAccountPublicKey } from '../../actions/settingsActions';
 
 class AccountEditorPage extends FormComponent {
@@ -216,11 +216,11 @@ export default connect(
       {
         handleInputChange: inputChange,
         handlePasswordChange: passwordChange,
-        formValidate,
+        formValidate: validateForm,
         accountEditFormValidate,
         passInputValidate,
         toggleVisibility,
-        formClean,
+        formClean: cleanForm,
         importAccountPublicKey
       },
       dispatch

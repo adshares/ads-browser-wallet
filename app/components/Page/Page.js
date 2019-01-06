@@ -13,7 +13,8 @@ import AuthDialog from '../authDialog/authDialog';
 import LoaderOverlay from '../atoms/LoaderOverlay';
 import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vaultActions';
-import * as FormActions from '../../actions/form';
+import * as FormActions from '../../actions/formActions';
+import * as AuthDialogActions from '../../actions/authDialogActions';
 import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';
 import style from './Page.css';
@@ -92,7 +93,11 @@ class Page extends React.Component {
     return (
       <section>
         {showLoader && <LoaderOverlay />}
-        {authDialog.isOpened && <AuthDialog />}
+        {authDialog.isOpened && <AuthDialog
+          {...authDialog}
+          closeAction={actions.authDialog.closeDialog}
+          confirmAction={actions.authDialog.confirmPassword}
+        />}
         <header className={headerClass}>
           <div className={style.logo}>
             {noLinks || homeLink === false ? (
@@ -128,12 +133,14 @@ class Page extends React.Component {
 export default connect(
   state => ({
     vault: state.vault,
-    pages: state.pages
+    pages: state.pages,
+    authDialog: state.authDialog,
   }),
   dispatch => ({
     actions: {
       vault: bindActionCreators(VaultActions, dispatch),
-      form: bindActionCreators(FormActions, dispatch)
+      form: bindActionCreators(FormActions, dispatch),
+      authDialog: bindActionCreators(AuthDialogActions, dispatch),
     }
   })
 )(Page);

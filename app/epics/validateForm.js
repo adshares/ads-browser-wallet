@@ -7,15 +7,14 @@ import {
   inputValidateFailure,
   formValidationSuccess,
   formValidationFailure,
-  toggleAuthorisationDialog,
-  FORM_VALIDATE
-} from '../actions/form';
+  VALIDATE_FORM
+} from '../actions/formActions';
 import * as validators from '../utils/validators';
 // import { validatePagesBranch } from './helpers';
 
 export default (action$, state$) =>
   action$.pipe(
-    ofType(FORM_VALIDATE),
+    ofType(VALIDATE_FORM),
     withLatestFrom(state$),
     mergeMap(([action, state]) => {
       const { pageName } = action;
@@ -51,7 +50,6 @@ export default (action$, state$) =>
         return isFormValid
           ? from([
             ...actionsToDispatch,
-            toggleAuthorisationDialog(pageName, true),
             formValidationSuccess(pageName)
           ])
           : from([

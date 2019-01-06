@@ -9,7 +9,7 @@ import {
 } from '../actions/settingsActions';
 import {
   INPUT_CHANGED
-} from '../actions/form';
+} from '../actions/formActions';
 import { validateAddress } from '../utils/ads';
 import { RpcError } from '../actions/errors';
 import { publicKey as validatePublicKey } from '../utils/validators';

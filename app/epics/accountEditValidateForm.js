@@ -7,7 +7,7 @@ import {
   inputValidateFailure,
   toggleAuthorisationDialog,
   ACCOUNT_EDIT_FORM_VALIDATE, accountEditFormValidationSuccess, accountEditFormValidationFailure
-} from '../actions/form';
+} from '../actions/formActions';
 
 import { validatePagesBranch } from './helpers';
 import { publicKey as publicKeyGeneralValidator } from '../utils/validators';

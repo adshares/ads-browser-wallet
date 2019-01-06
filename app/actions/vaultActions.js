@@ -1,25 +1,21 @@
-export const CREATE = 'CREATE';
+export const CREATE = 'VAULT_CREATE';
 export const CHANGE_PASSWORD = 'VAULT_CHANGE_PASSWORD';
-export const ERASE = 'ERASE';
-export const ERASE_INIT = 'ERASE_INIT';
-export const UNSEAL = 'UNSEAL';
-export const UNSEAL_SUCCESS = 'UNSEAL_SUCCESS';
-export const UNSEAL_FAILURE = 'UNSEAL_FAILURE';
-export const SEAL = 'SEAL';
-export const ADD_ACCOUNT_INIT = 'ADD_ACCOUNT_INIT';
-export const ADD_ACCOUNT = 'ADD_ACCOUNT';
-export const REMOVE_ACCOUNT_INIT = 'REMOVE_ACCOUNT_INIT';
-export const REMOVE_ACCOUNT = 'REMOVE_ACCOUNT';
-export const UPDATE_ACCOUNT_INIT = 'UPDATE_ACCOUNT_INIT';
-export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
-export const IMPORT_KEY_INIT = 'IMPORT_KEY_INIT';
-export const IMPORT_KEY = 'IMPORT_KEY';
-export const REMOVE_KEY = 'REMOVE_KEY';
-export const REMOVE_KEY_INIT = 'REMOVE_KEY_INIT';
-export const SAVE_GENERATED_KEYS = 'SAVE_GENERATED_KEYS';
-export const SAVE_GENERATED_KEYS_INIT = 'SAVE_GENERATED_KEYS_INIT';
-export const SELECT_ACTIVE_ACCOUNT = 'SELECT_ACTIVE_ACCOUNT';
-export const SWITCH_NETWORK = 'SWITCH_NETWORK';
+export const ERASE = 'VAULT_ERASE';
+export const UNSEAL = 'VAULT_UNSEAL';
+export const UNSEAL_SUCCESS = 'VAULT_UNSEAL_SUCCESS';
+export const UNSEAL_FAILURE = 'VAULT_UNSEAL_FAILURE';
+export const SEAL = 'VAULT_SEAL';
+export const ADD_ACCOUNT_INIT = 'VAULT_ADD_ACCOUNT_INIT';
+export const ADD_ACCOUNT = 'VAULT_ADD_ACCOUNT';
+export const REMOVE_ACCOUNT_INIT = 'VAULT_REMOVE_ACCOUNT_INIT';
+export const REMOVE_ACCOUNT = 'VAULT_REMOVE_ACCOUNT';
+export const UPDATE_ACCOUNT_INIT = 'VAULT_UPDATE_ACCOUNT_INIT';
+export const UPDATE_ACCOUNT = 'VAULT_UPDATE_ACCOUNT';
+export const ADD_KEY = 'VAULT_ADD_KEY';
+export const REMOVE_KEY = 'VAULT_REMOVE_KEY';
+export const GENERATE_KEYS = 'VAULT_GENERATE_KEYS';
+export const SELECT_ACTIVE_ACCOUNT = 'VAULT_SELECT_ACTIVE_ACCOUNT';
+export const SWITCH_NETWORK = 'VAULT_SWITCH_NETWORK';
 
 
 export function create(password, seedPhrase, callback) {
@@ -30,12 +26,8 @@ export function changePassword(password, callback) {
   return { type: CHANGE_PASSWORD, password, callback };
 }
 
-export function erase() {
-  return { type: ERASE };
-}
-
-export function eraseInit() {
-  return { type: ERASE_INIT };
+export function erase(callback) {
+  return { type: ERASE, callback };
 }
 
 export function unseal(password) {
@@ -78,20 +70,16 @@ export function removeAccount(updatedAccounts, password) {
   return { type: REMOVE_ACCOUNT, updatedAccounts, password };
 }
 
-export function importKeyInit() {
-  return { type: IMPORT_KEY_INIT };
+export function generateKeys(quantity, password, callback) {
+  return { type: GENERATE_KEYS, quantity, password, callback };
 }
 
-export function importKey({ name, publicKey, secretKey, password }) {
-  return { type: IMPORT_KEY, name, publicKey, secretKey, password };
+export function addKey(name, secretKey, password, callback) {
+  return { type: ADD_KEY, name, secretKey, password, callback };
 }
 
-export function removeKey(keysArr, password) {
-  return { type: REMOVE_KEY, keysArr, password };
-}
-
-export function removeKeyInit(secretKey) {
-  return { type: REMOVE_KEY_INIT, secretKey };
+export function removeKey(publicKey, password, callback) {
+  return { type: REMOVE_KEY, publicKey, password, callback };
 }
 
 export function selectActiveAccount(accountAddress) {
@@ -100,12 +88,4 @@ export function selectActiveAccount(accountAddress) {
 
 export function switchNetwork(testnet) {
   return { type: SWITCH_NETWORK, testnet };
-}
-
-export function saveGeneratedKeysInit(keys) {
-  return { type: SAVE_GENERATED_KEYS_INIT, keys };
-}
-
-export function saveGeneratedKeys(keys, newKeyCount, password) {
-  return { type: SAVE_GENERATED_KEYS, keys, newKeyCount, password };
 }

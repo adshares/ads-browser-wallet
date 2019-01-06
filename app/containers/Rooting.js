@@ -9,19 +9,20 @@ import RestorePage from './Account/RestorePage';
 import RegisterPage from './Account/RegisterPage';
 import LoginPage from './Account/LoginPage';
 import SettingsPage from './Settings/SettingsPage';
-import PasswordChangePage from './Settings/PasswordChangePage';
+import PasswordChangePage from './Settings/PasswordEditorPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
-import KeysImporterPage from './Settings/KeysImporterPage';
+import KeysImporterPage from './Settings/KeyEditorPage';
 import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import DetailsPage from './Settings/DetailsPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
-import KeysSettings from './Settings/KeysSettings';
+import KeysSettingsPage from './Settings/KeysSettingsPage';
+import KeyDetailsPage from './Settings/KeyDetailsPage';
 import * as vaultActions from '../actions/vaultActions';
-import * as formActions from '../actions/form';
+import * as formActions from '../actions/formActions';
 import * as settingsActions from '../actions/settingsActions';
-import * as commonActions from '../actions/actions';
+import * as commonActions from '../actions/walletActions';
 import style from './App.css';
 import config from '../config/config';
 
@@ -69,7 +70,6 @@ function SwitchNetwork({ ...params }) {
 
 class Rooting extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
@@ -81,7 +81,7 @@ class Rooting extends Component {
   }
 
   render() {
-    const { vault, queue, history, actions, authDialog } = this.props;
+    const { vault, queue, actions, authDialog } = this.props;
 
     return (
       <div className={style.app}>
@@ -125,9 +125,7 @@ class Rooting extends Component {
             exact
             path="/(popup.html)?"
             vault={vault}
-            render={
-              props => <HomePage vault={vault} queue={queue} {...props} />
-            }
+            component={HomePage}
           />
           <PrivateRoute
             exact
@@ -139,9 +137,7 @@ class Rooting extends Component {
             exact
             path="/settings/changePassword"
             vault={vault}
-            render={props =>
-              <PasswordChangePage vault={vault} {...props} />
-            }
+            component={PasswordChangePage}
           />
           <PrivateRoute
             exact
@@ -175,52 +171,28 @@ class Rooting extends Component {
               <DetailsPage
                 keys={vault.keys}
                 accounts={vault.accounts} type="account"
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                previewSecretData={actions.previewSecretDataInit}
                 authConfirmed={authDialog.authConfirmed}
                 {...props}
               />
             }
           />
-
           <PrivateRoute
             exact
             path="/settings/seedPhrase"
             vault={vault}
-            render={props =>
-              <SeedPhrasePage vault={vault} {...props} />
-            }
+            component={SeedPhrasePage}
           />
-
           <PrivateRoute
             exact
             path="/settings/keys"
             vault={vault}
-            render={props =>
-              <KeysSettings
-                keys={vault.keys}
-                seed={vault.seed}
-                removeKeyAction={actions.removeKeyInit}
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                showKeys={actions.previewSecretDataInit}
-                saveGeneratedKeysAction={actions.saveGeneratedKeysInit} {...props}
-              />
-            }
+            component={KeysSettingsPage}
           />
           <PrivateRoute
             exact
             path="/settings/keys/:publicKey([0-9a-fA-F]{64})/"
             vault={vault}
-            render={props =>
-              <DetailsPage
-                keys={vault.keys}
-                type="key"
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                previewSecretData={actions.previewSecretDataInit}
-                authConfirmed={authDialog.authConfirmed}
-                {...props}
-              />
-            }
+            component={KeyDetailsPage}
           />
           <PrivateRoute
             exact

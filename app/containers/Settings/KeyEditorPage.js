@@ -5,7 +5,8 @@ import {
   faChevronRight,
   faExclamation,
   faInfo,
-  faTimes
+  faTimes,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,8 +21,7 @@ import { inputChange, cleanForm, toggleVisibility } from '../../actions/formActi
 import { SAVE_KEY, saveKey } from '../../actions/settingsActions';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 import style from './SettingsPage.css';
-import config from '../../config/config'
-import { faCheck } from '@fortawesome/free-solid-svg-icons/index'
+import config from '../../config/config';
 
 class KeyEditorPage extends FormComponent {
   static PAGE_NAME = 'KeysImporterPage';

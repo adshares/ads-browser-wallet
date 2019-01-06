@@ -7,7 +7,6 @@ import {
   switchMap,
   takeUntil,
   filter,
-  tap
 } from 'rxjs/operators';
 import { RpcError } from '../actions/errors';
 import {

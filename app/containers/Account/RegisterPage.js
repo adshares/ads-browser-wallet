@@ -99,7 +99,8 @@ export default class RegisterPage extends FormComponent {
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box icon={faInfo} layout="info">
-          Your password should be obscure and must be at least {config.passwordMinLength} characters long.
+          Your password should be obscure and must be at
+          least {config.passwordMinLength} characters long.
         </Box>
         <Form onSubmit={this.handlePasswordSubmit}>
           <div>

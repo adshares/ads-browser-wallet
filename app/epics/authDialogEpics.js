@@ -1,14 +1,6 @@
-import { of, from } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, map, mapTo, switchMap, take, withLatestFrom, filter } from 'rxjs/operators';
-import * as vaultActions from '../actions/vaultActions';
+import { map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { password as validatePassword } from '../utils/validators';
-import {
-  PASS_INPUT_VALIDATION_SUCCESS,
-  cleanForm,
-  TOGGLE_AUTHORISATION_DIALOG,
-  toggleAuthorisationDialog,
-} from '../actions/formActions';
 import {
   OPEN_DIALOG,
   CONFIRM_PASSWORD,
@@ -16,7 +8,6 @@ import {
   passwordRejected,
   resetDialog,
 } from '../actions/authDialogActions';
-import { validatePagesBranch, getReferrer } from './helpers';
 
 export const openDialogEpic = action$ => action$.pipe(
   ofType(OPEN_DIALOG),
@@ -38,11 +29,6 @@ export const confirmPasswordEpic = (action$, state$) => action$.pipe(
       passwordRejected(action.name, errorMsg);
   })
 );
-
-
-
-
-
 
 // export const cleanForm = action$ => action$.pipe(
 //   ofType(PASS_INPUT_VALIDATION_SUCCESS),

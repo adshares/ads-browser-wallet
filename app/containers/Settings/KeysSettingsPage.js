@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faKey, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { generateKeys, removeKey } from '../../actions/settingsActions';
@@ -113,7 +114,7 @@ class KeysSettingsPage extends PageComponent {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
   }),
@@ -124,4 +125,4 @@ export default connect(
         generateKeys,
       }, dispatch)
   })
-)(KeysSettingsPage);
+)(KeysSettingsPage));

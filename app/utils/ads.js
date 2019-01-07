@@ -172,6 +172,10 @@ function splitAddress(address) {
   };
 }
 
+function compareAddress(address1, address2) {
+  const formatted = ADS.formatAddress(...ADS.splitAddress(value));
+}
+
 /**
  * Checks if ADS account address is valid.
  *

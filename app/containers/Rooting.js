@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
 import HomePage from './Home/HomePage';
 import RestorePage from './Account/RestorePage';
@@ -66,21 +66,18 @@ function SwitchNetwork({ ...params }) {
 
 class Rooting extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
   };
 
-  componentWillUnmount() {
-
-  }
-
   render() {
-    const { vault, queue, actions } = this.props;
+    const { router, vault, queue, actions } = this.props;
 
     return (
       <div className={style.app}>
-        <Switch>
+        <Switch router={router}>
           <Route
             exact
             path="/testnet:url(.*)"
@@ -183,7 +180,7 @@ class Rooting extends Component {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   //FIXME remove fallbacks
   state => ({
     router: state.router || {},
@@ -196,4 +193,4 @@ export default connect(
         ...vaultActions
       }, dispatch)
   })
-)(Rooting);
+)(Rooting));

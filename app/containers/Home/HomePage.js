@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faInfo,
@@ -102,9 +103,9 @@ class HomePage extends React.PureComponent {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
     queue: state.queue,
   })
-)(HomePage);
+)(HomePage));

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamation, faChevronLeft } from '@fortawesome/free-solid-svg-icons/index';
 import { secretDataAccess } from '../../actions/settingsActions';
@@ -96,7 +97,7 @@ class KeyDetailsPage extends PageComponent {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
     authDialog: state.authDialog,
@@ -107,4 +108,4 @@ export default connect(
         secretDataAccess,
       }, dispatch)
   })
-)(KeyDetailsPage);
+)(KeyDetailsPage));

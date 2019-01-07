@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronRight,
@@ -8,8 +11,6 @@ import {
   faTimes,
   faCheck
 } from '@fortawesome/free-solid-svg-icons';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
@@ -161,7 +162,7 @@ class KeyEditorPage extends FormComponent {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
     page: state.pages[SAVE_KEY]
@@ -177,4 +178,4 @@ export default connect(
       dispatch
     )
   })
-)(KeyEditorPage);
+)(KeyEditorPage));

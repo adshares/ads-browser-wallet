@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faShieldAlt,
@@ -176,7 +177,7 @@ class SettingsPage extends FormComponent {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
   }),
@@ -187,5 +188,5 @@ export default connect(
         eraseStorage,
       }, dispatch)
   })
-)(SettingsPage);
+)(SettingsPage));
 

@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import Link from 'react-router-dom/es/Link';
 import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
@@ -130,7 +130,7 @@ class Page extends React.Component {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
     pages: state.pages,
@@ -143,4 +143,4 @@ export default connect(
       authDialog: bindActionCreators(AuthDialogActions, dispatch),
     }
   })
-)(Page);
+)(Page));

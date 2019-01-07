@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimes, faExclamation, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons';
@@ -135,7 +136,7 @@ class PasswordEditorPage extends PageComponent {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
     page: state.pages[CHANGE_PASSWORD]
@@ -150,4 +151,4 @@ export default connect(
       dispatch
     )
   })
-)(PasswordEditorPage);
+)(PasswordEditorPage));

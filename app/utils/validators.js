@@ -90,7 +90,9 @@ const address = ({ value, vault }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
   }
-  if (vault.accounts.find(a => a.address.toUpperCase() === value.toUpperCase())) {
+  const formatted = ADS.formatAddress(...ADS.splitAddress(value));
+  console.log(formatted);
+  if (vault.accounts.find(a => a.address.toUpperCase() === formatted)) {
     return `Account ${value} already exists`;
   }
   return null;

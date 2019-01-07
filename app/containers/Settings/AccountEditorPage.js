@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 import {
   faChevronRight,
   faTimes,
@@ -16,7 +17,6 @@ import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
-import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import InputControl from '../../components/atoms/InputControl';
@@ -224,7 +224,7 @@ class AccountEditorPage extends FormComponent {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
     page: state.pages[SAVE_ACCOUNT]
@@ -239,4 +239,4 @@ export default connect(
       dispatch
     )
   })
-)(AccountEditorPage);
+)(AccountEditorPage));

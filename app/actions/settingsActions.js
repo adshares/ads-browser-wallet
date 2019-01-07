@@ -50,8 +50,8 @@ export function importAccountPublicKeyFailure(pageName, errorMsg, publicKey) {
   return { type: IMPORT_ACCOUNT_PK_FAILURE, pageName, errorMsg, publicKey };
 }
 
-export function saveAccount(pageName) {
-  return { type: SAVE_ACCOUNT, pageName };
+export function saveAccount(pageName, editedId) {
+  return { type: SAVE_ACCOUNT, pageName, editedId };
 }
 
 export function saveAccountSuccess(pageName) {

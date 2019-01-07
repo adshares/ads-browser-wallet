@@ -4,7 +4,7 @@ import config from '../config/config';
 import { getPublicKeyFromSecret } from './keybox';
 import { SAVE_KEY, SAVE_ACCOUNT } from '../actions/settingsActions';
 
-const name = ({ pageName, value, vault }) => {
+const name = ({ pageName, value, vault, editedId }) => {
   if (pageName === SAVE_KEY) {
     if (vault.keys.find(key => key.name.toLowerCase() === value.toLowerCase())) {
       return `Key named ${value} already exists`;
@@ -14,8 +14,9 @@ const name = ({ pageName, value, vault }) => {
       return 'Maximum imported keys limit has been reached. Please remove unused keys.';
     }
   }
-  if (pageName === SAVE_ACCOUNT &&
-    vault.accounts.find(account => account.name.toLowerCase() === value.toLowerCase())) {
+  if (pageName === SAVE_ACCOUNT && vault.accounts.find(a =>
+      a.address !== editedId && a.name.toLowerCase() === value.toLowerCase()
+    )) {
     return `Account named ${value} already exists`;
   }
   if (vault.length > config.itemNameMaxLength) {
@@ -85,11 +86,13 @@ const repeatedPassword = ({ value, inputs }) => {
   return null;
 };
 
-const address = ({ value, vault }) => {
+const address = ({ value, vault, editedId }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
   }
-  if (vault.accounts.find(a => ADS.compareAddresses(a.address, value))) {
+  if (vault.accounts.find(a =>
+    a.address !== editedId && ADS.compareAddresses(a.address, value)
+  )) {
     return `Account ${value} already exists`;
   }
   return null;

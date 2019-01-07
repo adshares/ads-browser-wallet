@@ -23,9 +23,10 @@ const inputValidateFailure = (pageName, inputName, errorMsg) => ({
   errorMsg
 });
 
-const validateForm = pageName => ({
+const validateForm = (pageName, editedId) => ({
   type: VALIDATE_FORM,
-  pageName
+  pageName,
+  editedId
 });
 
 const formValidationSuccess = pageName => ({

@@ -1,27 +1,23 @@
 import { from, of, concat } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { mergeMap, withLatestFrom, switchMap, map, filter, take } from 'rxjs/operators';
+import { mergeMap, withLatestFrom, switchMap, map, filter, take, catchError } from 'rxjs/operators';
 import BgClient from '../utils/background';
+import { RpcError } from '../actions/errors';
+import { validateAddress } from '../utils/ads';
+import { publicKey as validatePublicKey } from '../utils/validators';
 import * as SA from '../actions/settingsActions';
 import * as VA from '../actions/vaultActions';
 import {
-  FORM_VALIDATION_SUCCESS, INPUT_CHANGED,
+  FORM_VALIDATION_SUCCESS,
+  INPUT_CHANGED,
   validateForm,
-} from '../actions/formActions'
+} from '../actions/formActions';
 import {
   PASSWORD_CONFIRMED,
   PASSWORD_REJECTED,
   openDialog as openAuthDialog
 } from '../actions/authDialogActions';
 import { getReferrer } from './helpers';
-import { RpcError } from '../actions/errors'
-import { importAccountPublicKey } from '../actions/settingsActions'
-import { importAccountPublicKeySuccess } from '../actions/settingsActions'
-import { publicKey as validatePublicKey } from '../utils/validators'
-import { catchError } from 'rxjs/operators/index'
-import { importAccountPublicKeyFailure } from '../actions/settingsActions'
-import AccountEditorPage from '../containers/Settings/AccountEditorPage'
-import { validateAddress } from '../utils/ads'
 
 export const secretDataAccessEpic = (action$, state$, { history }) => action$.pipe(
   ofType(SA.SECRET_DATA_ACCESS),
@@ -211,7 +207,7 @@ export const importAccountPublicKeyEpic = (action$, state$, { adsRpc }) => actio
   ),
   withLatestFrom(state$),
   mergeMap(([action, state]) => concat(
-    of(importAccountPublicKey(action.pageName, action.inputValue)),
+    of(SA.importAccountPublicKey(action.pageName, action.inputValue)),
     from(adsRpc.getAccount(action.inputValue)).pipe(
       mergeMap((account) => {
         const { vault } = state;
@@ -221,18 +217,18 @@ export const importAccountPublicKeyEpic = (action$, state$, { adsRpc }) => actio
           pageName: action.pageName
         });
         if (errorMsg) {
-          return of(importAccountPublicKeyFailure(
+          return of(SA.importAccountPublicKeyFailure(
             action.pageName,
             errorMsg,
             account.publicKey
           ));
         }
-        return of(importAccountPublicKeySuccess(
+        return of(SA.importAccountPublicKeySuccess(
           action.pageName,
           account.publicKey
         ));
       }),
-      catchError(error => of(importAccountPublicKeyFailure(
+      catchError(error => of(SA.importAccountPublicKeyFailure(
         action.pageName,
         error instanceof RpcError ? error.message : 'Unknown error'
       )))
@@ -242,8 +238,8 @@ export const importAccountPublicKeyEpic = (action$, state$, { adsRpc }) => actio
 
 export const saveAccountEpic = (action$, state$, { history }) => action$.pipe(
   ofType(SA.SAVE_ACCOUNT),
-  switchMap(() => concat(
-    of(validateForm(SA.SAVE_ACCOUNT)),
+  switchMap(initAction => concat(
+    of(validateForm(SA.SAVE_ACCOUNT, initAction.editedId)),
     action$.pipe(
       ofType(FORM_VALIDATION_SUCCESS),
       filter(action => action.pageName === SA.SAVE_ACCOUNT),

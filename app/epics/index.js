@@ -5,7 +5,6 @@ import {
   openDialogEpic,
   closeDialogEpic,
 } from './authDialogEpics';
-import accountEditValidateForm from './accountEditValidateForm';
 import {
   retrieveAccountEpic,
   retrieveNodesEpic
@@ -29,7 +28,6 @@ import {
 
 export default combineEpics(
   validateForm,
-  accountEditValidateForm,
   retrieveAccountEpic,
   retrieveNodesEpic,
   unsealEpic,

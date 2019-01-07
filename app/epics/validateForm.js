@@ -17,10 +17,8 @@ export default (action$, state$) =>
     ofType(VALIDATE_FORM),
     withLatestFrom(state$),
     mergeMap(([action, state]) => {
-      const { pageName } = action;
+      const { pageName, editedId } = action;
       const { vault, pages } = state;
-
-      // validatePagesBranch(pages, pageName);
 
       const { inputs } = pages[pageName];
 
@@ -33,7 +31,7 @@ export default (action$, state$) =>
               throw new Error(`No validator is defined for name ${inputName}`);
             }
             if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
-              errorMsg = validator({ value: inputProps.value, vault, inputs, pageName });
+              errorMsg = validator({ value: inputProps.value, vault, inputs, pageName, editedId });
             }
             const isInputValid = errorMsg === null;
             const actionToDispatch = isInputValid

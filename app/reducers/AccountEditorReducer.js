@@ -1,6 +1,6 @@
 import * as actions from '../actions/formActions';
 import * as settingsActions from '../actions/settingsActions';
-import FormReducers from './FormControlsReducer'
+import FormReducers from './FormControlsReducer';
 
 const initialState = {
   publicKey: '',

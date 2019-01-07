@@ -21,7 +21,7 @@ import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import InputControl from '../../components/atoms/InputControl';
 import { inputChange, cleanForm } from '../../actions/formActions';
-import { SAVE_ACCOUNT, saveAccount } from '../../actions/settingsActions'
+import { SAVE_ACCOUNT, saveAccount } from '../../actions/settingsActions';
 import config from '../../config/config';
 import style from './SettingsPage.css';
 
@@ -57,13 +57,12 @@ class AccountEditorPage extends FormComponent {
     };
   }
 
-  // componentDidMount() {
-  //   if (this.state.account) {
-  //     this.handleInputChange('name', this.state.account.name);
-  //     this.handleInputChange('address', this.state.account.address);
-  //     this.handleInputChange('publicKey', this.state.account.publicKey);
-  //   }
-  // }
+  componentDidMount() {
+    if (this.state.account) {
+      this.handleInputChange(this.state.account.name, 'name');
+      this.handleInputChange(this.state.account.address, 'address');
+    }
+  }
 
   // handleSubmit = (event) => {
   //   event.preventDefault();
@@ -96,7 +95,7 @@ class AccountEditorPage extends FormComponent {
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.actions.saveAccount(SAVE_ACCOUNT);
+    this.props.actions.saveAccount(SAVE_ACCOUNT, this.state.account.address);
   };
 
   componentWillUnmount() {

@@ -3,13 +3,7 @@ import * as KeyBox from '../utils/keybox';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../../app/utils/background';
 import ADS from '../../app/utils/ads';
-import {
-  InvalidPasswordError,
-  AccountsLimitError,
-  ItemNotFound,
-} from '../actions/errors';
 import config from '../config/config';
-import { findAccountByAddressInVault } from '../utils/utils';
 import {
   RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
   RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS

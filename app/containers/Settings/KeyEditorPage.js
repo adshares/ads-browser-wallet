@@ -24,7 +24,6 @@ import style from './SettingsPage.css';
 import config from '../../config/config';
 
 class KeyEditorPage extends FormComponent {
-  static PAGE_NAME = 'KeysImporterPage';
 
   static propTypes = {
     history: PropTypes.object.isRequired,

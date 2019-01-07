@@ -96,6 +96,7 @@ class PasswordEditorPage extends PageComponent {
                 handleChange={this.handleInputChange}
                 value={newPassword.value}
                 errorMessage={newPassword.errorMsg}
+                autoFocus
               />
               <InputControl
                 label="Repeat new password"

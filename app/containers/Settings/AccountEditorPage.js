@@ -17,114 +17,116 @@ import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import config from '../../config/config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
-import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
-import {
-  inputChange,
-  passwordChange,
-  toggleVisibility,
-  passInputValidate,
-  validateForm,
-  cleanForm,
-  accountEditFormValidate
-} from '../../actions/formActions';
-import { importAccountPublicKey } from '../../actions/settingsActions';
+import { inputChange, cleanForm } from '../../actions/formActions';
+import { SAVE_ACCOUNT, saveAccount } from '../../actions/settingsActions'
+import config from '../../config/config';
+import style from './SettingsPage.css';
 
 class AccountEditorPage extends FormComponent {
-  static PAGE_NAME = 'AccountEditorPage';
+
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    vault: PropTypes.object.isRequired,
+    page: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+      inputChange: PropTypes.func.isRequired,
+      cleanForm: PropTypes.func.isRequired,
+      saveAccount: PropTypes.func.isRequired,
+    })
+  };
 
   constructor(props) {
     super(props);
 
-    let selectedAccount = null;
-    const { address } = this.props.match.params;
-
-    if (address) {
-      selectedAccount = this.props.vault.accounts.find(a => a.address === address);
-      if (!selectedAccount) {
-        throw new ItemNotFound('account', address);
-      }
-    }
-
-    this.state = {
-      account: selectedAccount,
-    };
-  }
-  componentDidMount() {
-    if (this.state.account) {
-      this.handleInputChange('name', this.state.account.name);
-      this.handleInputChange('address', this.state.account.address);
-      this.handleInputChange('publicKey', this.state.account.publicKey);
-    }
+    // let selectedAccount = null;
+    // const { address } = this.props.match.params;
+    //
+    // if (address) {
+    //   selectedAccount = this.props.vault.accounts.find(a => a.address === address);
+    //   if (!selectedAccount) {
+    //     throw new ItemNotFound('account', address);
+    //   }
+    // }
+    //
+    // this.state = {
+    //   account: selectedAccount,
+    // };
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    // eslint-disable-next-line no-unused-expressions
-    this.state.account ?
-      this.props.actions.accountEditFormValidate(
-          AccountEditorPage.PAGE_NAME,
-        {
-          name: this.state.account.name,
-          address: this.state.account.address,
-          publicKey: this.state.account.publicKey,
-        }
-      )
-      : this.props.actions.formValidate(AccountEditorPage.PAGE_NAME);
-  };
+  // componentDidMount() {
+  //   if (this.state.account) {
+  //     this.handleInputChange('name', this.state.account.name);
+  //     this.handleInputChange('address', this.state.account.address);
+  //     this.handleInputChange('publicKey', this.state.account.publicKey);
+  //   }
+  // }
 
-  handleCancel = () => {
-    this.props.actions.formClean(AccountEditorPage.PAGE_NAME);
-  };
+  // handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   // eslint-disable-next-line no-unused-expressions
+  //   this.state.account ?
+  //     this.props.actions.accountEditFormValidate(
+  //       SAVE_ACCOUNT,
+  //       {
+  //         name: this.state.account.name,
+  //         address: this.state.account.address,
+  //         publicKey: this.state.account.publicKey,
+  //       }
+  //     )
+  //     : this.props.actions.formValidate(SAVE_ACCOUNT);
+  // };
+  //
+  // handleCancel = () => {
+  //   this.props.actions.formClean(SAVE_ACCOUNT);
+  // };
 
-  handleInputChange = (inputName, inputValue) => {
-    this.props.actions.handleInputChange(
-      AccountEditorPage.PAGE_NAME,
+  handleInputChange = (inputValue, inputName) => {
+    this.props.actions.inputChange(
+      SAVE_ACCOUNT,
       inputName,
       inputValue
     );
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.actions.saveAccount();
+  };
+
+  componentWillUnmount() {
+    this.props.actions.cleanForm(SAVE_ACCOUNT);
+  }
+
   render() {
     const {
       page: {
-        publicKey, publicKeyLoading, publicKeyErrorMsg,
         isSubmitted,
-        auth: { authModalOpen, password },
+        publicKey,
+        publicKeyLoading,
+        publicKeyErrorMsg,
+        errorMsg,
         inputs: { name, address },
       }
     } = this.props;
     const limitWarning =
         !this.state.account && this.props.vault.accounts.length >= config.accountsLimit;
-    const title = this.state.account ? this.state.account.name : 'Import an account';
+    const title = this.state.account ? this.state.account.name : 'Import account';
 
     return (
       <Page
         title={title}
         smallTitle
         className={style.page}
-        onPasswordInputChange={value =>
-              this.props.actions.handlePasswordChange(
-                AccountEditorPage.PAGE_NAME,
-                value
-              )
-            }
-        onDialogSubmit={() => {
-          this.props.actions.passInputValidate(
-                AccountEditorPage.PAGE_NAME
-              );
-          this.props.saveAction();
-        }}
-        password={password}
-        authenticationModalOpen={authModalOpen}
         cancelLink={this.getReferrer()}
-        onCancelClick={this.handleCancel}
+        showLoader={isSubmitted}
+        history={history}
       >
-        {isSubmitted && <LoaderOverlay />}
         {limitWarning ? (
           <div>
             <Box layout="warning" icon={faInfo}>
@@ -209,29 +211,16 @@ class AccountEditorPage extends FormComponent {
 export default connect(
   state => ({
     vault: state.vault,
-    page: state.pages.AccountEditorPage
+    page: state.pages[SAVE_ACCOUNT]
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        handleInputChange: inputChange,
-        handlePasswordChange: passwordChange,
-        formValidate: validateForm,
-        accountEditFormValidate,
-        passInputValidate,
-        toggleVisibility,
-        formClean: cleanForm,
-        importAccountPublicKey
+        inputChange,
+        cleanForm,
+        saveAccount,
       },
       dispatch
     )
   })
 )(AccountEditorPage);
-
-
-AccountEditorPage.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  vault: PropTypes.object.isRequired,
-  saveAction: PropTypes.func.isRequired,
-};

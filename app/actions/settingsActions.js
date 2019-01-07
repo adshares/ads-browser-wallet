@@ -5,6 +5,8 @@ export const IMPORT_ACCOUNT_PK = 'SETTINGS_IMPORT_ACCOUNT_PK';
 export const IMPORT_ACCOUNT_PK_SUCCESS = 'SETTINGS_IMPORT_ACCOUNT_PK_SUCCESS';
 export const IMPORT_ACCOUNT_PK_FAILURE = 'SETTINGS_IMPORT_ACCOUNT_PK_FAILURE';
 export const SAVE_ACCOUNT = 'SETTINGS_SAVE_ACCOUNT';
+export const SAVE_ACCOUNT_SUCCESS = 'SETTINGS_SAVE_ACCOUNT_SUCCESS';
+export const SAVE_ACCOUNT_FAILURE = 'SETTINGS_SAVE_ACCOUNT_FAILURE';
 export const REMOVE_ACCOUNT = 'SETTINGS_REMOVE_ACCOUNT';
 export const REMOVE_ACCOUNT_SUCCESS = 'SETTINGS_REMOVE_ACCOUNT_SUCCESS';
 export const REMOVE_ACCOUNT_FAILURE = 'SETTINGS_REMOVE_ACCOUNT_FAILURE';
@@ -46,6 +48,18 @@ export function importAccountPublicKeySuccess(pageName, publicKey) {
 
 export function importAccountPublicKeyFailure(pageName, errorMsg, publicKey) {
   return { type: IMPORT_ACCOUNT_PK_FAILURE, pageName, errorMsg, publicKey };
+}
+
+export function saveAccount(pageName) {
+  return { type: SAVE_ACCOUNT, pageName };
+}
+
+export function saveAccountSuccess(pageName) {
+  return { type: SAVE_ACCOUNT_SUCCESS, pageName };
+}
+
+export function saveAccountFailure(pageName, errorMsg) {
+  return { type: SAVE_ACCOUNT_FAILURE, pageName, errorMsg };
 }
 
 export function removeAccount(address) {

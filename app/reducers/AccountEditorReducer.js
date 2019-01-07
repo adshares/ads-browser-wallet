@@ -173,7 +173,7 @@ const actionsMap = {
 };
 
 export default function (state = initialState, action) {
-  if (action.pageName !== AccountEditorPage.PAGE_NAME) return state;
+  if (action.pageName !== settingsActions.SAVE_ACCOUNT) return state;
   const reduceFn = actionsMap[action.type];
   if (!reduceFn) return state;
   return reduceFn(state, action);

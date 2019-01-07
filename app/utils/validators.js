@@ -3,7 +3,7 @@ import VaultCrypt from './vaultcrypt';
 import config from '../config/config';
 import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 import { getPublicKeyFromSecret } from './keybox';
-import { SAVE_KEY } from '../actions/settingsActions';
+import { SAVE_KEY, SAVE_ACCOUNT } from '../actions/settingsActions';
 
 const name = ({ pageName, value, vault }) => {
   if (pageName === SAVE_KEY) {
@@ -15,7 +15,7 @@ const name = ({ pageName, value, vault }) => {
       return 'Maximum imported keys limit has been reached. Please remove unused keys.';
     }
   }
-  if (pageName === AccountEditorPage.PAGE_NAME &&
+  if (pageName === SAVE_ACCOUNT &&
     vault.accounts.find(account => account.name === value)) {
     return `Account named ${value} already exists`;
   }
@@ -42,7 +42,7 @@ const publicKey = ({ value, inputs, vault, pageName }) => {
     if (getPublicKeyFromSecret(inputs.secretKey.value) !== value) {
       return 'Public and secret key does not match';
     }
-  } else if (pageName === AccountEditorPage.PAGE_NAME &&
+  } else if (pageName === SAVE_ACCOUNT &&
     !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
     return 'Cannot find a key in storage. Please import secret key first.';
   }

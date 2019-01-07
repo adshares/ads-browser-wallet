@@ -1,13 +1,12 @@
 import ADS from './ads';
 import VaultCrypt from './vaultcrypt';
 import config from '../config/config';
-import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 import { getPublicKeyFromSecret } from './keybox';
 import { SAVE_KEY, SAVE_ACCOUNT } from '../actions/settingsActions';
 
 const name = ({ pageName, value, vault }) => {
   if (pageName === SAVE_KEY) {
-    if (vault.keys.find(key => key.name === value)) {
+    if (vault.keys.find(key => key.name.toLowerCase() === value.toLowerCase())) {
       return `Key named ${value} already exists`;
     }
     if (vault.keys.filter(key => key.type === 'imported').length >=
@@ -16,7 +15,7 @@ const name = ({ pageName, value, vault }) => {
     }
   }
   if (pageName === SAVE_ACCOUNT &&
-    vault.accounts.find(account => account.name === value)) {
+    vault.accounts.find(account => account.name.toLowerCase() === value.toLowerCase())) {
     return `Account named ${value} already exists`;
   }
   if (vault.length > config.itemNameMaxLength) {
@@ -90,9 +89,7 @@ const address = ({ value, vault }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
   }
-  const formatted = ADS.formatAddress(...ADS.splitAddress(value));
-  console.log(formatted);
-  if (vault.accounts.find(a => a.address.toUpperCase() === formatted)) {
+  if (vault.accounts.find(a => ADS.compareAddresses(a.address, value))) {
     return `Account ${value} already exists`;
   }
   return null;

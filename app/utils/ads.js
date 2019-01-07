@@ -160,7 +160,7 @@ function formatAddress(nodeId, userAccountId) {
  * @returns {{nodeId: string, userAccountId: string, checksum: string}}
  */
 function splitAddress(address) {
-  const addressRegexp = /^([0-9a-fA-F]{4})-([0-9a-fA-F]{8})-([0-9a-fA-FX]{4})$/;
+  const addressRegexp = /^([0-9a-fA-F]{4})-([0-9a-fA-F]{8})-([0-9a-fA-F]{4}|XXXX)$/;
   const matches = addressRegexp.exec(address);
   if (!matches) {
     return null;
@@ -172,8 +172,16 @@ function splitAddress(address) {
   };
 }
 
-function compareAddress(address1, address2) {
-  const formatted = ADS.formatAddress(...ADS.splitAddress(value));
+/**
+ *
+ * @param address1
+ * @param address2
+ * @returns {boolean}
+ */
+function compareAddresses(address1, address2) {
+  const a1 = splitAddress(address1);
+  const a2 = splitAddress(address2);
+  return a1.nodeId === a2.nodeId && a1.userAccountId === a2.userAccountId;
 }
 
 /**
@@ -766,4 +774,5 @@ export default {
   formatClickMoney,
   formatAddress,
   splitAddress,
+  compareAddresses,
 };

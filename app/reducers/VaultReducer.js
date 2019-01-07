@@ -115,7 +115,8 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.SAVE_ACCOUNT: {
-      const address = ADS.formatAddress(...ADS.splitAddress(action.address));
+      const { nodeId, userAccountId } = ADS.splitAddress(action.address);
+      const address = ADS.formatAddress(nodeId, userAccountId);
 
       const updatedVault = {
         ...initialVault,

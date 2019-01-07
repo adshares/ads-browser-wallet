@@ -21,6 +21,17 @@ export default class PageComponent extends React.PureComponent {
       />
     );
   }
+
+  renderNotFoundErrorPage(name, id, cancelLink, onCancelClick) {
+    return (
+      <ErrorPage
+        code={404}
+        message={`Cannot find ${name} '${id}'`}
+        cancelLink={cancelLink || this.getReferrer()}
+        onCancelClick={onCancelClick}
+      />
+    );
+  }
 }
 
 PageComponent.propTypes = {

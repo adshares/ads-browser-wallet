@@ -2,28 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
 import HomePage from './Home/HomePage';
 import RestorePage from './Account/RestorePage';
 import RegisterPage from './Account/RegisterPage';
 import LoginPage from './Account/LoginPage';
 import SettingsPage from './Settings/SettingsPage';
-import PasswordChangePage from './Settings/PasswordChangePage';
+import PasswordChangePage from './Settings/PasswordEditorPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
-import KeysImporterPage from './Settings/KeysImporterPage';
+import KeyEditorPage from './Settings/KeyEditorPage';
 import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
-import style from './App.css';
+import SeedPhrasePage from './Settings/SeedPhrasePage';
+import KeysSettingsPage from './Settings/KeysSettingsPage';
+import KeyDetailsPage from './Settings/KeyDetailsPage';
 import * as vaultActions from '../actions/vaultActions';
-import * as formActions from '../actions/form';
-import * as settingsActions from '../actions/settingsActions';
-import * as commonActions from '../actions/actions';
+import style from './App.css';
 import config from '../config/config';
-import DetailsPage from './Settings/DetailsPage';
-import KeysSettings from './Settings/KeysSettings';
-import ConfirmDialog from '../components/confirmDialog/confirmDialog';
 
 function NotFoundErrorPage(props) {
   return (
@@ -69,23 +66,18 @@ function SwitchNetwork({ ...params }) {
 
 class Rooting extends Component {
   static propTypes = {
+    router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    router: PropTypes.object,
-    authDialog: PropTypes.object
   };
 
-  componentWillUnmount() {
-
-  }
-
   render() {
-    const { vault, queue, router, actions, authDialog } = this.props;
+    const { router, vault, queue, actions } = this.props;
 
     return (
       <div className={style.app}>
-        <Switch>
+        <Switch router={router}>
           <Route
             exact
             path="/testnet:url(.*)"
@@ -122,126 +114,40 @@ class Rooting extends Component {
             }
           /> : ''}
           <PrivateRoute
-            exact
             path="/(popup.html)?"
-            vault={vault}
-            render={
-              props => <HomePage vault={vault} queue={queue} {...props} />
-            }
+            exact vault={vault} component={HomePage}
           />
           <PrivateRoute
-            exact
             path="/settings"
-            vault={vault}
-            render={props =>
-              <SettingsPage
-                vault={vault}
-                actions={actions}
-                {...props}
-              />
-            }
+            exact vault={vault} component={SettingsPage}
           />
           <PrivateRoute
-            exact
-            path="/password"
-            vault={vault}
-            render={props =>
-              <PasswordChangePage vault={vault} {...props} />
-            }
+            path="/settings/changePassword"
+            exact vault={vault} component={PasswordChangePage}
           />
           <PrivateRoute
-            exact
-            path="/accounts/import"
-            vault={vault}
-            render={props =>
-              <AccountEditorPage
-                vault={vault}
-                saveAction={actions.addAccountInit}
-                {...props}
-              />
-            }
+            path="/settings/accounts/import"
+            exact vault={vault} component={AccountEditorPage}
           />
           <PrivateRoute
-            exact
-            path="/accounts/:address([0-9A-F-]+)/edit"
-            vault={vault}
-            render={props =>
-              <AccountEditorPage
-                vault={vault}
-                saveAction={actions.updateAccountInit}
-                {...props}
-              />
-            }
+            path="/settings/accounts/:address([0-9A-F-]+)/edit"
+            exact vault={vault} component={AccountEditorPage}
           />
           <PrivateRoute
-            exact
-            path="/accounts/:address([0-9A-F-]+)/keys"
-            vault={vault}
-            render={props =>
-              <DetailsPage
-                keys={vault.keys}
-                accounts={vault.accounts} type="account"
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                previewSecretData={actions.previewSecretDataInit}
-                authConfirmed={authDialog.authConfirmed}
-                {...props}
-              />
-            }
-          />
-
-          <PrivateRoute
-            exact
-            path="/seedPhrase"
-            vault={vault}
-            render={props =>
-              <DetailsPage
-                seed={vault.seedPhrase}
-                type="seed"
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                previewSecretData={actions.previewSecretDataInit}
-                authConfirmed={authDialog.authConfirmed}
-                {...props}
-              />
-            }
-          />
-
-          <PrivateRoute
-            exact
-            path="/keys"
-            vault={vault}
-            render={props =>
-              <KeysSettings
-                keys={vault.keys}
-                seed={vault.seed}
-                removeKeyAction={actions.removeKeyInit}
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                showKeys={actions.previewSecretDataInit}
-                saveGeneratedKeysAction={actions.saveGeneratedKeysInit} {...props}
-              />
-            }
+            path="/settings/seedPhrase"
+            exact vault={vault} component={SeedPhrasePage}
           />
           <PrivateRoute
-            exact
-            path="/keys/:publicKey([0-9a-fA-F]{64})/"
-            vault={vault}
-            render={props =>
-              <DetailsPage
-                keys={vault.keys}
-                type="key"
-                toggleAuthDialog={actions.toggleGlobalAuthorisationDialog}
-                previewSecretData={actions.previewSecretDataInit}
-                authConfirmed={authDialog.authConfirmed}
-                {...props}
-              />
-            }
+            path="/settings/keys"
+            exact vault={vault} component={KeysSettingsPage}
           />
           <PrivateRoute
-            exact
-            path="/keys/import"
-            vault={vault}
-            render={props =>
-              <KeysImporterPage vault={vault} {...props} />
-            }
+            path="/settings/keys/:publicKey([0-9a-fA-F]{64})/"
+            exact vault={vault} component={KeyDetailsPage}
+          />
+          <PrivateRoute
+            path="/settings/keys/import"
+            exact vault={vault} component={KeyEditorPage}
           />
           <PrivateRoute
             exact
@@ -269,37 +175,22 @@ class Rooting extends Component {
           />
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>
-        {authDialog.authModalOpen && (
-          <ConfirmDialog
-            showDialog
-            cancelLink={router.location.state ?
-              router.location.state.referrer.pathname :
-              router.location.pathname}
-            handlePasswordChange={actions.handleGlobalPassInputChange}
-            onSubmit={actions.globalPassInputValidate}
-            password={authDialog.password}
-          />
-        )}
       </div>
     );
   }
 }
 
-export default connect(
+export default withRouter(connect(
   //FIXME remove fallbacks
   state => ({
     router: state.router || {},
     vault: state.vault || {},
     queue: state.queue || [],
-    authDialog: state.authDialog,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        ...vaultActions,
-        ...formActions,
-        ...settingsActions,
-        ...commonActions,
+        ...vaultActions
       }, dispatch)
   })
-)(Rooting);
+)(Rooting));

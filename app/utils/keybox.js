@@ -36,40 +36,27 @@ function seedPhraseToHex(seedPhrase) {
 }
 
 function generateNextKey(seed, index) {
-  return generateKeyPair(seed, `m/${index}'`);
+  return {
+    name: `M${index.toString().padStart(2, '0')}`,
+    ...generateKeyPair(seed, `m/${index}'`)
+  };
 }
 
-function generateKeys(seed, quantity) {
+function generateKeys(seed, from, to) {
+  const keys = [];
+  for (let i = from; i < to; i++) {
+    keys.push(generateNextKey(seed, i));
+  }
+  return keys;
+}
+
+function initKeys(seed, quantity) {
   const keys = [];
   keys.push({
     name: 'Master',
     ...generateKeyPair(seed)
   });
-  for (let i = 1; i < quantity; i++) {
-    const n = i.toString()
-      .padStart(2, '0');
-    keys.push({
-      name: `M${n}`,
-      ...generateNextKey(seed, i)
-    });
-  }
-
-  return keys;
-}
-
-function generateNewKeys(seed, currentAmount, quantity = currentAmount + 5) {
-  const keys = [];
-   // hack +1 is because one of the key is named master so we start number ith gap
-  // between numerated keys names
-  for (let i = currentAmount; i <= quantity; i++) {
-    const n = i.toString()
-      .padStart(2, '0');
-    keys.push({
-      name: `M${n}`,
-      type: 'auto',
-      ...generateNextKey(seed, i)
-    });
-  }
+  keys.push(...generateKeys(seed, 0, quantity));
   return keys;
 }
 
@@ -80,8 +67,8 @@ function generateSeedPhrase() {
 export {
   getPublicKeyFromSecret,
   seedPhraseToHex,
-  generateKeys,
+  initKeys,
   generateNextKey,
   generateSeedPhrase,
-  generateNewKeys
+  generateKeys
 };

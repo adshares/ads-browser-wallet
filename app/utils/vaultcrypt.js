@@ -65,7 +65,7 @@ function decrypt(encryptedVault, password) {
       ...key,
       publicKey: KeyBox.getPublicKeyFromSecret(key.secretKey),
     })),
-    ...KeyBox.generateKeys(
+    ...KeyBox.initKeys(
       decryptedVault.seed,
       decryptedVault.keyCount || config.initKeysQuantity
     )

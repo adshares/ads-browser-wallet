@@ -13,7 +13,7 @@ import { findAccountByAddressInVault } from '../utils/utils';
 import {
   RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
   RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS
-} from '../actions/actions';
+} from '../actions/walletActions';
 
 const initialVault = {
   empty: true,
@@ -42,7 +42,7 @@ export default function (vault = initialVault, action) {
         sealed: false,
         seedPhrase: action.seedPhrase,
         seed,
-        keys: [...vaultKeys, ...KeyBox.generateKeys(seed, config.initKeysQuantity)],
+        keys: [...vaultKeys, ...KeyBox.initKeys(seed, config.initKeysQuantity)],
         keyCount: config.initKeysQuantity,
       };
       newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);
@@ -55,17 +55,26 @@ export default function (vault = initialVault, action) {
         ...vault,
       };
       newVault.secret = VaultCrypt.save(newVault, action.password, () => {
-        BgClient.startSession(window.btoa(action.password), action.callback);
+        BgClient.startSession(window.btoa(action.password));
+        if (action.callback) {
+          action.callback();
+        }
       });
       return newVault;
     }
 
     case actions.ERASE: {
+      VaultCrypt.erase(() => {
+        chrome.storage.local.remove(config.accountStorageKey);
+        if (action.callback) {
+          action.callback();
+        }
+      });
       return initialVault;
     }
 
     case actions.SELECT_ACTIVE_ACCOUNT: {
-      chrome.storage.local.remove(config.accountStorageKey);
+      chrome.storage.local.set({ [config.accountStorageKey]: action.accountAddress });
       return {
         ...vault,
         selectedAccount: action.accountAddress
@@ -105,77 +114,72 @@ export default function (vault = initialVault, action) {
       return vault;
     }
 
-    case actions.ADD_ACCOUNT: {
-      if (vault.accounts.length >= config.accountsLimit) {
-        throw new AccountsLimitError(config.accountsLimit);
-      }
+    case actions.SAVE_ACCOUNT: {
       const { nodeId, userAccountId } = ADS.splitAddress(action.address);
       const address = ADS.formatAddress(nodeId, userAccountId);
-      const name = action.name;
 
       const updatedVault = {
         ...initialVault,
         ...vault,
         accounts: [
-          ...vault.accounts,
+          ...vault.accounts.filter(a => a.address !== address),
           {
             address,
-            name
+            name: action.name
           }]
       };
+
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-      return updatedVault;
-    }
-
-    case actions.UPDATE_ACCOUNT: {
-      if (!VaultCrypt.checkPassword(vault, action.password)) {
-        throw new InvalidPasswordError();
-      }
-
-      const address = action.address.toUpperCase();
-      const name = action.name;
-
-      const account = findAccountByAddressInVault(vault, address);
-      if (!account) {
-        throw new ItemNotFound('account', action.address);
-      }
-
-      account.name = name;
-      const updatedVault = {
-        ...initialVault,
-        ...vault,
-      };
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-
       return updatedVault;
     }
 
     case actions.REMOVE_ACCOUNT: {
-      const checkSelectedAccount = action.updatedAccounts.find(
-        account => account.address === vault.selectedAccount);
-      if (!checkSelectedAccount) {
-        chrome.storage.local.remove(config.accountStorageKey);
+      const accounts = vault.accounts.filter(a => a.address !== action.address);
+      let selectedAccount = vault.selectedAccount;
+      if (selectedAccount === action.address) {
+        selectedAccount = accounts.length > 0 ? accounts[0].address : null;
+        chrome.storage.local.set({ [config.accountStorageKey]: selectedAccount });
       }
 
       const updatedVault = {
-        ...initialVault,
         ...vault,
-        accounts: action.updatedAccounts,
-        selectedAccount: checkSelectedAccount || null
+        accounts,
+        selectedAccount
       };
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
 
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
       return updatedVault;
     }
 
-    case actions.IMPORT_KEY: {
-      const updatedVault = { ...vault };
-      updatedVault.keys.push({
-        type: 'imported',
-        name: action.name,
-        secretKey: action.secretKey,
-        publicKey: action.publicKey,
-      });
+    case actions.GENERATE_KEYS: {
+      const keyCount = vault.keyCount + action.quantity;
+      const updatedVault = {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          ...KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount)
+        ],
+        keyCount,
+      };
+
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      return updatedVault;
+    }
+
+    case actions.SAVE_KEY: {
+      const updatedVault = {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          {
+            type: 'imported',
+            name: action.name,
+            secretKey: action.secretKey,
+            publicKey: KeyBox.getPublicKeyFromSecret(action.secretKey),
+          }
+        ]
+      };
+
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
       return updatedVault;
     }
@@ -183,21 +187,7 @@ export default function (vault = initialVault, action) {
     case actions.REMOVE_KEY: {
       const updatedVault = {
         ...vault,
-        keys: action.keysArr
-      };
-
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-      return updatedVault;
-    }
-
-    case actions.SAVE_GENERATED_KEYS: {
-      const updatedVault = {
-        ...vault,
-        keyCount: action.newKeyCount,
-        keys: [
-          ...vault.keys,
-          ...action.keys
-        ]
+        keys: vault.keys.filter(k => k.type === 'auto' || k.publicKey !== action.publicKey)
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);

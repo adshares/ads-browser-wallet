@@ -1,25 +1,26 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import vault from './VaultReducer';
-import queue from './queue';
-import KeysImporterPage from './KeyImporterReducer';
-import AccountEditorPage from './AccountEditorReducer';
-import SettingsPage from './SettingsReducer';
-import authDialog from './AuthDialogReducer';
+import AuthDialogReducer from './AuthDialogReducer';
+import VaultReducer from './VaultReducer';
+import QueueReducer from './QueueReducer';
+import KeyEditorReducer from './KeyEditorReducer';
+import AccountEditorReducer from './AccountEditorReducer';
+import PasswordEditorReducer from './PasswordEditorReducer';
 import SendOneReducer from './SendOneReducer';
+import * as SA from '../actions/settingsActions';
 import ADS from '../utils/ads';
 
 export default history => combineReducers({
   router: connectRouter(history),
-  authDialog,
-  vault,
-  queue,
+  authDialog: AuthDialogReducer,
+  vault: VaultReducer,
+  queue: QueueReducer,
+  pages: combineReducers({
+    [SA.SAVE_KEY]: KeyEditorReducer,
+    [SA.SAVE_ACCOUNT]: AccountEditorReducer,
+    [SA.CHANGE_PASSWORD]: PasswordEditorReducer,
+  }),
   transactions: combineReducers({
     [ADS.TX_TYPES.SEND_ONE]: SendOneReducer
   }),
-  pages: combineReducers({
-    KeysImporterPage,
-    AccountEditorPage,
-    SettingsPage,
-  })
 });

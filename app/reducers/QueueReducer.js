@@ -1,4 +1,4 @@
-import * as actions from '../actions/queue';
+import * as actions from '../actions/queueActions';
 
 export default function (queue = [], action) {
   switch (action.type) {

@@ -3,19 +3,16 @@ import * as settingsActions from '../actions/settingsActions';
 import FormReducers from './FormControlsReducer';
 
 const initialState = {
-  publicKey: '',
-  publicKeyLoading: false,
-  publicKeyErrorMsg: '',
   isSubmitted: false,
-  isAccountSaved: false,
+  isPasswordChanged: false,
   errorMsg: '',
   inputs: {
-    name: {
+    newPassword: {
       isValid: false,
       value: '',
       errorMsg: ''
     },
-    address: {
+    repeatedPassword: {
       isValid: false,
       value: '',
       errorMsg: ''
@@ -39,47 +36,24 @@ const actionsMap = {
       isSubmitted: false,
     };
   },
-  [settingsActions.IMPORT_ACCOUNT_PK](state) {
-    return {
-      ...state,
-      publicKey: '',
-      publicKeyLoading: true,
-      publicKeyErrorMsg: '',
-    };
-  },
-  [settingsActions.IMPORT_ACCOUNT_PK_SUCCESS](state, action) {
-    return {
-      ...state,
-      publicKey: action.publicKey,
-      publicKeyLoading: false,
-      publicKeyErrorMsg: '',
-    };
-  },
-  [settingsActions.IMPORT_ACCOUNT_PK_FAILURE](state, action) {
-    return {
-      ...state,
-      publicKey: action.publicKey,
-      publicKeyLoading: false,
-      publicKeyErrorMsg: action.errorMsg,
-    };
-  },
-  [settingsActions.SAVE_ACCOUNT](state) {
+  [settingsActions.CHANGE_PASSWORD](state) {
     return {
       ...state,
       isSubmitted: true,
     };
   },
-  [settingsActions.SAVE_ACCOUNT_SUCCESS](state) {
+  [settingsActions.PASSWORD_CHANGE_SUCCESS](state) {
     return {
       ...state,
       isSubmitted: false,
       errorMsg: '',
-      isAccountSaved: true,
+      isPasswordChanged: true,
     };
   },
-  [settingsActions.SAVE_ACCOUNT_FAILURE](state, action) {
+  [settingsActions.PASSWORD_CHANGE_FAILURE](state, action) {
     return {
       ...state,
+      ...action.payload,
       isSubmitted: false,
       errorMsg: action.errorMsg,
     };
@@ -87,7 +61,7 @@ const actionsMap = {
 };
 
 export default function (state = initialState, action) {
-  if (action.pageName !== settingsActions.SAVE_ACCOUNT) return state;
+  if (action.pageName !== settingsActions.CHANGE_PASSWORD) return state;
   const reduceFn = actionsMap[action.type];
   if (!reduceFn) return state;
   return reduceFn(state, action);

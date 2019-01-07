@@ -1,25 +1,42 @@
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import Link from 'react-router-dom/es/Link';
 import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
-import ConfirmDialog from '../confirmDialog/confirmDialog';
+import AuthDialog from '../authDialog/authDialog';
 import LoaderOverlay from '../atoms/LoaderOverlay';
 import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vaultActions';
-import * as FormActions from '../../actions/form';
+import * as FormActions from '../../actions/formActions';
+import * as AuthDialogActions from '../../actions/authDialogActions';
 import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';
 import style from './Page.css';
 
-
 class Page extends React.Component {
+
+  static propTypes = {
+    children: PropTypes.any,
+    className: PropTypes.string,
+    vault: PropTypes.object,
+    actions: PropTypes.object,
+    title: PropTypes.string,
+    subTitle: PropTypes.string,
+    cancelLink: PropTypes.any,
+    onCancelClick: PropTypes.func,
+    noLinks: PropTypes.bool,
+    homeLink: PropTypes.bool,
+    smallTitle: PropTypes.bool,
+    scroll: PropTypes.bool,
+    showLoader: PropTypes.bool,
+    authDialog: PropTypes.object,
+  };
+
   render() {
     const {
       vault,
@@ -29,15 +46,13 @@ class Page extends React.Component {
       cancelLink,
       onCancelClick,
       noLinks,
+      homeLink,
       scroll,
       smallTitle,
       children,
       className,
-      onPasswordInputChange,
-      onDialogSubmit,
-      password,
-      homeLink,
-      authenticationModalOpen,
+      showLoader,
+      authDialog,
     } = this.props;
 
     let classes = [];
@@ -76,16 +91,12 @@ class Page extends React.Component {
     }
     return (
       <section>
-        {this.props.showLoader && <LoaderOverlay />}
-        {authenticationModalOpen && (
-          <ConfirmDialog
-            showDialog
-            cancelLink={cancelLink}
-            handlePasswordChange={onPasswordInputChange}
-            onSubmit={onDialogSubmit}
-            password={password}
-          />
-        )}
+        {showLoader && <LoaderOverlay />}
+        <AuthDialog
+          {...authDialog}
+          closeAction={actions.authDialog.closeDialog}
+          confirmAction={actions.authDialog.confirmPassword}
+        />
         <header className={headerClass}>
           <div className={style.logo}>
             {noLinks || homeLink === false ? (
@@ -118,35 +129,17 @@ class Page extends React.Component {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
-    pages: state.pages
+    pages: state.pages,
+    authDialog: state.authDialog,
   }),
   dispatch => ({
     actions: {
       vault: bindActionCreators(VaultActions, dispatch),
-      form: bindActionCreators(FormActions, dispatch)
+      form: bindActionCreators(FormActions, dispatch),
+      authDialog: bindActionCreators(AuthDialogActions, dispatch),
     }
   })
-)(Page);
-
-Page.propTypes = {
-  children: PropTypes.any,
-  className: PropTypes.string,
-  vault: PropTypes.object,
-  actions: PropTypes.object,
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
-  cancelLink: PropTypes.any,
-  onCancelClick: PropTypes.func,
-  noLinks: PropTypes.bool,
-  homeLink: PropTypes.bool,
-  smallTitle: PropTypes.bool,
-  scroll: PropTypes.bool,
-  onPasswordInputChange: PropTypes.func,
-  onDialogSubmit: PropTypes.func,
-  password: PropTypes.object,
-  authenticationModalOpen: PropTypes.bool,
-  showLoader: PropTypes.bool,
-};
+)(Page));

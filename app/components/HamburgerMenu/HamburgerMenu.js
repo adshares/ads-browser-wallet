@@ -16,6 +16,10 @@ export default class HamburgerMenu extends PageComponent {
     this.props.logoutAction();
   };
 
+  componentWillUnmount() {
+    clearTimeout(this.blurTimeout);
+  }
+
   toggleMenu(status) {
     this.setState({
       menuOpened: status
@@ -34,9 +38,7 @@ export default class HamburgerMenu extends PageComponent {
           role="button"
           className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
           onClick={() => this.toggleMenu(!this.state.menuOpened)}
-          onBlur={() => setTimeout(() => {
-            this.toggleMenu(false);
-          }, 200)}
+          onBlur={() => (this.blurTimeout = setTimeout(() => { this.toggleMenu(false); }, 200))}
           // onFocus={() => this.toggleMenu(true)}
         />
         <ul

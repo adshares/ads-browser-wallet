@@ -3,11 +3,8 @@ import * as settingsActions from '../actions/settingsActions';
 import FormReducers from './FormControlsReducer';
 
 const initialState = {
-  publicKey: '',
-  publicKeyLoading: false,
-  publicKeyErrorMsg: '',
   isSubmitted: false,
-  isAccountSaved: false,
+  isKeySaved: false,
   errorMsg: '',
   inputs: {
     name: {
@@ -15,11 +12,17 @@ const initialState = {
       value: '',
       errorMsg: ''
     },
-    address: {
+    secretKey: {
       isValid: false,
       value: '',
       errorMsg: ''
-    }
+    },
+    publicKey: {
+      shown: false,
+      isValid: false,
+      value: '',
+      errorMsg: ''
+    },
   }
 };
 
@@ -39,45 +42,21 @@ const actionsMap = {
       isSubmitted: false,
     };
   },
-  [settingsActions.IMPORT_ACCOUNT_PK](state) {
-    return {
-      ...state,
-      publicKey: '',
-      publicKeyLoading: true,
-      publicKeyErrorMsg: '',
-    };
-  },
-  [settingsActions.IMPORT_ACCOUNT_PK_SUCCESS](state, action) {
-    return {
-      ...state,
-      publicKey: action.publicKey,
-      publicKeyLoading: false,
-      publicKeyErrorMsg: '',
-    };
-  },
-  [settingsActions.IMPORT_ACCOUNT_PK_FAILURE](state, action) {
-    return {
-      ...state,
-      publicKey: action.publicKey,
-      publicKeyLoading: false,
-      publicKeyErrorMsg: action.errorMsg,
-    };
-  },
-  [settingsActions.SAVE_ACCOUNT](state) {
+  [settingsActions.SAVE_KEY](state) {
     return {
       ...state,
       isSubmitted: true,
     };
   },
-  [settingsActions.SAVE_ACCOUNT_SUCCESS](state) {
+  [settingsActions.SAVE_KEY_SUCCESS](state) {
     return {
       ...state,
       isSubmitted: false,
       errorMsg: '',
-      isAccountSaved: true,
+      isKeySaved: true,
     };
   },
-  [settingsActions.SAVE_ACCOUNT_FAILURE](state, action) {
+  [settingsActions.SAVE_KEY_FAILURE](state, action) {
     return {
       ...state,
       isSubmitted: false,
@@ -87,7 +66,7 @@ const actionsMap = {
 };
 
 export default function (state = initialState, action) {
-  if (action.pageName !== settingsActions.SAVE_ACCOUNT) return state;
+  if (action.pageName !== settingsActions.SAVE_KEY) return state;
   const reduceFn = actionsMap[action.type];
   if (!reduceFn) return state;
   return reduceFn(state, action);

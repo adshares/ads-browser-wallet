@@ -193,3 +193,30 @@ export const removeKeyEpic = action$ => action$.pipe(
     )
   ))
 );
+
+export const removeAccountEpic = action$ => action$.pipe(
+  ofType(SA.REMOVE_ACCOUNT),
+  switchMap(initAction => concat(
+    of(openAuthDialog(SA.REMOVE_ACCOUNT)),
+    action$.pipe(
+      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
+      take(1),
+      filter(action => action.name === SA.REMOVE_ACCOUNT),
+      mergeMap((action) => {
+        if (action.type === PASSWORD_REJECTED) {
+          return of(SA.removeAccountFailure(initAction.address, 'Access denied'));
+        }
+
+        let resolve;
+        const promise = new Promise((res) => { resolve = res; })
+          .then(() => SA.removeAccountSuccess(initAction.address))
+          .catch(error => SA.removeAccountFailure(initAction.address, error.message || 'Unknown error'));
+
+        return concat(
+          of(VA.removeAccount(initAction.address, action.password, resolve)),
+          from(promise),
+        );
+      })
+    )
+  ))
+);

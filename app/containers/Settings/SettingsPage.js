@@ -49,7 +49,7 @@ class SettingsPage extends FormComponent {
           title="Manage Keys"
           layout="info"
           icon="left"
-        ><FontAwesomeIcon icon={faPencilAlt} /> Manage Keys</ButtonLink>
+        ><FontAwesomeIcon icon={faPencilAlt} /> Manage keys</ButtonLink>
       </div>
     );
   }
@@ -73,7 +73,7 @@ class SettingsPage extends FormComponent {
           ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
           <ButtonLink
             to={{
-              pathname: `/settings/accounts/${account.address}/keys`,
+              pathname: `/settings/keys/${account.publicKey}`,
               state: { referrer: this.props.history.location }
             }}
             size="small"

@@ -5,11 +5,8 @@ export const UNSEAL = 'VAULT_UNSEAL';
 export const UNSEAL_SUCCESS = 'VAULT_UNSEAL_SUCCESS';
 export const UNSEAL_FAILURE = 'VAULT_UNSEAL_FAILURE';
 export const SEAL = 'VAULT_SEAL';
-export const ADD_ACCOUNT_INIT = 'VAULT_ADD_ACCOUNT_INIT';
 export const ADD_ACCOUNT = 'VAULT_ADD_ACCOUNT';
-export const REMOVE_ACCOUNT_INIT = 'VAULT_REMOVE_ACCOUNT_INIT';
 export const REMOVE_ACCOUNT = 'VAULT_REMOVE_ACCOUNT';
-export const UPDATE_ACCOUNT_INIT = 'VAULT_UPDATE_ACCOUNT_INIT';
 export const UPDATE_ACCOUNT = 'VAULT_UPDATE_ACCOUNT';
 export const ADD_KEY = 'VAULT_ADD_KEY';
 export const REMOVE_KEY = 'VAULT_REMOVE_KEY';
@@ -46,28 +43,16 @@ export function seal() {
   return { type: SEAL };
 }
 
-export function addAccountInit() {
-  return { type: ADD_ACCOUNT_INIT };
-}
-
 export function addAccount({ address, name, password }) {
   return { type: ADD_ACCOUNT, address, name, password };
-}
-
-export function updateAccountInit() {
-  return { type: UPDATE_ACCOUNT_INIT };
 }
 
 export function updateAccount({ address, name, password }) {
   return { type: UPDATE_ACCOUNT, address, name, password };
 }
 
-export function removeAccountInit(address) {
-  return { type: REMOVE_ACCOUNT_INIT, address };
-}
-
-export function removeAccount(updatedAccounts, password) {
-  return { type: REMOVE_ACCOUNT, updatedAccounts, password };
+export function removeAccount(address, password, callback) {
+  return { type: REMOVE_ACCOUNT, address, password, callback };
 }
 
 export function generateKeys(quantity, password, callback) {

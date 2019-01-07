@@ -15,7 +15,6 @@ import KeysImporterPage from './Settings/KeyEditorPage';
 import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
-import DetailsPage from './Settings/DetailsPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
 import KeyDetailsPage from './Settings/KeyDetailsPage';
@@ -159,19 +158,6 @@ class Rooting extends Component {
               <AccountEditorPage
                 vault={vault}
                 saveAction={actions.updateAccountInit}
-                {...props}
-              />
-            }
-          />
-          <PrivateRoute
-            exact
-            path="/settings/accounts/:address([0-9A-F-]+)/keys"
-            vault={vault}
-            render={props =>
-              <DetailsPage
-                keys={vault.keys}
-                accounts={vault.accounts} type="account"
-                authConfirmed={authDialog.authConfirmed}
                 {...props}
               />
             }

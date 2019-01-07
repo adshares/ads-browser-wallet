@@ -24,6 +24,7 @@ import {
   generateKeysEpic,
   saveKeyEpic,
   removeKeyEpic,
+  removeAccountEpic,
 } from './settingsEpics';
 
 export default combineEpics(
@@ -45,4 +46,5 @@ export default combineEpics(
   generateKeysEpic,
   saveKeyEpic,
   removeKeyEpic,
+  removeAccountEpic,
 );

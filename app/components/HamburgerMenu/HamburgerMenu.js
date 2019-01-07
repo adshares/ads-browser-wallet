@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 import Link from 'react-router-dom/es/Link';
 import config from '../../config/config';
 import style from './HamburgerMenu.css';
+import PageComponent from '../PageComponent';
+import { openInTheNewTab } from '../../utils/utils';
 
-export default class HamburgerMenu extends React.PureComponent {
+export default class HamburgerMenu extends PageComponent {
   state = {
     menuOpened: false,
+  };
+  handleLogout = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.logoutAction();
   };
 
   toggleMenu(status) {
@@ -15,13 +22,9 @@ export default class HamburgerMenu extends React.PureComponent {
     });
   }
 
-  handleLogout = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props.logoutAction();
-  };
-
   render() {
+    const showFullScreen = !window.location.pathname.match('window');
+
     return (
       <div
         className={style.hamburgerWrapper}
@@ -31,7 +34,9 @@ export default class HamburgerMenu extends React.PureComponent {
           role="button"
           className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
           onClick={() => this.toggleMenu(!this.state.menuOpened)}
-          onBlur={() => setTimeout(() => { this.toggleMenu(false); }, 200)}
+          onBlur={() => setTimeout(() => {
+            this.toggleMenu(false);
+          }, 200)}
           // onFocus={() => this.toggleMenu(true)}
         />
         <ul
@@ -47,6 +52,13 @@ export default class HamburgerMenu extends React.PureComponent {
           <li>
             <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>Log out</a>
           </li>
+          {showFullScreen &&
+          <li>
+            <span role={'button'} onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
+              Open in a window
+            </span>
+          </li>
+          }
           <li>
             <hr />
             {config.testnet ?

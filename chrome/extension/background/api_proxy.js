@@ -1,6 +1,7 @@
 import * as types from '../../../app/constants/MessageTypes';
 import { PostMessageError } from '../../../app/actions/errors';
 import queue from './queue';
+import { openInTheNewTab } from '../../../app/utils/utils';
 
 function getInfo() {
   const manifest = chrome.runtime.getManifest();
@@ -39,10 +40,9 @@ export default function handleMessage(message, sourceId, callback) {
         time: (new Date()).toISOString(),
       });
       if (message.options.newTab) {
-        const host = `chrome-extension://${chrome.i18n.getMessage('@@extension_id')}`;
         const network = message.testnet ? '/testnet' : '/mainnet';
-        const url = `${host}/window.html#${network}/transactions/${sourceId}/${message.id}/popup-sign`;
-        chrome.tabs.create({ url });
+        const url = `window.html#${network}/transactions/${sourceId}/${message.id}/popup-sign`;
+        openInTheNewTab(url);
       }
       break;
     default:

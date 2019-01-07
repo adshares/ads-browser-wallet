@@ -161,3 +161,16 @@ export function copyToClipboard(str) {
   document.execCommand('copy');
   document.body.removeChild(el);
 }
+
+
+/**
+ * Opens passed url in the new tab
+ *
+ *  @param url {string}
+ *  @return {void}
+ */
+
+export function openInTheNewTab(url) {
+  const host = `chrome-extension://${chrome.i18n.getMessage('@@extension_id')}`;
+  chrome.tabs.create({ url: `${host}/${url}` });
+}

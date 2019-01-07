@@ -19,12 +19,12 @@ const CheckboxControl = ({ name, checked, label, handleChange }) => {
         checked={checked}
         onChange={handleChanges}
       />
-      <label htmlFor={label} className={style.checked}>
+      <span className={style.checked}>
         <svg viewBox={[0, 0, 50, 50].join()} className={style.checkedSvg}>
           <path d="M5 30 L 20 45 L 45 5" />
         </svg>
-      </label>
-      <span className={style.label}>{label}</span>
+      </span>
+      <label htmlFor={label} className={style.label}>{label}</label>
     </div>
   );
 };

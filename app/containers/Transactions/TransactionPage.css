@@ -26,12 +26,6 @@
     font-size: 90%;
 }
 
-.message > div > div:first-of-type label {
-    width: 16px;
-    height: 16px;
-;
-}
-
 .buttons {
     margin-top: 30px;
     text-align: center;

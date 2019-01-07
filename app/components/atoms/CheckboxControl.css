@@ -53,6 +53,7 @@
 }
 
 .label {
+    width: auto;
     margin-left: 10px;
     color: var(--slate-dark);
 }

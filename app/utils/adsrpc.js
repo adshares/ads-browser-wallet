@@ -47,9 +47,9 @@ export default class {
         address: response.account.address,
         balance: response.account.balance,
         hash: response.account.hash,
-        messageId: response.account.msid,
+        messageId: parseInt(response.account.msid, 10),
         publicKey: response.account.public_key,
-        status: response.account.status,
+        status: parseInt(response.account.status, 10),
       };
     });
   }
@@ -66,8 +66,8 @@ export default class {
       return response.block.nodes.map(node => ({
         id: node.id,
         ipv4: node.ipv4,
-        port: node.port,
-        status: node.status,
+        port: parseInt(node.port, 10),
+        status: parseInt(node.status, 10),
       })).filter(node => node.ipv4 !== '0.0.0.0');
     });
   }

@@ -25,6 +25,7 @@ import {
   saveAccountEpic,
   removeAccountEpic,
 } from './settingsEpics';
+import { autoLogoutEpic } from './autoLogoutEpic';
 
 export default combineEpics(
   validateForm,
@@ -45,4 +46,5 @@ export default combineEpics(
   importAccountPublicKeyEpic,
   saveAccountEpic,
   removeAccountEpic,
+  autoLogoutEpic,
 );

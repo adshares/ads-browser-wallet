@@ -1,21 +1,14 @@
 import * as actions from '../actions/formActions';
 import * as settingsActions from '../actions/settingsActions';
-import AccountEditorPage from '../containers/Settings/AccountEditorPage';
+import FormReducers from './FormControlsReducer'
 
 const initialState = {
   publicKey: '',
   publicKeyLoading: false,
   publicKeyErrorMsg: '',
   isSubmitted: false,
-  auth: {
-    password: {
-      isValid: false,
-      value: '',
-      errorMsg: ''
-    },
-    authModalOpen: false,
-    authConfirmed: false
-  },
+  isAccountSaved: false,
+  errorMsg: '',
   inputs: {
     name: {
       isValid: false,
@@ -31,105 +24,7 @@ const initialState = {
 };
 
 const actionsMap = {
-  [actions.INPUT_CHANGED](state, action) {
-    return {
-      ...state,
-      inputs: {
-        ...state.inputs,
-        [action.inputName]: {
-          ...state.inputs[action.inputName],
-          value: action.inputValue,
-          errorMsg: action.errorMsg
-        }
-      }
-    };
-  },
-  [actions.TOGGLE_VISIBILITY](state, action) {
-    return {
-      ...state,
-      inputs: {
-        ...state.inputs,
-        [action.inputName]: {
-          ...state.inputs[action.inputName],
-          shown: action.shown,
-        }
-      }
-    };
-  },
-  [actions.INPUT_VALIDATION_FAILED](state, action) {
-    return {
-      ...state,
-      inputs: {
-        ...state.inputs,
-        [action.inputName]: {
-          ...state.inputs[action.inputName],
-          errorMsg: action.errorMsg
-        }
-      }
-    };
-  },
-  [actions.INPUT_VALIDATION_SUCCESS](state, action) {
-    return {
-      ...state,
-      inputs: {
-        ...state.inputs,
-        [action.inputName]: {
-          ...state.inputs[action.inputName],
-          isValid: true,
-          errorMsg: '',
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_CHANGED](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          value: action.inputValue
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_VALIDATION_FAILED](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          errorMsg: action.errorMsg
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_VALIDATION_SUCCESS](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          errorMsg: null,
-          isValid: action.inputValue
-        }
-      }
-    };
-  },
-  [actions.FORM_VALIDATION_SUCCESS](state, action) {
-    return {
-      ...state,
-      ...action.payload
-    };
-  },
-  [actions.FORM_VALIDATION_FAILURE](state, action) {
-    return {
-      ...state,
-      ...action.payload
-    };
-  },
+  ...FormReducers,
   [actions.CLEAN_FORM](state, action) {
     return {
       ...state,
@@ -137,13 +32,11 @@ const actionsMap = {
       ...initialState
     };
   },
-  [actions.TOGGLE_AUTHORISATION_DIALOG](state, action) {
+  [actions.FORM_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
-      auth: {
-        ...initialState.auth,
-        authModalOpen: action.isOpen
-      }
+      ...action.payload,
+      isSubmitted: false,
     };
   },
   [settingsActions.IMPORT_ACCOUNT_PK](state) {
@@ -168,6 +61,27 @@ const actionsMap = {
       publicKey: action.publicKey,
       publicKeyLoading: false,
       publicKeyErrorMsg: action.errorMsg,
+    };
+  },
+  [settingsActions.SAVE_ACCOUNT](state) {
+    return {
+      ...state,
+      isSubmitted: true,
+    };
+  },
+  [settingsActions.SAVE_ACCOUNT_SUCCESS](state) {
+    return {
+      ...state,
+      isSubmitted: false,
+      errorMsg: '',
+      isAccountSaved: true,
+    };
+  },
+  [settingsActions.SAVE_ACCOUNT_FAILURE](state, action) {
+    return {
+      ...state,
+      isSubmitted: false,
+      errorMsg: action.errorMsg,
     };
   },
 };

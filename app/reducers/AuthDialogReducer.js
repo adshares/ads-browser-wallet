@@ -1,7 +1,7 @@
 import * as actions from '../actions/authDialogActions';
 
 const initialState = {
-  name: null,
+  name: 'global',
   isOpened: false,
   isConfirmed: false,
   isRejected: false,

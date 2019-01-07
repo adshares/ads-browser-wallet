@@ -114,48 +114,22 @@ export default function (vault = initialVault, action) {
       return vault;
     }
 
-    case actions.ADD_ACCOUNT: {
-      if (vault.accounts.length >= config.accountsLimit) {
-        throw new AccountsLimitError(config.accountsLimit);
-      }
+    case actions.SAVE_ACCOUNT: {
       const { nodeId, userAccountId } = ADS.splitAddress(action.address);
       const address = ADS.formatAddress(nodeId, userAccountId);
-      const name = action.name;
 
       const updatedVault = {
         ...initialVault,
         ...vault,
         accounts: [
-          ...vault.accounts,
+          ...vault.accounts.filter(a => a.address !== address),
           {
             address,
-            name
+            name: action.name
           }]
       };
+
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-      return updatedVault;
-    }
-
-    case actions.UPDATE_ACCOUNT: {
-      if (!VaultCrypt.checkPassword(vault, action.password)) {
-        throw new InvalidPasswordError();
-      }
-
-      const address = action.address.toUpperCase();
-      const name = action.name;
-
-      const account = findAccountByAddressInVault(vault, address);
-      if (!account) {
-        throw new ItemNotFound('account', action.address);
-      }
-
-      account.name = name;
-      const updatedVault = {
-        ...initialVault,
-        ...vault,
-      };
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-
       return updatedVault;
     }
 
@@ -177,16 +151,6 @@ export default function (vault = initialVault, action) {
       return updatedVault;
     }
 
-    case actions.REMOVE_KEY: {
-      const updatedVault = {
-        ...vault,
-        keys: vault.keys.filter(k => k.type === 'auto' || k.publicKey !== action.publicKey)
-      };
-
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
-      return updatedVault;
-    }
-
     case actions.GENERATE_KEYS: {
       const keyCount = vault.keyCount + action.quantity;
       const updatedVault = {
@@ -202,7 +166,7 @@ export default function (vault = initialVault, action) {
       return updatedVault;
     }
 
-    case actions.ADD_KEY: {
+    case actions.SAVE_KEY: {
       const updatedVault = {
         ...vault,
         keys: [

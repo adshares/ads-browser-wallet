@@ -11,7 +11,7 @@ import LoginPage from './Account/LoginPage';
 import SettingsPage from './Settings/SettingsPage';
 import PasswordChangePage from './Settings/PasswordEditorPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
-import KeysImporterPage from './Settings/KeyEditorPage';
+import KeyEditorPage from './Settings/KeyEditorPage';
 import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
@@ -19,9 +19,6 @@ import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
 import KeyDetailsPage from './Settings/KeyDetailsPage';
 import * as vaultActions from '../actions/vaultActions';
-import * as formActions from '../actions/formActions';
-import * as settingsActions from '../actions/settingsActions';
-import * as commonActions from '../actions/walletActions';
 import style from './App.css';
 import config from '../config/config';
 
@@ -72,7 +69,6 @@ class Rooting extends Component {
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    authDialog: PropTypes.object.isRequired,
   };
 
   componentWillUnmount() {
@@ -80,7 +76,7 @@ class Rooting extends Component {
   }
 
   render() {
-    const { vault, queue, actions, authDialog } = this.props;
+    const { vault, queue, actions } = this.props;
 
     return (
       <div className={style.app}>
@@ -121,72 +117,40 @@ class Rooting extends Component {
             }
           /> : ''}
           <PrivateRoute
-            exact
             path="/(popup.html)?"
-            vault={vault}
-            component={HomePage}
+            exact vault={vault} component={HomePage}
           />
           <PrivateRoute
-            exact
             path="/settings"
-            vault={vault}
-            component={SettingsPage}
+            exact vault={vault} component={SettingsPage}
           />
           <PrivateRoute
-            exact
             path="/settings/changePassword"
-            vault={vault}
-            component={PasswordChangePage}
+            exact vault={vault} component={PasswordChangePage}
           />
           <PrivateRoute
-            exact
             path="/settings/accounts/import"
-            vault={vault}
-            render={props =>
-              <AccountEditorPage
-                vault={vault}
-                saveAction={actions.addAccountInit}
-                {...props}
-              />
-            }
+            exact vault={vault} component={AccountEditorPage}
           />
           <PrivateRoute
-            exact
             path="/settings/accounts/:address([0-9A-F-]+)/edit"
-            vault={vault}
-            render={props =>
-              <AccountEditorPage
-                vault={vault}
-                saveAction={actions.updateAccountInit}
-                {...props}
-              />
-            }
+            exact vault={vault} component={AccountEditorPage}
           />
           <PrivateRoute
-            exact
             path="/settings/seedPhrase"
-            vault={vault}
-            component={SeedPhrasePage}
+            exact vault={vault} component={SeedPhrasePage}
           />
           <PrivateRoute
-            exact
             path="/settings/keys"
-            vault={vault}
-            component={KeysSettingsPage}
+            exact vault={vault} component={KeysSettingsPage}
           />
           <PrivateRoute
-            exact
             path="/settings/keys/:publicKey([0-9a-fA-F]{64})/"
-            vault={vault}
-            component={KeyDetailsPage}
+            exact vault={vault} component={KeyDetailsPage}
           />
           <PrivateRoute
-            exact
             path="/settings/keys/import"
-            vault={vault}
-            render={props =>
-              <KeysImporterPage vault={vault} {...props} />
-            }
+            exact vault={vault} component={KeyEditorPage}
           />
           <PrivateRoute
             exact
@@ -225,15 +189,11 @@ export default connect(
     router: state.router || {},
     vault: state.vault || {},
     queue: state.queue || [],
-    authDialog: state.authDialog,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        ...vaultActions,
-        ...formActions,
-        ...settingsActions,
-        ...commonActions,
+        ...vaultActions
       }, dispatch)
   })
 )(Rooting);

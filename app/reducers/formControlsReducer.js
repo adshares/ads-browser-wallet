@@ -51,43 +51,6 @@ const actionsMap = {
       }
     };
   },
-  [actions.PASS_INPUT_CHANGED](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          value: action.inputValue
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_VALIDATION_FAILED](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          errorMsg: action.errorMsg
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_VALIDATION_SUCCESS](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          errorMsg: null,
-          isValid: action.inputValue
-        }
-      }
-    };
-  },
   [actions.FORM_VALIDATION_SUCCESS](state, action) {
     return {
       ...state,

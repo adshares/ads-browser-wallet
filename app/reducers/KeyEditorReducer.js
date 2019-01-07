@@ -1,6 +1,6 @@
 import * as actions from '../actions/formActions';
 import * as settingsActions from '../actions/settingsActions';
-import FormReducers from './formControlsReducer';
+import FormReducers from './FormControlsReducer';
 
 const initialState = {
   isSubmitted: false,
@@ -35,6 +35,13 @@ const actionsMap = {
       ...initialState
     };
   },
+  [actions.FORM_VALIDATION_FAILURE](state, action) {
+    return {
+      ...state,
+      ...action.payload,
+      isSubmitted: false,
+    };
+  },
   [settingsActions.SAVE_KEY](state) {
     return {
       ...state,
@@ -54,20 +61,6 @@ const actionsMap = {
       ...state,
       isSubmitted: false,
       errorMsg: action.errorMsg,
-    };
-  },
-  [actions.FORM_VALIDATION_SUCCESS](state, action) {
-    return {
-      ...state,
-      ...action.payload,
-      isSubmitted: false,
-    };
-  },
-  [actions.FORM_VALIDATION_FAILURE](state, action) {
-    return {
-      ...state,
-      ...action.payload,
-      isSubmitted: false,
     };
   },
 };

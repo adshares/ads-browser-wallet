@@ -42,19 +42,19 @@ class AccountEditorPage extends FormComponent {
   constructor(props) {
     super(props);
 
-    // let selectedAccount = null;
-    // const { address } = this.props.match.params;
-    //
-    // if (address) {
-    //   selectedAccount = this.props.vault.accounts.find(a => a.address === address);
-    //   if (!selectedAccount) {
-    //     throw new ItemNotFound('account', address);
-    //   }
-    // }
-    //
-    // this.state = {
-    //   account: selectedAccount,
-    // };
+    let selectedAccount = null;
+    const { address } = this.props.match.params;
+
+    if (address) {
+      selectedAccount = this.props.vault.accounts.find(a => a.address === address);
+      if (!selectedAccount) {
+        throw new ItemNotFound('account', address);
+      }
+    }
+
+    this.state = {
+      account: selectedAccount,
+    };
   }
 
   // componentDidMount() {
@@ -96,14 +96,27 @@ class AccountEditorPage extends FormComponent {
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.actions.saveAccount();
+    this.props.actions.saveAccount(SAVE_ACCOUNT);
   };
 
   componentWillUnmount() {
     this.props.actions.cleanForm(SAVE_ACCOUNT);
   }
 
-  render() {
+  renderLimitWarning() {
+    return (
+      <React.Fragment>
+        <Box layout="warning" icon={faInfo}>
+          Maximum account limit has been reached. Please remove unused accounts.
+        </Box>
+        <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
+          <FontAwesomeIcon icon={faCheck} /> OK
+        </ButtonLink>
+      </React.Fragment>
+    );
+  }
+
+  renderForm() {
     const {
       page: {
         isSubmitted,
@@ -114,6 +127,81 @@ class AccountEditorPage extends FormComponent {
         inputs: { name, address },
       }
     } = this.props;
+
+    return (
+      <React.Fragment>
+        {errorMsg && <Box title="Error" layout="danger" icon={faExclamation}>
+          {errorMsg}
+        </Box>}
+        <Form onSubmit={this.handleSubmit}>
+          <InputControl
+            isInput
+            label="Account name"
+            name="name"
+            value={name.value}
+            errorMessage={name.errorMsg}
+            handleChange={this.handleInputChange}
+          />
+          <InputControl
+            isInput
+            readOnly={!!this.state.account}
+            label="Account address"
+            name="address"
+            value={address.value}
+            errorMessage={address.errorMsg}
+            handleChange={this.handleInputChange}
+          />
+          {publicKey || publicKeyLoading || publicKeyErrorMsg ?
+            <InputControl
+              readOnly
+              label="Account public key"
+              name="publicKey"
+              value={publicKey}
+            >
+              {publicKeyLoading ?
+                <div className={style.inputLoader}>
+                  <FontAwesomeIcon
+                    className={style.inputSpinner}
+                    icon={faSpinner}
+                    title="loading"
+                  />
+                </div>
+                : '' }
+            </InputControl>
+            : '' }
+          {publicKeyErrorMsg ?
+            <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
+              {publicKeyErrorMsg}<br />
+              You can still add this account, but you may have problems with transactions.
+            </Box> : ''
+          }
+          <div className={style.buttons}>
+            <ButtonLink
+              to={this.getReferrer()}
+              inverse
+              icon="left"
+              disabled={isSubmitted}
+              layout="info"
+              onClick={this.handleCancel}
+            >
+              <FontAwesomeIcon icon={faTimes} /> Cancel
+            </ButtonLink>
+            <Button
+              name="button"
+              icon="right"
+              layout="info"
+              disabled={publicKeyLoading || isSubmitted}
+            >
+              {this.state.account ? 'Save' : 'Import'}
+              <FontAwesomeIcon icon={faChevronRight} />
+            </Button>
+          </div>
+        </Form>
+      </React.Fragment>
+    );
+  }
+
+  render() {
     const limitWarning =
         !this.state.account && this.props.vault.accounts.length >= config.accountsLimit;
     const title = this.state.account ? this.state.account.name : 'Import account';
@@ -124,85 +212,13 @@ class AccountEditorPage extends FormComponent {
         smallTitle
         className={style.page}
         cancelLink={this.getReferrer()}
-        showLoader={isSubmitted}
+        showLoader={this.props.page.isSubmitted}
         history={history}
       >
-        {limitWarning ? (
-          <div>
-            <Box layout="warning" icon={faInfo}>
-              Maximum account limit has been reached. Please remove unused accounts.
-            </Box>
-            <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
-              <FontAwesomeIcon icon={faCheck} /> OK
-            </ButtonLink>
-          </div>
-            ) : (
-              <Form onSubmit={this.handleSubmit}>
-                <InputControl
-                  required
-                  isInput
-                  maxLength={config.accountNameAndKeyMaxLength}
-                  label="Account name"
-                  value={name.value}
-                  errorMessage={name.errorMsg}
-                  handleChange={value => this.handleInputChange('name', value)}
-                />
-                <InputControl
-                  required
-                  isInput
-                  readOnly={!!this.state.account}
-                  label="Account address"
-                  value={address.value}
-                  errorMessage={address.errorMsg}
-                  handleChange={value => this.handleInputChange('address', value)}
-                />
-                {publicKey || publicKeyLoading || publicKeyErrorMsg ?
-                  <InputControl
-                    required
-                    readOnly
-                    label="Account public key"
-                    value={publicKey}
-                  >
-                    {publicKeyLoading ?
-                      <div className={style.inputLoader}>
-                        <FontAwesomeIcon
-                          className={style.inputSpinner}
-                          icon={faSpinner}
-                          title="loading"
-                        />
-                      </div>
-                    : '' }
-                  </InputControl>
-                  : '' }
-                {publicKeyErrorMsg ?
-                  <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
-                    {publicKeyErrorMsg}<br />
-                    You can still add this account, but you may have problems with transactions.
-                  </Box> : ''
-                }
-                <div className={style.buttons}>
-                  <ButtonLink
-                    to={this.getReferrer()}
-                    inverse
-                    icon="left"
-                    disabled={isSubmitted}
-                    layout="info"
-                    onClick={this.handleCancel}
-                  >
-                    <FontAwesomeIcon icon={faTimes} /> Cancel
-                  </ButtonLink>
-                  <Button
-                    name="button"
-                    icon="right"
-                    layout="info"
-                    disabled={publicKeyLoading || isSubmitted}
-                  >
-                    {this.state.account ? 'Save' : 'Import'}
-                    <FontAwesomeIcon icon={faChevronRight} />
-                  </Button>
-                </div>
-              </Form>
-            )}
+        {limitWarning ?
+          this.renderLimitWarning() :
+          this.renderForm()
+        }
       </Page>
     );
   }

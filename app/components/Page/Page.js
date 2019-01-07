@@ -93,11 +93,11 @@ class Page extends React.Component {
     return (
       <section>
         {showLoader && <LoaderOverlay />}
-        {authDialog.isOpened && <AuthDialog
+        <AuthDialog
           {...authDialog}
           closeAction={actions.authDialog.closeDialog}
           confirmAction={actions.authDialog.confirmPassword}
-        />}
+        />
         <header className={headerClass}>
           <div className={style.logo}>
             {noLinks || homeLink === false ? (

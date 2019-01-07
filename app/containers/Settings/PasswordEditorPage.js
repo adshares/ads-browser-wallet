@@ -40,7 +40,7 @@ class PasswordEditorPage extends PageComponent {
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.actions.changePassword();
+    this.props.actions.changePassword(CHANGE_PASSWORD);
   };
 
   componentWillUnmount() {

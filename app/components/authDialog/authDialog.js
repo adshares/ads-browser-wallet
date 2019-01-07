@@ -13,6 +13,7 @@ export default class AuthDialog extends PageComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     errorMsg: PropTypes.string,
+    isOpened: PropTypes.bool,
     closeAction: PropTypes.func,
     confirmAction: PropTypes.func,
   };
@@ -22,6 +23,12 @@ export default class AuthDialog extends PageComponent {
     this.state = {
       password: ''
     };
+  }
+
+  cleanForm() {
+    this.setState({
+      password: ''
+    });
   }
 
   handlePasswordChange = (value) => {
@@ -46,11 +53,27 @@ export default class AuthDialog extends PageComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.isOpened && !this.props.isOpened) {
+      this.cleanForm();
+    }
+  }
+
   render() {
+    const classes = [];
+    classes.push(style.dialog);
+    const formClasses = [];
+    formClasses.push(style.dialogForm);
+
+    if (this.props.isOpened) {
+      classes.push(style.dialogOpen);
+      formClasses.push(style.dialogFormOpen);
+    }
+
     return (
-      <div className={`${style.dialog} ${style.dialogOpen}`}>
+      <div className={classes.join(' ')}>
         <Form
-          className={`${style.dialogForm} ${style.dialogFormOpen}`}
+          className={formClasses.join(' ')}
           onSubmit={this.handleSubmit}
         >
           <h2>

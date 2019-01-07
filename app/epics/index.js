@@ -1,13 +1,11 @@
 import { combineEpics } from 'redux-observable';
 import validateForm from './validateForm';
-import validatePassword from './validatePassword';
 import {
   confirmPasswordEpic,
   openDialogEpic,
   closeDialogEpic,
 } from './authDialogEpics';
 import accountEditValidateForm from './accountEditValidateForm';
-import editAccountEpic from './editAccountEpic';
 import {
   retrieveAccountEpic,
   retrieveNodesEpic
@@ -24,14 +22,14 @@ import {
   generateKeysEpic,
   saveKeyEpic,
   removeKeyEpic,
+  importAccountPublicKeyEpic,
+  saveAccountEpic,
   removeAccountEpic,
 } from './settingsEpics';
 
 export default combineEpics(
   validateForm,
   accountEditValidateForm,
-  validatePassword,
-  editAccountEpic,
   retrieveAccountEpic,
   retrieveNodesEpic,
   unsealEpic,
@@ -46,5 +44,7 @@ export default combineEpics(
   generateKeysEpic,
   saveKeyEpic,
   removeKeyEpic,
+  importAccountPublicKeyEpic,
+  saveAccountEpic,
   removeAccountEpic,
 );

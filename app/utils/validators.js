@@ -1,19 +1,25 @@
 import ADS from './ads';
 import VaultCrypt from './vaultcrypt';
-import KeysImporterPage from '../containers/Settings/KeysImporterPage';
 import config from '../config/config';
-import AccountEditorPage from '../containers/Settings/AccountEditorPage';
 import { getPublicKeyFromSecret } from './keybox';
+import { SAVE_KEY, SAVE_ACCOUNT } from '../actions/settingsActions';
 
-const name = ({ pageName, value, vault }) => {
-  if (pageName === KeysImporterPage.PAGE_NAME && vault.keys.find(key => key.name === value)) {
-    return `Key named ${value} already exists`;
+const name = ({ pageName, value, vault, editedId }) => {
+  if (pageName === SAVE_KEY) {
+    if (vault.keys.find(key => key.name.toLowerCase() === value.toLowerCase())) {
+      return `Key named ${value} already exists`;
+    }
+    if (vault.keys.filter(key => key.type === 'imported').length >=
+      config.importedKeysLimit) {
+      return 'Maximum imported keys limit has been reached. Please remove unused keys.';
+    }
   }
-  if (pageName === AccountEditorPage.PAGE_NAME &&
-    vault.accounts.find(account => account.name === value)) {
+  if (pageName === SAVE_ACCOUNT && vault.accounts.find(a =>
+      a.address !== editedId && a.name.toLowerCase() === value.toLowerCase()
+    )) {
     return `Account named ${value} already exists`;
   }
-  if (vault.length > config.accountAndKeyNameMaxLength) {
+  if (vault.length > config.itemNameMaxLength) {
     return `Given name ${value} is too long.`;
   }
 
@@ -29,22 +35,14 @@ const publicKey = ({ value, inputs, vault, pageName }) => {
   }
   const keys = vault.keys;
 
-  if (pageName === KeysImporterPage.PAGE_NAME) {
+  if (pageName === SAVE_KEY) {
     if (!inputs.secretKey || !inputs.secretKey.value) {
       throw new Error('Provide secretKey to full fil publicKey validation');
     }
     if (getPublicKeyFromSecret(inputs.secretKey.value) !== value) {
       return 'Public and secret key does not match';
     }
-    if (keys.find(key => key.publicKey === value)) {
-      return 'Given public key already exists in data base';
-    }
-    if (keys.filter(key => key.type === 'imported').length >=
-      config.importedKeysLimit) {
-      return `You've already imported ${config.importedKeysLimit}. To import more keys increase
-       your imported keys limit`;
-    }
-  } else if (pageName === AccountEditorPage.PAGE_NAME &&
+  } else if (pageName === SAVE_ACCOUNT &&
     !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
     return 'Cannot find a key in storage. Please import secret key first.';
   }
@@ -68,8 +66,6 @@ const password = ({ value, vault }) => {
   return null;
 };
 
-const currentPassword = ({ value, vault }) => password({ value, vault });
-
 const newPassword = ({ value, vault }) => {
   if (!value) {
     return 'New password field is required';
@@ -90,11 +86,13 @@ const repeatedPassword = ({ value, inputs }) => {
   return null;
 };
 
-const address = ({ value, vault }) => {
+const address = ({ value, vault, editedId }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
   }
-  if (vault.accounts.find(a => a.address.toUpperCase() === value.toUpperCase())) {
+  if (vault.accounts.find(a =>
+    a.address !== editedId && ADS.compareAddresses(a.address, value)
+  )) {
     return `Account ${value} already exists`;
   }
   return null;
@@ -124,7 +122,6 @@ export {
   secretKey,
   password,
   newPassword,
-  currentPassword,
   repeatedPassword,
   address,
   amount,

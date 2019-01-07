@@ -1,4 +1,4 @@
-import * as actions from '../actions/form';
+import * as actions from '../actions/formActions';
 
 const actionsMap = {
   [actions.INPUT_CHANGED](state, action) {
@@ -47,43 +47,6 @@ const actionsMap = {
           ...state.inputs[action.inputName],
           isValid: true,
           errorMsg: '',
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_CHANGED](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          value: action.inputValue
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_VALIDATION_FAILED](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          errorMsg: action.errorMsg
-        }
-      }
-    };
-  },
-  [actions.PASS_INPUT_VALIDATION_SUCCESS](state, action) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        password: {
-          ...state.auth.password,
-          errorMsg: null,
-          isValid: action.inputValue
         }
       }
     };

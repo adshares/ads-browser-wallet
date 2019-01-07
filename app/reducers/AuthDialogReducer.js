@@ -1,75 +1,57 @@
-import * as actions from '../actions/actions';
+import * as actions from '../actions/authDialogActions';
 
-const authState = {
-  password: {
-    isValid: false,
-    value: '',
-    errorMsg: null,
-  },
-  authModalOpen: false,
-  authConfirmed: false
+const initialState = {
+  name: 'global',
+  isOpened: false,
+  isConfirmed: false,
+  isRejected: false,
+  errorMsg: '',
 };
 
-
-export default function (state = authState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
-    case actions.TOGGLE_AUTHORISATION_DIALOG_GLOBAL: {
+    case actions.OPEN_DIALOG: {
+      return {
+        ...initialState,
+        name: action.name,
+        isOpened: true,
+      };
+    }
+    case actions.CLOSE_DIALOG: {
       return {
         ...state,
-        authModalOpen: action.isOpen
+        isOpened: false,
       };
     }
-    case actions.GLOBAL_PASS_INPUT_CHANGED: {
+    case actions.RESET_DIALOG: {
+      return {
+        ...initialState,
+      };
+    }
+    case actions.INVALID_PASSWORD: {
       return {
         ...state,
-        password: {
-          ...state.password,
-          value: action.inputValue
-        }
+        errorMsg: action.errorMsg,
       };
     }
-    case actions.GLOBAL_PASS_INPUT_VALIDATION_FAILED: {
+    case actions.PASSWORD_CONFIRMED: {
       return {
         ...state,
-        password: {
-          ...state.password,
-          errorMsg: action.errorMsg
-        }
+        isOpened: false,
+        isConfirmed: true,
+        isRejected: false,
+        errorMsg: '',
       };
     }
-    case actions.GLOBAL_PASS_INPUT_VALIDATION_SUCCESS: {
+    case actions.PASSWORD_REJECTED: {
       return {
         ...state,
-        password: {
-          ...state.password,
-          errorMsg: null,
-          isValid: true,
-        }
+        isOpened: false,
+        isConfirmed: false,
+        isRejected: true,
+        errorMsg: '',
       };
     }
-
-    case actions.PREVIEW_SECRET_DATA: {
-      return {
-        ...authState,
-        authConfirmed: true
-      };
-    }
-
-    case actions.REMOVE_ACCESS_TO_PROTECTED_DATA: {
-      return {
-        ...authState,
-        authConfirmed: false
-      };
-    }
-
-    case actions.CLEAN_AUTHORISATION_DIALOG_GLOBAL: {
-      return {
-        ...authState,
-        authConfirmed: state.authConfirmed
-      };
-    }
-
-
     default:
       return state;
   }

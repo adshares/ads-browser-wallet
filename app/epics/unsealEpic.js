@@ -4,7 +4,7 @@ import { mergeMap, withLatestFrom } from 'rxjs/operators';
 import {
   retrieveAccountDataInIntervals,
   retrieveAccountDataInIntervalsStop,
-} from '../actions/actions';
+} from '../actions/walletActions';
 import * as vaultActions from '../actions/vaultActions';
 import VaultCrypt from '../utils/vaultcrypt';
 import BgClient from '../utils/background';

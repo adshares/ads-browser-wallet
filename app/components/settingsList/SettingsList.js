@@ -25,12 +25,12 @@ export const SettingsList = ({
   const editButton = (<ButtonLink
     to={{
       pathname: `${path}/edit`,
-      state: { referrer: this.props.location }
+      state: { referrer: this.props.history.location }
     }}
     size="small"
     title={`Edit ${keyTitle}`}
     layout="info"
-  ><FontAwesomeIcon icon={faPencilAlt}/></ButtonLink>);
+  ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>);
 
   return (
     <div className={style.section}>
@@ -51,18 +51,18 @@ export const SettingsList = ({
               <ButtonLink
                 to={{
                   pathname: `${path}/keys`,
-                  state: { referrer: this.props.location }
+                  state: { referrer: this.props.history.location }
                 }}
                 size="small"
                 layout="warning"
                 title={showTitle}
-              ><FontAwesomeIcon icon={faKey}/></ButtonLink>
+              ><FontAwesomeIcon icon={faKey} /></ButtonLink>
               <Button
                 onClick={removeAction}
                 size="small"
                 layout="danger"
                 title={`Delete ${keyTitle}`}
-              ><FontAwesomeIcon icon={faTrashAlt}/></Button>
+              ><FontAwesomeIcon icon={faTrashAlt} /></Button>
             </span>
           </li>
         )}
@@ -73,13 +73,13 @@ export const SettingsList = ({
         <ButtonLink
           to={{
             pathname: createActionPath,
-            state: { referrer: this.props.location }
+            state: { referrer: this.props.history.location }
           }}
           icon="left"
           size="wide"
           layout="info"
         >
-          <FontAwesomeIcon icon={faPlus}/> {createActionDesc}
+          <FontAwesomeIcon icon={faPlus} /> {createActionDesc}
         </ButtonLink>
       ) : <Button
         onClick={createAction}
@@ -87,7 +87,7 @@ export const SettingsList = ({
         size="wide"
         layout="info"
       >
-        <FontAwesomeIcon icon={faPlus}/> {createActionDesc}
+        <FontAwesomeIcon icon={faPlus} /> {createActionDesc}
       </Button>
 
       }

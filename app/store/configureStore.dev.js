@@ -8,7 +8,7 @@ import config from '../config/config';
 import createRootReducer from '../reducers';
 import storage from '../utils/storage';
 import rootEpic from '../epics';
-import { adsWalletInit } from '../actions/actions';
+import { adsWalletInit } from '../actions/walletActions';
 
 
 export default function (initialState, history) {

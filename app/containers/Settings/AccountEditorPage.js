@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 import {
   faChevronRight,
   faTimes,
@@ -16,25 +17,27 @@ import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
-import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import config from '../../config/config';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
-import style from './SettingsPage.css';
 import InputControl from '../../components/atoms/InputControl';
-import {
-  inputChange,
-  passwordChange,
-  toggleVisibility,
-  passInputValidate,
-  formValidate,
-  formClean,
-  accountEditFormValidate
-} from '../../actions/form';
-import { importAccountPublicKey } from '../../actions/settingsActions';
+import { inputChange, cleanForm } from '../../actions/formActions';
+import { SAVE_ACCOUNT, saveAccount } from '../../actions/settingsActions';
+import config from '../../config/config';
+import style from './SettingsPage.css';
 
 class AccountEditorPage extends FormComponent {
-  static PAGE_NAME = 'AccountEditorPage';
+
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    vault: PropTypes.object.isRequired,
+    page: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+      inputChange: PropTypes.func.isRequired,
+      cleanForm: PropTypes.func.isRequired,
+      saveAccount: PropTypes.func.isRequired,
+    })
+  };
 
   constructor(props) {
     super(props);
@@ -53,185 +56,186 @@ class AccountEditorPage extends FormComponent {
       account: selectedAccount,
     };
   }
+
   componentDidMount() {
     if (this.state.account) {
-      this.handleInputChange('name', this.state.account.name);
-      this.handleInputChange('address', this.state.account.address);
-      this.handleInputChange('publicKey', this.state.account.publicKey);
+      this.handleInputChange(this.state.account.name, 'name');
+      this.handleInputChange(this.state.account.address, 'address');
     }
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    // eslint-disable-next-line no-unused-expressions
-    this.state.account ?
-      this.props.actions.accountEditFormValidate(
-          AccountEditorPage.PAGE_NAME,
-        {
-          name: this.state.account.name,
-          address: this.state.account.address,
-          publicKey: this.state.account.publicKey,
-        }
-      )
-      : this.props.actions.formValidate(AccountEditorPage.PAGE_NAME);
-  };
+  // handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   // eslint-disable-next-line no-unused-expressions
+  //   this.state.account ?
+  //     this.props.actions.accountEditFormValidate(
+  //       SAVE_ACCOUNT,
+  //       {
+  //         name: this.state.account.name,
+  //         address: this.state.account.address,
+  //         publicKey: this.state.account.publicKey,
+  //       }
+  //     )
+  //     : this.props.actions.formValidate(SAVE_ACCOUNT);
+  // };
+  //
+  // handleCancel = () => {
+  //   this.props.actions.formClean(SAVE_ACCOUNT);
+  // };
 
-  handleCancel = () => {
-    this.props.actions.formClean(AccountEditorPage.PAGE_NAME);
-  };
-
-  handleInputChange = (inputName, inputValue) => {
-    this.props.actions.handleInputChange(
-      AccountEditorPage.PAGE_NAME,
+  handleInputChange = (inputValue, inputName) => {
+    this.props.actions.inputChange(
+      SAVE_ACCOUNT,
       inputName,
       inputValue
     );
   };
 
-  render() {
+  handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.actions.saveAccount(SAVE_ACCOUNT, this.state.account.address);
+  };
+
+  componentWillUnmount() {
+    this.props.actions.cleanForm(SAVE_ACCOUNT);
+  }
+
+  renderLimitWarning() {
+    return (
+      <React.Fragment>
+        <Box layout="warning" icon={faInfo}>
+          Maximum account limit has been reached. Please remove unused accounts.
+        </Box>
+        <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
+          <FontAwesomeIcon icon={faCheck} /> OK
+        </ButtonLink>
+      </React.Fragment>
+    );
+  }
+
+  renderForm() {
     const {
       page: {
-        publicKey, publicKeyLoading, publicKeyErrorMsg,
         isSubmitted,
-        auth: { authModalOpen, password },
+        publicKey,
+        publicKeyLoading,
+        publicKeyErrorMsg,
+        errorMsg,
         inputs: { name, address },
       }
     } = this.props;
+
+    return (
+      <React.Fragment>
+        {errorMsg && <Box title="Error" layout="danger" icon={faExclamation}>
+          {errorMsg}
+        </Box>}
+        <Form onSubmit={this.handleSubmit}>
+          <InputControl
+            isInput
+            label="Account name"
+            name="name"
+            value={name.value}
+            errorMessage={name.errorMsg}
+            handleChange={this.handleInputChange}
+          />
+          <InputControl
+            isInput
+            readOnly={!!this.state.account}
+            label="Account address"
+            name="address"
+            value={address.value}
+            errorMessage={address.errorMsg}
+            handleChange={this.handleInputChange}
+          />
+          {publicKey || publicKeyLoading || publicKeyErrorMsg ?
+            <InputControl
+              readOnly
+              label="Account public key"
+              name="publicKey"
+              value={publicKey}
+            >
+              {publicKeyLoading ?
+                <div className={style.inputLoader}>
+                  <FontAwesomeIcon
+                    className={style.inputSpinner}
+                    icon={faSpinner}
+                    title="loading"
+                  />
+                </div>
+                : '' }
+            </InputControl>
+            : '' }
+          {publicKeyErrorMsg ?
+            <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
+              {publicKeyErrorMsg}<br />
+              You can still add this account, but you may have problems with transactions.
+            </Box> : ''
+          }
+          <div className={style.buttons}>
+            <ButtonLink
+              to={this.getReferrer()}
+              inverse
+              icon="left"
+              disabled={isSubmitted}
+              layout="info"
+              onClick={this.handleCancel}
+            >
+              <FontAwesomeIcon icon={faTimes} /> Cancel
+            </ButtonLink>
+            <Button
+              name="button"
+              icon="right"
+              layout="info"
+              disabled={publicKeyLoading || isSubmitted}
+            >
+              {this.state.account ? 'Save' : 'Import'}
+              <FontAwesomeIcon icon={faChevronRight} />
+            </Button>
+          </div>
+        </Form>
+      </React.Fragment>
+    );
+  }
+
+  render() {
     const limitWarning =
         !this.state.account && this.props.vault.accounts.length >= config.accountsLimit;
-    const title = this.state.account ? this.state.account.name : 'Import an account';
+    const title = this.state.account ? this.state.account.name : 'Import account';
 
     return (
       <Page
         title={title}
         smallTitle
         className={style.page}
-        onPasswordInputChange={value =>
-              this.props.actions.handlePasswordChange(
-                AccountEditorPage.PAGE_NAME,
-                value
-              )
-            }
-        onDialogSubmit={() => {
-          this.props.actions.passInputValidate(
-                AccountEditorPage.PAGE_NAME
-              );
-          this.props.saveAction();
-        }}
-        password={password}
-        authenticationModalOpen={authModalOpen}
         cancelLink={this.getReferrer()}
-        onCancelClick={this.handleCancel}
+        showLoader={this.props.page.isSubmitted}
+        history={history}
       >
-        {isSubmitted && <LoaderOverlay />}
-        {limitWarning ? (
-          <div>
-            <Box layout="warning" icon={faInfo}>
-              Maximum account limit has been reached. Please remove unused accounts.
-            </Box>
-            <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
-              <FontAwesomeIcon icon={faCheck} /> OK
-            </ButtonLink>
-          </div>
-            ) : (
-              <Form onSubmit={this.handleSubmit}>
-                <InputControl
-                  required
-                  isInput
-                  maxLength={config.accountNameAndKeyMaxLength}
-                  label="Account name"
-                  value={name.value}
-                  errorMessage={name.errorMsg}
-                  handleChange={value => this.handleInputChange('name', value)}
-                />
-                <InputControl
-                  required
-                  isInput
-                  readOnly={!!this.state.account}
-                  label="Account address"
-                  value={address.value}
-                  errorMessage={address.errorMsg}
-                  handleChange={value => this.handleInputChange('address', value)}
-                />
-                {publicKey || publicKeyLoading || publicKeyErrorMsg ?
-                  <InputControl
-                    required
-                    readOnly
-                    label="Account public key"
-                    value={publicKey}
-                  >
-                    {publicKeyLoading ?
-                      <div className={style.inputLoader}>
-                        <FontAwesomeIcon
-                          className={style.inputSpinner}
-                          icon={faSpinner}
-                          title="loading"
-                        />
-                      </div>
-                    : '' }
-                  </InputControl>
-                  : '' }
-                {publicKeyErrorMsg ?
-                  <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
-                    {publicKeyErrorMsg}<br />
-                    You can still add this account, but you may have problems with transactions.
-                  </Box> : ''
-                }
-                <div className={style.buttons}>
-                  <ButtonLink
-                    to={this.getReferrer()}
-                    inverse
-                    icon="left"
-                    disabled={isSubmitted}
-                    layout="info"
-                    onClick={this.handleCancel}
-                  >
-                    <FontAwesomeIcon icon={faTimes} /> Cancel
-                  </ButtonLink>
-                  <Button
-                    name="button"
-                    icon="right"
-                    layout="info"
-                    disabled={publicKeyLoading || isSubmitted}
-                  >
-                    {this.state.account ? 'Save' : 'Import'}
-                    <FontAwesomeIcon icon={faChevronRight} />
-                  </Button>
-                </div>
-              </Form>
-            )}
+        {limitWarning ?
+          this.renderLimitWarning() :
+          this.renderForm()
+        }
       </Page>
     );
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({
     vault: state.vault,
-    page: state.pages.AccountEditorPage
+    page: state.pages[SAVE_ACCOUNT]
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        handleInputChange: inputChange,
-        handlePasswordChange: passwordChange,
-        formValidate,
-        accountEditFormValidate,
-        passInputValidate,
-        toggleVisibility,
-        formClean,
-        importAccountPublicKey
+        inputChange,
+        cleanForm,
+        saveAccount,
       },
       dispatch
     )
   })
-)(AccountEditorPage);
-
-
-AccountEditorPage.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  vault: PropTypes.object.isRequired,
-  saveAction: PropTypes.func.isRequired,
-};
+)(AccountEditorPage));

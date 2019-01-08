@@ -59,7 +59,6 @@ export default function (vault = initialVault, action) {
 
     case actions.ERASE: {
       VaultCrypt.erase(() => {
-        chrome.storage.local.remove(config.accountStorageKey);
         if (action.callback) {
           action.callback();
         }
@@ -68,7 +67,6 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.SELECT_ACTIVE_ACCOUNT: {
-      chrome.storage.local.set({ [config.accountStorageKey]: action.accountAddress });
       return {
         ...vault,
         selectedAccount: action.accountAddress
@@ -80,6 +78,7 @@ export default function (vault = initialVault, action) {
         ...initialVault,
         ...vault,
         ...action.unsealedVault,
+        selectedAccount: vault.selectedAccount || action.unsealedVault.selectedAccount,
         loginErrorMsg: '',
         sealed: false,
       };
@@ -97,6 +96,7 @@ export default function (vault = initialVault, action) {
       BgClient.removeSession();
       return {
         ...initialVault,
+        selectedAccount: vault.selectedAccount,
         secret: vault.secret,
         empty: vault.empty,
         sealed: true,
@@ -132,7 +132,6 @@ export default function (vault = initialVault, action) {
       let selectedAccount = vault.selectedAccount;
       if (selectedAccount === action.address) {
         selectedAccount = accounts.length > 0 ? accounts[0].address : null;
-        chrome.storage.local.set({ [config.accountStorageKey]: selectedAccount });
       }
 
       const updatedVault = {

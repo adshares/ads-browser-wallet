@@ -61,7 +61,7 @@ BgClient.getSession((session) => {
         initialState.vault = {
           ...vault,
           ...decrypted,
-          selectedAccount: obj[config.accountStorageKey] || decrypted.selectedAccount,
+          selectedAccount: JSON.parse(obj[config.accountStorageKey]) || decrypted.selectedAccount,
           sealed: false,
         };
       }

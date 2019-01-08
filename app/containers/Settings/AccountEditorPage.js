@@ -64,26 +64,6 @@ class AccountEditorPage extends FormComponent {
     }
   }
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //   // eslint-disable-next-line no-unused-expressions
-  //   this.state.account ?
-  //     this.props.actions.accountEditFormValidate(
-  //       SAVE_ACCOUNT,
-  //       {
-  //         name: this.state.account.name,
-  //         address: this.state.account.address,
-  //         publicKey: this.state.account.publicKey,
-  //       }
-  //     )
-  //     : this.props.actions.formValidate(SAVE_ACCOUNT);
-  // };
-  //
-  // handleCancel = () => {
-  //   this.props.actions.formClean(SAVE_ACCOUNT);
-  // };
-
   handleInputChange = (inputValue, inputName) => {
     this.props.actions.inputChange(
       SAVE_ACCOUNT,
@@ -95,7 +75,10 @@ class AccountEditorPage extends FormComponent {
   handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.props.actions.saveAccount(SAVE_ACCOUNT, this.state.account.address);
+    this.props.actions.saveAccount(
+      SAVE_ACCOUNT,
+      this.state.account ? this.state.account.address : null
+    );
   };
 
   componentWillUnmount() {

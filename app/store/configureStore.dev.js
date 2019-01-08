@@ -1,3 +1,4 @@
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';

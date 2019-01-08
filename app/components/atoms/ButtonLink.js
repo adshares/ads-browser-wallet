@@ -13,6 +13,7 @@ export default class ButtonLink extends React.Component {
       inverse,
       icon,
       external,
+      disabled,
       ...rest
     } = this.props;
 
@@ -30,16 +31,29 @@ export default class ButtonLink extends React.Component {
     if (icon) {
       classNames.push(style[`icon-${icon}`]);
     }
+    if (disabled) {
+      classNames.push(style.disabled);
+    }
     if (className) {
       classNames.push(className);
     }
     const styleClassName = classNames.join(' ');
 
-    return external ? (
-      <a className={styleClassName} {...rest}>
-        {children}
-      </a>
-    ) : (
+    if (disabled) {
+      return (
+        <span className={styleClassName} {...rest}>
+          {children}
+        </span>
+      );
+    }
+    if (external) {
+      return (
+        <a className={styleClassName} {...rest}>
+          {children}
+        </a>
+      );
+    }
+    return (
       <Link className={styleClassName} {...rest}>
         {children}
       </Link>
@@ -55,4 +69,5 @@ ButtonLink.propTypes = {
   inverse: PropTypes.bool,
   icon: PropTypes.string,
   external: PropTypes.bool,
+  disabled: PropTypes.bool,
 };

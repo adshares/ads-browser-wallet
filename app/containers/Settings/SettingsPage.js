@@ -78,8 +78,9 @@ class SettingsPage extends FormComponent {
               state: { referrer: this.props.history.location }
             }}
             size="small"
-            title="Show account keys"
+            title={account.publicKey ? 'Show account keys' : 'Cannot find keys. The account may not have been registered yet.'}
             layout="warning"
+            disabled={!account.publicKey}
           ><FontAwesomeIcon icon={faKey} /></ButtonLink>
           <Button
             onClick={() => this.removeAccountAction(account.address)}

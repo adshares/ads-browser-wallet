@@ -11,6 +11,7 @@ export default class Button extends React.Component {
       size,
       inverse,
       icon,
+      disabled,
       ...rest
     } = this.props;
 
@@ -27,6 +28,9 @@ export default class Button extends React.Component {
     }
     if (icon) {
       classNames.push(style[`icon-${icon}`]);
+    }
+    if (disabled) {
+      classNames.push(style.disabled);
     }
     if (className) {
       classNames.push(className);
@@ -48,4 +52,5 @@ Button.propTypes = {
   size: PropTypes.string,
   inverse: PropTypes.bool,
   icon: PropTypes.string,
+  disabled: PropTypes.bool,
 };

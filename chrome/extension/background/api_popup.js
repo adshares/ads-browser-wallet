@@ -7,7 +7,7 @@ const MAINNET = 'MAINNET';
 const TESTNET = 'TESTNET';
 
 const sessions = {
-  testnet: true,
+  testnet: false,
   [MAINNET]: {
     secret: null,
     expires: null,

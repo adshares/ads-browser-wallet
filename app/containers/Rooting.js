@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ErrorPage from './ErrorPage';
 import HomePage from './Home/HomePage';
 import RestorePage from './Account/RestorePage';
@@ -55,12 +57,17 @@ function SwitchNetwork({ ...params }) {
   const { url } = params.match.params;
   if (!!params.testnet !== !!config.testnet) {
     params.switchAction(params.testnet);
-    chrome.storage.local.remove('router', () => {
-      window.location.hash = `#${url || '/'}`;
+    chrome.storage.local.set({
+      [config.routerStorageKey]: JSON.stringify({
+        action: 'REPLACE',
+        location: { pathname: url || '/', hash: '', search: '' }
+      })
+    }, () => {
       window.location.reload();
     });
-    return <div />;
+    return <FontAwesomeIcon icon={faSpinner} className="window-spinner" />;
   }
+
   return <Redirect to={url} />;
 }
 

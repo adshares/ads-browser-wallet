@@ -47,10 +47,13 @@ BgClient.getSession((session) => {
     config.queueStorageKey,
     config.accountStorageKey
   ], (obj) => {
-    const initialState = {
-      router: JSON.parse(obj[config.routerStorageKey] || '{}'),
-      queue: JSON.parse(obj[config.queueStorageKey] || '[]'),
-    };
+    const initialState = {};
+    if (obj[config.routerStorageKey]) {
+      initialState.router = JSON.parse(obj[config.routerStorageKey]);
+    }
+    if (obj[config.queueStorageKey]) {
+      initialState.queue = JSON.parse(obj[config.queueStorageKey]);
+    }
     VaultCrypt.load((vault) => {
       initialState.vault = vault;
       if (!vault.empty && vault.sealed && session.secret) {

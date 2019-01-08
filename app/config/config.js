@@ -2,6 +2,7 @@ const config = {
   testnet: false,
   blockLength: 512,
   dividentLength: 2048,
+  derivationPath: "m/44'/311'/",
   passwordMinLength: 1,
   initKeysQuantity: 10,
   itemNameMaxLength: 16,

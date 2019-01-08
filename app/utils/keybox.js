@@ -6,6 +6,7 @@ import {
   getPublicKeyFromSeed as getPkFromSeed
 } from './ed25519-hd-key';
 import { hexToByte } from './utils';
+import { derivationPath } from '../config/config';
 
 const getPublicKeyFromSecret = secretKey => getPkFromSeed(hexToByte(secretKey))
   .toString('hex')
@@ -36,9 +37,10 @@ function seedPhraseToHex(seedPhrase) {
 }
 
 function generateNextKey(seed, index) {
+  const path = `${derivationPath}${index}'`;
   return {
-    name: `M${index.toString().padStart(2, '0')}`,
-    ...generateKeyPair(seed, `m/${index}'`)
+    name: path,
+    ...generateKeyPair(seed, path)
   };
 }
 

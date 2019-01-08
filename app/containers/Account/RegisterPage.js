@@ -10,6 +10,7 @@ import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
+import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 import Logo from '../../components/Logo/Logo';
 import config from '../../config/config';
 import style from './RegisterPage.css';
@@ -22,6 +23,7 @@ export default class RegisterPage extends FormComponent {
       password: '',
       password2: '',
       seedPhrase: KeyBox.generateSeedPhrase(),
+      isSubmitted: false,
     };
   }
 
@@ -59,10 +61,22 @@ export default class RegisterPage extends FormComponent {
   handleSeedPhraseSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    event.target.disabled = true;
-    this.props.registerAction(this.state.password, this.state.seedPhrase);
-    event.target.disabled = false;
-    this.props.history.push('/');
+
+    if (this.state.password && this.state.seedPhrase) {
+      this.setState({
+        isSubmitted: true
+      }, () => {
+        setTimeout(() => {
+          this.props.registerAction(
+            this.state.password,
+            this.state.seedPhrase,
+            () => this.props.history.push('/')
+          );
+        }, 0);
+      });
+    } else {
+      this.props.history.push('/register');
+    }
   }
 
   renderWelcomePage() {
@@ -73,10 +87,7 @@ export default class RegisterPage extends FormComponent {
           <h1>Live by ADS</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non turpis ligula.
-          Suspendisse ultricies suscipit volutpat. Nulla a dui suscipit, vehicula metus.
-        </p>
+        <p className={style.about}>{config.about}</p>
         <ButtonLink to="/register/password" icon="right" layout="info">
           Start <FontAwesomeIcon icon={faChevronRight} />
         </ButtonLink>
@@ -162,6 +173,7 @@ export default class RegisterPage extends FormComponent {
   renderSeedPhrasePage() {
     return (
       <div className={style.seedPhrasePage}>
+        {this.state.isSubmitted && <LoaderOverlay />}
         <header>
           <h1>Mnemonic seed phrase</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
@@ -187,10 +199,21 @@ export default class RegisterPage extends FormComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink to={'/register/regulations'} inverse icon="left" layout="info">
+            <ButtonLink
+              to={'/register/regulations'}
+              inverse
+              icon="left"
+              layout="info"
+              disabled={this.state.isSubmitted}
+            >
               <FontAwesomeIcon icon={faChevronLeft} /> Back
             </ButtonLink>
-            <Button type="submit" icon="right" layout="info">
+            <Button
+              type="submit"
+              icon="right"
+              layout="info"
+              disabled={this.state.isSubmitted}
+            >
               Save <FontAwesomeIcon icon={faChevronRight} />
             </Button>
           </div>

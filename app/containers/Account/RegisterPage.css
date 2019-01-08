@@ -3,6 +3,10 @@
     padding: 15px;
 }
 
+.welcomePage .about {
+    white-space: pre-wrap;
+}
+
 .logo {
     margin: 20px auto 29px auto;
 }
@@ -85,7 +89,7 @@
 }
 
 .seedPhrasePage header {
-    margin-bottom: 34px;
+    margin-bottom: 29px;
 }
 
 .seedPhrasePage h1 {

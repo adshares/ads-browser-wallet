@@ -47,7 +47,6 @@ export default class LoginPage extends FormComponent {
             <input
               type="password"
               autoFocus
-              required
               placeholder="Password"
               name="password"
               value={this.state.password}

@@ -67,8 +67,12 @@ export default class RestorePage extends FormComponent {
         isSubmitted: true
       }, () => {
         setTimeout(() => {
-          this.props.restoreAction(this.state.password, this.state.seedPhrase, this.props.history.push('/'));
-        }, 100);
+          this.props.restoreAction(
+            this.state.password,
+            this.state.seedPhrase,
+            () => this.props.history.push('/')
+          );
+        }, 0);
       });
     }
   };
@@ -77,7 +81,6 @@ export default class RestorePage extends FormComponent {
     return (
       <div className={style.page}>
         {this.state.isSubmitted && <LoaderOverlay />}
-
         <header>
           <h1>Restore the account</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}

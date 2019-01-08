@@ -82,7 +82,6 @@ export default class AuthDialog extends PageComponent {
           </h2>
           <InputControl
             isInput
-            required
             label="password"
             type="password"
             name="password"

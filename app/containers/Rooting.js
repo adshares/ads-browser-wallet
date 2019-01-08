@@ -106,20 +106,20 @@ class Rooting extends Component {
               <RestorePage restoreAction={actions.create} {...props} />
             }
           />
-          {!vault.empty ? <Route
+          <Route
             exact
             path="/login"
             render={props =>
               <LoginPage vault={vault} loginAction={actions.unseal} {...props} />
             }
-          /> : ''}
-          {vault.empty ? <Route
+          />
+          <Route
             exact
             path="/register/:step([a-z]+)?"
             render={props =>
               <RegisterPage registerAction={actions.create} {...props} />
             }
-          /> : ''}
+          />
           <PrivateRoute
             path="/(popup.html)?"
             exact vault={vault} component={HomePage}

@@ -1,4 +1,4 @@
 export default
-'ADS wallet is a secure identity vault for Adshares network. ' +
-'It allows you to store keys and secure signing transactions.'
+'ADS Wallet is an identity vault for Adshares network\n' +
+'It\'s designed to securely store your keys and provide cryptographic transaction signing.'
 ;

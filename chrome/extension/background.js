@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { PostMessageError } from '../../app/actions/errors';
 import handlePopupApiMessage from './background/api_popup';
 import handleProxyApiMessage from './background/api_proxy';
@@ -15,7 +14,6 @@ const connections = {};
  * @param callback
  */
 function handlePopupMessage(message, callback) {
-  console.debug('onPopupMessage', message);
   handlePopupApiMessage(message, (data) => {
     if (message.type === types.MSG_RESPONSE) {
       if (!message.sourceId) {
@@ -52,7 +50,6 @@ function handleProxyMessage(portId, message) {
  * @param portId client port id
  */
 function handleProxyDisconnect(portId) {
-  console.debug('onDisconnect', portId);
   delete connections[portId];
   queue.clearFromSource(portId);
 }

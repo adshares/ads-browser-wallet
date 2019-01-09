@@ -1,0 +1,21 @@
+.page > div:not(:first-of-type) {
+    border-top: 1px solid var(--gray);
+    margin: 10px 0;
+    padding: 10px 0;
+}
+
+.page > div > b {
+    display: inline-block;
+    width: 55%;
+}
+
+.page > div > span {
+    display: inline-block;
+    width: 45%;
+    text-align: right;
+}
+
+.page > div > i {
+    display: block;
+    padding: 3px 0;
+}

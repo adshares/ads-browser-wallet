@@ -1,0 +1,57 @@
+.timer {
+    position: relative;
+    height: 30px;
+    overflow: hidden;
+    color: var(--gray-dark);
+    font-size: var(--font-smaller);
+}
+
+.blockTimer {
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+}
+
+.blockTimer > div {
+    border: 1px solid var(--gray-dark);
+    background: var(--white);
+    height: 10px;
+    width: 10px;
+    transition: all 250ms ease;
+    display: inline-block;
+    margin-right: 3px;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.blockTimer > div:nth-last-of-type(4n) {
+    margin-left: 5px;
+}
+
+.blockTimer .activeBit {
+    background-color: var(--gray-dark);
+}
+
+.blockTimer svg {
+    margin-left: 10px;
+}
+
+.dividend {
+    color: var(--green-dark);
+    cursor: help;
+}
+
+.dividend > div {
+    border-color: var(--green-dark);
+}
+
+.dividend .activeBit {
+    background-color: var(--green-dark);
+}
+
+.nextBlockTimer {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    text-align: right;
+}

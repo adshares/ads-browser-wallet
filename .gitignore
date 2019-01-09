@@ -1,5 +1,9 @@
 .idea/
-dist/
-dist.crx
-dist.pem
 node_modules/
+build/
+dev/
+.DS_Store
+*.zip
+*.crx
+*.pem
+npm-debug.log

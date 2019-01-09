@@ -1,0 +1,143 @@
+.button {
+    height: 45px;
+    line-height: 42px;
+    padding: 0 20px;
+    font-size: var(--font-small);
+    display: inline-block;
+    text-align: center;
+    transition: all 250ms ease;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 3px;
+    outline: none;
+    color: var(--white) !important;
+    background: var(--slate-dark);
+    border: 1px solid var(--slate-dark);
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.button:disabled, .button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.button.info {
+    background-color: var(--blue-dark);
+    border-color: var(--blue-dark);
+}
+
+.button.success {
+    background-color: var(--green-dark);
+    border-color: var(--green-dark);
+}
+
+.button.warning {
+    background-color: var(--yellow-dark);
+    border-color: var(--yellow-dark);
+}
+
+.button.danger {
+    background-color: var(--red-dark);
+    border-color: var(--red-dark);
+}
+
+.button.danger {
+    background-color: var(--red-dark);
+    border-color: var(--red-dark);
+}
+
+.button.contrast {
+    background-color: transparent;
+    border-color: var(--white);
+}
+
+.button.inverse {
+    background-color: var(--white);
+    color: var(--slate-dark) !important;
+}
+
+.button.inverse.info {
+    color: var(--blue-dark) !important;
+}
+
+.button.inverse.success {
+    color: var(--green-dark) !important;
+}
+
+.button.inverse.warning {
+    color: var(--yellow-dark) !important;
+}
+
+.button.inverse.danger {
+    color: var(--red-dark) !important;
+}
+
+.button.small {
+    font-size: var(--font-smaller);
+    height: 30px;
+    line-height: 28px;
+    padding: 0 10px;
+}
+
+.button.wide {
+    width: 100%;
+}
+
+.button:hover,
+.button:focus {
+    background-color: var(--slate);
+    border-color: var(--slate);
+    text-decoration: none;
+}
+
+.button.info:hover,
+.button.info:focus  {
+    background-color: var(--blue);
+    border-color: var(--blue);
+}
+
+.button.success:hover,
+.button.success:focus  {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+.button.warning:hover,
+.button.warning:focus {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
+}
+
+.button.danger:hover,
+.button.danger:focus {
+    background-color: var(--red);
+    border-color: var(--red);
+}
+
+.button.contrast:hover,
+.button.contrast:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--white);
+}
+
+.button.inverse:hover,
+.button.inverse:focus {
+    color: var(--white) !important;
+}
+
+.button.icon-left {
+    padding-left: 15px;
+}
+
+.button.icon-right {
+    padding-right: 15px;
+}
+
+.button.icon-left svg {
+    margin-right: 7px;
+}
+
+.button.icon-right svg {
+    margin-left: 7px;
+}

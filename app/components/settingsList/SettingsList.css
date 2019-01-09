@@ -1,0 +1,73 @@
+.page {
+    /*height: 580px;*/
+}
+
+/*.page > div {*/
+/*height: 460px;*/
+/*}*/
+
+.section h3 {
+    margin-top: 40px;
+}
+
+.section:first-of-type h3 {
+    margin-top: 0px;
+}
+
+.infoBox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.dangerContent {
+    color: var(--red-dark);
+}
+
+.dangerContent input, .dangerContent textarea {
+    border-color: var(--red-dark);
+    color: var(--red-dark);
+}
+
+.accounts {
+    list-style-type: none;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.accounts li {
+    border-bottom: 1px dashed var(--gray);
+}
+
+.accountLabel {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 226px;
+}
+
+.accountLabel * {
+    display: block;
+}
+
+.accountLabel small {
+    color: var(--blue-dark);
+}
+
+.accountActions {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.accountActions > * {
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.buttons a:first-child {
+    margin-right: 50px;
+}

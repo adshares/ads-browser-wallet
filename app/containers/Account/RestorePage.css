@@ -1,0 +1,33 @@
+.page {
+    text-align: center;
+    padding: 0 15px;
+}
+
+.page header {
+    margin-bottom: 31px;
+}
+
+.page h1 {
+    margin: 20px 0;
+}
+
+.page h3 {
+    color: var(--orange-dark);
+    margin: 15px 0;
+}
+
+.page > div {
+    margin-bottom: 25px;
+}
+
+.page textarea {
+    height: 83px;
+}
+
+.page .buttons {
+    margin-top: 40px;
+}
+
+.page .cancel {
+    margin-right: 50px;
+}

@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700');
+
+:root {
+  --green: #8FBF5B;
+  --green-dark: #5D9421;
+  --blue: #4B9CD0;
+  --blue-dark: #2A87C4;
+  --purple: #A796D0;
+  --purple-dark: #6A50A7;
+  --yellow: #FFD683;
+  --yellow-dark: #F6BB42;
+  --orange: #FF9483;
+  --orange-dark: #E9573F;
+  --red: #E05967;
+  --red-dark: #BD1F2E;
+  --pink: #FC7798;
+  --pink-dark: #FB3365;
+  --brown: #AA8E69;
+  --brown-dark: #816135;
+  --gray: #BDC3C7;
+  --gray-dark: #8E9AA2;
+  --slate: #6A7078;
+  --slate-dark: #434A54;
+  --grayish-white: #F6F6F6;
+  --white: #FFF;
+  --black: #000;
+
+  --font-normal: 16px;
+  --font-small: 14px;
+  --font-smaller: 13px;
+  --font-smallest: 11px;
+  --font-big: 18px;
+  --font-bigger: 20px;
+
+  --shadow: 0 0 27px 0 rgba(0,0,0,.05), 0 0 14px 0 rgba(0,0,0,.05);
+  --shadow-dark: 0 3px 6px rgba(126,126,126,.16), 0 3px 6px rgba(126,126,126,.23);
+}
+
+body {
+  overflow: auto;
+  font: var(--font-normal) 'Lato', Arial, sans-serif;
+  line-height: 1.4em;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -ms-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  font-weight: 400;
+  background: var(--white);
+  color: var(--slate-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+  color: var(--slate-dark);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--gray-dark);
+}

@@ -1,0 +1,58 @@
+.page h2 {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.amount input {
+    width: 50%;
+}
+
+.amount > div > span {
+    display: inline-block;
+    font-size: 30px;
+    line-height: 50px;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.message {
+    margin-top: 40px;
+}
+
+.message > div > div:first-of-type {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 90%;
+}
+
+.buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.buttons a:first-child {
+    margin-right: 50px;
+}
+
+.transactionSuccess a {
+    margin: 10px 0;
+    font-size: var(--font-big);
+}
+
+.transactionSuccess small {
+    display: block;
+}
+.transactionSuccess small b {
+    display: block;
+    margin-top: 5px;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid var(--white);
+    font-weight: normal;
+ }

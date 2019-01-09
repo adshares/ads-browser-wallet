@@ -1,0 +1,23 @@
+.errorBox {
+    display: flex;
+    align-items: center;
+    padding: 8px 0 2px 0;
+    color: var(--red);
+    position: relative;
+    transition: transform 1s linear 2s;
+}
+
+.errorBox:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--red);
+    transition: width .3s linear 2s;
+    position: absolute;
+    bottom: -2px;
+}
+
+.errorMessage {
+    margin-left: 8px;
+}

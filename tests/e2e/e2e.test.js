@@ -340,7 +340,7 @@ describe('import key', () => {
     await driver.findElement(By.id('btn-imp-key'))
       .click();
 
-    // check if form fields are empty - key was imported
+    // check if form.js fields are empty - key was imported
     expect(await driver.findElement(By.id('imp-key-sk'))
       .getAttribute('value'))
       .toBe('');
@@ -375,7 +375,7 @@ describe('import key', () => {
     await driver.findElement(By.id('btn-imp-key'))
       .click();
 
-    // check if form fields are empty - key was imported
+    // check if form.js fields are empty - key was imported
     expect(await driver.findElement(By.id('imp-key-sk'))
       .getAttribute('value'))
       .not
@@ -463,7 +463,7 @@ describe('positive path test', () => {
     await driver.findElement(By.id('btn-imp-key'))
       .click();
 
-    // check if form fields are empty - key was imported
+    // check if form.js fields are empty - key was imported
     expect(await driver.findElement(By.id('imp-key-sk'))
       .getAttribute('value'))
       .toBe('');

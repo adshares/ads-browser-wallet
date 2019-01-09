@@ -112,18 +112,23 @@ export default function (vault = initialVault, action) {
       const { nodeId, userAccountId } = ADS.splitAddress(action.address);
       const address = ADS.formatAddress(nodeId, userAccountId);
 
+      const account = {
+        address,
+        name: action.name
+      };
+
       const updatedVault = {
         ...initialVault,
         ...vault,
         accounts: [
-          ...vault.accounts.filter(a => a.address !== address),
-          {
-            address,
-            name: action.name
-          }]
+          ...vault.accounts.filter(a => a.address !== account.address),
+          account
+        ]
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, () => {
+        action.callback(account);
+      });
       return updatedVault;
     }
 
@@ -160,20 +165,25 @@ export default function (vault = initialVault, action) {
     }
 
     case actions.SAVE_KEY: {
+      const key = {
+        type: 'imported',
+        name: action.name,
+        secretKey: action.secretKey,
+        publicKey: KeyBox.getPublicKeyFromSecret(action.secretKey),
+      };
+
       const updatedVault = {
+        ...initialVault,
         ...vault,
         keys: [
-          ...vault.keys,
-          {
-            type: 'imported',
-            name: action.name,
-            secretKey: action.secretKey,
-            publicKey: KeyBox.getPublicKeyFromSecret(action.secretKey),
-          }
+          ...vault.keys.filter(k => k.publicKey !== key.publicKey),
+          key
         ]
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, () => {
+        action.callback(key);
+      });
       return updatedVault;
     }
 

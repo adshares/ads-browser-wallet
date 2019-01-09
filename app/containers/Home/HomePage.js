@@ -27,9 +27,8 @@ class HomePage extends React.PureComponent {
     queue: PropTypes.array.isRequired,
   };
 
-  renderShortcuts() {
-    const { selectedAccount, accounts } = this.props.vault;
-    const accountData = accounts.find(account => account.address === selectedAccount);
+// eslint-disable-next-line class-methods-use-this
+  renderShortcuts(accountData) {
     const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${accountData.address}`;
     const amount = accountData.balance ? formatAdsMoney(accountData.balance, 4) : null;
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
@@ -90,6 +89,8 @@ class HomePage extends React.PureComponent {
       !!config.testnet === !!t.testnet &&
       t.type === 'sign'
     );
+    const { selectedAccount, accounts } = vault;
+    const accountData = accounts.find(account => account.address === selectedAccount);
 
     return (
       <Page className={style.page} homeLink={false}>
@@ -97,7 +98,7 @@ class HomePage extends React.PureComponent {
           <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
             <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})
           </ButtonLink> : ''}
-        {vault.selectedAccount ? this.renderShortcuts() : this.renderConfigure()}
+        {accountData ? this.renderShortcuts(accountData) : this.renderConfigure()}
       </Page>
     );
   }

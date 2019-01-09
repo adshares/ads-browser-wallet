@@ -23,6 +23,7 @@ import {
   removeKeyEpic,
   importAccountPublicKeyEpic,
   saveAccountEpic,
+  selectAccountAfterSaveEpic,
   removeAccountEpic,
 } from './settingsEpics';
 
@@ -44,5 +45,6 @@ export default combineEpics(
   removeKeyEpic,
   importAccountPublicKeyEpic,
   saveAccountEpic,
+  selectAccountAfterSaveEpic,
   removeAccountEpic,
 );

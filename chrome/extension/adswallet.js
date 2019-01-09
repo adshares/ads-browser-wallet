@@ -58,10 +58,14 @@ BgClient.getSession((session) => {
       initialState.vault = vault;
       if (!vault.empty && vault.sealed && session.secret) {
         const decrypted = VaultCrypt.decrypt(vault, window.atob(session.secret));
+        let { selectedAccount } = decrypted;
+        if (obj[config.accountStorageKey]) {
+          selectedAccount = JSON.parse(obj[config.accountStorageKey]);
+        }
         initialState.vault = {
           ...vault,
           ...decrypted,
-          selectedAccount: JSON.parse(obj[config.accountStorageKey]) || decrypted.selectedAccount,
+          selectedAccount,
           sealed: false,
         };
       }

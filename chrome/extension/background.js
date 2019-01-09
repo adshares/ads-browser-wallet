@@ -35,7 +35,6 @@ function handlePopupMessage(message, callback) {
  * @param message
  */
 function handleProxyMessage(portId, message) {
-  console.debug('onProxyMessage', portId, message);
   handleProxyApiMessage(message, portId, (data) => {
     if (!connections[portId]) {
       throw new PostMessageError(`Cannot find connection ${portId}`, 500);
@@ -110,8 +109,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
  */
 chrome.runtime.onConnect.addListener((port) => {
   const portId = `${port.sender.id}-${port.sender.tab.id}`;
-  console.debug('onConnect', portId);
-
   if (port.sender.id === chrome.i18n.getMessage('@@extension_id')) {
     if (port.name === config.proxyConnectionName) { // connection with proxy script
       connections[portId] = port;

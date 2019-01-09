@@ -132,8 +132,8 @@ export const generateKeysEpic = action$ => action$.pipe(
 
 export const saveKeyEpic = (action$, state$, { history }) => action$.pipe(
   ofType(SA.SAVE_KEY),
-  switchMap(() => concat(
-    of(validateForm(SA.SAVE_KEY)),
+  switchMap(initAction => concat(
+    of(validateForm(SA.SAVE_KEY, initAction.editedId)),
     action$.pipe(
       ofType(FORM_VALIDATION_SUCCESS),
       filter(action => action.pageName === SA.SAVE_KEY),
@@ -146,16 +146,16 @@ export const saveKeyEpic = (action$, state$, { history }) => action$.pipe(
           withLatestFrom(state$),
           mergeMap(([action, state]) => {
             if (action.type === PASSWORD_REJECTED) {
-              return of(SA.saveKeyFailure(SA.SAVE_KEY, 'Access denied'));
+              return of(SA.saveKeyFailure(SA.SAVE_KEY, initAction.editedId, 'Access denied'));
             }
 
             let resolve;
             const promise = new Promise((res) => { resolve = res; })
-              .then(() => {
+              .then((key) => {
                 history.push(getReferrer(history, '/settings'));
-                return SA.saveKeySuccess(SA.SAVE_KEY);
+                return SA.saveKeySuccess(key, initAction.editedId);
               })
-              .catch(error => SA.saveKeyFailure(SA.SAVE_KEY, error.message || 'Unknown error'));
+              .catch(error => SA.saveKeyFailure(SA.SAVE_KEY, initAction.editedId, error.message || 'Unknown error'));
 
             const { pages: { [SA.SAVE_KEY]: { inputs } } } = state;
             const name = inputs.name.value;
@@ -252,29 +252,42 @@ export const saveAccountEpic = (action$, state$, { history }) => action$.pipe(
           withLatestFrom(state$),
           mergeMap(([action, state]) => {
             if (action.type === PASSWORD_REJECTED) {
-              return of(SA.saveAccountFailure(SA.SAVE_ACCOUNT, 'Access denied'));
+              return of(SA.saveAccountFailure(SA.SAVE_ACCOUNT, initAction.editedId, 'Access denied'));
             }
 
             let resolve;
             const promise = new Promise((res) => { resolve = res; })
-              .then(() => {
+              .then((account) => {
                 history.push(getReferrer(history, '/settings'));
-                return SA.saveAccountSuccess(SA.SAVE_ACCOUNT);
+                return SA.saveAccountSuccess(account, initAction.editedId);
               })
-              .catch(error => SA.saveAccountFailure(SA.SAVE_ACCOUNT, error.message || 'Unknown error'));
+              .catch(error => SA.saveAccountFailure(SA.SAVE_ACCOUNT, initAction.editedId, error.message || 'Unknown error'));
 
             const { pages: { [SA.SAVE_ACCOUNT]: { inputs } } } = state;
             const name = inputs.name.value;
             const address = inputs.address.value;
+
             return concat(
               of(VA.saveAccount(address, name, action.password, resolve)),
               from(promise),
+              action$.pipe(
+                ofType(SA.SAVE_ACCOUNT_SUCCESS, SA.SAVE_KEY_FAILURE),
+                take(1),
+                filter(a => a.type === SA.SAVE_ACCOUNT_SUCCESS && !!a.editedId),
+                map(a => VA.selectActiveAccount(a.editedId))
+              )
             );
           })
         )
       ))
     )
   ))
+);
+
+export const selectAccountAfterSaveEpic = action$ => action$.pipe(
+  ofType(SA.SAVE_ACCOUNT_SUCCESS),
+  filter(action => !action.editedId),
+  map(action => VA.selectActiveAccount(action.account.address))
 );
 
 export const removeAccountEpic = action$ => action$.pipe(

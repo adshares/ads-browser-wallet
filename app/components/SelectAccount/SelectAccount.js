@@ -73,7 +73,7 @@ export default class SelectAccount extends React.Component {
               <Link
                 onBlur={() => this.toggleShowOptions(false)}
                 className={style.optionLink}
-                to="/accounts/import"
+                to="/settings/accounts/import"
               >
                 Add account
                 <FontAwesomeIcon icon={faPlus} className={style.optionIcon} />

@@ -54,12 +54,12 @@ export function saveAccount(pageName, editedId) {
   return { type: SAVE_ACCOUNT, pageName, editedId };
 }
 
-export function saveAccountSuccess(pageName) {
-  return { type: SAVE_ACCOUNT_SUCCESS, pageName };
+export function saveAccountSuccess(account, editedId) {
+  return { type: SAVE_ACCOUNT_SUCCESS, account, editedId };
 }
 
-export function saveAccountFailure(pageName, errorMsg) {
-  return { type: SAVE_ACCOUNT_FAILURE, pageName, errorMsg };
+export function saveAccountFailure(pageName, editedId, errorMsg) {
+  return { type: SAVE_ACCOUNT_FAILURE, pageName, editedId, errorMsg };
 }
 
 export function removeAccount(address) {
@@ -86,16 +86,16 @@ export function generateKeysFailure(errorMsg) {
   return { type: GENERATE_KEYS_FAILURE, errorMsg };
 }
 
-export function saveKey(pageName) {
-  return { type: SAVE_KEY, pageName };
+export function saveKey(pageName, editedId) {
+  return { type: SAVE_KEY, pageName, editedId };
 }
 
-export function saveKeySuccess(pageName) {
-  return { type: SAVE_KEY_SUCCESS, pageName };
+export function saveKeySuccess(key, editedId) {
+  return { type: SAVE_KEY_SUCCESS, key, editedId };
 }
 
-export function saveKeyFailure(pageName, errorMsg) {
-  return { type: SAVE_KEY_FAILURE, pageName, errorMsg };
+export function saveKeyFailure(pageName, editedId, errorMsg) {
+  return { type: SAVE_KEY_FAILURE, pageName, editedId, errorMsg };
 }
 
 export function removeKey(publicKey) {

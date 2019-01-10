@@ -18,16 +18,12 @@ export default class AboutPage extends PageComponent {
         </section>
         <section>
           <div className={style.aboutLinks}>
-            <a href={config.helpUrl} target="_blank" rel="noopener noreferrer">
-              Help
-            </a>
-            <a href={config.supportUrl} target="_blank" rel="noopener noreferrer">
-              Support
-            </a>
-            <a href={config.websiteUrl} target="_blank" rel="noopener noreferrer">
-              Website
-            </a>
+            <a href={config.helpUrl} target="_blank" rel="noopener noreferrer">Help</a>
+            <a href={config.supportUrl} target="_blank" rel="noopener noreferrer">Support</a>
+            <a href={config.websiteUrl} target="_blank" rel="noopener noreferrer">Website</a>
           </div>
+        </section>
+        <section>
           <h3 className={style.aboutDescription}>{manifest.description}</h3>
           <b>Version</b>: {manifest.version}{isBeta ? ' (beta)' : ''}<br />
           <b>Author</b>: {manifest.author}

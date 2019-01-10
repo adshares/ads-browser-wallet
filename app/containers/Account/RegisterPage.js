@@ -46,7 +46,7 @@ export default class RegisterPage extends FormComponent {
     if (this.validatePasswords()) {
       event.preventDefault();
       event.stopPropagation();
-      this.props.history.push('/register/regulations');
+      this.props.history.push('/register/termsOfUse');
     }
   }
 
@@ -150,14 +150,14 @@ export default class RegisterPage extends FormComponent {
     );
   }
 
-  renderRegulationsPage() {
+  renderTermsOfUsePage() {
     return (
-      <div className={style.regulationsPage}>
+      <div className={style.termsOfUsePage}>
         <header>
-          <h1>Terms and conditions</h1>
+          <h1>Terms of Use</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
-        <div className={style.regulations}>{config.regulations}</div>
+        <div className={style.termsOfUse}>{config.termsOfUse}</div>
         <div className={style.buttons}>
           <ButtonLink to={'/register/password'} inverse icon="left" layout="info">
             <FontAwesomeIcon icon={faChevronLeft} /> Back
@@ -200,7 +200,7 @@ export default class RegisterPage extends FormComponent {
           </div>
           <div className={style.buttons}>
             <ButtonLink
-              to={'/register/regulations'}
+              to={'/register/termsOfUse'}
               inverse
               icon="left"
               layout="info"
@@ -228,8 +228,8 @@ export default class RegisterPage extends FormComponent {
     switch (step) {
       case 'password':
         return this.renderNewPasswordPage();
-      case 'regulations':
-        return this.renderRegulationsPage();
+      case 'termsOfUse':
+        return this.renderTermsOfUsePage();
       case 'seed':
         return this.renderSeedPhrasePage();
       default:

@@ -75,7 +75,7 @@ class HomePage extends React.PureComponent {
           <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
         <div className={style.helpLinks}>
-          <a href={config.getAccountLink} target="_blank" rel="noopener noreferrer">
+          <a href={config.getAccountUrl} target="_blank" rel="noopener noreferrer">
             How to get an ADS account?
           </a>
         </div>

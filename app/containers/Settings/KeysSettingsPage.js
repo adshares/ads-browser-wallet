@@ -28,7 +28,7 @@ class KeysSettingsPage extends PageComponent {
   };
 
   generateKeysAction() {
-    this.props.actions.generateKeys(5);
+    this.props.actions.generateKeys(1);
   }
 
   renderKeys(keys, removable = false) {

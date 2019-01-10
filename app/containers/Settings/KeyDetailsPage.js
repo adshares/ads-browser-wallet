@@ -36,7 +36,7 @@ class KeyDetailsPage extends PageComponent {
     let signature = null;
 
     if (key) {
-      title = `Key '${key.name}'`;
+      title = `Key ${key.name}`;
       secretKey = ''.padStart(64, 'X');
       signature = ''.padStart(128, 'X');
       if (authDialog.isConfirmed && authDialog.name === 'keyDetails') {

@@ -4,7 +4,7 @@ const config = {
   dividentLength: 2048,
   derivationPath: "m/44'/311'/",
   passwordMinLength: 1,
-  initKeysQuantity: 10,
+  initKeysQuantity: 3,
   itemNameMaxLength: 16,
   accountsLimit: 20,
   importedKeysLimit: 20,

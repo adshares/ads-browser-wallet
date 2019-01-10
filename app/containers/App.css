@@ -40,4 +40,5 @@
     white-space: pre-wrap;
     overflow: auto;
     border: 1px solid var(--gray);
+    text-align: justify;
 }

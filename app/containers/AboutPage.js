@@ -30,7 +30,7 @@ export default class AboutPage extends PageComponent {
         </section>
         <section>
           <h3>Term of use</h3>
-          <pre className={style.aboutText}>{config.termsOfUse}</pre>
+          <pre className={style.aboutText}>{config.terms}</pre>
         </section>
         <section>
           <h3>Attributions</h3>

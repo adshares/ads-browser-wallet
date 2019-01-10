@@ -22,7 +22,7 @@ const config = {
   supportUrl: 'https://github.com/adshares/ads-browser-wallet/issues',
   getAccountUrl: 'https://github.com/adshares/ads/wiki/How-to-convert-ADST-tokens#get-an-account',
   about: require('./about'),
-  termsOfUse: require('./termsOfUse'),
+  terms: require('./terms'),
   attributions: require('./attributions'),
 };
 

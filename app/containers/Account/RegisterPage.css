@@ -57,22 +57,22 @@
     margin-top: 60px;
 }
 
-.termsOfUsePage {
+.termsPage {
     text-align: center;
     padding: 15px;
 }
 
-.termsOfUsePage h1 {
+.termsPage h1 {
     margin: 20px 0;
 }
 
-.termsOfUsePage h3 {
+.termsPage h3 {
     color: var(--orange-dark);
     margin: 15px 0;
     line-height: 22px;
 }
 
-.termsOfUse {
+.terms {
     width: 338px;
     overflow: auto;
     height: 300px;

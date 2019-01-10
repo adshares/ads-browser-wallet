@@ -28,11 +28,11 @@ Some things that will increase the chance that your pull request is accepted:
 - Ensure the PR description clearly describes the problem and solution. 
 - Include the relevant issue number if applicable.
 
-[bug list]: https://github.com/adshares/ads-beet/labels/Bug
-[bug report template]: https://github.com/adshares/ads-beet/issues/new?template=bug_report.md&labels=Bug
-[issues]: https://github.com/adshares/ads-beet/issues
+[bug list]: https://github.com/adshares/ads-browser-wallet/labels/Bug
+[bug report template]: https://github.com/adshares/ads-browser-wallet/issues/new?template=bug_report.md&labels=Bug
+[issues]: https://github.com/adshares/ads-browser-wallet/issues
 [telegram]: https://t.me/adshares
 [tech_email]: mailto:tech@adshares.net
-[pr]: https://github.com/adshares/ads-beet/compare/
+[pr]: https://github.com/adshares/ads-browser-wallet/compare/
 [commit]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 

@@ -5,6 +5,7 @@ export default {
   operatorUrl: 'https://operator.e11.click/',
   vaultStorageKey: 'testnet-vault',
   accountStorageKey: 'testnet-account',
+  getAccountLink: 'https://github.com/adshares/ads/wiki/How-to-join-the-Testnet',
   regulations:
     'TESTNET Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
     'Sed porttitor non erat a aliquet. Pellentesque vulputate lacus at mauris congue ultricies. Lorem ipsum dolor sit ' +

@@ -2,30 +2,31 @@
   <a href="https://adshares.net/">
     <img src="https://adshares.net/logos/ads.svg" alt="Adshares" width=72 height=72>
   </a>
-  <h3 align="center"><small>ADS Beet</small></h3>
+  <h3 align="center"><small>ADS Browser Wallet</small></h3>
   <p align="center">
-    <a href="https://github.com/adshares/ads-beet/issues/new?template=bug_report.md&labels=Bug">Report bug</a>
+    <a href="https://github.com/adshares/ads-browser-wallet/issues/new?template=bug_report.md&labels=Bug">Report bug</a>
     ·
-    <a href="https://github.com/adshares/ads-beet/issues/new?template=feature_request.md&labels=New%20Feature">Request feature</a>
+    <a href="https://github.com/adshares/ads-browser-wallet/issues/new?template=feature_request.md&labels=New%20Feature">Request feature</a>
     ·
-    <a href="https://github.com/adshares/ads-beet/wiki">Wiki</a>
+    <a href="https://github.com/adshares/ads-browser-wallet/wiki">Wiki</a>
   </p>
 </p>
 
-ADS Beet is Chrome extension which can be used to sign ADS blockchain transactions.
+ADS Wallet is a secure identity vault for Adshares network. It is designed to securely store keys and provide cryptographic transaction signing.
+
+
+The extension can be used to send basic transactions. It also provides integration with internal and external services connected to ADS network.
+ADS Wallet is a convenient, free, open-source client-side tool. It supports both mainnet and testnet.
 
 ## Getting Started
 
-In future plugin will be available in Chrome Web Store.
-Currently, only manual build is supported.
-Build instruction are available in the [wiki](https://github.com/adshares/ads-beet/wiki/Building-extension).
+You can install the extension directly from [Chrome Web Store](https://chrome.google.com/webstore/detail/adswallet/icdmhohjiemadeeiakaeicoccocpaljp) or build it by yourself.
 
 ### Documentation
 
-- [Build](https://github.com/adshares/ads-beet/wiki/Building-extension)
+- [Build](https://github.com/adshares/ads-browser-wallet/wiki/Building-extension)
 <!--
-- [Usage](https://github.com/adshares/php-ads-client/wiki#usage)
-- [Tests](https://github.com/adshares/php-beet/wiki#tests)
+- [Tests](https://github.com/adshares/ads-browser-wallet/wiki#tests)
 -->
 
 ### Contributing
@@ -35,17 +36,30 @@ Please follow our [Contributing Guidelines](docs/CONTRIBUTING.md)
 ### Versioning
 
 We use [SemVer](http://semver.org/) for versioning. 
-<!--For the versions available, see the [tags on this repository](https://github.com/adshares/ads-beet/tags).--> 
+For the versions available, see the [tags on this repository](https://github.com/adshares/ads-browser-wallet/tags).
 
 ### Authors
 
-* **[Paweł Podkalicki](https://github.com/PawelPodkalicki)** - _main programmer_
+* **[Katarzyna Marciniszyn](https://github.com/Meskat)** - _JS programmer_
+* **[Paweł Podkalicki](https://github.com/PawelPodkalicki)** - _JS programmer_
+* **[Maciej Pilarczyk](https://github.com/m-pilarczyk)** - _JS programmer_
 
-See also the list of [contributors](https://github.com/adshares/ads-beet/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/adshares/ads-browser-wallet/contributors) who participated in this project.
 
 ### License
 
-This project is licensed under the Creative Commons Attribution-NoDerivatives 4.0 International License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+
+### Disclaimer:
+
+Please note that ADS Wallet is still under active development, which is why we strongly encourage you to execute the
+first application launch in our Testnet environment. We have thoroughly tested the extension, however there is always a
+remote possibility that something unexpected happens that causes your ADS to be lost. Please do not store more ADS than
+you are willing to lose, and please be careful.
+
+Please keep in mind that in case you do not save your seed phrase, there is no way to recover access to your wallet or
+the funds it holds. Back it up in multiple physical locations – not just on your computer!
+
 
 ### More info
 

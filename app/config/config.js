@@ -17,7 +17,7 @@ const config = {
   adsRpcHost: 'https://rpc.adshares.net/',
   operatorUrl: 'https://operator.adshares.net/',
   apiDocUrl: 'https://github.com/adshares/ads/wiki/ADS-API#',
-  getAccountLink: 'https://github.com/adshares/ads/wiki/How-to-get-an-account',
+  getAccountLink: 'https://github.com/adshares/ads/wiki/How-to-convert-ADST-tokens#get-an-account',
   about: require('./about'),
   regulations: require('./regulations'),
   attributions: require('./attributions'),

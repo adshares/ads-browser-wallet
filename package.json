@@ -1,7 +1,7 @@
 {
-  "name": "ads-beet",
-  "version": "0.0.1",
-  "description": "Chrome extension which signs ADS blockchain transactions.",
+  "name": "ads-browser-wallet",
+  "version": "0.1.0",
+  "description": "Secure identity vault for Adshares network.",
   "private": true,
   "author": "Adshares <dev@adshares.net>",
   "license": "GPL-3.0",
@@ -14,12 +14,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/adshares/ads-beet.git"
+    "url": "https://github.com/adshares/ads-browser-wallet.git"
   },
   "bugs": {
-    "url": "https://github.com/adshares/ads-beet/issues"
+    "url": "https://github.com/adshares/ads-browser-wallet/issues"
   },
-  "homepage": "https://github.com/adshares/ads-beet#readme",
+  "homepage": "https://github.com/adshares/ads-browser-wallet#readme",
   "scripts": {
     "dev": "node scripts/dev",
     "build": "node scripts/build",

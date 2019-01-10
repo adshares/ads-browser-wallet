@@ -6,12 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2019-01-10
 ### Added
-- Initial version of plugin which can sign transactions, one key is supported
-- ESLint
-- Changelog
-- License
-- Readme
-- Contributing
+- Creating transactions
+- Signing transactions
+- External apps supports
+- JSON-RPC integration
+- Keys management
+- Accounts management
+- Session support
+- Storage encryption
+- Docs
 
-[Unreleased]: https://github.com/adshares/ads-beet
+[Unreleased]: https://github.com/adshares/ads-tools/compare/v0.1.0...HEAD
+
+[0.1.0]: https://github.com/adshares/ads-tools/releases/tag/v0.1.0

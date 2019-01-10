@@ -1,17 +1,121 @@
 export default
-'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed iaculis nulla. ' +
-'Sed porttitor non erat a aliquet. Pellentesque vulputate lacus at mauris congue ultricies. Lorem ipsum dolor sit ' +
-'amet, consectetur adipiscing elit. Fusce gravida quis turpis ac vulputate. Aenean sit amet egestas arcu.\n' +
+'@fortawesome/fontawesome-svg-core\n' +
+'https://github.com/FortAwesome/Font-Awesome\n' +
 '\n' +
-'Praesent ' +
-'purus purus, elementum sed finibus ac, pretium sit amet turpis. Nulla pharetra eu tortor ut viverra. Proin ut ' +
-'felis eu augue sodales dapibus vitae et dui. Orci varius natoque penatibus et magnis dis parturient montes, ' +
-'nascetur ridiculus mus. In eget nibh et risus hendrerit accumsan eu egestas lacus. Suspendisse rhoncus auctor ' +
-'ipsum vel laoreet. Ut varius neque augue, eu tempus nisl semper ac. Nulla interdum tincidunt dignissim.\n' +
+'******************************\n' +
 '\n' +
-'Praesent blandit risus massa, a mollis risus suscipit sit amet. Etiam posuere, velit quis placerat interdum, ' +
-'libero libero laoreet velit, quis ultricies nibh arcu at elit. Cras vitae tortor magna. Donec in rhoncus metus, ' +
-'vitae consequat urna. Maecenas pretium nisi a sapien faucibus congue. Nullam sed convallis tortor. Quisque justo ' +
-'dolor, pulvinar ut turpis ac, sagittis lacinia ligula. Donec in sem condimentum, gravida erat non, varius elit. ' +
-'Cras ut velit a felis volutpat vestibulum nec nec lectus. In hendrerit convallis faucibus.'
+'@fortawesome/free-solid-svg-icons\n' +
+'https://github.com/FortAwesome/Font-Awesome\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'@fortawesome/react-fontawesome\n' +
+'https://github.com/FortAwesome/react-fontawesome\n' +
+'Copyright 2018 Fonticons, Inc.\n' +
+'******************************\n' +
+'\n' +
+'animejs\n' +
+'https://github.com/juliangarnier/anime\n' +
+'Copyright (c) 2017 Julian Garnier\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'autoprefixer\n' +
+'https://github.com/postcss/autoprefixer\n' +
+'Copyright 2013 Andrey Sitnik <andrey@sitnik.ru>\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'bip39\n' +
+'https://github.com/weilu/bip39\n' +
+'Copyright (c) 2014, Wei Lu <luwei.here@gmail.com> and Daniel Cousens <email@dcousens.com>\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'connected-react-router\n' +
+'https://github.com/supasate/connected-react-router\n' +
+'Copyright (c) 2016-present Supasate Choochaisri\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'create-hmac\n' +
+'https://github.com/crypto-browserify/createHmac\n' +
+'Copyright (c) 2017 crypto-browserify contributors\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'crypto-js\n' +
+'https://github.com/brix/crypto-js\n' +
+'Copyright (c) 2009-2013 Jeff Mott\n' +
+'Copyright (c) 2013-2016 Evan Vosberg\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'history\n' +
+'https://github.com/ReactTraining/history\n' +
+'Copyright (c) 2015-2016 Michael Jackson\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'jsonrpc-lite\n' +
+'https://github.com/teambition/jsonrpc-lite\n' +
+'Copyright (c) 2015-2018 teambition\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'prop-types\n' +
+'https://github.com/facebook/prop-types\n' +
+'Copyright (c) 2013-present, Facebook, Inc.\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'react\n' +
+'https://github.com/facebook/react\n' +
+'Copyright (c) Facebook, Inc. and its affiliates.\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'react-dom\n' +
+'https://github.com/facebook/react\n' +
+'Copyright (c) Facebook, Inc. and its affiliates.\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'react-redux\n' +
+'https://github.com/reactjs/react-redux\n' +
+'Copyright (c) 2015 Dan Abramov\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'react-router\n' +
+'https://github.com/ReactTraining/react-router\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'react-router-dom\n' +
+'https://github.com/ReactTraining/react-router\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'redux\n' +
+'https://github.com/reactjs/redux\n' +
+'Copyright (c) 2015-present Dan Abramov\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'redux-observable\n' +
+'https://github.com/redux-observable/redux-observable\n' +
+'Copyright (c) 2016-2018 Ben Lesh, Jay Phelps, and redux-observable contributors.\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'rxjs\n' +
+'https://github.com/reactivex/rxjs\n' +
+'Copyright (c) 2015-2018 Google, Inc., Netflix, Inc., Microsoft Corp. and contributors\n' +
+'\n' +
+'******************************\n' +
+'\n' +
+'tweetnacl\n' +
+'https://github.com/dchest/tweetnacl-js\n' +
+'\n'
 ;

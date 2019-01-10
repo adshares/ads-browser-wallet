@@ -6,6 +6,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ErrorPage from './ErrorPage';
+import AboutPage from './AboutPage';
 import HomePage from './Home/HomePage';
 import RestorePage from './Account/RestorePage';
 import RegisterPage from './Account/RegisterPage';
@@ -98,6 +99,11 @@ class Rooting extends Component {
             render={props =>
               <SwitchNetwork switchAction={actions.switchNetwork} {...props} />
             }
+          />
+          <Route
+            exact
+            path="/about"
+            component={AboutPage}
           />
           <Route
             exact

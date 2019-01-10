@@ -17,9 +17,12 @@ const config = {
   adsRpcHost: 'https://rpc.adshares.net/',
   operatorUrl: 'https://operator.adshares.net/',
   apiDocUrl: 'https://github.com/adshares/ads/wiki/ADS-API#',
-  getAccountLink: 'https://github.com/adshares/ads/wiki/How-to-convert-ADST-tokens#get-an-account',
+  helpUrl: 'https://github.com/adshares/ads-browser-wallet/wiki',
+  websiteUrl: 'https://adshares.net/wallet',
+  supportUrl: 'https://github.com/adshares/ads-browser-wallet/issues',
+  getAccountUrl: 'https://github.com/adshares/ads/wiki/How-to-convert-ADST-tokens#get-an-account',
   about: require('./about'),
-  regulations: require('./regulations'),
+  termsOfUse: require('./termsOfUse'),
   attributions: require('./attributions'),
 };
 

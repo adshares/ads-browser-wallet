@@ -31,7 +31,7 @@
     text-align: center;
 }
 
-.buttons a:first-child {
+.buttons > *:first-child {
     margin-right: 50px;
 }
 
@@ -43,6 +43,7 @@
 .transactionSuccess small {
     display: block;
 }
+
 .transactionSuccess small b {
     display: block;
     margin-top: 5px;

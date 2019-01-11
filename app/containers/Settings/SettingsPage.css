@@ -71,7 +71,7 @@
     text-align: center;
 }
 
-.buttons a:first-child {
+.buttons > *:first-child {
     margin-right: 50px;
 }
 

@@ -5,16 +5,22 @@ import BgClient from '../../app/utils/background';
 import { reload as reloadQueue } from '../../app/actions/queueActions';
 import './adswallet.css';
 
-
-function renderDOM(Root, initialState, config) {
+function createHistory(initialState) {
   const history = createHashHistory();
-  if (initialState.router && initialState.router.location) {
+  if (history.location.pathname === '/') {
     if (history.location.pathname !== initialState.router.location.pathname ||
-      history.location.search !== initialState.router.location.search ||
-      history.location.hash !== initialState.router.location.hash) {
+        history.location.search !== initialState.router.location.search ||
+        history.location.hash !== initialState.router.location.hash) {
       history.push(initialState.router.location);
     }
   }
+
+  return history;
+}
+
+
+function renderDOM(Root, initialState, config) {
+  const history = createHistory(initialState);
   const createStore = require('../../app/store/configureStore');
 
   const store = createStore(initialState, history);

@@ -31,7 +31,7 @@ class BroadcastPage extends TransactionPage {
     super(ADS.TX_TYPES.BROADCAST, props);
   }
 
-  renderForm() {
+  renderInputs() {
     const {
       inputs: { message, rawMessage }
     } = this.props;

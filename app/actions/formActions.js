@@ -6,9 +6,6 @@ export const CLEAN_FORM = 'FORM_CLEAN_FORM';
 export const VALIDATE_FORM = 'FORM_VALIDATE_FORM';
 export const FORM_VALIDATION_SUCCESS = 'FORM_ALIDATION_SUCCESS';
 export const FORM_VALIDATION_FAILURE = 'FORM_VALIDATION_FAILURE';
-export const ACCOUNT_EDIT_FORM_VALIDATE = 'FORM_ACCOUNT_EDIT_FORM_VALIDATE';
-export const ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS = 'FORM_ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS';
-export const ACCOUNT_EDIT_FORM_VALIDATION_FAILURE = 'FORM_ACCOUNT_EDIT_FORM_VALIDATION_FAILURE';
 
 const inputValidateSuccess = (pageName, inputName) => ({
   type: INPUT_VALIDATION_SUCCESS,
@@ -36,22 +33,6 @@ const formValidationSuccess = pageName => ({
 
 const formValidationFailure = pageName => ({
   type: FORM_VALIDATION_FAILURE,
-  pageName
-});
-
-const accountEditFormValidate = (pageName, initialInputValues) => ({
-  type: ACCOUNT_EDIT_FORM_VALIDATE,
-  pageName,
-  initialInputValues
-});
-
-const accountEditFormValidationSuccess = pageName => ({
-  type: ACCOUNT_EDIT_FORM_VALIDATION_SUCCESS,
-  pageName
-});
-
-const accountEditFormValidationFailure = pageName => ({
-  type: ACCOUNT_EDIT_FORM_VALIDATION_FAILURE,
   pageName
 });
 
@@ -83,7 +64,4 @@ export {
   formValidationFailure,
   cleanForm,
   toggleVisibility,
-  accountEditFormValidate,
-  accountEditFormValidationFailure,
-  accountEditFormValidationSuccess
 };

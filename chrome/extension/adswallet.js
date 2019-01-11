@@ -45,7 +45,9 @@ BgClient.getSession((session) => {
   chrome.storage.local.get([
     config.routerStorageKey,
     config.queueStorageKey,
-    config.accountStorageKey
+    config.accountStorageKey,
+    config.formsStorageKey,
+    config.transactionsStorageKey,
   ], (obj) => {
     const initialState = {};
     if (obj[config.routerStorageKey]) {
@@ -53,6 +55,12 @@ BgClient.getSession((session) => {
     }
     if (obj[config.queueStorageKey]) {
       initialState.queue = JSON.parse(obj[config.queueStorageKey]);
+    }
+    if (obj[config.formsStorageKey]) {
+      initialState.pages = JSON.parse(obj[config.formsStorageKey]);
+    }
+    if (obj[config.transactionsStorageKey]) {
+      initialState.transactions = JSON.parse(obj[config.transactionsStorageKey]);
     }
     VaultCrypt.load((vault) => {
       initialState.vault = vault;

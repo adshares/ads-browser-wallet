@@ -13,6 +13,8 @@ const config = {
   queueStorageKey: 'queue',
   routerStorageKey: 'router',
   accountStorageKey: 'account',
+  formsStorageKey: 'forms',
+  transactionsStorageKey: 'transactions',
   proxyConnectionName: 'ads-wallet-proxy',
   adsRpcHost: 'https://rpc.adshares.net/',
   operatorUrl: 'https://operator.adshares.net/',

@@ -76,12 +76,11 @@ class Rooting extends Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
-    queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
   };
 
   render() {
-    const { router, vault, queue, actions } = this.props;
+    const { router, vault, actions } = this.props;
 
     return (
       <div className={style.app}>
@@ -163,28 +162,16 @@ class Rooting extends Component {
             exact vault={vault} component={KeyEditorPage}
           />
           <PrivateRoute
-            exact
             path="/transactions/pending"
-            vault={vault}
-            render={props =>
-              <PendingTransactionsPage vault={vault} queue={queue} {...props} />
-            }
+            exact vault={vault} component={PendingTransactionsPage}
           />
           <PrivateRoute
-            exact
             path="/transactions/:source(.+)/:id(.+)/:action(sign|popup-sign)"
-            vault={vault}
-            render={props =>
-              <SignPage vault={vault} queue={queue} {...props} />
-            }
+            exact vault={vault} component={SignPage}
           />
           <PrivateRoute
-            exact
             path="/transactions/send-one"
-            vault={vault}
-            render={props =>
-              <SendOnePage vault={vault} {...props} />
-            }
+            exact vault={vault} component={SendOnePage}
           />
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>
@@ -198,7 +185,6 @@ export default withRouter(connect(
   state => ({
     router: state.router || {},
     vault: state.vault || {},
-    queue: state.queue || [],
   }),
   dispatch => ({
     actions: bindActionCreators(

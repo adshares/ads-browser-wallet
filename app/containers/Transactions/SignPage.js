@@ -1,11 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PageComponent from '../../components/PageComponent';
 import SignForm from './SignForm';
 import BgClient from '../../utils/background';
 import config from '../../config/config';
 
-export default class SignPage extends PageComponent {
+class SignPage extends PageComponent {
+
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    vault: PropTypes.object.isRequired,
+    queue: PropTypes.array.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -78,9 +88,9 @@ export default class SignPage extends PageComponent {
   }
 }
 
-SignPage.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  vault: PropTypes.object.isRequired,
-  queue: PropTypes.array.isRequired,
-};
+export default withRouter(connect(
+  state => ({
+    vault: state.vault,
+    queue: state.queue,
+  })
+)(SignPage));

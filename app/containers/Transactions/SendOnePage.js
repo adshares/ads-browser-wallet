@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -25,6 +26,17 @@ import config from '../../config/config';
 
 
 class SendOnePage extends TransactionPage {
+
+  static propTypes = {
+    ...TransactionPage.propTypes,
+    inputs: PropTypes.shape({
+      address: PropTypes.object.isRequired,
+      amount: PropTypes.object.isRequired,
+      message: PropTypes.object.isRequired,
+      rawMessage: PropTypes.object.isRequired,
+    })
+  }
+
   constructor(props) {
     super(ADS.TX_TYPES.SEND_ONE, props);
   }
@@ -138,6 +150,7 @@ class SendOnePage extends TransactionPage {
 
 export default withRouter(connect(
   state => ({
+    vault: state.vault,
     ...state.transactions[ADS.TX_TYPES.SEND_ONE]
   }),
   dispatch => ({

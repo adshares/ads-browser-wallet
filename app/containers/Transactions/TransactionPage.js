@@ -9,6 +9,27 @@ import { typeLabels } from './labels';
 import style from './TransactionPage.css';
 
 export default class TransactionPage extends PageComponent {
+
+  static propTypes = {
+    vault: PropTypes.object.isRequired,
+    isSignRequired: PropTypes.bool.isRequired,
+    isSubmitted: PropTypes.bool.isRequired,
+    isTransactionSent: PropTypes.bool.isRequired,
+    accountHash: PropTypes.string,
+    transactionData: PropTypes.string,
+    transactionId: PropTypes.string,
+    transactionFee: PropTypes.number,
+    errorMsg: PropTypes.string,
+    history: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+      cleanForm: PropTypes.func.isRequired,
+      inputChanged: PropTypes.func.isRequired,
+      validateForm: PropTypes.func.isRequired,
+      transactionRejected: PropTypes.func.isRequired,
+      transactionAccepted: PropTypes.func.isRequired,
+    })
+  }
+
   constructor(transactionType, props) {
     super(props);
     this.transactionType = transactionType;
@@ -108,15 +129,3 @@ export default class TransactionPage extends PageComponent {
     );
   }
 }
-
-TransactionPage.propTypes = {
-  vault: PropTypes.object.isRequired,
-  isSignRequired: PropTypes.bool,
-  actions: PropTypes.shape({
-    cleanForm: PropTypes.func.isRequired,
-    inputChanged: PropTypes.func.isRequired,
-    validateForm: PropTypes.func.isRequired,
-    transactionRejected: PropTypes.func.isRequired,
-    transactionAccepted: PropTypes.func.isRequired,
-  })
-};

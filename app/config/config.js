@@ -28,11 +28,17 @@ const config = {
   attributions: require('./attributions'),
 };
 
+module.exports = config;
+
 if (window.ADS_NET === 'testnet') {
   module.exports = {
-    ...config,
+    ...module.exports,
     ...require('./config.testnet'),
   };
-} else {
-  module.exports = config;
+}
+if (process.env.NODE_ENV !== 'production') {
+  module.exports = {
+    ...module.exports,
+    ...require('./config.dev'),
+  };
 }

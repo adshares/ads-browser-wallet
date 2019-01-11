@@ -16,6 +16,7 @@ import PasswordChangePage from './Settings/PasswordEditorPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeyEditorPage from './Settings/KeyEditorPage';
 import SendOnePage from './Transactions/SendOnePage';
+import BroadcastPage from './Transactions/BroadcastPage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
@@ -172,6 +173,10 @@ class Rooting extends Component {
           <PrivateRoute
             path="/transactions/send-one"
             exact vault={vault} component={SendOnePage}
+          />
+          <PrivateRoute
+            path="/transactions/broadcast"
+            exact vault={vault} component={BroadcastPage}
           />
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>

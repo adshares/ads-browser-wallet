@@ -14,7 +14,7 @@ import { TransactionDataError } from '../../actions/errors';
 import { formatDate } from '../../utils/utils';
 import { typeLabels } from './labels';
 import config from '../../config/config';
-import style from './PendingTransactionsPage.css';
+import style from './style.css';
 
 class PendingTransactionsPage extends PageComponent {
 
@@ -73,7 +73,7 @@ class PendingTransactionsPage extends PageComponent {
 
     return (
       <Page
-        className={style.page}
+        className={style.pendingPage}
         title="Pending Transactions"
         scroll={queue.length > 3}
         cancelLink={this.getReferrer()}
@@ -87,8 +87,8 @@ class PendingTransactionsPage extends PageComponent {
             >
               There are no pending transactions
             </Box>
-            <ButtonLink to="/" size="wide" icon="left" layout="info">
-              <FontAwesomeIcon icon={faChevronLeft} />Back
+            <ButtonLink to={this.getReferrer()} size="wide" icon="left" layout="info">
+              <FontAwesomeIcon icon={faChevronLeft} /> Back
             </ButtonLink>
           </React.Fragment> :
           <React.Fragment>

@@ -15,9 +15,10 @@ import SettingsPage from './Settings/SettingsPage';
 import PasswordChangePage from './Settings/PasswordEditorPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeyEditorPage from './Settings/KeyEditorPage';
+import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
+import AvailableTransactionsPage from './Transactions/AvailableTransactionsPage';
 import SendOnePage from './Transactions/SendOnePage';
 import BroadcastPage from './Transactions/BroadcastPage';
-import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import SignPage from './Transactions/SignPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
@@ -161,6 +162,10 @@ class Rooting extends Component {
           <PrivateRoute
             path="/settings/keys/import"
             exact vault={vault} component={KeyEditorPage}
+          />
+          <PrivateRoute
+            path="/transactions"
+            exact vault={vault} component={AvailableTransactionsPage}
           />
           <PrivateRoute
             path="/transactions/pending"

@@ -15,7 +15,7 @@ import InputControl from '../../components/atoms/InputControl';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 import ADS from '../../utils/ads';
 import { fieldLabels } from './labels';
-import style from './TransactionPage.css';
+import style from './style.css';
 
 
 class SendOnePage extends TransactionPage {

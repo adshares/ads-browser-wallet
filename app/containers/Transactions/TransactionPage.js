@@ -19,7 +19,7 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
 import SignForm from './SignForm';
 import { typeLabels } from './labels';
-import style from './TransactionPage.css';
+import style from './style.css';
 
 export default class TransactionPage extends PageComponent {
 

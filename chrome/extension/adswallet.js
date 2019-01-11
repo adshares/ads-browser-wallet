@@ -9,7 +9,7 @@ import './adswallet.css';
 function renderDOM(Root, initialState, config) {
   const history = createHashHistory();
   if (initialState.router && initialState.router.location) {
-    if (history.location.path !== initialState.router.location.path ||
+    if (history.location.pathname !== initialState.router.location.pathname ||
       history.location.search !== initialState.router.location.search ||
       history.location.hash !== initialState.router.location.hash) {
       history.push(initialState.router.location);

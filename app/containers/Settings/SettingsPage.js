@@ -44,7 +44,7 @@ class SettingsPage extends FormComponent {
         <ButtonLink
           to={{
             pathname: '/settings/keys',
-            state: { referrer: this.props.location }
+            state: { referrer: this.props.history.location }
           }}
           size="wide"
           title="Manage Keys"

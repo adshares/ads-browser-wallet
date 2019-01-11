@@ -3,7 +3,7 @@ const config = {
   blockLength: 512,
   dividentLength: 2048,
   derivationPath: "m/44'/311'/",
-  passwordMinLength: 1,
+  passwordMinLength: 8,
   initKeysQuantity: 3,
   itemNameMaxLength: 16,
   accountsLimit: 20,

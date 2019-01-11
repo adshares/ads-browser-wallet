@@ -23,6 +23,7 @@ import { copyToClipboard } from '../../utils/utils';
 class HomePage extends React.PureComponent {
 
   static propTypes = {
+    history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
   };
@@ -71,7 +72,15 @@ class HomePage extends React.PureComponent {
           You can use this plugin to sign ADS Operator&apos;s transactions.<br />
           If You want to send transactions directly, You have to import an account first.
         </Box>
-        <ButtonLink to="/settings/accounts/import" size="wide" icon="left" layout="info">
+        <ButtonLink
+          to={{
+            pathname: '/settings/accounts/import',
+            state: { referrer: this.props.history.location }
+          }}
+          size="wide"
+          icon="left"
+          layout="info"
+        >
           <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
         <div className={style.helpLinks}>

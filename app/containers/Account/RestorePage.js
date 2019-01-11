@@ -82,11 +82,11 @@ export default class RestorePage extends FormComponent {
       <div className={style.page}>
         {this.state.isSubmitted && <LoaderOverlay />}
         <header>
-          <h1>Restore the account</h1>
+          <h1>Restore the vault</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box layout="warning" icon={faExclamation}>
-          Restoring your account will overwrite all current data.
+          Restoring your vault will overwrite all current data.
         </Box>
         <Form onSubmit={this.handleRestoreSubmit}>
           <div>

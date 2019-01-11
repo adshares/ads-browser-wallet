@@ -15,7 +15,8 @@ const initialState = {
     secretKey: {
       isValid: false,
       value: '',
-      errorMsg: ''
+      errorMsg: '',
+      private: true
     },
     publicKey: {
       shown: false,

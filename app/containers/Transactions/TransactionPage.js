@@ -55,6 +55,12 @@ export default class TransactionPage extends PageComponent {
     );
   }
 
+  componentWillUnmount() {
+    this.props.actions.cleanForm(
+      this.transactionType
+    );
+  }
+
   render() {
     const {
       vault,

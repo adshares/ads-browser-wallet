@@ -10,12 +10,14 @@ const initialState = {
     newPassword: {
       isValid: false,
       value: '',
-      errorMsg: ''
+      errorMsg: '',
+      private: true
     },
     repeatedPassword: {
       isValid: false,
       value: '',
-      errorMsg: ''
+      errorMsg: '',
+      private: true
     }
   }
 };

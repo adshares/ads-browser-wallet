@@ -291,7 +291,19 @@ class Encoder {
         break;
       }
       case TX_FIELDS.MSG: {
-        data = this.obj[TX_FIELDS.TYPE] === TX_TYPES.SEND_ONE ? this.pad(val, 64) : val;
+        if (this.obj[TX_FIELDS.TYPE] === TX_TYPES.SEND_ONE) {
+          data = this.pad(val, 64);
+        } else {
+          let msg = val.replace(/^0+/, '');
+          let len = msg.length;
+          if (len % 2 !== 0) {
+            len += 1;
+            msg = `0${msg}`;
+          }
+          len /= 2;
+          data = fixByteOrder(this.pad(len.toString(16), 4));
+          data += msg;
+        }
         break;
       }
       case TX_FIELDS.TIME: {
@@ -509,6 +521,13 @@ function encodeCommand(command) {
   const encoder = new Encoder(command);
 
   switch (command[TX_FIELDS.TYPE]) {
+    case TX_TYPES.BROADCAST:
+      encoder.encode(TX_FIELDS.SENDER)
+        .encode(TX_FIELDS.MESSAGE_ID)
+        .encode(TX_FIELDS.TIME)
+        .encode(TX_FIELDS.MSG);
+      break;
+
     case TX_TYPES.SEND_ONE:
       encoder.encode(TX_FIELDS.SENDER)
         .encode(TX_FIELDS.MESSAGE_ID)

@@ -15,8 +15,10 @@ import SettingsPage from './Settings/SettingsPage';
 import PasswordChangePage from './Settings/PasswordEditorPage';
 import AccountEditorPage from './Settings/AccountEditorPage';
 import KeyEditorPage from './Settings/KeyEditorPage';
-import SendOnePage from './Transactions/SendOnePage';
 import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
+import AvailableTransactionsPage from './Transactions/AvailableTransactionsPage';
+import SendOnePage from './Transactions/SendOnePage';
+import BroadcastPage from './Transactions/BroadcastPage';
 import SignPage from './Transactions/SignPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
@@ -76,12 +78,11 @@ class Rooting extends Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
-    queue: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
   };
 
   render() {
-    const { router, vault, queue, actions } = this.props;
+    const { router, vault, actions } = this.props;
 
     return (
       <div className={style.app}>
@@ -163,28 +164,24 @@ class Rooting extends Component {
             exact vault={vault} component={KeyEditorPage}
           />
           <PrivateRoute
-            exact
+            path="/transactions"
+            exact vault={vault} component={AvailableTransactionsPage}
+          />
+          <PrivateRoute
             path="/transactions/pending"
-            vault={vault}
-            render={props =>
-              <PendingTransactionsPage vault={vault} queue={queue} {...props} />
-            }
+            exact vault={vault} component={PendingTransactionsPage}
           />
           <PrivateRoute
-            exact
             path="/transactions/:source(.+)/:id(.+)/:action(sign|popup-sign)"
-            vault={vault}
-            render={props =>
-              <SignPage vault={vault} queue={queue} {...props} />
-            }
+            exact vault={vault} component={SignPage}
           />
           <PrivateRoute
-            exact
             path="/transactions/send-one"
-            vault={vault}
-            render={props =>
-              <SendOnePage vault={vault} {...props} />
-            }
+            exact vault={vault} component={SendOnePage}
+          />
+          <PrivateRoute
+            path="/transactions/broadcast"
+            exact vault={vault} component={BroadcastPage}
           />
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>
@@ -198,7 +195,6 @@ export default withRouter(connect(
   state => ({
     router: state.router || {},
     vault: state.vault || {},
-    queue: state.queue || [],
   }),
   dispatch => ({
     actions: bindActionCreators(

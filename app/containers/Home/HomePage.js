@@ -55,7 +55,7 @@ class HomePage extends React.PureComponent {
             </a>
           </div>
           <ButtonLink to="/transactions/send-one" layout="contrast" size="wide" icon="left">
-            <FontAwesomeIcon icon={faPaperPlane} /> Send transaction
+            <FontAwesomeIcon icon={faPaperPlane} /> Send ADS
           </ButtonLink>
 
         </Box>

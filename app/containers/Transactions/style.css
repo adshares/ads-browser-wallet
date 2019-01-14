@@ -57,3 +57,38 @@
     border: 1px solid var(--white);
     font-weight: normal;
  }
+
+.pendingPage > div:not(:first-of-type) {
+    border-top: 1px solid var(--gray);
+    margin: 10px 0;
+    padding: 10px 0;
+}
+
+.pendingPage > div > b {
+    display: inline-block;
+    width: 55%;
+}
+
+.pendingPage > div > span {
+    display: inline-block;
+    width: 45%;
+    text-align: right;
+}
+
+.pendingPage > div > i {
+    display: block;
+    padding: 3px 0;
+}
+
+.availableLinks {
+    margin-bottom: 20px;
+}
+
+.availableLinks > * {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.availableLinks > *:nth-child(odd) {
+
+}

@@ -8,6 +8,7 @@ import {
   faSignOutAlt,
   faToggleOn,
   faToggleOff,
+  faHashtag,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import config from '../../config/config';
@@ -73,6 +74,11 @@ export default class HamburgerMenu extends PageComponent {
           <li>
             <Link to="/settings" className={style.menuItem}>
               <FontAwesomeIcon icon={faCog} /> Settings
+            </Link>
+          </li>
+          <li>
+            <Link to="/transactions" className={style.menuItem}>
+              <FontAwesomeIcon icon={faHashtag} /> Transactions
             </Link>
           </li>
           <li>

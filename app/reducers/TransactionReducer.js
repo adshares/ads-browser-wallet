@@ -1,6 +1,6 @@
-import * as actions from '../actions/transactionActions';
+import * as TA from '../actions/transactionActions';
 
-export const initialState = {
+const transactionInitialState = {
   isSubmitted: false,
   accountHash: null,
   transactionData: null,
@@ -10,11 +10,10 @@ export const initialState = {
   transactionId: null,
   transactionFee: null,
   errorMsg: '',
-  inputs: {}
 };
 
-export const actionsMap = {
-  [actions.INPUT_CHANGED](state, action) {
+const transactionActionsMap = {
+  [TA.INPUT_CHANGED](state, action) {
     return {
       ...state,
       inputs: {
@@ -27,14 +26,14 @@ export const actionsMap = {
     };
   },
 
-  [actions.VALIDATE_FORM](state) {
+  [TA.VALIDATE_FORM](state) {
     return {
       ...state,
       isSubmitted: true,
     };
   },
 
-  [actions.INPUT_VALIDATION_FAILURE](state, action) {
+  [TA.INPUT_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
       inputs: {
@@ -48,7 +47,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.INPUT_VALIDATION_SUCCESS](state, action) {
+  [TA.INPUT_VALIDATION_SUCCESS](state, action) {
     return {
       ...state,
       inputs: {
@@ -62,7 +61,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.FORM_VALIDATION_SUCCESS](state, action) {
+  [TA.FORM_VALIDATION_SUCCESS](state, action) {
     return {
       ...state,
       ...action.payload,
@@ -70,7 +69,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.FORM_VALIDATION_FAILURE](state, action) {
+  [TA.FORM_VALIDATION_FAILURE](state, action) {
     return {
       ...state,
       ...action.payload,
@@ -78,7 +77,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.CLEAN_FORM](state, action) {
+  [TA.CLEAN_FORM](state, action, initialState) {
     return {
       ...state,
       ...action,
@@ -86,7 +85,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.SIGN_TRANSACTION](state, action) {
+  [TA.SIGN_TRANSACTION](state, action) {
     return {
       ...state,
       isSignRequired: true,
@@ -95,7 +94,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.TRANSACTION_ACCEPTED](state, action) {
+  [TA.TRANSACTION_ACCEPTED](state, action) {
     return {
       ...state,
       isSignRequired: true,
@@ -104,7 +103,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.TRANSACTION_REJECTED](state) {
+  [TA.TRANSACTION_REJECTED](state) {
     return {
       ...state,
       isSignRequired: false,
@@ -114,7 +113,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.TRANSACTION_SUCCESS](state, action) {
+  [TA.TRANSACTION_SUCCESS](state, action) {
     return {
       ...state,
       isSignRequired: false,
@@ -126,7 +125,7 @@ export const actionsMap = {
     };
   },
 
-  [actions.TRANSACTION_FAILURE](state, action) {
+  [TA.TRANSACTION_FAILURE](state, action) {
     return {
       ...state,
       isSignRequired: false,
@@ -134,5 +133,13 @@ export const actionsMap = {
       errorMsg: action.errorMsg
     };
   },
-
 };
+
+export default function (transactionType, initialState, actionsMap, state, action) {
+  const initial = { ...transactionInitialState, ...initialState };
+  const actual = { ...initial, ...state };
+  const actions = { ...transactionActionsMap, ...actionsMap };
+  if (action.transactionType !== transactionType) return actual;
+  if (!actions[action.type]) return actual;
+  return actions[action.type](actual, action, initial);
+}

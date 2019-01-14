@@ -29,7 +29,6 @@ class AvailableTransactionsPage extends PageComponent {
   render() {
     return (
       <Page
-        className={style.availablePage}
         title="Transactions"
         cancelLink={this.getReferrer()}
       >

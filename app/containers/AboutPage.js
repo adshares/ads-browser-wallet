@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/index';
 import PageComponent from '../components/PageComponent';
 import Page from '../components/Page/Page';
 import Logo from '../components/Logo/Logo';
@@ -12,29 +14,25 @@ export default class AboutPage extends PageComponent {
     const isBeta = parseInt(manifest.version.split('.')[0], 10) < 1;
 
     return (
-      <Page cancelLink={this.getReferrer()} title={manifest.name} scroll>
+      <Page cancelLink={this.getReferrer()} title={manifest.name}>
+        <section className={style.aboutVersion}>
+          <b>Version</b>: {manifest.version}{isBeta ? ' (beta)' : ''}
+        </section>
         <section className={style.aboutLogo}>
           <Logo />
         </section>
         <section>
+          <h3 className={style.aboutDescription}>{manifest.description}</h3>
           <div className={style.aboutLinks}>
             <a href={config.helpUrl} target="_blank" rel="noopener noreferrer">Help</a>
             <a href={config.supportUrl} target="_blank" rel="noopener noreferrer">Support</a>
             <a href={config.websiteUrl} target="_blank" rel="noopener noreferrer">Website</a>
           </div>
-        </section>
-        <section>
-          <h3 className={style.aboutDescription}>{manifest.description}</h3>
-          <b>Version</b>: {manifest.version}{isBeta ? ' (beta)' : ''}<br />
-          <b>Author</b>: {manifest.author}
-        </section>
-        <section>
-          <h3>Term of use</h3>
-          <pre className={style.aboutText}>{config.terms}</pre>
-        </section>
-        <section>
-          <h3>Attributions</h3>
-          <pre className={style.aboutText}>{config.attributions}</pre>
+          <div className={style.aboutLinks}>
+            <a href={config.termsUrl} target="_blank" rel="noopener noreferrer">Term of use</a>
+            <a href={config.privacyUrl} target="_blank" rel="noopener noreferrer">Privacy policy</a>
+            <a href={config.attributionsUrl} target="_blank" rel="noopener noreferrer">Attributions</a>
+          </div>
         </section>
       </Page>
     );

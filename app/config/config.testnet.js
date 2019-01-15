@@ -6,5 +6,4 @@ export default {
   operatorUrl: 'https://operator.e11.click/',
   vaultStorageKey: 'testnet-vault',
   accountStorageKey: 'testnet-account',
-  getAccountUrl: 'https://github.com/adshares/ads/wiki/How-to-join-the-Testnet',
 };

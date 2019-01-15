@@ -72,6 +72,20 @@ export default class {
     });
   }
 
+  createFreeAccount(publicKey, confirm) {
+    return this.request(
+      'create_free_account', {
+        public_key: publicKey,
+        confirm,
+      }
+    ).then((response) => {
+      if (!response || !response.new_account || !response.new_account.address) {
+        throw new RpcError('RPC Server Response Error');
+      }
+      return response.new_account.address;
+    });
+  }
+
   sendTransaction(data, signature, host) {
     return this.request(
       ADS.TX_TYPES.SEND_AGAIN, {

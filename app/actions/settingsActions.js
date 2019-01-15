@@ -25,6 +25,9 @@ export const PASSWORD_CHANGE_FAILURE = 'SETTINGS_PASSWORD_CHANGE_FAILURE';
 export const ERASE_STORAGE = 'SETTINGS_ERASE_STORAGE';
 export const ERASE_STORAGE_SUCCESS = 'SETTINGS_ERASE_STORAGE_SUCCESS';
 export const ERASE_STORAGE_FAILURE = 'SETTINGS_ERASE_STORAGE_FAILURE';
+export const CREATE_FREE_ACCOUNT = 'SETTINGS_CREATE_FREE_ACCOUNT';
+export const CREATE_FREE_ACCOUNT_SUCCESS = 'SETTINGS_CREATE_FREE_ACCOUNT_SUCCESS';
+export const CREATE_FREE_ACCOUNT_FAILURE = 'SETTINGS_CREATE_FREE_ACCOUNT_FAILURE';
 
 export function secretDataAccess(name) {
   return { type: SECRET_DATA_ACCESS, name };
@@ -132,4 +135,16 @@ export function eraseStorageSuccess() {
 
 export function eraseStorageFailure(errorMsg) {
   return { type: ERASE_STORAGE_FAILURE, errorMsg };
+}
+
+export function createFreeAccount() {
+  return { type: CREATE_FREE_ACCOUNT, pageName: CREATE_FREE_ACCOUNT };
+}
+
+export function createFreeAccountSuccess(account) {
+  return { type: CREATE_FREE_ACCOUNT_SUCCESS, pageName: CREATE_FREE_ACCOUNT, account };
+}
+
+export function createFreeAccountFailure(errorMsg) {
+  return { type: CREATE_FREE_ACCOUNT_FAILURE, pageName: CREATE_FREE_ACCOUNT, errorMsg };
 }

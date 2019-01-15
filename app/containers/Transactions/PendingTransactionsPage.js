@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faCheck, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import PageComponent from '../../components/PageComponent';
@@ -12,9 +14,14 @@ import { TransactionDataError } from '../../actions/errors';
 import { formatDate } from '../../utils/utils';
 import { typeLabels } from './labels';
 import config from '../../config/config';
-import style from './PendingTransactionsPage.css';
+import style from './style.css';
 
-export default class PendingTransactionsPage extends PageComponent {
+class PendingTransactionsPage extends PageComponent {
+
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    queue: PropTypes.array.isRequired,
+  };
 
   renderErrorPage(code, message) {
     return (
@@ -66,7 +73,7 @@ export default class PendingTransactionsPage extends PageComponent {
 
     return (
       <Page
-        className={style.page}
+        className={style.pendingPage}
         title="Pending Transactions"
         scroll={queue.length > 3}
         cancelLink={this.getReferrer()}
@@ -80,8 +87,8 @@ export default class PendingTransactionsPage extends PageComponent {
             >
               There are no pending transactions
             </Box>
-            <ButtonLink to="/" size="wide" icon="left" layout="info">
-              <FontAwesomeIcon icon={faChevronLeft} />Back
+            <ButtonLink to={this.getReferrer()} size="wide" icon="left" layout="info">
+              <FontAwesomeIcon icon={faChevronLeft} /> Back
             </ButtonLink>
           </React.Fragment> :
           <React.Fragment>
@@ -93,7 +100,9 @@ export default class PendingTransactionsPage extends PageComponent {
   }
 }
 
-PendingTransactionsPage.propTypes = {
-  history: PropTypes.object.isRequired,
-  queue: PropTypes.array.isRequired,
-};
+export default withRouter(connect(
+  state => ({
+    vault: state.vault,
+    queue: state.queue,
+  })
+)(PendingTransactionsPage));

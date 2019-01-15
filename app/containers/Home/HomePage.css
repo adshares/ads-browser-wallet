@@ -13,6 +13,10 @@
     margin-bottom: 30px;
 }
 
+.configure button {
+    margin-bottom: 10px;
+}
+
 .helpLinks {
     margin-top: 20px;
     font-size: var(--font-smaller);

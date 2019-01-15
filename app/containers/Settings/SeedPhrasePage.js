@@ -26,10 +26,15 @@ class SeedPhrasePage extends PageComponent {
 
   render() {
     const { vault, authDialog } = this.props;
-    const seedPhrase =
-      authDialog.isConfirmed && authDialog.name === 'seedPhrase' ?
-        vault.seedPhrase :
-        ''.padStart(86, 'X');
+    let seedPhrase = ''.padStart(86, 'X');
+    let publicKey = ''.padStart(64, 'X');
+    let secretKey = ''.padStart(64, 'X');
+    if (authDialog.isConfirmed && authDialog.name === 'seedPhrase') {
+      const key = vault.keys.filter(k => k.type === 'master')[0];
+      seedPhrase = vault.seedPhrase;
+      publicKey = key.publicKey;
+      secretKey = key.secretKey;
+    }
 
     return (
       <Page
@@ -39,13 +44,26 @@ class SeedPhrasePage extends PageComponent {
       >
         <Form>
           <Box layout="warning" icon={faExclamation}>
-            Store the seed phrase safely. The seed phrase must not be transferred to anyone.
+            Store the seed phrase safely. Only the public key and signatures can be revealed.
+            The seed phrase and secret key must not be transferred to anyone.
           </Box>
           <InputControl
             value={seedPhrase}
             rows={3}
             readOnly
             label="Seed Phrase"
+          />
+          <InputControl
+            value={publicKey}
+            rows={2}
+            readOnly
+            label="Public key"
+          />
+          <InputControl
+            value={secretKey}
+            rows={2}
+            readOnly
+            label="Secret key"
           />
           <ButtonLink
             to={this.getReferrer()}

@@ -56,7 +56,8 @@ function initKeys(seed, quantity) {
   const keys = [];
   keys.push({
     name: 'Master',
-    ...generateKeyPair(seed)
+    ...generateKeyPair(seed),
+    type: 'master',
   });
   keys.push(...generateKeys(seed, 0, quantity));
   return keys;

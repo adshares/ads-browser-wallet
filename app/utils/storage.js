@@ -3,17 +3,23 @@ import config from '../config/config';
 function prepareForms(dirty) {
   const forms = {};
   Object.entries(dirty).forEach(([fi, form]) => {
-    const inputs = {};
-    Object.entries(form.inputs).forEach(([ii, input]) => {
-      inputs[ii] = {
-        ...input,
-        value: input.private ? '' : input.value,
-      };
-    });
     forms[fi] = {
       ...form,
-      inputs,
+      isSubmitted: false,
     };
+    if (form.inputs) {
+      const inputs = {};
+      Object.entries(form.inputs).forEach(([ii, input]) => {
+        inputs[ii] = {
+          ...input,
+          value: input.private ? '' : input.value,
+        };
+      });
+      forms[fi] = {
+        ...forms[fi],
+        inputs,
+      };
+    }
   });
   return forms;
 }

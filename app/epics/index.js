@@ -25,6 +25,7 @@ import {
   saveAccountEpic,
   selectAccountAfterSaveEpic,
   removeAccountEpic,
+  createFreeAccountEpic,
 } from './settingsEpics';
 
 export default combineEpics(
@@ -47,4 +48,5 @@ export default combineEpics(
   saveAccountEpic,
   selectAccountAfterSaveEpic,
   removeAccountEpic,
+  createFreeAccountEpic,
 );

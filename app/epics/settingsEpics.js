@@ -3,7 +3,7 @@ import { ofType } from 'redux-observable';
 import { mergeMap, withLatestFrom, switchMap, map, filter, take, catchError } from 'rxjs/operators';
 import BgClient from '../utils/background';
 import { RpcError } from '../actions/errors';
-import { validateAddress } from '../utils/ads';
+import * as ADS from '../utils/ads';
 import { publicKey as validatePublicKey } from '../utils/validators';
 import * as SA from '../actions/settingsActions';
 import * as VA from '../actions/vaultActions';
@@ -203,7 +203,7 @@ export const importAccountPublicKeyEpic = (action$, state$, { adsRpc }) => actio
   filter(action =>
     action.pageName === SA.SAVE_ACCOUNT &&
     action.inputName === 'address' &&
-    validateAddress(action.inputValue)
+    ADS.validateAddress(action.inputValue)
   ),
   withLatestFrom(state$),
   mergeMap(([action, state]) => concat(
@@ -311,6 +311,45 @@ export const removeAccountEpic = action$ => action$.pipe(
         return concat(
           of(VA.removeAccount(initAction.address, action.password, resolve)),
           from(promise),
+        );
+      })
+    )
+  ))
+);
+
+export const createFreeAccountEpic = (action$, state$, { adsRpc }) => action$.pipe(
+  ofType(SA.CREATE_FREE_ACCOUNT),
+  switchMap(() => concat(
+    of(openAuthDialog(SA.CREATE_FREE_ACCOUNT)),
+    action$.pipe(
+      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
+      take(1),
+      filter(action => action.name === SA.CREATE_FREE_ACCOUNT),
+      withLatestFrom(state$),
+      mergeMap(([action, state]) => {
+        if (action.type === PASSWORD_REJECTED) {
+          return of(SA.createFreeAccountFailure('Access denied'));
+        }
+        const { vault } = state;
+        const key = vault.keys.filter(k => k.type === 'auto')[0];
+        const confirm = ADS.sign('', key.publicKey, key.secretKey);
+
+        return from(adsRpc.createFreeAccount(key.publicKey, confirm)).pipe(
+          mergeMap((address) => {
+            let resolve;
+            const promise = new Promise((res) => { resolve = res; })
+              .then(account => SA.createFreeAccountSuccess(account))
+              .catch(error => SA.createFreeAccountFailure(error.message || 'Unknown error'));
+
+            return concat(
+              of(VA.saveAccount(address, 'Main account', action.password, resolve)),
+              from(promise),
+              of(VA.selectActiveAccount(address))
+            );
+          }),
+          catchError(error => of(SA.createFreeAccountFailure(
+            error instanceof RpcError ? error.message : 'Unknown error'
+          )))
         );
       })
     )

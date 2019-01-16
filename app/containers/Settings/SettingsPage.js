@@ -100,7 +100,7 @@ class SettingsPage extends FormComponent {
         {this.props.vault.accounts.length > 0 &&
           <ul className={style.accounts}>
             {this.props.vault.accounts.map((account, index) =>
-              <li key={index}>{this.renderAccountRow(account)}</li>
+              <li className={style.list} key={index}>{this.renderAccountRow(account)}</li>
             )}
           </ul>
         }

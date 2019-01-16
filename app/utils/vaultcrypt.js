@@ -44,7 +44,7 @@ function encrypt(vault, password) {
         }
       )),
   });
-  return CryptoJS.AES.encrypt(data, password).toString();;
+  return CryptoJS.AES.encrypt(data, password).toString();
 }
 
 function decrypt(encryptedVault, password) {

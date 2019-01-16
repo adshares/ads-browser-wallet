@@ -45,7 +45,6 @@
 .accountLabel {
     display: inline-block;
     vertical-align: bottom;
-    width: 226px;
 }
 
 .accountLabel * {

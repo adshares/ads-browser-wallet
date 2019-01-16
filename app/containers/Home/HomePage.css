@@ -25,7 +25,7 @@
 .box {
     margin-top: 0px;
     text-align: left;
-    margin-bottom: 0px !important;
+    margin-bottom: 10px !important;
     box-shadow: 5px 5px 15px rgba(0,0,0,.2);
 }
 

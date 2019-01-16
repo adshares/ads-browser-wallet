@@ -2,6 +2,7 @@
 node_modules/
 build/
 dev/
+oss-attribution/
 .DS_Store
 *.zip
 *.crx

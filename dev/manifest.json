@@ -1,9 +1,12 @@
 {
   "name": "ADS Wallet",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Secure identity vault for Adshares network.",
   "author": "https://adshares.net/",
-  "permissions": [ "storage", "unlimitedStorage" ],
+  "permissions": [
+    "storage",
+    "unlimitedStorage"
+  ],
   "content_security_policy": "default-src 'self'; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src http://localhost:3000 https://localhost:3000 http://127.0.0.12:5000 https://rpc.adshares.net https://rpc.e11.click data:; style-src * 'unsafe-inline' 'self' blob:; img-src 'self' data:;font-src 'self' https://fonts.gstatic.com",
   "background": {
     "page": "background.html"
@@ -16,6 +19,7 @@
     "16": "icon-16.png",
     "32": "icon-32.png",
     "48": "icon-48.png",
+    "64": "icon-64.png",
     "128": "icon-128.png"
   },
   "web_accessible_resources": [

@@ -1,6 +1,6 @@
 {
   "name": "ADS Wallet",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Secure identity vault for Adshares network.",
   "author": "https://adshares.net/",
   "permissions": [

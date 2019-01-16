@@ -70,9 +70,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
 .optionAccount {
     font-size: 12px;
     color: var(--slate);
+}
+
+.optionAccount svg {
+    margin-left: 5px;
 }
 
 .optionAdd {

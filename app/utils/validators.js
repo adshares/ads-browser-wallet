@@ -19,8 +19,8 @@ const name = ({ pageName, value, vault, editedId }) => {
     )) {
     return `Account named ${value} already exists`;
   }
-  if (vault.length > config.itemNameMaxLength) {
-    return `Given name ${value} is too long.`;
+  if (value.length > config.itemNameMaxLength) {
+    return `Given name is too long (max ${config.itemNameMaxLength} characters).`;
   }
 
   if (!value) {

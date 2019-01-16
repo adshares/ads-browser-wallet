@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import style from './SelectAccount.css';
 
 export default class SelectAccount extends React.Component {
@@ -61,7 +61,10 @@ export default class SelectAccount extends React.Component {
           onKeyDown={() => this.toggleShowOptions(true)}
         >
           <span className={style.optionName}> {activeOption.name} </span>
-          <span className={style.optionAccount}> {activeOption.address} </span>
+          <span className={style.optionAccount}>
+            {activeOption.address}
+            <FontAwesomeIcon icon={showOptions ? faChevronUp : faChevronDown} />
+          </span>
         </div>)}
 
         <ul className={`${style.optionList} ${showOptions && style.optionListActive}`}>

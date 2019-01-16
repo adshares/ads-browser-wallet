@@ -6,10 +6,11 @@ const SEED_PHRASE = 'p';
 const SEED = 's';
 const KEY_COUNT = 'c';
 const KEYS = 'k';
+const KEY_SK = 's';
+const KEY_NAME = 'n';
 const ACCOUNTS = 'a';
 const ACCOUNT_ADDRESS = 'a';
 const ACCOUNT_NAME = 'n';
-// const SETTINGS = 'o';
 
 function checkPassword(vault, password) {
   try {
@@ -23,24 +24,27 @@ function checkPassword(vault, password) {
 }
 
 function encrypt(vault, password) {
-  const keys = vault.keys
-    .filter(key => key.type && key.type !== 'auto')
-    // eslint-disable-next-line no-unused-vars
-    .map(({ publicKey, ...keysToKeep }) => keysToKeep);
-  const crypt = CryptoJS.AES.encrypt(JSON.stringify({
+  const data = JSON.stringify({
     [SEED_PHRASE]: vault.seedPhrase,
     [SEED]: vault.seed,
     [KEY_COUNT]: vault.keyCount,
-    [KEYS]: keys,
-    [ACCOUNTS]: vault.accounts.map(account => (
-      {
-        [ACCOUNT_ADDRESS]: account.address,
-        [ACCOUNT_NAME]: account.name,
-      }
-    )),
-  }), password)
-    .toString();
-  return crypt;
+    [KEYS]: vault.keys
+      .filter(key => key.type && key.type === 'imported')
+      .map(key => (
+        {
+          [KEY_SK]: key.secretKey,
+          [KEY_NAME]: key.name,
+        }
+      )),
+    [ACCOUNTS]: vault.accounts
+      .map(account => (
+        {
+          [ACCOUNT_ADDRESS]: account.address,
+          [ACCOUNT_NAME]: account.name,
+        }
+      )),
+  });
+  return CryptoJS.AES.encrypt(data, password).toString();
 }
 
 function decrypt(encryptedVault, password) {
@@ -52,7 +56,14 @@ function decrypt(encryptedVault, password) {
     seedPhrase: vault[SEED_PHRASE],
     seed: vault[SEED],
     keyCount: vault[KEY_COUNT],
-    keys: vault[KEYS] || [],
+    keys: vault[KEYS].map(key => (
+      {
+        secretKey: key[KEY_SK] || key.secretKey,
+        name: key[KEY_NAME] || key.name,
+        type: 'imported',
+        publicKey: KeyBox.getPublicKeyFromSecret(key[KEY_SK] || key.secretKey),
+      }
+    )),
     accounts: vault[ACCOUNTS].map(account => (
       {
         address: account[ACCOUNT_ADDRESS],
@@ -61,10 +72,7 @@ function decrypt(encryptedVault, password) {
     )),
   };
   const keys = [
-    ...decryptedVault.keys.map(key => ({
-      ...key,
-      publicKey: KeyBox.getPublicKeyFromSecret(key.secretKey),
-    })),
+    ...decryptedVault.keys,
     ...KeyBox.initKeys(
       decryptedVault.seed,
       decryptedVault.keyCount || config.initKeysQuantity

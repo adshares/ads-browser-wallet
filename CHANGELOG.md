@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+# [0.2.1] - 2019-01-16
+### Added
+- Account menu chevron
+### Fixed
+- Master key settings
+- Icons background
+- Page scroll
+- Manifest permissions
+
 # [0.2.0] - 2019-01-15
 ### Added
 - Free accounts support
@@ -35,8 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Storage encryption
 - Docs
 
-[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.2.1...HEAD
 
+[0.2.0]: https://github.com/adshares/ads-browser-wallet/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/adshares/ads-browser-wallet/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/adshares/ads-browser-wallet/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/adshares/ads-browser-wallet/releases/tag/v0.1.0

@@ -190,7 +190,7 @@ export default function (vault = initialVault, action) {
     case actions.REMOVE_KEY: {
       const updatedVault = {
         ...vault,
-        keys: vault.keys.filter(k => k.type === 'auto' || k.publicKey !== action.publicKey)
+        keys: vault.keys.filter(k => k.type !== 'imported' || k.publicKey !== action.publicKey)
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);

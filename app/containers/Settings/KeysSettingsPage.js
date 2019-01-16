@@ -75,7 +75,7 @@ class KeysSettingsPage extends PageComponent {
     const { keys } = this.props.vault;
 
     const importedKeys = keys.filter(key => key.type === 'imported');
-    const generatedKeys = keys.filter(key => key.type === 'auto');
+    const generatedKeys = keys.filter(key => key.type === 'master' || key.type === 'auto');
 
     return (
       <Page

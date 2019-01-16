@@ -15,7 +15,7 @@
 ADS Wallet is a secure identity vault for Adshares network. It is designed to securely store keys and provide cryptographic transaction signing.
 
 
-The extension can be used to send basic transactions. It also provides integration with internal and external services connected to ADS network.
+The extension can be used to send basic transactions. It also provides integration with internal and external services connected to Adshares network.
 ADS Wallet is a convenient, free, open-source client-side tool. It supports both mainnet and testnet.
 
 ## Getting Started

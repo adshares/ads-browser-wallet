@@ -6,6 +6,7 @@ tasks.replaceWebpack();
 console.log('[Copy assets]');
 console.log('-'.repeat(80));
 tasks.copyAssets('dev');
+console.log('');
 
 console.log('[Webpack Dev]');
 console.log('-'.repeat(80));

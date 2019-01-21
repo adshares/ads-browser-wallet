@@ -42,6 +42,7 @@
     padding: 8px 0;
     list-style: none;
     text-transform: capitalize;
+    border-top: 1px dashed var(--gray);
 }
 
 .option:focus,
@@ -56,11 +57,13 @@
 
 .optionActive {
     margin: 0;
+    border: 0;
     padding-bottom: 4px;
     display: flex;
     position: relative;
     z-index: 11;
     justify-content: space-between;
+    background: var(--white) !important;
 }
 
 .optionName {
@@ -69,15 +72,20 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-size: var(--font-big);
 }
 
 .optionAccount {
-    font-size: 12px;
     color: var(--slate);
 }
 
 .optionAccount svg {
     margin-left: 5px;
+}
+
+.optionBalance {
+    color: var(--slate);
+    font-weight: bold;
 }
 
 .optionAdd {

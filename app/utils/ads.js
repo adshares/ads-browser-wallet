@@ -306,6 +306,10 @@ class Encoder {
         }
         break;
       }
+      case TX_FIELDS.PUBLIC_KEY: {
+        data = this.pad(val, 64);
+        break;
+      }
       case TX_FIELDS.TIME: {
         const time = Math.floor(val.getTime() / 1000);
         data = fixByteOrder(this.pad(time.toString(16), 8));
@@ -526,6 +530,13 @@ function encodeCommand(command) {
         .encode(TX_FIELDS.MESSAGE_ID)
         .encode(TX_FIELDS.TIME)
         .encode(TX_FIELDS.MSG);
+      break;
+
+    case TX_TYPES.CHANGE_ACCOUNT_KEY:
+      encoder.encode(TX_FIELDS.SENDER)
+        .encode(TX_FIELDS.MESSAGE_ID)
+        .encode(TX_FIELDS.TIME)
+        .encode(TX_FIELDS.PUBLIC_KEY);
       break;
 
     case TX_TYPES.SEND_ONE:

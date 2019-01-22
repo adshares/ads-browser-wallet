@@ -31,7 +31,7 @@ export default class TransactionPage extends PageComponent {
     accountHash: PropTypes.string,
     transactionData: PropTypes.string,
     transactionId: PropTypes.string,
-    transactionFee: PropTypes.number,
+    transactionFee: PropTypes.string,
     errorMsg: PropTypes.string,
     history: PropTypes.object.isRequired,
     actions: PropTypes.shape({
@@ -129,6 +129,10 @@ export default class TransactionPage extends PageComponent {
         </ButtonLink>
       </React.Fragment>
     );
+  }
+
+  renderInputs() {
+    return '';
   }
 
   renderInfo() {

@@ -44,6 +44,7 @@ const prepareTransaction = (transactionType, vault, inputs) => {
   Object.keys(inputs).forEach((k) => {
     command[k] = sanitizeField(k, inputs[k].value, inputs);
   });
+  console.debug(command);
   const transactionData = ADS.encodeCommand(command);
 
   return [transactionType, account.hash || '0', transactionData];

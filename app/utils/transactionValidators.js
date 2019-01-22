@@ -1,13 +1,13 @@
 import ADS from './ads';
 
-const address = ({ value }) => {
+export const address = ({ value }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
   }
   return null;
 };
 
-const amount = ({ value }) => {
+export const amount = ({ value }) => {
   const matches = value.match(/^([0-9]*)[.,]?([0-9]*)$/);
   if (!matches) {
     return 'Please provide an valid amount';
@@ -22,7 +22,7 @@ const amount = ({ value }) => {
   return null;
 };
 
-const message = ({ value, transactionType, inputs }) => {
+export const message = ({ value, transactionType, inputs }) => {
   const textMessage = (inputs.rawMessage && !inputs.rawMessage.value);
   let maxLength = transactionType === ADS.TX_TYPES.BROADCAST ? 64000 : 64;
   if (textMessage) {
@@ -40,4 +40,9 @@ const message = ({ value, transactionType, inputs }) => {
   return null;
 };
 
-export { address, amount, message };
+export const publicKey = ({ value }) => {
+  if (!value || !ADS.validateKey(value)) {
+    return 'Please provide an valid public key';
+  }
+  return null;
+};

@@ -27,7 +27,8 @@ const initialVault = {
 export default function (vault = initialVault, action) {
   switch (action.type) {
     case actions.CREATE: {
-      BgClient.startSession(window.btoa(action.password));
+      const password = window.btoa(action.password);
+      BgClient.startSession(password);
       const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
       const vaultKeys = vault.keys ? vault.keys : [];
       const newVault = {
@@ -37,22 +38,23 @@ export default function (vault = initialVault, action) {
         sealed: false,
         seedPhrase: action.seedPhrase,
         seed,
+        password,
         keys: [...vaultKeys, ...KeyBox.initKeys(seed, config.initKeysQuantity)],
         keyCount: config.initKeysQuantity,
-        password: action.password
       };
       newVault.secret = VaultCrypt.save(newVault, action.callback);
       return newVault;
     }
 
     case actions.CHANGE_PASSWORD: {
+      const password = window.btoa(action.password);
       const newVault = {
         ...initialVault,
         ...vault,
-        password: action.password
+        password,
       };
       newVault.secret = VaultCrypt.save(newVault, () => {
-        BgClient.startSession(window.btoa(action.password));
+        BgClient.startSession(password);
         if (action.callback) {
           action.callback();
         }

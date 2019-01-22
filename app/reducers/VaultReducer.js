@@ -156,16 +156,19 @@ export default function (vault = initialVault, action) {
 
     case actions.GENERATE_KEYS: {
       const keyCount = vault.keyCount + action.quantity;
+      const keys = KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount);
       const updatedVault = {
         ...vault,
         keys: [
           ...vault.keys,
-          ...KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount)
+          ...keys
         ],
         keyCount,
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.callback);
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        action.callback(keys);
+      });
       return updatedVault;
     }
 
@@ -199,6 +202,36 @@ export default function (vault = initialVault, action) {
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, action.callback);
+      return updatedVault;
+    }
+
+    case actions.FIND_FREE_KEY: {
+      const pks = vault.accounts
+        .filter(a => !!a.publicKey)
+        .reduce((v, a) => v.concat([a.publicKey]), []);
+      const ak = vault.keys.filter(k => k.type === 'auto');
+      let key = null;
+      ak.reverse().every(k => pks.indexOf(k.publicKey) < 0 && (key = k));
+
+      if (key !== null) {
+        action.callback(key);
+        return vault;
+      }
+
+      const keyCount = vault.keyCount + 1;
+      const keys = KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount);
+      const updatedVault = {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          ...keys
+        ],
+        keyCount,
+      };
+
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        action.callback(keys[0]);
+      });
       return updatedVault;
     }
 

@@ -67,15 +67,3 @@ export function initKeys(seed, quantity) {
 export function generateSeedPhrase() {
   return bip39.generateMnemonic();
 }
-
-export function findFreeKey(vault) {
-  const pks = vault.accounts
-    .filter(a => !!a.publicKey)
-    .reduce((v, a) => v.concat([a.publicKey]), []);
-  const ak = vault.keys.filter(k => k.type === 'auto');
-  ak.push(generateNextKey(vault.seed, vault.keyCount));
-  let key;
-  ak.slice().reverse().every(k => pks.indexOf(k.publicKey) < 0 && (key = k));
-
-  return key;
-}

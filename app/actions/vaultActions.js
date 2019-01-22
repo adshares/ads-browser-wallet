@@ -10,6 +10,7 @@ export const REMOVE_ACCOUNT = 'VAULT_REMOVE_ACCOUNT';
 export const GENERATE_KEYS = 'VAULT_GENERATE_KEYS';
 export const SAVE_KEY = 'VAULT_SAVE_KEY';
 export const REMOVE_KEY = 'VAULT_REMOVE_KEY';
+export const FIND_FREE_KEY = 'VAULT_FIND_FREE_KEY';
 export const SELECT_ACTIVE_ACCOUNT = 'VAULT_SELECT_ACTIVE_ACCOUNT';
 export const SWITCH_NETWORK = 'VAULT_SWITCH_NETWORK';
 
@@ -60,6 +61,10 @@ export function saveKey(secretKey, name, callback) {
 
 export function removeKey(publicKey, callback) {
   return { type: REMOVE_KEY, publicKey, callback };
+}
+
+export function findFreeKey(callback) {
+  return { type: FIND_FREE_KEY, callback };
 }
 
 export function selectActiveAccount(accountAddress) {

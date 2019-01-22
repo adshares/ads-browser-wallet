@@ -8,7 +8,7 @@ import {
 import { hexToByte } from './utils';
 import { derivationPath } from '../config/config';
 
-const getPublicKeyFromSecret = secretKey => getPkFromSeed(hexToByte(secretKey))
+export const getPublicKeyFromSecret = secretKey => getPkFromSeed(hexToByte(secretKey))
   .toString('hex')
   .slice(2)
   .toUpperCase();
@@ -32,11 +32,11 @@ function generateKeyPair(seed, path) {
   };
 }
 
-function seedPhraseToHex(seedPhrase) {
+export function seedPhraseToHex(seedPhrase) {
   return bip39.mnemonicToSeedHex(seedPhrase);
 }
 
-function generateNextKey(seed, index) {
+export function generateNextKey(seed, index) {
   const path = `${derivationPath}${index}'`;
   return {
     name: path,
@@ -44,7 +44,7 @@ function generateNextKey(seed, index) {
   };
 }
 
-function generateKeys(seed, from, to) {
+export function generateKeys(seed, from, to) {
   const keys = [];
   for (let i = from; i < to; i++) {
     keys.push(generateNextKey(seed, i));
@@ -52,7 +52,7 @@ function generateKeys(seed, from, to) {
   return keys;
 }
 
-function initKeys(seed, quantity) {
+export function initKeys(seed, quantity) {
   const keys = [];
   keys.push({
     name: 'Master',
@@ -63,15 +63,6 @@ function initKeys(seed, quantity) {
   return keys;
 }
 
-function generateSeedPhrase() {
+export function generateSeedPhrase() {
   return bip39.generateMnemonic();
 }
-
-export {
-  getPublicKeyFromSecret,
-  seedPhraseToHex,
-  initKeys,
-  generateNextKey,
-  generateSeedPhrase,
-  generateKeys
-};

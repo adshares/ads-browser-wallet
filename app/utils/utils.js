@@ -81,34 +81,41 @@ export function fixByteOrder(data) {
  * @returns {string}
  */
 export function formatDate(value, showTime = true, utc = false) {
-  let date;
-  let time;
   const val = value instanceof Date ? value : new Date(value);
+
+  let year;
+  let month;
+  let day;
+  let hours;
+  let minutes;
+  let seconds;
+
   if (utc) {
-    date = `${val.getUTCFullYear()}-${(val.getUTCMonth() + 1).toString()
-      .padStart(2, '0')}-${val.getUTCDate()
-      .toString()
-      .padStart(2, '0')}`;
-    time = `${val.getUTCHours()
-      .toString()
-      .padStart(2, '0')}:${val.getUTCMinutes()
-      .toString()
-      .padStart(2, '0')}:${val.getUTCSeconds()
-      .toString()
-      .padStart(2, '0')}`;
+    year = val.getUTCFullYear();
+    month = val.getUTCMonth() + 1;
+    day = val.getUTCDate();
+    hours = val.getUTCHours();
+    minutes = val.getUTCMinutes();
+    seconds = val.getUTCSeconds();
   } else {
-    date = `${val.getFullYear()}-${(val.getMonth() + 1).toString()
-      .padStart(2, '0')}-${val.getDate()
-      .toString()
-      .padStart(2, '0')}`;
-    time = `${val.getHours()
-      .toString()
-      .padStart(2, '0')}:${val.getMinutes()
-      .toString()
-      .padStart(2, '0')}:${val.getSeconds()
-      .toString()
-      .padStart(2, '0')}`;
+    year = val.getFullYear();
+    month = val.getMonth() + 1;
+    day = val.getDate();
+    hours = val.getHours();
+    minutes = val.getMinutes();
+    seconds = val.getSeconds();
   }
+
+  year = year.toString().padStart(4, '0');
+  month = month.toString().padStart(2, '0');
+  day = day.toString().padStart(2, '0');
+  hours = hours.toString().padStart(2, '0');
+  minutes = minutes.toString().padStart(2, '0');
+  seconds = seconds.toString().padStart(2, '0');
+
+  const date = `${year}-${month}-${day}`;
+  const time = `${hours}:${minutes}:${seconds}`;
+
   return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
 }
 
@@ -124,22 +131,6 @@ export function uuidv4() {
     const v = c === 'x' ? r : ((r & 0x3) | 0x8);
     return v.toString(16);
   });
-}
-
-export function findAccountByAddressInVault(vault, address) {
-  return vault.accounts.find(a => a.address === address);
-}
-
-export function findIfPublicKeyExist(vault, publicKey) {
-// eslint-disable-next-line no-confusing-arrow
-  return vault.keys.find(k =>
-    k.publicKey ? k.publicKey === publicKey
-      : KeyBox.getPublicKeyFromSecret(k.secretKey) === publicKey
-  );
-}
-
-export function findAccountByNameInVault(vault, name) {
-  return vault.accounts.find(a => a.name === name);
 }
 
 /**

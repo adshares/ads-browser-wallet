@@ -122,7 +122,7 @@ export const generateKeysEpic = action$ => action$.pipe(
           .catch(error => SA.generateKeysFailure(error.message || 'Unknown error'));
 
         return concat(
-          of(VA.generateKeys(initAction.quantity, action.password, resolve)),
+          of(VA.generateKeys(initAction.quantity, resolve)),
           from(promise),
         );
       })
@@ -161,7 +161,7 @@ export const saveKeyEpic = (action$, state$, { history }) => action$.pipe(
             const name = inputs.name.value;
             const secretKey = inputs.secretKey.value;
             return concat(
-              of(VA.saveKey(secretKey, name, action.password, resolve)),
+              of(VA.saveKey(secretKey, name, resolve)),
               from(promise),
             );
           })
@@ -190,7 +190,7 @@ export const removeKeyEpic = action$ => action$.pipe(
           .catch(error => SA.removeKeyFailure(initAction.publicKey, error.message || 'Unknown error'));
 
         return concat(
-          of(VA.removeKey(initAction.publicKey, action.password, resolve)),
+          of(VA.removeKey(initAction.publicKey, resolve)),
           from(promise),
         );
       })
@@ -268,7 +268,7 @@ export const saveAccountEpic = (action$, state$, { history }) => action$.pipe(
             const address = inputs.address.value;
 
             return concat(
-              of(VA.saveAccount(address, name, action.password, resolve)),
+              of(VA.saveAccount(address, name, resolve)),
               from(promise),
               action$.pipe(
                 ofType(SA.SAVE_ACCOUNT_SUCCESS, SA.SAVE_KEY_FAILURE),
@@ -309,7 +309,7 @@ export const removeAccountEpic = action$ => action$.pipe(
           .catch(error => SA.removeAccountFailure(initAction.address, error.message || 'Unknown error'));
 
         return concat(
-          of(VA.removeAccount(initAction.address, action.password, resolve)),
+          of(VA.removeAccount(initAction.address, resolve)),
           from(promise),
         );
       })
@@ -342,7 +342,7 @@ export const createFreeAccountEpic = (action$, state$, { adsRpc }) => action$.pi
               .catch(error => SA.createFreeAccountFailure(error.message || 'Unknown error'));
 
             return concat(
-              of(VA.saveAccount(address, 'Main account', action.password, resolve)),
+              of(VA.saveAccount(address, 'Main account', resolve)),
               from(promise),
               of(VA.selectActiveAccount(address))
             );

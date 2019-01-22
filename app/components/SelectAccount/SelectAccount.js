@@ -40,9 +40,11 @@ export default class SelectAccount extends React.Component {
             key={index} className={style.option} data-value={option.address}
             onClick={() => this.setActiveOption(option.address)}
           >
-            <span className={style.optionName}> {option.name} </span>
-            <span className={style.optionAccount}> {option.address} </span>
-            <span className={style.optionBalance}>{formatAdsMoney(option.balance, 4, true)} ADS </span>
+            <span className={style.optionName}>{option.name}</span>
+            <span className={style.optionAccount}>{option.address}</span>
+            <span className={style.optionBalance}>
+              {formatAdsMoney(option.balance, 4, true)} ADS
+            </span>
           </li>
         );
       }

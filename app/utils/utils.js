@@ -1,5 +1,4 @@
 /* eslint-disable no-plusplus */
-import * as KeyBox from './keybox';
 
 /**
  * @param byteArray Uint8Array

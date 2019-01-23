@@ -64,6 +64,20 @@ export function initKeys(seed, quantity) {
   return keys;
 }
 
+export function findKeyIndex(seed, publicKey) {
+  const step = 10;
+  const steps = 10;
+  let key;
+  for (let i = 0; i < steps; ++i) {
+    key = generateKeys(seed, step * i, step * (i + 1))
+      .find(k => k.publicKey === publicKey);
+    if (key) {
+      return key.index;
+    }
+  }
+  return -1;
+}
+
 export function generateSeedPhrase() {
   return bip39.generateMnemonic();
 }

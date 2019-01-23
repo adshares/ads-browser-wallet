@@ -42,7 +42,9 @@ export default function (vault = initialVault, action) {
         keys: [...vaultKeys, ...KeyBox.initKeys(seed, config.initKeysQuantity)],
         keyCount: config.initKeysQuantity,
       };
-      newVault.secret = VaultCrypt.save(newVault, action.callback);
+      newVault.secret = VaultCrypt.save(newVault, () => {
+        if (action.callback) { action.callback(); }
+      });
       return newVault;
     }
 
@@ -55,18 +57,14 @@ export default function (vault = initialVault, action) {
       };
       newVault.secret = VaultCrypt.save(newVault, () => {
         BgClient.startSession(password);
-        if (action.callback) {
-          action.callback();
-        }
+        if (action.callback) { action.callback(); }
       });
       return newVault;
     }
 
     case actions.ERASE: {
       VaultCrypt.erase(() => {
-        if (action.callback) {
-          action.callback();
-        }
+        if (action.callback) { action.callback(); }
       });
       return initialVault;
     }
@@ -132,7 +130,7 @@ export default function (vault = initialVault, action) {
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, () => {
-        action.callback(account);
+        if (action.callback) { action.callback(account); }
       });
       return updatedVault;
     }
@@ -150,7 +148,9 @@ export default function (vault = initialVault, action) {
         selectedAccount
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.callback);
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        if (action.callback) { action.callback(); }
+      });
       return updatedVault;
     }
 
@@ -167,7 +167,7 @@ export default function (vault = initialVault, action) {
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, () => {
-        action.callback(keys);
+        if (action.callback) { action.callback(keys); }
       });
       return updatedVault;
     }
@@ -190,7 +190,7 @@ export default function (vault = initialVault, action) {
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, () => {
-        action.callback(key);
+        if (action.callback) { action.callback(key); }
       });
       return updatedVault;
     }
@@ -214,7 +214,7 @@ export default function (vault = initialVault, action) {
       ak.reverse().every(k => pks.indexOf(k.publicKey) < 0 && (key = k));
 
       if (key !== null) {
-        action.callback(key);
+        if (action.callback) { action.callback(key); }
         return vault;
       }
 
@@ -230,7 +230,7 @@ export default function (vault = initialVault, action) {
       };
 
       updatedVault.secret = VaultCrypt.save(updatedVault, () => {
-        action.callback(keys[0]);
+        if (action.callback) { action.callback(keys[0]); }
       });
       return updatedVault;
     }
@@ -253,7 +253,6 @@ export default function (vault = initialVault, action) {
         nodes: action.nodes,
       };
     }
-
 
     default:
       return vault;

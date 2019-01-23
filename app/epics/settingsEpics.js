@@ -4,6 +4,7 @@ import { mergeMap, withLatestFrom, switchMap, map, filter, take, catchError } fr
 import BgClient from '../utils/background';
 import { RpcError } from '../actions/errors';
 import * as ADS from '../utils/ads';
+import { findKeyIndex } from '../utils/keybox';
 import { publicKey as validatePublicKey } from '../utils/validators';
 import * as SA from '../actions/settingsActions';
 import * as VA from '../actions/vaultActions';
@@ -229,20 +230,25 @@ export const saveAccountEpic = (action$, state$, { history }) => action$.pipe(
           })
           .catch(error => SA.saveAccountFailure(SA.SAVE_ACCOUNT, initAction.editedId, error.message || 'Unknown error'));
 
-        const { pages: { [SA.SAVE_ACCOUNT]: { inputs } } } = state;
+        const { vault, pages: { [SA.SAVE_ACCOUNT]: { publicKey, inputs } } } = state;
         const name = inputs.name.value;
         const address = inputs.address.value;
+        const keyIndex = findKeyIndex(vault.seed, publicKey);
 
-        return concat(
-          of(VA.saveAccount(address, name, resolve)),
-          from(promise),
-          action$.pipe(
-            ofType(SA.SAVE_ACCOUNT_SUCCESS, SA.SAVE_KEY_FAILURE),
-            take(1),
-            filter(a => a.type === SA.SAVE_ACCOUNT_SUCCESS && !!a.editedId),
-            map(a => VA.selectActiveAccount(a.editedId))
-          )
-        );
+        const actions = [];
+        if (keyIndex >= vault.keyCount) {
+          actions.push(of(VA.generateKeys((keyIndex - vault.keyCount) + 1)));
+        }
+        actions.push(of(VA.saveAccount(address, name, resolve)));
+        actions.push(from(promise));
+        actions.push(action$.pipe(
+          ofType(SA.SAVE_ACCOUNT_SUCCESS, SA.SAVE_KEY_FAILURE),
+          take(1),
+          filter(a => a.type === SA.SAVE_ACCOUNT_SUCCESS && !!a.editedId),
+          map(a => VA.selectActiveAccount(a.editedId))
+        ));
+
+        return concat(...actions);
       })
     )
   ))

@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Account balance in selector and transfer form
+- Automatic key generation during account import
 ### Changed
 - Password min length info on restore page
 - Build process
+### Removed
+- Password validation during adding items
 
 # [0.2.1] - 2019-01-16
 ### Added

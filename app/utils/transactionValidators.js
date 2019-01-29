@@ -8,15 +8,16 @@ export const address = ({ value }) => {
 };
 
 export const amount = ({ value }) => {
-  const matches = value.match(/^([0-9]*)[.,]?([0-9]*)$/);
+  const matches = value.match(/^([0-9]*)[.,]?([0-9]{0,11})[0-9]*$/);
   if (!matches) {
     return 'Please provide an valid amount';
   }
-  if (parseInt(matches[1], 10) > 38758206) {
-    return 'Amount is too big';
+  let max = 38758206;
+  if (parseInt(matches[2], 10) > 0) {
+    max -= 1;
   }
-  if (matches[2].length > 11) {
-    return 'Amount is too small';
+  if (parseInt(matches[1], 10) > max) {
+    return 'Amount is too big';
   }
 
   return null;

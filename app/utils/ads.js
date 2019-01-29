@@ -1,5 +1,6 @@
 /* eslint-disable no-bitwise */
 import NaCl from 'tweetnacl';
+import BigNumber from 'bignumber.js';
 import { byteToHex, hexToByte, sanitizeHex, fixByteOrder } from './utils';
 import { TransactionDataError } from '../actions/errors';
 
@@ -364,7 +365,7 @@ class Decoder {
         parsed = fixByteOrder(this.data.substr(0, 16));
         // parsed = formatMoney(parseInt(parsed, 16) / 100000000000, 11);
         // eslint-disable-next-line new-cap,no-undef
-        parsed = BigInt(`0x${parsed}`);
+        parsed = BigNumber(`0x${parsed}`);
         this.data = this.data.substr(16);
         break;
       }
@@ -477,7 +478,7 @@ class Decoder {
           parsed.push({
             [TX_FIELDS.ADDRESS]: address,
             // eslint-disable-next-line new-cap,no-undef
-            [TX_FIELDS.AMOUNT]: BigInt(`0x${amount}`)
+            [TX_FIELDS.AMOUNT]: BigNumber(`0x${amount}`)
           });
           this.data = this.data.substr(28);
         }

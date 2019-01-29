@@ -60,7 +60,6 @@ class SendOnePage extends TransactionPage {
             isValid={amount.isValid}
             required
             isInput
-            type="number"
             handleChange={this.handleInputChange}
             errorMessage={amount.errorMsg}
           ><span>ADS</span></InputControl>

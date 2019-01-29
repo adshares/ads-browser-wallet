@@ -26,8 +26,8 @@ const getContentSecurityPolicy = (isProd) => {
   };
 
   if (!isProd) {
-    directives.scriptSrc.push('http://localhost:3000', 'https://localhost:3000', "'unsafe-eval'");
-    directives.connectSrc.push('http://localhost:3000', 'https://localhost:3000', 'http://127.0.0.12:5000');
+    directives.scriptSrc.push('https://localhost:3000', "'unsafe-eval'");
+    directives.connectSrc.push('https://localhost:3000', 'https://127.0.0.12:5000');
     directives.styleSrc.push('blob:');
   }
 
@@ -42,8 +42,9 @@ exports.copyAssets = (type) => {
     version: process.env.npm_package_version,
     description: process.env.npm_package_description,
     author: `${process.env.npm_package_author_name} <${process.env.npm_package_author_email}>`,
-    host: isProd ? '' : 'http://localhost:3000',
-    csp: cspBuilder(getContentSecurityPolicy(isProd))
+    host: isProd ? '' : 'https://localhost:3000',
+    csp: cspBuilder(getContentSecurityPolicy(isProd)),
+    geckoId: `${process.env.npm_package_name}@adshares.net`,
   });
 
   sh.rm('-rf', type);

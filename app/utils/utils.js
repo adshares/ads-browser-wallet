@@ -161,6 +161,5 @@ export function copyToClipboard(str) {
  */
 
 export function openInTheNewTab(url) {
-  const host = `chrome-extension://${chrome.i18n.getMessage('@@extension_id')}`;
-  chrome.tabs.create({ url: `${host}/${url}` });
+  chrome.tabs.create({ url: chrome.runtime.getURL(url) });
 }

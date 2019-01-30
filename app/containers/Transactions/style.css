@@ -3,8 +3,16 @@
     margin-top: 5px;
 }
 
+.amount {
+    margin-bottom: 25px;
+}
+
 .amount input {
     width: 50%;
+}
+
+.amount > div {
+    margin-bottom: 10px;
 }
 
 .amount > div > span {
@@ -33,6 +41,16 @@
 
 .buttons > *:first-child {
     margin-right: 50px;
+}
+
+.feeInfo {
+    text-align: center;
+    background: var(--yellow-dark);
+    color: var(--white);
+    padding: 10px;
+    margin: -15px 0 !important;
+    border-radius: 3px;
+    font-size: var(--font-big);
 }
 
 .transactionSuccess a {

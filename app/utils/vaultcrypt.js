@@ -53,6 +53,7 @@ function decrypt(encryptedVault, password) {
       .toString(CryptoJS.enc.Utf8)
   );
   const decryptedVault = {
+    password: window.btoa(password),
     seedPhrase: vault[SEED_PHRASE],
     seed: vault[SEED],
     keyCount: vault[KEY_COUNT],
@@ -105,8 +106,8 @@ function load(callback) {
   });
 }
 
-function save(vault, password, callback) {
-  const secret = encrypt(vault, password);
+function save(vault, callback) {
+  const secret = encrypt(vault, window.atob(vault.password));
   chrome.storage.sync.set({ [config.vaultStorageKey]: secret || '' }, callback);
   return secret;
 }

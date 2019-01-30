@@ -9,10 +9,9 @@ import {
   faChevronLeft,
   faPaperPlane,
   faBullhorn,
+  faKey,
   // faUserPlus,
   // faPlusSquare,
-  // faKey,
-  // faShieldAlt,
   // faRetweet,
 } from '@fortawesome/free-solid-svg-icons';
 import PageComponent from '../../components/PageComponent';
@@ -68,7 +67,7 @@ class AvailableTransactionsPage extends PageComponent {
           }}
         >
           <FontAwesomeIcon icon={faPlusSquare} /> {typeLabels.create_node}
-        </ButtonLink>
+        </ButtonLink>*/}
         <ButtonLink
           icon="left" layout="warning" inverse
           to={{
@@ -78,16 +77,7 @@ class AvailableTransactionsPage extends PageComponent {
         >
           <FontAwesomeIcon icon={faKey} /> {typeLabels.change_account_key}
         </ButtonLink>
-        <ButtonLink
-          icon="left" layout="warning" inverse
-          to={{
-            pathname: '/transactions/change-node-key',
-            state: { referrer: this.props.history.location }
-          }}
-        >
-          <FontAwesomeIcon icon={faShieldAlt} /> {typeLabels.change_node_key}
-        </ButtonLink>
-        <ButtonLink
+        {/*<ButtonLink
           icon="left" layout="danger" inverse
           to={{
             pathname: '/transactions/retrieve-funds',

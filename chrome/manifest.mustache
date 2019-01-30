@@ -1,13 +1,18 @@
 {
-  "name": "ADS Wallet",
-  "version": "0.2.1",
-  "description": "Secure identity vault for Adshares network.",
-  "author": "https://adshares.net/",
+  "name": "{{{ name }}}",
+  "version": "{{{ version }}}",
+  "description": "{{{ description }}}",
+  "author": "{{{ author }}}",
   "permissions": [
     "storage",
     "unlimitedStorage"
   ],
-  "content_security_policy": "default-src 'self'; script-src 'self'; style-src * 'unsafe-inline';font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://rpc.adshares.net https://rpc.e11.click data:",
+  "content_security_policy": "{{{ csp }}}",
+  "applications": {
+    "gecko": {
+      "id": "{{{ geckoId }}}"
+    }
+  },
   "background": {
     "page": "background.html"
   },

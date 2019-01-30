@@ -36,8 +36,10 @@ class SendOnePage extends TransactionPage {
 
   renderInputs() {
     const {
-      inputs: { address, amount, message, rawMessage }
+      inputs: { address, amount, message, rawMessage },
+      vault: { accounts, selectedAccount }
     } = this.props;
+    const account = accounts.find(a => a.address === selectedAccount);
     return (
       <React.Fragment>
         <InputControl
@@ -58,10 +60,10 @@ class SendOnePage extends TransactionPage {
             isValid={amount.isValid}
             required
             isInput
-            type="number"
             handleChange={this.handleInputChange}
             errorMessage={amount.errorMsg}
           ><span>ADS</span></InputControl>
+          <span>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
         </div>
         <div className={style.message}>
           <InputControl

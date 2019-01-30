@@ -18,12 +18,9 @@ import ADS from '../utils/ads';
 import { stringToHex } from '../utils/utils';
 
 function sanitizeField(name, value, inputs) {
-  let matches;
   switch (name) {
     case ADS.TX_FIELDS.AMOUNT:
-      matches = value.match(/^([0-9]*)[.,]?([0-9]*)$/);
-      // eslint-disable-next-line no-undef,new-cap
-      return BigInt(matches[1] + matches[2].padEnd(11, '0'));
+      return ADS.strToClicks(value) || 0;
     case ADS.TX_FIELDS.MSG:
       if (inputs.rawMessage && !inputs.rawMessage.value) {
         return stringToHex(value);
@@ -34,16 +31,22 @@ function sanitizeField(name, value, inputs) {
   }
 }
 
-const prepareTransaction = (transactionType, vault, inputs) => {
-  const account = vault.accounts.find(a => a.address === vault.selectedAccount);
+export const prepareCommand = (transactionType, sender, inputs) => {
   const command = {};
   command[ADS.TX_FIELDS.TYPE] = transactionType;
-  command[ADS.TX_FIELDS.SENDER] = account.address;
-  command[ADS.TX_FIELDS.MESSAGE_ID] = account.messageId || '0';
+  command[ADS.TX_FIELDS.SENDER] = sender.address;
+  command[ADS.TX_FIELDS.MESSAGE_ID] = sender.messageId || '0';
   command[ADS.TX_FIELDS.TIME] = new Date();
   Object.keys(inputs).forEach((k) => {
     command[k] = sanitizeField(k, inputs[k].value, inputs);
   });
+
+  return command;
+};
+
+export const prepareTransaction = (transactionType, vault, inputs) => {
+  const account = vault.accounts.find(a => a.address === vault.selectedAccount);
+  const command = prepareCommand(transactionType, account, inputs);
   const transactionData = ADS.encodeCommand(command);
 
   return [transactionType, account.hash || '0', transactionData];

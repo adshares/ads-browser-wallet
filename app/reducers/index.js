@@ -9,6 +9,7 @@ import PasswordEditorReducer from './PasswordEditorReducer';
 import FreeAccountReducer from './FreeAccountReducer';
 import SendOneReducer from './SendOneReducer';
 import BroadcastReducer from './BroadcastReducer';
+import ChangeAccountKeyReducer from './ChangeAccountKeyReducer';
 import * as SA from '../actions/settingsActions';
 import ADS from '../utils/ads';
 
@@ -26,5 +27,6 @@ export default history => combineReducers({
   transactions: combineReducers({
     [ADS.TX_TYPES.SEND_ONE]: SendOneReducer,
     [ADS.TX_TYPES.BROADCAST]: BroadcastReducer,
+    [ADS.TX_TYPES.CHANGE_ACCOUNT_KEY]: ChangeAccountKeyReducer,
   }),
 });

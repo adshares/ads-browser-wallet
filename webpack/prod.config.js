@@ -48,7 +48,10 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })
+    }),
+    new webpack.DefinePlugin({
+      global: 'window' // Placeholder for global used in any node_modules
+    }),
   ],
   resolve: {
     extensions: ['*', '.js']
@@ -135,6 +138,7 @@ module.exports = {
     ]
   },
   node: {
-    fs: 'empty'
+    fs: 'empty',
+    global: false,
   }
 };

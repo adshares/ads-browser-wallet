@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { formatAdsMoney } from '../../utils/ads';
 import style from './SelectAccount.css';
 
 export default class SelectAccount extends React.Component {
@@ -39,8 +40,11 @@ export default class SelectAccount extends React.Component {
             key={index} className={style.option} data-value={option.address}
             onClick={() => this.setActiveOption(option.address)}
           >
-            <span className={style.optionName}> {option.name} </span>
-            <span className={style.optionAccount}> {option.address} </span>
+            <span className={style.optionName}>{option.name}</span>
+            <span className={style.optionAccount}>{option.address}</span>
+            <span className={style.optionBalance}>
+              {formatAdsMoney(option.balance, 4, true)} ADS
+            </span>
           </li>
         );
       }

@@ -95,7 +95,7 @@ chrome.runtime.onStartup.addListener(() => {
  * Handle messages from popup.
  */
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (sender.id === chrome.i18n.getMessage('@@extension_id')) { // connection with popup
+  if (sender.id === chrome.runtime.id) { // connection with popup
     try {
       handlePopupMessage(request, sendResponse);
     } catch (err) {
@@ -109,7 +109,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
  */
 chrome.runtime.onConnect.addListener((port) => {
   const portId = `${port.sender.id}-${port.sender.tab.id}`;
-  if (port.sender.id === chrome.i18n.getMessage('@@extension_id')) {
+  if (port.sender.id === chrome.runtime.id) {
     if (port.name === config.proxyConnectionName) { // connection with proxy script
       connections[portId] = port;
       port.onMessage.addListener((message) => {

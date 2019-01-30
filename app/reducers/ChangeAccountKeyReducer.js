@@ -3,22 +3,16 @@ import reduce from './TransactionReducer';
 
 const initialState = {
   inputs: {
-    message: {
+    publicKey: {
       isValid: null,
       value: '',
       errorMsg: ''
     },
-    rawMessage: {
-      noValid: true,
-      isValid: true,
-      value: true,
-      errorMsg: ''
-    }
   }
 };
 
 export default (state, action) => reduce(
-  ADS.TX_TYPES.BROADCAST,
+  ADS.TX_TYPES.CHANGE_ACCOUNT_KEY,
   initialState,
   {},
   state,

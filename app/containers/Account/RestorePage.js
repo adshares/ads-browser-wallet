@@ -85,8 +85,9 @@ export default class RestorePage extends FormComponent {
           <h1>Restore the vault</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
-        <Box layout="warning" icon={faExclamation}>
-          Restoring your vault will overwrite all current data.
+        <Box layout="warning" icon={faExclamation} title="Restoring your vault will overwrite all current data">
+          Your password should be obscure and must be at
+          least {config.passwordMinLength} characters long.
         </Box>
         <Form onSubmit={this.handleRestoreSubmit}>
           <div>

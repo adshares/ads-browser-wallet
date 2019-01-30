@@ -37,7 +37,7 @@
 }
 
 body {
-  overflow: auto;
+  overflow: hidden;
   font: var(--font-normal) 'Lato', Arial, sans-serif;
   line-height: 1.4em;
   -webkit-font-smoothing: antialiased;
@@ -66,4 +66,8 @@ hr {
   border: none;
   height: 1px;
   background-color: var(--gray-dark);
+}
+
+code {
+  overflow-wrap: anywhere;
 }

@@ -1,7 +1,7 @@
 import ADS from './ads';
 import VaultCrypt from './vaultcrypt';
 import config from '../config/config';
-import { getPublicKeyFromSecret } from './keybox';
+import { getPublicKeyFromSecret, findKeyIndex } from './keybox';
 import { SAVE_KEY, SAVE_ACCOUNT } from '../actions/settingsActions';
 
 const name = ({ pageName, value, vault, editedId }) => {
@@ -43,7 +43,8 @@ const publicKey = ({ value, inputs, vault, pageName }) => {
       return 'Public and secret key does not match';
     }
   } else if (pageName === SAVE_ACCOUNT &&
-    !keys.find(({ secretKey }) => getPublicKeyFromSecret(secretKey) === value)) {
+    !keys.find(k => k.publicKey === value) &&
+    findKeyIndex(vault.seed, value) < 0) {
     return 'Cannot find a key in storage. Please import secret key first.';
   }
   return null;

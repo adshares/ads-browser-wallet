@@ -10,6 +10,7 @@ export const REMOVE_ACCOUNT = 'VAULT_REMOVE_ACCOUNT';
 export const GENERATE_KEYS = 'VAULT_GENERATE_KEYS';
 export const SAVE_KEY = 'VAULT_SAVE_KEY';
 export const REMOVE_KEY = 'VAULT_REMOVE_KEY';
+export const FIND_FREE_KEY = 'VAULT_FIND_FREE_KEY';
 export const SELECT_ACTIVE_ACCOUNT = 'VAULT_SELECT_ACTIVE_ACCOUNT';
 export const SWITCH_NETWORK = 'VAULT_SWITCH_NETWORK';
 
@@ -42,24 +43,28 @@ export function seal() {
   return { type: SEAL };
 }
 
-export function saveAccount(address, name, password, callback) {
-  return { type: SAVE_ACCOUNT, address, name, password, callback };
+export function saveAccount(address, name, callback) {
+  return { type: SAVE_ACCOUNT, address, name, callback };
 }
 
-export function removeAccount(address, password, callback) {
-  return { type: REMOVE_ACCOUNT, address, password, callback };
+export function removeAccount(address, callback) {
+  return { type: REMOVE_ACCOUNT, address, callback };
 }
 
-export function generateKeys(quantity, password, callback) {
-  return { type: GENERATE_KEYS, quantity, password, callback };
+export function generateKeys(quantity, callback) {
+  return { type: GENERATE_KEYS, quantity, callback };
 }
 
-export function saveKey(secretKey, name, password, callback) {
-  return { type: SAVE_KEY, secretKey, name, password, callback };
+export function saveKey(secretKey, name, callback) {
+  return { type: SAVE_KEY, secretKey, name, callback };
 }
 
-export function removeKey(publicKey, password, callback) {
-  return { type: REMOVE_KEY, publicKey, password, callback };
+export function removeKey(publicKey, callback) {
+  return { type: REMOVE_KEY, publicKey, callback };
+}
+
+export function findFreeKey(callback) {
+  return { type: FIND_FREE_KEY, callback };
 }
 
 export function selectActiveAccount(accountAddress) {

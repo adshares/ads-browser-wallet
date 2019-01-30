@@ -4,7 +4,7 @@ let webPort;
 
 // connection with background script
 const backgroundPort = chrome.runtime.connect(
-  chrome.i18n.getMessage('@@extension_id'),
+  chrome.runtime.id,
   { name: config.proxyConnectionName }
 );
 

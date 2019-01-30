@@ -6,7 +6,7 @@ import { openInTheNewTab } from '../../../app/utils/utils';
 function getInfo() {
   const manifest = chrome.runtime.getManifest();
   return {
-    id: chrome.i18n.getMessage('@@extension_id'),
+    id: chrome.runtime.id,
     name: manifest.name,
     version: manifest.version,
     description: manifest.description,

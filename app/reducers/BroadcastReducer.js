@@ -13,12 +13,6 @@ const initialState = {
       isValid: true,
       value: true,
       errorMsg: ''
-    },
-    testFiled: {
-      noValid: true,
-      isValid: true,
-      value: true,
-      errorMsg: ''
     }
   }
 };

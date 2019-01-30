@@ -4,6 +4,7 @@ import { mergeMap, withLatestFrom, switchMap, map, filter, take, catchError } fr
 import BgClient from '../utils/background';
 import { RpcError } from '../actions/errors';
 import * as ADS from '../utils/ads';
+import { findKeyIndex } from '../utils/keybox';
 import { publicKey as validatePublicKey } from '../utils/validators';
 import * as SA from '../actions/settingsActions';
 import * as VA from '../actions/vaultActions';
@@ -105,29 +106,17 @@ export const changePasswordEpic = (action$, state$) => action$.pipe(
 
 export const generateKeysEpic = action$ => action$.pipe(
   ofType(SA.GENERATE_KEYS),
-  switchMap(initAction => concat(
-    of(openAuthDialog(SA.GENERATE_KEYS)),
-    action$.pipe(
-      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
-      take(1),
-      filter(action => action.name === SA.GENERATE_KEYS),
-      mergeMap((action) => {
-        if (action.type === PASSWORD_REJECTED) {
-          return of(SA.generateKeysFailure('Access denied'));
-        }
+  mergeMap((action) => {
+    let resolve;
+    const promise = new Promise((res) => { resolve = res; })
+      .then(() => SA.generateKeysSuccess())
+      .catch(error => SA.generateKeysFailure(error.message || 'Unknown error'));
 
-        let resolve;
-        const promise = new Promise((res) => { resolve = res; })
-          .then(() => SA.generateKeysSuccess())
-          .catch(error => SA.generateKeysFailure(error.message || 'Unknown error'));
-
-        return concat(
-          of(VA.generateKeys(initAction.quantity, action.password, resolve)),
-          from(promise),
-        );
-      })
-    )
-  ))
+    return concat(
+      of(VA.generateKeys(action.quantity, resolve)),
+      from(promise),
+    );
+  })
 );
 
 export const saveKeyEpic = (action$, state$, { history }) => action$.pipe(
@@ -137,36 +126,24 @@ export const saveKeyEpic = (action$, state$, { history }) => action$.pipe(
     action$.pipe(
       ofType(FORM_VALIDATION_SUCCESS),
       filter(action => action.pageName === SA.SAVE_KEY),
-      switchMap(() => concat(
-        of(openAuthDialog(SA.SAVE_KEY)),
-        action$.pipe(
-          ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
-          take(1),
-          filter(action => action.name === SA.SAVE_KEY),
-          withLatestFrom(state$),
-          mergeMap(([action, state]) => {
-            if (action.type === PASSWORD_REJECTED) {
-              return of(SA.saveKeyFailure(SA.SAVE_KEY, initAction.editedId, 'Access denied'));
-            }
-
-            let resolve;
-            const promise = new Promise((res) => { resolve = res; })
-              .then((key) => {
-                history.push(getReferrer(history, '/settings'));
-                return SA.saveKeySuccess(key, initAction.editedId);
-              })
-              .catch(error => SA.saveKeyFailure(SA.SAVE_KEY, initAction.editedId, error.message || 'Unknown error'));
-
-            const { pages: { [SA.SAVE_KEY]: { inputs } } } = state;
-            const name = inputs.name.value;
-            const secretKey = inputs.secretKey.value;
-            return concat(
-              of(VA.saveKey(secretKey, name, action.password, resolve)),
-              from(promise),
-            );
+      withLatestFrom(state$),
+      mergeMap(([, state]) => {
+        let resolve;
+        const promise = new Promise((res) => { resolve = res; })
+          .then((key) => {
+            history.push(getReferrer(history, '/settings'));
+            return SA.saveKeySuccess(key, initAction.editedId);
           })
-        )
-      ))
+          .catch(error => SA.saveKeyFailure(SA.SAVE_KEY, initAction.editedId, error.message || 'Unknown error'));
+
+        const { pages: { [SA.SAVE_KEY]: { inputs } } } = state;
+        const name = inputs.name.value;
+        const secretKey = inputs.secretKey.value;
+        return concat(
+          of(VA.saveKey(secretKey, name, resolve)),
+          from(promise),
+        );
+      })
     )
   ))
 );
@@ -190,7 +167,7 @@ export const removeKeyEpic = action$ => action$.pipe(
           .catch(error => SA.removeKeyFailure(initAction.publicKey, error.message || 'Unknown error'));
 
         return concat(
-          of(VA.removeKey(initAction.publicKey, action.password, resolve)),
+          of(VA.removeKey(initAction.publicKey, resolve)),
           from(promise),
         );
       })
@@ -243,43 +220,36 @@ export const saveAccountEpic = (action$, state$, { history }) => action$.pipe(
     action$.pipe(
       ofType(FORM_VALIDATION_SUCCESS),
       filter(action => action.pageName === SA.SAVE_ACCOUNT),
-      switchMap(() => concat(
-        of(openAuthDialog(SA.SAVE_ACCOUNT)),
-        action$.pipe(
-          ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
-          take(1),
-          filter(action => action.name === SA.SAVE_ACCOUNT),
-          withLatestFrom(state$),
-          mergeMap(([action, state]) => {
-            if (action.type === PASSWORD_REJECTED) {
-              return of(SA.saveAccountFailure(SA.SAVE_ACCOUNT, initAction.editedId, 'Access denied'));
-            }
-
-            let resolve;
-            const promise = new Promise((res) => { resolve = res; })
-              .then((account) => {
-                history.push(getReferrer(history, '/settings'));
-                return SA.saveAccountSuccess(account, initAction.editedId);
-              })
-              .catch(error => SA.saveAccountFailure(SA.SAVE_ACCOUNT, initAction.editedId, error.message || 'Unknown error'));
-
-            const { pages: { [SA.SAVE_ACCOUNT]: { inputs } } } = state;
-            const name = inputs.name.value;
-            const address = inputs.address.value;
-
-            return concat(
-              of(VA.saveAccount(address, name, action.password, resolve)),
-              from(promise),
-              action$.pipe(
-                ofType(SA.SAVE_ACCOUNT_SUCCESS, SA.SAVE_KEY_FAILURE),
-                take(1),
-                filter(a => a.type === SA.SAVE_ACCOUNT_SUCCESS && !!a.editedId),
-                map(a => VA.selectActiveAccount(a.editedId))
-              )
-            );
+      withLatestFrom(state$),
+      mergeMap(([, state]) => {
+        let resolve;
+        const promise = new Promise((res) => { resolve = res; })
+          .then((account) => {
+            history.push(getReferrer(history, '/settings'));
+            return SA.saveAccountSuccess(account, initAction.editedId);
           })
-        )
-      ))
+          .catch(error => SA.saveAccountFailure(SA.SAVE_ACCOUNT, initAction.editedId, error.message || 'Unknown error'));
+
+        const { vault, pages: { [SA.SAVE_ACCOUNT]: { publicKey, inputs } } } = state;
+        const name = inputs.name.value;
+        const address = inputs.address.value;
+        const keyIndex = findKeyIndex(vault.seed, publicKey);
+
+        const actions = [];
+        if (keyIndex >= vault.keyCount) {
+          actions.push(of(VA.generateKeys((keyIndex - vault.keyCount) + 1)));
+        }
+        actions.push(of(VA.saveAccount(address, name, resolve)));
+        actions.push(from(promise));
+        actions.push(action$.pipe(
+          ofType(SA.SAVE_ACCOUNT_SUCCESS, SA.SAVE_KEY_FAILURE),
+          take(1),
+          filter(a => a.type === SA.SAVE_ACCOUNT_SUCCESS && !!a.editedId),
+          map(a => VA.selectActiveAccount(a.editedId))
+        ));
+
+        return concat(...actions);
+      })
     )
   ))
 );
@@ -309,7 +279,7 @@ export const removeAccountEpic = action$ => action$.pipe(
           .catch(error => SA.removeAccountFailure(initAction.address, error.message || 'Unknown error'));
 
         return concat(
-          of(VA.removeAccount(initAction.address, action.password, resolve)),
+          of(VA.removeAccount(initAction.address, resolve)),
           from(promise),
         );
       })
@@ -319,39 +289,28 @@ export const removeAccountEpic = action$ => action$.pipe(
 
 export const createFreeAccountEpic = (action$, state$, { adsRpc }) => action$.pipe(
   ofType(SA.CREATE_FREE_ACCOUNT),
-  switchMap(() => concat(
-    of(openAuthDialog(SA.CREATE_FREE_ACCOUNT)),
-    action$.pipe(
-      ofType(PASSWORD_CONFIRMED, PASSWORD_REJECTED),
-      take(1),
-      filter(action => action.name === SA.CREATE_FREE_ACCOUNT),
-      withLatestFrom(state$),
-      mergeMap(([action, state]) => {
-        if (action.type === PASSWORD_REJECTED) {
-          return of(SA.createFreeAccountFailure('Access denied'));
-        }
-        const { vault } = state;
-        const key = vault.keys.filter(k => k.type === 'auto')[0];
-        const confirm = ADS.sign('', key.publicKey, key.secretKey);
+  withLatestFrom(state$),
+  mergeMap(([, state]) => {
+    const { vault } = state;
+    const key = vault.keys.filter(k => k.type === 'auto')[0];
+    const confirm = ADS.sign('', key.publicKey, key.secretKey);
 
-        return from(adsRpc.createFreeAccount(key.publicKey, confirm)).pipe(
-          mergeMap((address) => {
-            let resolve;
-            const promise = new Promise((res) => { resolve = res; })
-              .then(account => SA.createFreeAccountSuccess(account))
-              .catch(error => SA.createFreeAccountFailure(error.message || 'Unknown error'));
+    return from(adsRpc.createFreeAccount(key.publicKey, confirm)).pipe(
+      mergeMap((address) => {
+        let resolve;
+        const promise = new Promise((res) => { resolve = res; })
+          .then(account => SA.createFreeAccountSuccess(account))
+          .catch(error => SA.createFreeAccountFailure(error.message || 'Unknown error'));
 
-            return concat(
-              of(VA.saveAccount(address, 'Main account', action.password, resolve)),
-              from(promise),
-              of(VA.selectActiveAccount(address))
-            );
-          }),
-          catchError(error => of(SA.createFreeAccountFailure(
-            error instanceof RpcError ? error.message : 'Unknown error'
-          )))
+        return concat(
+          of(VA.saveAccount(address, 'Main account', resolve)),
+          from(promise),
+          of(VA.selectActiveAccount(address))
         );
-      })
-    )
-  ))
+      }),
+      catchError(error => of(SA.createFreeAccountFailure(
+        error instanceof RpcError ? error.message : 'Unknown error'
+      )))
+    );
+  })
 );

@@ -91,8 +91,9 @@
 
 <script type="text/javascript">
   class AdsWallet {
-    constructor(extensionId, testnet = false) {
-      this.extensionId = extensionId;
+    constructor(chromeExtensionId, mozillaExtensionId, testnet = false) {
+      this.chromeExtensionId = chromeExtensionId;
+      this.mozillaExtensionId = mozillaExtensionId;
       this.testnet = testnet;
       this.port = null;
       this.initialized = false;
@@ -134,7 +135,9 @@
         this.port.start();
 
         // create the iframe
-        const iframeOrigin = 'chrome-extension://' + this.extensionId;
+        const iframeOrigin = typeof InstallTrigger !== 'undefined' ?
+          'moz-extension://' + this.mozillaExtensionId :
+          'chrome-extension://' + this.chromeExtensionId;
         let iframe = document.createElement('iframe');
         iframe.src = iframeOrigin + '/proxy.html';
         iframe.setAttribute('style', 'display:none');
@@ -197,7 +200,7 @@
     }
   }
 
-    let wallet = new AdsWallet('dmlaldgjpdajkimejjpgnbiafmfodoke', false);
+    let wallet = new AdsWallet('dmlaldgjpdajkimejjpgnbiafmfodoke', '2c9e2cfd-8fe9-4329-a9f1-84883f1da5a2', false);
 
     wallet.getInfo().then((data) => {
       console.debug('info:', data);

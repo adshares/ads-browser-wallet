@@ -1,28 +1,26 @@
 import ADS from './ads';
+import config from '../config/config';
 
-const address = ({ value }) => {
+export const address = ({ value }) => {
   if (!value || !ADS.validateAddress(value)) {
     return 'Please provide an valid account address';
   }
   return null;
 };
 
-const amount = ({ value }) => {
-  const matches = value.match(/^([0-9]*)[.,]?([0-9]*)$/);
-  if (!matches) {
+export const amount = ({ value }) => {
+  const val = ADS.strToClicks(value);
+  if (val === null) {
     return 'Please provide an valid amount';
   }
-  if (parseInt(matches[1], 10) > 38758206) {
+  if (val.isGreaterThan(config.totalSupply)) {
     return 'Amount is too big';
-  }
-  if (matches[2].length > 11) {
-    return 'Amount is too small';
   }
 
   return null;
 };
 
-const message = ({ value, transactionType, inputs }) => {
+export const message = ({ value, transactionType, inputs }) => {
   const textMessage = (inputs.rawMessage && !inputs.rawMessage.value);
   let maxLength = transactionType === ADS.TX_TYPES.BROADCAST ? 64000 : 64;
   if (textMessage) {
@@ -40,4 +38,9 @@ const message = ({ value, transactionType, inputs }) => {
   return null;
 };
 
-export { address, amount, message };
+export const publicKey = ({ value }) => {
+  if (!value || !ADS.validateKey(value)) {
+    return 'Please provide an valid public key';
+  }
+  return null;
+};

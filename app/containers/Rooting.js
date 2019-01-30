@@ -19,6 +19,7 @@ import PendingTransactionsPage from './Transactions/PendingTransactionsPage';
 import AvailableTransactionsPage from './Transactions/AvailableTransactionsPage';
 import SendOnePage from './Transactions/SendOnePage';
 import BroadcastPage from './Transactions/BroadcastPage';
+import ChangeAccountKeyPage from './Transactions/ChangeAccountKeyPage';
 import SignPage from './Transactions/SignPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
@@ -182,6 +183,10 @@ class Rooting extends Component {
           <PrivateRoute
             path="/transactions/broadcast"
             exact vault={vault} component={BroadcastPage}
+          />
+          <PrivateRoute
+            path="/transactions/change-account-key"
+            exact vault={vault} component={ChangeAccountKeyPage}
           />
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>

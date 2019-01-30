@@ -12,6 +12,7 @@ import {
 const initialVault = {
   empty: true,
   sealed: true,
+  password: '',
   secret: '',
   seedPhrase: '',
   seed: '',
@@ -26,7 +27,8 @@ const initialVault = {
 export default function (vault = initialVault, action) {
   switch (action.type) {
     case actions.CREATE: {
-      BgClient.startSession(window.btoa(action.password));
+      const password = window.btoa(action.password);
+      BgClient.startSession(password);
       const seed = KeyBox.seedPhraseToHex(action.seedPhrase);
       const vaultKeys = vault.keys ? vault.keys : [];
       const newVault = {
@@ -36,32 +38,33 @@ export default function (vault = initialVault, action) {
         sealed: false,
         seedPhrase: action.seedPhrase,
         seed,
+        password,
         keys: [...vaultKeys, ...KeyBox.initKeys(seed, config.initKeysQuantity)],
         keyCount: config.initKeysQuantity,
       };
-      newVault.secret = VaultCrypt.save(newVault, action.password, action.callback);
+      newVault.secret = VaultCrypt.save(newVault, () => {
+        if (action.callback) { action.callback(); }
+      });
       return newVault;
     }
 
     case actions.CHANGE_PASSWORD: {
+      const password = window.btoa(action.password);
       const newVault = {
         ...initialVault,
         ...vault,
+        password,
       };
-      newVault.secret = VaultCrypt.save(newVault, action.password, () => {
-        BgClient.startSession(window.btoa(action.password));
-        if (action.callback) {
-          action.callback();
-        }
+      newVault.secret = VaultCrypt.save(newVault, () => {
+        BgClient.startSession(password);
+        if (action.callback) { action.callback(); }
       });
       return newVault;
     }
 
     case actions.ERASE: {
       VaultCrypt.erase(() => {
-        if (action.callback) {
-          action.callback();
-        }
+        if (action.callback) { action.callback(); }
       });
       return initialVault;
     }
@@ -126,8 +129,8 @@ export default function (vault = initialVault, action) {
         ]
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, () => {
-        action.callback(account);
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        if (action.callback) { action.callback(account); }
       });
       return updatedVault;
     }
@@ -145,22 +148,27 @@ export default function (vault = initialVault, action) {
         selectedAccount
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        if (action.callback) { action.callback(); }
+      });
       return updatedVault;
     }
 
     case actions.GENERATE_KEYS: {
       const keyCount = vault.keyCount + action.quantity;
+      const keys = KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount);
       const updatedVault = {
         ...vault,
         keys: [
           ...vault.keys,
-          ...KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount)
+          ...keys
         ],
         keyCount,
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        if (action.callback) { action.callback(keys); }
+      });
       return updatedVault;
     }
 
@@ -181,8 +189,8 @@ export default function (vault = initialVault, action) {
         ]
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, () => {
-        action.callback(key);
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        if (action.callback) { action.callback(key); }
       });
       return updatedVault;
     }
@@ -193,7 +201,37 @@ export default function (vault = initialVault, action) {
         keys: vault.keys.filter(k => k.type !== 'imported' || k.publicKey !== action.publicKey)
       };
 
-      updatedVault.secret = VaultCrypt.save(updatedVault, action.password, action.callback);
+      updatedVault.secret = VaultCrypt.save(updatedVault, action.callback);
+      return updatedVault;
+    }
+
+    case actions.FIND_FREE_KEY: {
+      const pks = vault.accounts
+        .filter(a => !!a.publicKey)
+        .reduce((v, a) => v.concat([a.publicKey]), []);
+      const ak = vault.keys.filter(k => k.type === 'auto');
+      let key = null;
+      ak.reverse().every(k => pks.indexOf(k.publicKey) < 0 && (key = k));
+
+      if (key !== null) {
+        if (action.callback) { action.callback(key); }
+        return vault;
+      }
+
+      const keyCount = vault.keyCount + 1;
+      const keys = KeyBox.generateKeys(vault.seed, vault.keyCount, keyCount);
+      const updatedVault = {
+        ...vault,
+        keys: [
+          ...vault.keys,
+          ...keys
+        ],
+        keyCount,
+      };
+
+      updatedVault.secret = VaultCrypt.save(updatedVault, () => {
+        if (action.callback) { action.callback(keys[0]); }
+      });
       return updatedVault;
     }
 
@@ -215,7 +253,6 @@ export default function (vault = initialVault, action) {
         nodes: action.nodes,
       };
     }
-
 
     default:
       return vault;

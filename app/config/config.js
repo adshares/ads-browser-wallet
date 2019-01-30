@@ -1,7 +1,15 @@
+import BigNumber from 'bignumber.js';
+
 const config = {
   testnet: false,
   blockLength: 512,
   dividentLength: 2048,
+  totalSupply: new BigNumber('3875820600000000000'),
+  txsMinFee: 10000,
+  txsLocalTransferFee: 0.0005,
+  txsRemoteTransferFee: 0.0005,
+  txsChangeKeyFee: 10000000,
+  txsBroadcastFee: 1000,
   derivationPath: "m/44'/311'/",
   passwordMinLength: 8,
   initKeysQuantity: 3,

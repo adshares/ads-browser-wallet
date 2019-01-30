@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ADS from '../../utils/ads';
 import config from '../../config/config';
+import { prepareCommand } from '../../epics/transactionEpics';
 import PageComponent from '../../components/PageComponent';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
@@ -41,7 +42,7 @@ export default class TransactionPage extends PageComponent {
       transactionRejected: PropTypes.func.isRequired,
       transactionAccepted: PropTypes.func.isRequired,
     })
-  }
+  };
 
   constructor(transactionType, props) {
     super(props);
@@ -52,7 +53,7 @@ export default class TransactionPage extends PageComponent {
     this.props.actions.cleanForm(
       this.transactionType
     );
-  }
+  };
 
   handleInputChange = (inputValue, inputName) => {
     this.props.actions.inputChanged(
@@ -60,7 +61,7 @@ export default class TransactionPage extends PageComponent {
       inputName,
       inputValue
     );
-  }
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -68,26 +69,26 @@ export default class TransactionPage extends PageComponent {
     this.props.actions.validateForm(
       this.transactionType
     );
-  }
+  };
 
   handleAccept = (signature) => {
     this.props.actions.transactionAccepted(
       this.transactionType,
       signature
     );
-  }
+  };
 
   handleReject = () => {
     this.props.actions.transactionRejected(
       this.transactionType
     );
-  }
+  };
 
   handleSignCancel = () => {
     this.props.actions.transactionRejected(
       this.transactionType
     );
-  }
+  };
 
   componentWillUnmount() {
     this.props.actions.cleanForm(
@@ -139,6 +140,16 @@ export default class TransactionPage extends PageComponent {
     return '';
   }
 
+  renderFee() {
+    const sender = this.props.vault.accounts.find(
+      a => a.address === this.props.vault.selectedAccount
+    );
+    const fee = ADS.calculateFee(prepareCommand(this.transactionType, sender, this.props.inputs));
+    return (
+      <div className={style.feeInfo}>Fee: {ADS.formatClickMoney(fee, 11, true)} ADS</div>
+    );
+  }
+
   renderButtons() {
     return (
       <div className={style.buttons}>
@@ -167,6 +178,7 @@ export default class TransactionPage extends PageComponent {
     return (
       <Form onSubmit={this.handleSubmit}>
         {this.renderInputs()}
+        {this.renderFee()}
         {this.renderInfo()}
         {this.renderButtons()}
       </Form>

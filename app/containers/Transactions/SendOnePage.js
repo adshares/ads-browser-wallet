@@ -63,7 +63,7 @@ class SendOnePage extends TransactionPage {
             handleChange={this.handleInputChange}
             errorMessage={amount.errorMsg}
           ><span>ADS</span></InputControl>
-          <span>Balance: <b>{ADS.formatAdsMoney(account.balance, 11, true)} ADS</b></span>
+          <span>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
         </div>
         <div className={style.message}>
           <InputControl

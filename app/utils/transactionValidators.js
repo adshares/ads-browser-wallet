@@ -1,4 +1,5 @@
 import ADS from './ads';
+import config from '../config/config';
 
 export const address = ({ value }) => {
   if (!value || !ADS.validateAddress(value)) {
@@ -8,15 +9,11 @@ export const address = ({ value }) => {
 };
 
 export const amount = ({ value }) => {
-  const matches = value.match(/^([0-9]*)[.,]?([0-9]{0,11})[0-9]*$/);
-  if (!matches) {
+  const val = ADS.strToClicks(value);
+  if (val === null) {
     return 'Please provide an valid amount';
   }
-  let max = 38758206;
-  if (parseInt(matches[2], 10) > 0) {
-    max -= 1;
-  }
-  if (parseInt(matches[1], 10) > max) {
+  if (val.isGreaterThan(config.totalSupply)) {
     return 'Amount is too big';
   }
 

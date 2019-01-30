@@ -3,6 +3,7 @@ import NaCl from 'tweetnacl';
 import BigNumber from 'bignumber.js';
 import { byteToHex, hexToByte, sanitizeHex, fixByteOrder } from './utils';
 import { TransactionDataError } from '../actions/errors';
+import config from '../config/config';
 
 /**
  * Response field names
@@ -182,7 +183,19 @@ function splitAddress(address) {
 function compareAddresses(address1, address2) {
   const a1 = splitAddress(address1);
   const a2 = splitAddress(address2);
-  return a1.nodeId === a2.nodeId && a1.userAccountId === a2.userAccountId;
+  return a1 && a2 && a1.nodeId === a2.nodeId && a1.userAccountId === a2.userAccountId;
+}
+
+/**
+ *
+ * @param address1
+ * @param address2
+ * @returns {boolean}
+ */
+function compareAddressesByNode(address1, address2) {
+  const a1 = splitAddress(address1);
+  const a2 = splitAddress(address2);
+  return a1 && a2 && a1.nodeId === a2.nodeId;
 }
 
 /**
@@ -295,7 +308,7 @@ class Encoder {
         if (this.obj[TX_FIELDS.TYPE] === TX_TYPES.SEND_ONE) {
           data = this.pad(val, 64);
         } else {
-          let msg = val.replace(/^0+/, '');
+          let msg = val;
           let len = msg.length;
           if (len % 2 !== 0) {
             len += 1;
@@ -789,6 +802,42 @@ function formatClickMoney(value, precision = 11, trim = false, decimal = '.', th
   );
 }
 
+function strToClicks(value) {
+  const matches = value.match(/^([0-9]*)[.,]?([0-9]{0,11})[0-9]*$/);
+  return matches ? new BigNumber(matches[1] + matches[2].padEnd(11, '0')) : null;
+}
+
+function calculateFee(command) {
+  const encoder = new Encoder(command);
+  let length;
+  let fee = 0;
+
+  switch (command[TX_FIELDS.TYPE]) {
+    case TX_TYPES.BROADCAST:
+      length = (encoder.encode(TX_FIELDS.MSG).lastEncodedField.length / 2) - 2;
+      fee = config.txsMinFee;
+      if (length > 32) {
+        fee += (length - 32) * config.txsBroadcastFee;
+      }
+      break;
+
+    case TX_TYPES.CHANGE_ACCOUNT_KEY:
+      fee = config.txsChangeKeyFee;
+      break;
+
+    case TX_TYPES.SEND_ONE:
+      fee = command[TX_FIELDS.AMOUNT] * config.txsLocalTransferFee;
+      if (!compareAddressesByNode(command[TX_FIELDS.SENDER], command[TX_FIELDS.ADDRESS])) {
+        fee += command[TX_FIELDS.AMOUNT] * config.txsRemoteTransferFee;
+      }
+      break;
+    default:
+      break;
+  }
+
+  return Math.max(config.txsMinFee, fee);
+}
+
 export default {
   TX_FIELDS,
   TX_TYPES,
@@ -806,4 +855,7 @@ export default {
   formatAddress,
   splitAddress,
   compareAddresses,
+  compareAddressesByNode,
+  strToClicks,
+  calculateFee,
 };

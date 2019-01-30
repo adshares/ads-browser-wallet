@@ -20,14 +20,18 @@ ADS Wallet is a convenient, free, open-source client-side tool. It supports both
 
 ## Getting Started
 
-You can install the extension directly from [Chrome Web Store](https://chrome.google.com/webstore/detail/adswallet/icdmhohjiemadeeiakaeicoccocpaljp) or build it by yourself.
+You can install the extension directly from [Chrome Web Store](https://chrome.google.com/webstore/detail/adswallet/icdmhohjiemadeeiakaeicoccocpaljp), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ads-wallet/) or build it by yourself.
 
-### Documentation
+### Building extension
 
-- [Build](https://github.com/adshares/ads-browser-wallet/wiki/Building-extension)
-<!--
-- [Tests](https://github.com/adshares/ads-browser-wallet/wiki#tests)
--->
+ 1. Clone project
+ 2. Install [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/get-npm)
+ 3. Build distribution files:
+ ```
+ npm install
+ npm run build
+ ```
+ 4. Files will be saved in `build` directory
 
 ### Contributing
 

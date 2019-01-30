@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Firefox extension support
+- Transaction fee info
 - Account balance in selector and transfer form
 - Automatic key generation during account import
 ### Changed

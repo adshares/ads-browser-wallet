@@ -20,7 +20,7 @@ const getContentSecurityPolicy = (isProd) => {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'"],
     connectSrc: ["'self'", 'https://rpc.adshares.net', 'https://rpc.e11.click', 'data:'],
-    styleSrc: ['*', "'unsafe-inline'"],
+    styleSrc: ['*', 'blob:', "'unsafe-inline'"],
     fontSrc: ["'self'", 'https://fonts.gstatic.com'],
     imgSrc: ["'self'", 'data:'],
   };
@@ -28,7 +28,6 @@ const getContentSecurityPolicy = (isProd) => {
   if (!isProd) {
     directives.scriptSrc.push('https://localhost:3000', "'unsafe-eval'");
     directives.connectSrc.push('https://localhost:3000', 'https://127.0.0.12:5000');
-    directives.styleSrc.push('blob:');
   }
 
   return { directives };

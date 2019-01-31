@@ -20,7 +20,7 @@ ADS Wallet is a convenient, free, open-source client-side tool. It supports both
 
 ## Getting Started
 
-You can install the extension directly from [Chrome Web Store](https://chrome.google.com/webstore/detail/adswallet/icdmhohjiemadeeiakaeicoccocpaljp), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ads-wallet/) or build it by yourself.
+You can install the extension directly from [Chrome Web Store](https://chrome.google.com/webstore/detail/adswallet/icdmhohjiemadeeiakaeicoccocpaljp), [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/ads-wallet/) or build it by yourself.
 
 ### Building extension
 

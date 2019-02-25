@@ -33,6 +33,7 @@ const config = {
   termsUrl: 'https://adshares.net/wallet.html#terms',
   privacyUrl: 'https://adshares.net/wallet.html#privacy',
   attributionsUrl: 'https://adshares.net/wallet.html#attributions',
+  freeCoinsUrl: 'https://github.com/adshares/ads/wiki/How-to-join-the-Testnet#get-free-test-coins',
   about: require('./about'),
   terms: require('./terms'),
   attributions: require('./attributions'),

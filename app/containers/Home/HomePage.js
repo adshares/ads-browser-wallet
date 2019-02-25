@@ -69,6 +69,11 @@ class HomePage extends React.PureComponent {
             &nbsp;
             <small>ADS</small>
           </div>
+          {config.testnet && <small className={style.frreCoins}>
+            <a href={config.freeCoinsUrl} target="_blank" rel="noopener noreferrer">
+              How to get test coins?
+            </a>
+          </small>}
           <hr />
           <div className={style.details}>
             <span title="Copy account address" onClick={() => copyToClipboard(accountData.address)}>

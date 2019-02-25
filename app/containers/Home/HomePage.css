@@ -29,6 +29,15 @@
     box-shadow: 5px 5px 15px rgba(0,0,0,.2);
 }
 
+.box > div {
+    position: relative;
+}
+
+.frreCoins {
+    display: block;
+    text-align: right;
+}
+
 .logo {
     width: 75px;
 }

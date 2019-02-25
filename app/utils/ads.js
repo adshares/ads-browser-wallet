@@ -830,6 +830,7 @@ function calculateFee(command) {
       if (!compareAddressesByNode(command[TX_FIELDS.SENDER], command[TX_FIELDS.ADDRESS])) {
         fee += command[TX_FIELDS.AMOUNT] * config.txsRemoteTransferFee;
       }
+      fee = Math.floor(fee);
       break;
     default:
       break;

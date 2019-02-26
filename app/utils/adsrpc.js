@@ -26,7 +26,12 @@ export default class {
       })
       .then((response) => {
         if (response.error) {
-          throw new RpcError(response.error.message, response.error.data);
+          throw new RpcError(
+            response.error.data ?
+              `${response.error.message} - ${response.error.data}.` :
+              response.error.message,
+            response.error
+          );
         }
         return response.result;
       }, (error) => {
@@ -41,7 +46,7 @@ export default class {
       }
     ).then((response) => {
       if (!response || !response.account) {
-        throw new RpcError('RPC Server Response Error');
+        throw new RpcError('RPC Server Response Error', response);
       }
       return {
         address: response.account.address,
@@ -61,7 +66,7 @@ export default class {
       }
     ).then((response) => {
       if (!response || !response.block || !response.block.nodes) {
-        throw new RpcError('RPC Server Response Error');
+        throw new RpcError('RPC Server Response Error', response);
       }
       return response.block.nodes.map(node => ({
         id: node.id,
@@ -80,7 +85,7 @@ export default class {
       }
     ).then((response) => {
       if (!response || !response.new_account || !response.new_account.address) {
-        throw new RpcError('RPC Server Response Error');
+        throw new RpcError('RPC Server Response Error', response);
       }
       return response.new_account.address;
     });
@@ -95,7 +100,7 @@ export default class {
       }
     ).then((response) => {
       if (!response || !response.tx) {
-        throw new RpcError('RPC Server Response Error');
+        throw new RpcError('RPC Server Response Error', response);
       }
       return {
         id: response.tx.id,

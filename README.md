@@ -25,11 +25,10 @@ You can install the extension directly from [Chrome Web Store](https://chrome.go
 ### Building extension
 
  1. Clone project
- 2. Install [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/get-npm)
+ 2. Install [Node.js](https://nodejs.org/) and [yarn](https://yarnpkg.com/getting-started/install)
  3. Build distribution files:
  ```
- npm install
- npm run build
+ yarn && yarn build
  ```
  4. Files will be saved in `build` directory
 

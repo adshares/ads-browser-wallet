@@ -34,6 +34,8 @@ const getContentSecurityPolicy = (isProd) => {
 };
 
 exports.copyAssets = (type) => {
+    const find = "'";
+    const re = new RegExp(find, 'g');
   const isProd = type === 'build';
   const view = JSON.stringify({
     env: isProd ? 'prod' : type,
@@ -44,7 +46,9 @@ exports.copyAssets = (type) => {
     host: isProd ? '' : 'https://localhost:3000',
     csp: cspBuilder(getContentSecurityPolicy(isProd)),
     geckoId: `${process.env.npm_package_name}@adshares.net`,
-  });
+  }).replace(re, "'\"'\"'");
+
+
 
   sh.rm('-rf', type);
   sh.mkdir(type);
@@ -53,12 +57,12 @@ exports.copyAssets = (type) => {
   sh.cp('-R', 'chrome/assets/*', type);
   console.log(`- copied chrome/assets into ${type}`);
 
-  sh.exec(`echo ${view} | mustache - chrome/manifest.mustache ${type}/manifest.json`);
+  sh.exec(`echo '${view}' | mustache - chrome/manifest.mustache ${type}/manifest.json`);
   console.log(`- rendered ${type}/manifest.json`);
 
   sh.ls('chrome/views/*.mustache').forEach((file) => {
     const output = `${type}/${file.replace(/^.*[\\/]/, '').replace(/[^.]+$/, 'html')}`;
-    sh.exec(`echo ${view} | mustache - ${file} ${output}`);
+    sh.exec(`echo '${view}' | mustache - ${file} ${output}`);
     console.log(`- rendered ${output}`);
   });
 };

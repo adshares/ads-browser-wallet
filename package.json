@@ -1,6 +1,6 @@
 {
   "name": "ads-browser-wallet",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "display-name": "ADS Wallet",
   "description": "Secure identity vault for Adshares network.",
   "private": true,
@@ -86,7 +86,7 @@
     "create-hmac": "^1.1.7",
     "crypto-js": "^3.1.9-1",
     "history": "^4.7.2",
-    "jsonrpc-lite": "^2.0.1",
+    "jsonrpc-lite": "^1.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

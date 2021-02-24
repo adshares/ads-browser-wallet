@@ -774,7 +774,7 @@ function decodeMessage(value, onlyPrintable = true) {
 }
 
 function formatAdsMoney(amount, precision = 4, trim = false, decimal = '.', thousand = ',') {
-  return (Number(amount) || 0).toFixed(precision).replace(/([0-9]{2})(0+)$/, trim ? '$1' : '$1$2').replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`);
+  return (Number(amount) || 0).toFixed(precision).replace(/([0-9]{2})(0+)$/, trim ? '$1' : '$1$2').replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`).replace('.', decimal);
 }
 
 function formatClickMoney(value, precision = 11, trim = false, decimal = '.', thousand = ',') {

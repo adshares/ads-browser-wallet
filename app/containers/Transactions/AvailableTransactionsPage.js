@@ -23,7 +23,6 @@ import style from './style.css';
 
 
 class AvailableTransactionsPage extends PageComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,

@@ -16,7 +16,6 @@ import config from '../../config/config';
 import style from './RegisterPage.css';
 
 export default class RegisterPage extends FormComponent {
-
   constructor(props) {
     super(props);
     this.state = {

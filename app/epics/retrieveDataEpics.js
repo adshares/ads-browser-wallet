@@ -42,10 +42,10 @@ export const retrieveAccountEpic = (action$, state$, { adsRpc }) => action$.pipe
         }),
         takeUntil(action$.pipe(
           ofType(RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_STOP)
-          )
+        )
         ),
       ),
-    )
+  )
 );
 
 export const retrieveNodesEpic = (action$, state$, { adsRpc }) => action$.pipe(
@@ -65,7 +65,7 @@ export const retrieveNodesEpic = (action$, state$, { adsRpc }) => action$.pipe(
         ),
         takeUntil(action$.pipe(
           ofType(RETRIEVE_NODES_DATA_IN_INTERVALS_STOP)
-          )
+        )
         ),
       ),
   )

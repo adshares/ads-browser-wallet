@@ -17,7 +17,6 @@ import config from '../../config/config';
 import style from './style.css';
 
 class PendingTransactionsPage extends PageComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,

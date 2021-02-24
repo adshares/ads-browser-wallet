@@ -17,7 +17,6 @@ import PageComponent from '../PageComponent';
 import { openInTheNewTab } from '../../utils/utils';
 
 export default class HamburgerMenu extends PageComponent {
-
   static propTypes = {
     logoutAction: PropTypes.func.isRequired,
   };

@@ -19,7 +19,6 @@ import style from './style.css';
 
 
 class SendOnePage extends TransactionPage {
-
   static propTypes = {
     ...TransactionPage.propTypes,
     inputs: PropTypes.shape({

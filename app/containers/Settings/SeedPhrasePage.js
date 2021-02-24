@@ -15,7 +15,6 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './SettingsPage.css';
 
 class SeedPhrasePage extends PageComponent {
-
   static propTypes = {
     vault: PropTypes.object.isRequired,
   };

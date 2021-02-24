@@ -9,7 +9,6 @@ import InputControl from '../atoms/InputControl';
 import PageComponent from '../PageComponent';
 
 export default class AuthDialog extends PageComponent {
-
   static propTypes = {
     name: PropTypes.string.isRequired,
     errorMsg: PropTypes.string,

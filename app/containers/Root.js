@@ -5,7 +5,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import Rooting from './Rooting';
 
 export default class Root extends Component {
-
   static propTypes = {
     store: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,

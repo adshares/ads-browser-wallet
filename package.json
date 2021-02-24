@@ -48,7 +48,7 @@
     "cross-env": "^3.1.3",
     "css-loader": "^0.25.0",
     "cxr": "^1.0.0",
-    "eslint": "^3.19.0",
+    "eslint": "^4.18.2",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-import": "^1.16.0",

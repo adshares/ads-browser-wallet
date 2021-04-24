@@ -27,6 +27,7 @@ export const message = ({ value, transactionType, inputs }) => {
     maxLength /= 2;
   }
 
+  // eslint-disable-next-line no-control-regex
   if (textMessage && !/^[\x00-\x7F]*$/.test(value)) {
     return 'Message can contain only ASCII characters';
   } else if (!textMessage && !/^[0-9a-fA-F]*$/.test(value)) {

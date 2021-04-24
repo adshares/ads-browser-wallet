@@ -109,7 +109,7 @@ class Page extends React.Component {
           </div>
           {title ? (
             <h1>
-              {title} {subTitle ? <small>{subTitle}</small> : ''}
+              {title} {subTitle && subTitle !== title ? <small>{subTitle}</small> : ''}
             </h1>
           ) : (
             <SelectAccount

@@ -61,7 +61,7 @@ class HomePage extends React.PureComponent {
     return (
       <div>
         <Box className={style.box} icon={faGlobe} layout="info">
-          <small title="Account name">{accountData.name}</small>
+          <small title="Account name">{accountData.name}&nbsp;</small>
           <div className={style.balance} title="Account balance">
             {amountInt}
             <small>{amountDec}</small>

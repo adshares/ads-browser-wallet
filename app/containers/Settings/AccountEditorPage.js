@@ -117,19 +117,19 @@ class AccountEditorPage extends FormComponent {
         <Form onSubmit={this.handleSubmit}>
           <InputControl
             isInput
-            label="Account name"
-            name="name"
-            value={name.value}
-            errorMessage={name.errorMsg}
-            handleChange={this.handleInputChange}
-          />
-          <InputControl
-            isInput
             readOnly={!!this.state.account}
             label="Account address"
             name="address"
             value={address.value}
             errorMessage={address.errorMsg}
+            handleChange={this.handleInputChange}
+          />
+          <InputControl
+            isInput
+            label="Account name (optional)"
+            name="name"
+            value={name.value}
+            errorMessage={name.errorMsg}
             handleChange={this.handleInputChange}
           />
           {publicKey || publicKeyLoading || publicKeyErrorMsg ?

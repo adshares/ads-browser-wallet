@@ -1,3 +1,4 @@
+export const SETTINGS = 'SETTINGS';
 export const SECRET_DATA_ACCESS = 'SETTINGS_SECRET_DATA_ACCESS';
 export const SECRET_DATA_ACCESS_GRANTED = 'SETTINGS_SECRET_DATA_ACCESS_GRANTED';
 export const SECRET_DATA_ACCESS_DENIED = 'SETTINGS_SECRET_DATA_ACCESS_DENIED';
@@ -28,6 +29,12 @@ export const ERASE_STORAGE_FAILURE = 'SETTINGS_ERASE_STORAGE_FAILURE';
 export const CREATE_FREE_ACCOUNT = 'SETTINGS_CREATE_FREE_ACCOUNT';
 export const CREATE_FREE_ACCOUNT_SUCCESS = 'SETTINGS_CREATE_FREE_ACCOUNT_SUCCESS';
 export const CREATE_FREE_ACCOUNT_FAILURE = 'SETTINGS_CREATE_FREE_ACCOUNT_FAILURE';
+export const FIND_ACCOUNTS = 'SETTINGS_FIND_ACCOUNTS';
+export const FIND_ACCOUNTS_SUCCESS = 'SETTINGS_FIND_ACCOUNTS_SUCCESS';
+export const FIND_ACCOUNTS_FAILURE = 'SETTINGS_FIND_ACCOUNTS_FAILURE';
+export const FIND_ALL_ACCOUNTS = 'SETTINGS_FIND_ALL_ACCOUNTS';
+export const FIND_ALL_ACCOUNTS_SUCCESS = 'SETTINGS_FIND_ALL_ACCOUNTS_SUCCESS';
+export const FIND_ALL_ACCOUNTS_FAILURE = 'SETTINGS_FIND_ALL_ACCOUNTS_FAILURE';
 
 export function secretDataAccess(name) {
   return { type: SECRET_DATA_ACCESS, name };
@@ -147,4 +154,28 @@ export function createFreeAccountSuccess(account) {
 
 export function createFreeAccountFailure(errorMsg) {
   return { type: CREATE_FREE_ACCOUNT_FAILURE, pageName: CREATE_FREE_ACCOUNT, errorMsg };
+}
+
+export function findAccounts(publicKey) {
+  return { type: FIND_ACCOUNTS, publicKey };
+}
+
+export function findAccountsSuccess(accountsCount) {
+  return { type: FIND_ACCOUNTS_SUCCESS, accountsCount };
+}
+
+export function findAccountsFailure(errorMsg) {
+  return { type: FIND_ACCOUNTS_FAILURE, errorMsg };
+}
+
+export function findAllAccounts() {
+  return { type: FIND_ALL_ACCOUNTS, pageName: SETTINGS };
+}
+
+export function findAllAccountsSuccess(accountsCount) {
+  return { type: FIND_ALL_ACCOUNTS_SUCCESS, pageName: SETTINGS, accountsCount };
+}
+
+export function findAllAccountsFailure(errorMsg) {
+  return { type: FIND_ALL_ACCOUNTS_FAILURE, pageName: SETTINGS, errorMsg };
 }

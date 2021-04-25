@@ -10,13 +10,20 @@ import {
   faPlus,
   faPencilAlt,
   faKey,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import { removeAccount, eraseStorage } from '../../actions/settingsActions';
+import {
+  removeAccount,
+  eraseStorage,
+  findAllAccounts,
+  SETTINGS
+} from '../../actions/settingsActions';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
 import Button from '../../components/atoms/Button';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './SettingsPage.css';
+import { cleanForm } from '../../actions/formActions';
 
 class SettingsPage extends FormComponent {
   static propTypes = {
@@ -25,8 +32,17 @@ class SettingsPage extends FormComponent {
     actions: PropTypes.shape({
       removeAccount: PropTypes.func.isRequired,
       eraseStorage: PropTypes.func.isRequired,
+      findAllAccounts: PropTypes.func.isRequired,
     }),
   };
+
+  componentDidMount() {
+    this.props.actions.cleanForm(SETTINGS);
+  }
+
+  componentWillUnmount() {
+    this.props.actions.cleanForm(SETTINGS);
+  }
 
   removeAccountAction = (address) => {
     this.props.actions.removeAccount(address);
@@ -34,6 +50,12 @@ class SettingsPage extends FormComponent {
 
   eraseStorageAction = () => {
     this.props.actions.eraseStorage();
+  };
+
+  handleFindAllAccountsClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.actions.findAllAccounts();
   };
 
   renderKeysSettings() {
@@ -93,6 +115,13 @@ class SettingsPage extends FormComponent {
   }
 
   renderAccountsSettings() {
+    const {
+      page: {
+        isSubmitted,
+        isAccountsImported,
+        accountsCount,
+      }
+    } = this.props;
     return (
       <div className={style.section}>
         <h3>Accounts</h3>
@@ -112,9 +141,23 @@ class SettingsPage extends FormComponent {
           title="Add account"
           layout="info"
           icon="left"
+          disabled={isSubmitted}
         >
           <FontAwesomeIcon icon={faPlus} /> Add account
         </ButtonLink>
+        <p>
+          <Button
+            onClick={this.handleFindAllAccountsClick}
+            size="wide"
+            title="Find accounts"
+            layout="success"
+            icon="left"
+            disabled={isSubmitted}
+          >
+            <FontAwesomeIcon icon={faSearch} /> Find accounts
+            { isAccountsImported && <small> (<b>{accountsCount}</b> accounts found)</small> }
+          </Button>
+        </p>
       </div>
     );
   }
@@ -167,8 +210,9 @@ class SettingsPage extends FormComponent {
   }
 
   render() {
+    const { page } = this.props;
     return (
-      <Page className={style.page} title="Settings" scroll cancelLink={this.getReferrer()}>
+      <Page className={style.page} title="Settings" scroll cancelLink={this.getReferrer()} showLoader={page.isSubmitted} errorMsg={page.errorMsg}>
         {this.renderAccountsSettings()}
         {this.renderKeysSettings()}
         {this.renderWalletSettings()}
@@ -180,12 +224,15 @@ class SettingsPage extends FormComponent {
 export default withRouter(connect(
   state => ({
     vault: state.vault,
+    page: state.pages[SETTINGS]
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
         removeAccount,
         eraseStorage,
+        findAllAccounts,
+        cleanForm,
       }, dispatch)
   })
 )(SettingsPage));

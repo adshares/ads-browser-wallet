@@ -1,4 +1,4 @@
-import { from, of, concat } from 'rxjs';
+import { from, of, concat, forkJoin } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, withLatestFrom, switchMap, map, filter, take, catchError } from 'rxjs/operators';
 import BgClient from '../utils/background';
@@ -309,6 +309,57 @@ export const createFreeAccountEpic = (action$, state$, { adsRpc }) => action$.pi
         );
       }),
       catchError(error => of(SA.createFreeAccountFailure(
+        error instanceof RpcError ? error.message : 'Unknown error'
+      )))
+    );
+  })
+);
+
+// export const findAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe(
+//   ofType(SA.FIND_ACCOUNTS),
+//   withLatestFrom(state$),
+//   mergeMap(action => from(adsRpc.findAccounts(action.publicKey)).pipe(
+//     mergeMap((accounts) => {
+//       chrome.extension.getBackgroundPage().console.debug(accounts);
+//       return of(SA.findAccountsSuccess(2));
+//       // let resolve;
+//       // const promise = new Promise((res) => { resolve = res; })
+//       //   .then(account => SA.createFreeAccountSuccess(account))
+//       //   .catch(error => SA.createFreeAccountFailure(error.message || 'Unknown error'));
+//       //
+//       // return concat(
+//       //   of(VA.saveAccount(address, 'Main account', resolve)),
+//       //   from(promise),
+//       //   of(VA.selectActiveAccount(address))
+//       // );
+//     }),
+//     catchError(error => of(SA.createFreeAccountFailure(
+//       error instanceof RpcError ? error.message : 'Unknown error'
+//     )))
+//   ))
+// );
+
+export const findAllAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe(
+  ofType(SA.FIND_ALL_ACCOUNTS),
+  withLatestFrom(state$),
+  mergeMap(([, state]) => {
+    const { vault } = state;
+    const keys = vault.keys.map(key => from(adsRpc.findAccounts(key.publicKey)));
+    return forkJoin([...keys]).pipe(
+      mergeMap((data) => {
+        let count = 0;
+        const actions = [];
+        data.forEach((accounts) => {
+          count += accounts.length;
+          accounts.forEach((account) => {
+            if (!vault.accounts.some(a => a.address === account.address)) {
+              actions.push(of(VA.saveAccount(account.address, '')));
+            }
+          });
+        });
+        return concat(...actions, of(SA.findAllAccountsSuccess(count)));
+      }),
+      catchError(error => of(SA.findAllAccountsFailure(
         error instanceof RpcError ? error.message : 'Unknown error'
       )))
     );

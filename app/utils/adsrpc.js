@@ -59,6 +59,27 @@ export default class {
     });
   }
 
+  findAccounts(publicKey) {
+    return this.request(
+      ADS.TX_TYPES.FIND_ACCOUNTS, {
+        public_key: publicKey
+      }
+    ).then((response) => {
+      chrome.extension.getBackgroundPage().console.debug(response);
+      if (!response || !response.accounts) {
+        throw new RpcError('RPC Server Response Error');
+      }
+      return response.accounts.map(account => ({
+        address: account.address,
+        balance: account.balance,
+        hash: account.hash,
+        messageId: parseInt(account.msid, 10),
+        publicKey: account.public_key,
+        status: parseInt(account.status, 10),
+      }));
+    });
+  }
+
   getNodes() {
     return this.request(
       ADS.TX_TYPES.GET_BLOCK, {

@@ -1,4 +1,4 @@
-import { from, of, concat } from 'rxjs';
+import { from, of, concat, forkJoin } from 'rxjs';
 import { ofType } from 'redux-observable';
 import { mergeMap, withLatestFrom, switchMap, map, filter, take, catchError } from 'rxjs/operators';
 import BgClient from '../utils/background';
@@ -19,6 +19,7 @@ import {
   openDialog as openAuthDialog
 } from '../actions/authDialogActions';
 import { getReferrer } from './helpers';
+import { GENERATE_KEYS } from '../actions/vaultActions';
 
 export const secretDataAccessEpic = (action$, state$, { history }) => action$.pipe(
   ofType(SA.SECRET_DATA_ACCESS),
@@ -313,4 +314,37 @@ export const createFreeAccountEpic = (action$, state$, { adsRpc }) => action$.pi
       )))
     );
   })
+);
+
+export const findAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe(
+  ofType(SA.FIND_ALL_ACCOUNTS),
+  withLatestFrom(state$),
+  mergeMap(([, state]) => {
+    const { vault } = state;
+    const keys = vault.keys.map(key => from(adsRpc.findAccounts(key.publicKey)));
+    return forkJoin([...keys]).pipe(
+      mergeMap((data) => {
+        let count = 0;
+        const actions = [];
+        data.forEach((accounts) => {
+          count += accounts.length;
+          accounts.forEach((account) => {
+            if (!vault.accounts.some(a => a.address === account.address)) {
+              actions.push(of(VA.saveAccount(account.address, '')));
+              actions.push(of(VA.selectActiveAccount(account.address)));
+            }
+          });
+        });
+        return concat(...actions, of(SA.findAllAccountsSuccess(count)));
+      }),
+      catchError(error => of(SA.findAllAccountsFailure(
+        error instanceof RpcError ? error.message : 'Unknown error'
+      )))
+    );
+  })
+);
+
+export const refreshAccountsEpic = action$ => action$.pipe(
+  ofType(VA.CREATE, VA.GENERATE_KEYS, VA.SAVE_KEY),
+  map(() => SA.findAllAccounts())
 );

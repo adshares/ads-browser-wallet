@@ -15,7 +15,7 @@ import {
   faStar,
   faExclamation,
 } from '@fortawesome/free-solid-svg-icons';
-import { CREATE_FREE_ACCOUNT, createFreeAccount } from '../../actions/settingsActions';
+import { CREATE_FREE_ACCOUNT, SETTINGS, createFreeAccount } from '../../actions/settingsActions';
 import { cleanForm } from '../../actions/formActions';
 import Page from '../../components/Page/Page';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -32,7 +32,8 @@ class HomePage extends React.PureComponent {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
-    page: PropTypes.object.isRequired,
+    mainPage: PropTypes.object.isRequired,
+    settingsPage: PropTypes.object.isRequired,
     actions: PropTypes.shape({
       createFreeAccount: PropTypes.func.isRequired,
       cleanForm: PropTypes.func.isRequired,
@@ -61,7 +62,7 @@ class HomePage extends React.PureComponent {
     return (
       <div>
         <Box className={style.box} icon={faGlobe} layout="info">
-          <small title="Account name">{accountData.name}</small>
+          <small title="Account name">{accountData.name}&nbsp;</small>
           <div className={style.balance} title="Account balance">
             {amountInt}
             <small>{amountDec}</small>
@@ -94,7 +95,7 @@ class HomePage extends React.PureComponent {
 
   renderConfigure() {
     const {
-      page: {
+      mainPage: {
         isSubmitted,
         errorMsg,
       }
@@ -135,7 +136,7 @@ class HomePage extends React.PureComponent {
   }
 
   render() {
-    const { vault, queue, page } = this.props;
+    const { vault, queue, mainPage, settingsPage } = this.props;
     const filteredQueue = queue.filter(t =>
       !!config.testnet === !!t.testnet &&
       t.type === 'sign'
@@ -144,7 +145,11 @@ class HomePage extends React.PureComponent {
     const accountData = accounts.find(account => account.address === selectedAccount);
 
     return (
-      <Page className={style.page} homeLink={false} showLoader={page.isSubmitted}>
+      <Page
+        className={style.page}
+        homeLink={false}
+        showLoader={mainPage.isSubmitted || settingsPage.isSubmitted}
+      >
         {filteredQueue.length > 0 ?
           <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
             <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})
@@ -159,7 +164,8 @@ export default withRouter(connect(
   state => ({
     vault: state.vault,
     queue: state.queue,
-    page: state.pages[CREATE_FREE_ACCOUNT]
+    mainPage: state.pages[CREATE_FREE_ACCOUNT],
+    settingsPage: state.pages[SETTINGS],
   }),
   dispatch => ({
     actions: bindActionCreators(

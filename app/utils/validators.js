@@ -23,7 +23,7 @@ const name = ({ pageName, value, vault, editedId }) => {
     return `Given name is too long (max ${config.itemNameMaxLength} characters).`;
   }
 
-  if (!value) {
+  if (pageName !== SAVE_ACCOUNT && !value) {
     return 'Name cannot be empty';
   }
   return null;

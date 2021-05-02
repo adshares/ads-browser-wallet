@@ -63,6 +63,7 @@ const TX_TYPES = {
   LOG_ACCOUNT: 'log_account',
   GET_ACCOUNT: 'get_account',
   GET_ACCOUNTS: 'get_accounts',
+  FIND_ACCOUNTS: 'find_accounts',
   GET_BLOCK: 'get_block',
   GET_BLOCKS: 'get_blocks',
   GET_BROADCAST: 'get_broadcast',

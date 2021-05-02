@@ -40,8 +40,8 @@ export default class SelectAccount extends React.Component {
             key={index} className={style.option} data-value={option.address}
             onClick={() => this.setActiveOption(option.address)}
           >
-            <span className={style.optionName}>{option.name}</span>
-            <span className={style.optionAccount}>{option.address}</span>
+            <span className={style.optionName}>{option.name ? option.name : option.address }</span>
+            {option.name && (<span className={style.optionAccount}>{option.address}</span>)}
             <span className={style.optionBalance}>
               {formatAdsMoney(option.balance, 4, true)} ADS
             </span>
@@ -64,9 +64,11 @@ export default class SelectAccount extends React.Component {
           onClick={() => this.toggleShowOptions(!showOptions)}
           onKeyDown={() => this.toggleShowOptions(true)}
         >
-          <span className={style.optionName}> {activeOption.name} </span>
+          <span className={style.optionName}>
+            {activeOption.name ? activeOption.name : activeOption.address}
+          </span>
           <span className={style.optionAccount}>
-            {activeOption.address}
+            {activeOption.name ? activeOption.address : ''}
             <FontAwesomeIcon icon={showOptions ? faChevronUp : faChevronDown} />
           </span>
         </div>)}

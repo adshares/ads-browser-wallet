@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faExclamation, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
@@ -17,6 +17,7 @@ import * as AuthDialogActions from '../../actions/authDialogActions';
 import logo from '../../assets/logo_blue.svg';
 import config from '../../config/config';
 import style from './Page.css';
+import Box from '../atoms/Box';
 
 class Page extends React.Component {
   static propTypes = {
@@ -34,6 +35,7 @@ class Page extends React.Component {
     scroll: PropTypes.bool,
     showLoader: PropTypes.bool,
     authDialog: PropTypes.object,
+    errorMsg: PropTypes.string,
   };
 
   render() {
@@ -52,6 +54,7 @@ class Page extends React.Component {
       className,
       showLoader,
       authDialog,
+      errorMsg,
     } = this.props;
 
     let classes = [];
@@ -109,7 +112,7 @@ class Page extends React.Component {
           </div>
           {title ? (
             <h1>
-              {title} {subTitle ? <small>{subTitle}</small> : ''}
+              {title} {subTitle && subTitle !== title ? <small>{subTitle}</small> : ''}
             </h1>
           ) : (
             <SelectAccount
@@ -119,7 +122,12 @@ class Page extends React.Component {
           )}
           {menu}
         </header>
-        <div className={wrapperClass}>{children}</div>
+        <div className={wrapperClass}>
+          {errorMsg && <Box title="Server error" layout="warning" icon={faExclamation} className={style.errorClass}>
+            {errorMsg}
+          </Box>}
+          {children}
+        </div>
         <footer className={style.footer}>
           <Timer />
         </footer>

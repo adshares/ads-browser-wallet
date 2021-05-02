@@ -77,3 +77,8 @@
     border-top: 1px solid var(--gray);
     box-sizing: border-box;
 }
+
+.errorClass {
+    position: sticky !important;
+    top: 0;
+}

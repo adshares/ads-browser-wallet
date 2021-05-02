@@ -13,7 +13,7 @@ const config = {
   derivationPath: "m/44'/311'/",
   passwordMinLength: 8,
   initKeysQuantity: 3,
-  itemNameMaxLength: 16,
+  itemNameMaxLength: 18,
   accountsLimit: 20,
   importedKeysLimit: 20,
   sessionMaxAge: 60 * 60 * 1000,

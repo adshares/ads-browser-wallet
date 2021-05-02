@@ -7,9 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - ADS Error info support
-
-# [0.4.0] - 2020-05-02
-### Added
 - Automatic account finder
 
 # [0.3.2] - 2019-03-22

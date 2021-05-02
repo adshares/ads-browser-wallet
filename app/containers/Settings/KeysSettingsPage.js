@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faKey, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { generateKeys, removeKey } from '../../actions/settingsActions';
+import { generateKeys, removeKey, SETTINGS } from '../../actions/settingsActions';
 import Page from '../../components/Page/Page';
 import PageComponent from '../../components/PageComponent';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -16,6 +16,7 @@ class KeysSettingsPage extends PageComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
+    page: PropTypes.object.isRequired,
     actions: PropTypes.shape({
       generateKeys: PropTypes.func.isRequired,
       removeKey: PropTypes.func.isRequired,
@@ -72,6 +73,7 @@ class KeysSettingsPage extends PageComponent {
 
   render() {
     const { keys } = this.props.vault;
+    const { page } = this.props;
 
     const importedKeys = keys.filter(key => key.type === 'imported');
     const generatedKeys = keys.filter(key => key.type === 'master' || key.type === 'auto');
@@ -80,6 +82,8 @@ class KeysSettingsPage extends PageComponent {
       <Page
         className={style.page} title="Keys Settings"
         cancelLink={this.getReferrer()} scroll
+        showLoader={page.isSubmitted}
+        errorMsg={page.errorMsg}
       >
         <div className={style.section}>
           <h3>Imported</h3>
@@ -92,6 +96,7 @@ class KeysSettingsPage extends PageComponent {
             icon="left"
             size="wide"
             layout="info"
+            disabled={page.isSubmitted}
           >
             <FontAwesomeIcon icon={faPlus} /> Import new key
           </ButtonLink>
@@ -104,6 +109,7 @@ class KeysSettingsPage extends PageComponent {
             icon="left"
             size="wide"
             layout="info"
+            disabled={page.isSubmitted}
           >
             <FontAwesomeIcon icon={faPlus} /> Generate more keys
           </Button>
@@ -116,6 +122,7 @@ class KeysSettingsPage extends PageComponent {
 export default withRouter(connect(
   state => ({
     vault: state.vault,
+    page: state.pages[SETTINGS]
   }),
   dispatch => ({
     actions: bindActionCreators(

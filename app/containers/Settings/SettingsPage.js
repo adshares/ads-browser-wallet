@@ -29,6 +29,7 @@ class SettingsPage extends FormComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
+    page: PropTypes.object.isRequired,
     actions: PropTypes.shape({
       removeAccount: PropTypes.func.isRequired,
       eraseStorage: PropTypes.func.isRequired,
@@ -212,7 +213,12 @@ class SettingsPage extends FormComponent {
   render() {
     const { page } = this.props;
     return (
-      <Page className={style.page} title="Settings" scroll cancelLink={this.getReferrer()} showLoader={page.isSubmitted} errorMsg={page.errorMsg}>
+      <Page
+        className={style.page} title="Settings" scroll
+        cancelLink={this.getReferrer()}
+        showLoader={page.isSubmitted}
+        errorMsg={page.errorMsg}
+      >
         {this.renderAccountsSettings()}
         {this.renderKeysSettings()}
         {this.renderWalletSettings()}

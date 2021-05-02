@@ -27,7 +27,7 @@ import {
   removeAccountEpic,
   createFreeAccountEpic,
   findAccountsEpic,
-  findAllAccountsEpic,
+  refreshAccountsEpic,
 } from './settingsEpics';
 
 export default combineEpics(
@@ -52,5 +52,5 @@ export default combineEpics(
   removeAccountEpic,
   createFreeAccountEpic,
   findAccountsEpic,
-  findAllAccountsEpic,
+  refreshAccountsEpic,
 );

@@ -19,6 +19,7 @@ import {
   openDialog as openAuthDialog
 } from '../actions/authDialogActions';
 import { getReferrer } from './helpers';
+import { GENERATE_KEYS } from '../actions/vaultActions';
 
 export const secretDataAccessEpic = (action$, state$, { history }) => action$.pipe(
   ofType(SA.SECRET_DATA_ACCESS),
@@ -315,31 +316,7 @@ export const createFreeAccountEpic = (action$, state$, { adsRpc }) => action$.pi
   })
 );
 
-// export const findAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe(
-//   ofType(SA.FIND_ACCOUNTS),
-//   withLatestFrom(state$),
-//   mergeMap(action => from(adsRpc.findAccounts(action.publicKey)).pipe(
-//     mergeMap((accounts) => {
-//       chrome.extension.getBackgroundPage().console.debug(accounts);
-//       return of(SA.findAccountsSuccess(2));
-//       // let resolve;
-//       // const promise = new Promise((res) => { resolve = res; })
-//       //   .then(account => SA.createFreeAccountSuccess(account))
-//       //   .catch(error => SA.createFreeAccountFailure(error.message || 'Unknown error'));
-//       //
-//       // return concat(
-//       //   of(VA.saveAccount(address, 'Main account', resolve)),
-//       //   from(promise),
-//       //   of(VA.selectActiveAccount(address))
-//       // );
-//     }),
-//     catchError(error => of(SA.createFreeAccountFailure(
-//       error instanceof RpcError ? error.message : 'Unknown error'
-//     )))
-//   ))
-// );
-
-export const findAllAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe(
+export const findAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe(
   ofType(SA.FIND_ALL_ACCOUNTS),
   withLatestFrom(state$),
   mergeMap(([, state]) => {
@@ -354,6 +331,7 @@ export const findAllAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe
           accounts.forEach((account) => {
             if (!vault.accounts.some(a => a.address === account.address)) {
               actions.push(of(VA.saveAccount(account.address, '')));
+              actions.push(of(VA.selectActiveAccount(account.address)));
             }
           });
         });
@@ -364,4 +342,9 @@ export const findAllAccountsEpic = (action$, state$, { adsRpc }) => action$.pipe
       )))
     );
   })
+);
+
+export const refreshAccountsEpic = action$ => action$.pipe(
+  ofType(VA.CREATE, VA.GENERATE_KEYS, VA.SAVE_KEY),
+  map(() => SA.findAllAccounts())
 );

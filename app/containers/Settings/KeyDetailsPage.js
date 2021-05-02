@@ -16,7 +16,6 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './SettingsPage.css';
 
 class KeyDetailsPage extends PageComponent {
-
   static propTypes = {
     match: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,

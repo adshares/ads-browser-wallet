@@ -13,7 +13,6 @@ import config from '../../config/config';
 import style from './RestorePage.css';
 
 export default class RestorePage extends FormComponent {
-
   constructor(props) {
     super(props);
     this.state = {

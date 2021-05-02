@@ -18,7 +18,6 @@ import { fieldLabels } from './labels';
 import style from './style.css';
 
 class BroadcastPage extends TransactionPage {
-
   static propTypes = {
     ...TransactionPage.propTypes,
     inputs: PropTypes.shape({

@@ -17,7 +17,6 @@ import ADS from '../../utils/ads';
 import style from './style.css';
 
 class ChangeAccountKeyPage extends TransactionPage {
-
   static propTypes = {
     ...TransactionPage.propTypes,
     inputs: PropTypes.shape({

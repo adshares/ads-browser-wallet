@@ -13,7 +13,6 @@ import Button from '../../components/atoms/Button';
 import style from './SettingsPage.css';
 
 class KeysSettingsPage extends PageComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,

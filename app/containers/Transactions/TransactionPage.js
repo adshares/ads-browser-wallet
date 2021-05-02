@@ -23,7 +23,6 @@ import { typeLabels } from './labels';
 import style from './style.css';
 
 export default class TransactionPage extends PageComponent {
-
   static propTypes = {
     vault: PropTypes.object.isRequired,
     isSignRequired: PropTypes.bool.isRequired,
@@ -116,7 +115,7 @@ export default class TransactionPage extends PageComponent {
             {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
           </ButtonLink>
           <small>Transaction fee:
-            <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
+          <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
           </small>
         </Box>
         <ButtonLink

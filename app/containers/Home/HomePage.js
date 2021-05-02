@@ -28,7 +28,6 @@ import config from '../../config/config';
 import { copyToClipboard } from '../../utils/utils';
 
 class HomePage extends React.PureComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,

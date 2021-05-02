@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ErrorPage from '../containers/ErrorPage';
 
 export default class PageComponent extends React.PureComponent {
-
   getReferrer(defaultLocation = '/') {
     if (this.props.history.location && this.props.history.location.state) {
       return this.props.history.location.state.referrer || defaultLocation;

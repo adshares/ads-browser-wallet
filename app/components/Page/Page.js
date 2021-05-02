@@ -19,7 +19,6 @@ import config from '../../config/config';
 import style from './Page.css';
 
 class Page extends React.Component {
-
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string,

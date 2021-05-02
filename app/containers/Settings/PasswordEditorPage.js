@@ -18,7 +18,6 @@ import config from '../../config/config';
 import style from './SettingsPage.css';
 
 class PasswordEditorPage extends PageComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,

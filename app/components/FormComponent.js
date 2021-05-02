@@ -1,7 +1,6 @@
 import PageComponent from './PageComponent';
 
 export default class FormComponent extends PageComponent {
-
   handleInputChange = (event, callback) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;

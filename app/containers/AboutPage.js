@@ -6,7 +6,6 @@ import style from './App.css';
 import config from '../config/config';
 
 export default class AboutPage extends PageComponent {
-
   render() {
     const manifest = chrome.runtime.getManifest();
     const isBeta = parseInt(manifest.version.split('.')[0], 10) < 1;

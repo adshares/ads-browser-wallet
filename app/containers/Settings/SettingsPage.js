@@ -19,7 +19,6 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import style from './SettingsPage.css';
 
 class SettingsPage extends FormComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,

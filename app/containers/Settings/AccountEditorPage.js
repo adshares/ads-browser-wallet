@@ -26,7 +26,6 @@ import config from '../../config/config';
 import style from './SettingsPage.css';
 
 class AccountEditorPage extends FormComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,

@@ -15,8 +15,8 @@ const name = ({ pageName, value, vault, editedId }) => {
     }
   }
   if (pageName === SAVE_ACCOUNT && vault.accounts.find(a =>
-      a.address !== editedId && a.name.toLowerCase() === value.toLowerCase()
-    )) {
+    a.address !== editedId && a.name.toLowerCase() === value.toLowerCase()
+  )) {
     return `Account named ${value} already exists`;
   }
   if (value.length > config.itemNameMaxLength) {

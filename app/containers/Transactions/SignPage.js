@@ -8,7 +8,6 @@ import BgClient from '../../utils/background';
 import config from '../../config/config';
 
 class SignPage extends PageComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,

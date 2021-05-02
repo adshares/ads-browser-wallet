@@ -11,7 +11,6 @@ import config from '../../config/config';
 import style from './LoginPage.css';
 
 export default class LoginPage extends FormComponent {
-
   constructor(props) {
     super(props);
     this.state = {

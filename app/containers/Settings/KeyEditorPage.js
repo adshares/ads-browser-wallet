@@ -25,7 +25,6 @@ import style from './SettingsPage.css';
 import config from '../../config/config';
 
 class KeyEditorPage extends FormComponent {
-
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
@@ -74,8 +73,8 @@ class KeyEditorPage extends FormComponent {
       }
     } = this.props;
     const limitWarning = vault.keys.filter(
-        key => key.type === 'imported'
-      ).length >= config.importedKeysLimit;
+      key => key.type === 'imported'
+    ).length >= config.importedKeysLimit;
 
     return (
       <Page

@@ -15,6 +15,7 @@ import {
 import TransactionPage from './TransactionPage';
 import InputControl from '../../components/atoms/InputControl';
 import ADS from '../../utils/ads';
+import {  sanitize0xHex } from '../../utils/utils';
 import { fieldLabels } from './labels';
 import style from './style.css';
 import Page from '../../components/Page/Page';
@@ -40,7 +41,7 @@ class GatewayPage extends TransactionPage {
     this.props.actions.getGatewayFee(
       this.gateway.code,
       ADS.strToClicks(inputValue) || 0,
-      this.props.inputs.address.value
+      sanitize0xHex(this.props.inputs.address.value)
     );
   };
 
@@ -49,7 +50,7 @@ class GatewayPage extends TransactionPage {
     this.props.actions.getGatewayFee(
       this.gateway.code,
       ADS.strToClicks(this.props.inputs.amount.value) || 0,
-      inputValue
+      sanitize0xHex(inputValue)
     );
   };
 

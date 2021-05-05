@@ -6,7 +6,8 @@ import ADS from '../../app/utils/ads';
 import config from '../config/config';
 import {
   RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
-  RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS
+  RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS,
+  RETRIEVE_GATEWAYS_DATA_SUCCESS,
 } from '../actions/walletActions';
 
 const initialVault = {
@@ -22,6 +23,7 @@ const initialVault = {
   selectedAccount: null,
   nodes: [],
   loginErrorMsg: '',
+  gateways: [],
 };
 
 export default function (vault = initialVault, action) {
@@ -251,6 +253,13 @@ export default function (vault = initialVault, action) {
       return {
         ...vault,
         nodes: action.nodes,
+      };
+    }
+
+    case RETRIEVE_GATEWAYS_DATA_SUCCESS: {
+      return {
+        ...vault,
+        gateways: action.gateways,
       };
     }
 

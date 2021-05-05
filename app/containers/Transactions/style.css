@@ -3,6 +3,14 @@
     margin-top: 5px;
 }
 
+.description {
+    text-align: justify;
+}
+
+.description a {
+    text-decoration: underline;
+}
+
 .amount {
     margin-bottom: 25px;
 }
@@ -27,7 +35,7 @@
     margin-top: 40px;
 }
 
-.message > div > div:first-of-type {
+.messageCheckbox {
     position: absolute;
     top: -25px;
     right: 0;
@@ -51,6 +59,7 @@
     margin: -15px 0 !important;
     border-radius: 3px;
     font-size: var(--font-big);
+    position: relative;
 }
 
 .transactionSuccess a {

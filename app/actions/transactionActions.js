@@ -1,3 +1,5 @@
+import ADS from '../utils/ads';
+
 export const INPUT_CHANGED = 'TRANSACTIONS_INPUT_CHANGED';
 export const VALIDATE_FORM = 'TRANSACTIONS_VALIDATE_FORM';
 export const INPUT_VALIDATION_SUCCESS = 'TRANSACTIONS_INPUT_VALIDATION_SUCCESS';
@@ -10,6 +12,9 @@ export const TRANSACTION_ACCEPTED = 'TRANSACTIONS_TRANSACTION_ACCEPTED';
 export const TRANSACTION_REJECTED = 'TRANSACTIONS_TRANSACTION_REJECTED';
 export const TRANSACTION_SUCCESS = 'TRANSACTIONS_TRANSACTION_SUCCESS';
 export const TRANSACTION_FAILURE = 'TRANSACTIONS_TRANSACTION_FAILURE';
+export const GET_GATEWAY_FEE = 'TRANSACTIONS_GET_GATEWAY_FEE';
+export const GET_GATEWAY_FEE_SUCCESS = 'TRANSACTIONS_GET_GATEWAY_FEE_SUCCESS';
+export const GET_GATEWAY_FEE_FAILURE = 'TRANSACTIONS_GET_GATEWAY_FEE_FAILURE';
 
 export const inputChanged = (transactionType, inputName, inputValue) => ({
   type: INPUT_CHANGED,
@@ -18,9 +23,10 @@ export const inputChanged = (transactionType, inputName, inputValue) => ({
   inputValue
 });
 
-export const validateForm = transactionType => ({
+export const validateForm = (transactionType, gateway) => ({
   type: VALIDATE_FORM,
-  transactionType
+  transactionType,
+  gateway
 });
 
 export const inputValidateSuccess = (transactionType, inputName) => ({
@@ -89,3 +95,24 @@ export const transactionFailure = (transactionType, errorMsg) => ({
   transactionType,
   errorMsg
 });
+
+export const getGatewayFee = (gatewayCode, amount, address) => ({
+  type: GET_GATEWAY_FEE,
+  transactionType: ADS.TX_TYPES.GATEWAY,
+  gatewayCode,
+  amount,
+  address
+});
+
+export const getGatewaySuccess = fee => ({
+  type: GET_GATEWAY_FEE_SUCCESS,
+  transactionType: ADS.TX_TYPES.GATEWAY,
+  fee
+});
+
+export const getGatewayFailure = errorMsg => ({
+  type: GET_GATEWAY_FEE_FAILURE,
+  transactionType: ADS.TX_TYPES.GATEWAY,
+  errorMsg
+});
+

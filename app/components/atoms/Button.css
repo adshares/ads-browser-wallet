@@ -84,6 +84,16 @@
     width: 100%;
 }
 
+.button.wide7 {
+    width: 64%;
+    margin-right: 1%;
+}
+
+.button.wide3 {
+    width: 34%;
+    margin-left: 1%;
+}
+
 .button:hover,
 .button:focus {
     background-color: var(--slate);

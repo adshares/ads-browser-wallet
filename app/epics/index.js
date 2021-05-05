@@ -7,12 +7,14 @@ import {
 } from './authDialogEpics';
 import {
   retrieveAccountEpic,
-  retrieveNodesEpic
+  retrieveNodesEpic,
+  retrieveGatewaysEpic
 } from './retrieveDataEpics';
 import unsealEpic from './unsealEpic';
 import {
   validateTransactionFormEpic,
-  sendTransactionEpic
+  sendTransactionEpic,
+  getGatewayFeeEpic,
 } from './transactionEpics';
 import {
   secretDataAccessEpic,
@@ -53,4 +55,6 @@ export default combineEpics(
   createFreeAccountEpic,
   findAccountsEpic,
   refreshAccountsEpic,
+  retrieveGatewaysEpic,
+  getGatewayFeeEpic,
 );

@@ -11,7 +11,7 @@ import SendOneReducer from './SendOneReducer';
 import BroadcastReducer from './BroadcastReducer';
 import ChangeAccountKeyReducer from './ChangeAccountKeyReducer';
 import SettingsReducer from './SettingsReducer';
-// import FindAccountsReducer from './FindAccountsReducer';
+import GatewayReducer from './GatewayReducer';
 import * as SA from '../actions/settingsActions';
 import ADS from '../utils/ads';
 
@@ -31,6 +31,6 @@ export default history => combineReducers({
     [ADS.TX_TYPES.SEND_ONE]: SendOneReducer,
     [ADS.TX_TYPES.BROADCAST]: BroadcastReducer,
     [ADS.TX_TYPES.CHANGE_ACCOUNT_KEY]: ChangeAccountKeyReducer,
-    // [ADS.TX_TYPES.FIND_ACCOUNTS]: FindAccountsReducer,
+    [ADS.TX_TYPES.GATEWAY]: GatewayReducer,
   }),
 });

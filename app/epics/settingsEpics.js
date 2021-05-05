@@ -19,7 +19,6 @@ import {
   openDialog as openAuthDialog
 } from '../actions/authDialogActions';
 import { getReferrer } from './helpers';
-import { GENERATE_KEYS } from '../actions/vaultActions';
 
 export const secretDataAccessEpic = (action$, state$, { history }) => action$.pipe(
   ofType(SA.SECRET_DATA_ACCESS),

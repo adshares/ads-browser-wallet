@@ -65,7 +65,6 @@ export default class {
         public_key: publicKey
       }
     ).then((response) => {
-      chrome.extension.getBackgroundPage().console.debug(response);
       if (!response || !response.accounts) {
         throw new RpcError('RPC Server Response Error');
       }
@@ -129,6 +128,28 @@ export default class {
         accountHash: response.tx.account_hashout,
         accountMessageId: response.tx.account_msid,
       };
+    });
+  }
+
+  getGateways() {
+    return this.request(ADS.TX_TYPES.GET_GATEWAYS).then((response) => {
+      if (!response || !response.gateways) {
+        throw new RpcError('RPC Server Response Error', response);
+      }
+      return response.gateways;
+    });
+  }
+
+  getGatewayFee(gatewayCode, amount, address) {
+    return this.request(ADS.TX_TYPES.GET_GATEWAY_FEE, {
+      code: gatewayCode,
+      amount: parseInt(amount, 10),
+      address
+    }).then((response) => {
+      if (!response || !response.fee) {
+        throw new RpcError('RPC Server Response Error', response);
+      }
+      return response.fee;
     });
   }
 }

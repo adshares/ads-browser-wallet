@@ -57,6 +57,14 @@ export function sanitizeHex(str) {
 }
 
 /**
+ * @param str string
+ * @returns {string}
+ */
+export function sanitize0xHex(str) {
+  return `0x${sanitizeHex(str)}`;
+}
+
+/**
  * Changes hex string from little-endian to big-endian.
  *
  * @param {string} data

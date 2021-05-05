@@ -113,6 +113,7 @@ export default class {
   }
 
   sendTransaction(data, signature, host) {
+    console.debug(data, signature, host);
     return this.request(
       ADS.TX_TYPES.SEND_AGAIN, {
         data,
@@ -120,6 +121,7 @@ export default class {
         _host: host
       }
     ).then((response) => {
+      console.debug(response);
       if (!response || !response.tx) {
         throw new RpcError('RPC Server Response Error', response);
       }
@@ -129,6 +131,24 @@ export default class {
         accountHash: response.tx.account_hashout,
         accountMessageId: response.tx.account_msid,
       };
+    });
+  }
+
+  getGates() {
+    return this.request(ADS.TX_TYPES.GET_GATES).then((response) => {
+      if (!response || !response.gates) {
+        throw new RpcError('RPC Server Response Error', response);
+      }
+      return response.gates;
+    });
+  }
+
+  getGateFee(code, amount, address) {
+    return this.request(ADS.TX_TYPES.GET_GATE_FEE, { code, amount, address }).then((response) => {
+      if (!response || !response.fee) {
+        throw new RpcError('RPC Server Response Error', response);
+      }
+      return response.fee;
     });
   }
 }

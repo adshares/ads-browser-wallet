@@ -15,7 +15,7 @@ import {
 import { RpcError } from '../actions/errors';
 import * as validators from '../utils/transactionValidators';
 import ADS from '../utils/ads';
-import { stringToHex } from '../utils/utils';
+import { stringToHex, sanitizeHex } from '../utils/utils';
 
 function sanitizeField(name, value, inputs) {
   switch (name) {
@@ -40,20 +40,30 @@ export const prepareCommand = (transactionType, sender, inputs) => {
   Object.keys(inputs).forEach((k) => {
     command[k] = sanitizeField(k, inputs[k].value, inputs);
   });
-
   return command;
 };
 
-export const prepareTransaction = (transactionType, vault, inputs) => {
+export const prepareGateCommand = (gate, sender, inputs) => {
+  const address = sanitizeHex(inputs[ADS.TX_FIELDS.ADDRESS].value);
+  const fields = {};
+  fields[ADS.TX_FIELDS.ADDRESS] = { value: gate.address };
+  fields[ADS.TX_FIELDS.AMOUNT] = inputs[ADS.TX_FIELDS.AMOUNT];
+  fields[ADS.TX_FIELDS.MSG] = { value: `${gate.prefix}${address}` };
+  return prepareCommand(ADS.TX_TYPES.SEND_ONE, sender, fields);
+};
+
+export const prepareTransaction = (transactionType, gate, vault, inputs) => {
   const account = vault.accounts.find(a => a.address === vault.selectedAccount);
-  const command = prepareCommand(transactionType, account, inputs);
+  const command = transactionType === ADS.TX_TYPES.GATE ?
+    prepareGateCommand(gate, account, inputs) :
+    prepareCommand(transactionType, account, inputs);
   const transactionData = ADS.encodeCommand(command);
 
   return [transactionType, account.hash || '0', transactionData];
 };
 
 const validateForm = (action, state) => {
-  const { transactionType } = action;
+  const { transactionType, gate } = action;
   const { transactions, vault } = state;
   const { inputs } = transactions[transactionType];
 
@@ -67,7 +77,7 @@ const validateForm = (action, state) => {
             throw new Error(`No validator is defined for name ${inputName}`);
           }
           if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
-            errorMsg = validator({ value: inputProps.value, inputs, transactionType });
+            errorMsg = validator({ value: inputProps.value, inputs, transactionType, gate });
           }
         }
         const isInputValid = errorMsg === null;
@@ -87,7 +97,7 @@ const validateForm = (action, state) => {
       ? of(
         ...actionsToDispatch,
         formValidationSuccess(transactionType),
-        signTransaction(...prepareTransaction(transactionType, vault, inputs)),
+        signTransaction(...prepareTransaction(transactionType, gate, vault, inputs)),
       )
       : of(
         ...actionsToDispatch,
@@ -112,7 +122,7 @@ const sendTransaction = (action, state, adsRpc) => {
       `Cannot find node '${nodeId}'`
     ));
   }
-
+  console.debug(tr);
   return from(adsRpc.sendTransaction(
     tr.transactionData,
     tr.signature,

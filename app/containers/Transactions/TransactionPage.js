@@ -66,7 +66,8 @@ export default class TransactionPage extends PageComponent {
     event.preventDefault();
     event.stopPropagation();
     this.props.actions.validateForm(
-      this.transactionType
+      this.transactionType,
+      this.gate,
     );
   };
 
@@ -184,6 +185,10 @@ export default class TransactionPage extends PageComponent {
     );
   }
 
+  getTitle() {
+    return typeLabels[this.transactionType];
+  }
+
   render() {
     const {
       vault,
@@ -222,7 +227,7 @@ export default class TransactionPage extends PageComponent {
         showLoader={isSubmitted}
         history={history}
       >
-        <h2>{typeLabels[this.transactionType]}</h2>
+        <h2>{this.getTitle()}</h2>
         {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
           {errorMsg}
         </Box> : ''}

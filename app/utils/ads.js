@@ -82,6 +82,9 @@ const TX_TYPES = {
   SET_NODE_STATUS: 'set_node_status',
   UNSET_ACCOUNT_STATUS: 'unset_account_status',
   UNSET_NODE_STATUS: 'unset_node_status',
+  GET_GATES: 'get_gates',
+  GET_GATE_FEE: 'get_gate_fee',
+  GATE: 'gate',
 };
 
 /**
@@ -840,6 +843,19 @@ function calculateFee(command) {
   return Math.max(config.txsMinFee, fee);
 }
 
+/**
+ * Checks if ETH account address is valid.
+ *
+ * @param address e.g. 0001-00000001-8B4E
+ * @returns {boolean}
+ */
+function validateEthAddress(address) {
+  if (!address) {
+    return false;
+  }
+  return /^(0x)?[0-9a-fA-F]{40}$/.test(address.trim());
+}
+
 export default {
   TX_FIELDS,
   TX_TYPES,
@@ -860,4 +876,5 @@ export default {
   compareAddressesByNode,
   strToClicks,
   calculateFee,
+  validateEthAddress,
 };

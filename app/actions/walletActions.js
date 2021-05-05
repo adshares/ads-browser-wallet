@@ -7,6 +7,10 @@ export const RETRIEVE_NODES_DATA_IN_INTERVALS = 'RETRIEVE_NODES_DATA_IN_INTERVAL
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS = 'RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS';
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_FAILURE = 'RETRIEVE_NODES_DATA_IN_INTERVALS_FAILURE';
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_STOP = 'RETRIEVE_NODES_DATA_IN_INTERVALS_STOP';
+export const RETRIEVE_GATES_DATA_SUCCESS = 'RETRIEVE_GATES_DATA_SUCCESS';
+export const RETRIEVE_GATES_DATA_FAILURE = 'RETRIEVE_GATES_DATA_FAILURE';
+export const RETRIEVE_GATE_FEE_SUCCESS = 'RETRIEVE_GATE_FEE_SUCCESS';
+export const RETRIEVE_GATE_FEE_FAILURE = 'RETRIEVE_GATE_FEE_FAILURE';
 
 export const adsWalletInit = () => ({
   type: ADS_WALLET_INIT,
@@ -47,4 +51,24 @@ export const retrieveNodesDataInIntervalsFailure = error => ({
 
 export const retrieveNodesDataInIntervalsStop = () => ({
   type: RETRIEVE_NODES_DATA_IN_INTERVALS_STOP,
+});
+
+export const retrieveGatesDataSuccess = gates => ({
+  type: RETRIEVE_GATES_DATA_SUCCESS,
+  gates,
+});
+
+export const retrieveGatesDataFailure = error => ({
+  type: RETRIEVE_GATES_DATA_FAILURE,
+  error,
+});
+
+export const retrieveGateFeeSuccess = fee => ({
+  type: RETRIEVE_GATE_FEE_SUCCESS,
+  fee,
+});
+
+export const retrieveGateFeeFailure = error => ({
+  type: RETRIEVE_GATE_FEE_FAILURE,
+  error,
 });

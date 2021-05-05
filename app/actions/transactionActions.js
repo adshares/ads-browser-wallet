@@ -1,3 +1,4 @@
+export const GATES = 'GATES';
 export const INPUT_CHANGED = 'TRANSACTIONS_INPUT_CHANGED';
 export const VALIDATE_FORM = 'TRANSACTIONS_VALIDATE_FORM';
 export const INPUT_VALIDATION_SUCCESS = 'TRANSACTIONS_INPUT_VALIDATION_SUCCESS';
@@ -18,9 +19,10 @@ export const inputChanged = (transactionType, inputName, inputValue) => ({
   inputValue
 });
 
-export const validateForm = transactionType => ({
+export const validateForm = (transactionType, gate) => ({
   type: VALIDATE_FORM,
-  transactionType
+  transactionType,
+  gate
 });
 
 export const inputValidateSuccess = (transactionType, inputName) => ({

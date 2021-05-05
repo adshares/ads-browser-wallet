@@ -7,7 +7,8 @@ import {
 } from './authDialogEpics';
 import {
   retrieveAccountEpic,
-  retrieveNodesEpic
+  retrieveNodesEpic,
+  retrieveGatesEpic
 } from './retrieveDataEpics';
 import unsealEpic from './unsealEpic';
 import {
@@ -29,6 +30,9 @@ import {
   findAccountsEpic,
   refreshAccountsEpic,
 } from './settingsEpics';
+// import {
+//   retrieveGatesEpic,
+// } from './gatesEpic';
 
 export default combineEpics(
   validateForm,
@@ -53,4 +57,5 @@ export default combineEpics(
   createFreeAccountEpic,
   findAccountsEpic,
   refreshAccountsEpic,
+  retrieveGatesEpic,
 );

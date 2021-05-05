@@ -1,9 +1,13 @@
 import ADS from './ads';
 import config from '../config/config';
 
-export const address = ({ value }) => {
-  if (!value || !ADS.validateAddress(value)) {
-    return 'Please provide an valid account address';
+export const address = ({ value, gate }) => {
+  if (gate && gate.format.toLowerCase() === 'eth') {
+    if (!value || !ADS.validateEthAddress(value)) {
+      return 'Please provide an valid ETH account address';
+    }
+  } else if (!value || !ADS.validateAddress(value)) {
+    return 'Please provide an valid ADS account address';
   }
   return null;
 };

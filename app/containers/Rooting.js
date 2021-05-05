@@ -20,8 +20,8 @@ import AvailableTransactionsPage from './Transactions/AvailableTransactionsPage'
 import SendOnePage from './Transactions/SendOnePage';
 import BroadcastPage from './Transactions/BroadcastPage';
 import ChangeAccountKeyPage from './Transactions/ChangeAccountKeyPage';
-import AvailableGatesPage from './Transactions/AvailableGatesPage';
-import GatePage from './Transactions/GatePage';
+import AvailableGatewaysPage from './Transactions/AvailableGatewaysPage';
+import GatewayPage from './Transactions/GatewayPage';
 import SignPage from './Transactions/SignPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
@@ -191,12 +191,12 @@ class Rooting extends Component {
             exact vault={vault} component={ChangeAccountKeyPage}
           />
           <PrivateRoute
-            path="/transactions/gates"
-            exact vault={vault} component={AvailableGatesPage}
+            path="/transactions/gateways"
+            exact vault={vault} component={AvailableGatewaysPage}
           />
           <PrivateRoute
-            path="/transactions/gates/:code([0-9a-zA-Z_-]+)/"
-            exact vault={vault} component={GatePage}
+            path="/transactions/gateways/:code([0-9a-zA-Z_-]+)/"
+            exact vault={vault} component={GatewayPage}
           />
           <Route path="/" component={NotFoundErrorPage} />
         </Switch>

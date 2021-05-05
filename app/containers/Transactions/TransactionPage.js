@@ -67,7 +67,7 @@ export default class TransactionPage extends PageComponent {
     event.stopPropagation();
     this.props.actions.validateForm(
       this.transactionType,
-      this.gate,
+      this.gateway,
     );
   };
 
@@ -189,6 +189,10 @@ export default class TransactionPage extends PageComponent {
     return typeLabels[this.transactionType];
   }
 
+  getDescription() {
+    return '';
+  }
+
   render() {
     const {
       vault,
@@ -227,7 +231,10 @@ export default class TransactionPage extends PageComponent {
         showLoader={isSubmitted}
         history={history}
       >
-        <h2>{this.getTitle()}</h2>
+        <h2>
+          {this.getTitle()}
+        </h2>
+        {this.getDescription() ? <p className={style.description}><small dangerouslySetInnerHTML={{ __html: this.getDescription() }} /></p> : ''}
         {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
           {errorMsg}
         </Box> : ''}

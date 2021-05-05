@@ -74,12 +74,14 @@ class SendOnePage extends TransactionPage {
             handleChange={this.handleInputChange}
             errorMessage={message.errorMsg}
           >
-            <CheckboxControl
-              name="rawMessage"
-              label="Hexadecimal data"
-              checked={rawMessage.value}
-              handleChange={this.handleInputChange}
-            />
+            <div className={style.messageCheckbox}>
+              <CheckboxControl
+                name="rawMessage"
+                label="Hexadecimal data"
+                checked={rawMessage.value}
+                handleChange={this.handleInputChange}
+              />
+            </div>
           </InputControl>
         </div>
       </React.Fragment>

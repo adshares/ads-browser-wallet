@@ -7,7 +7,7 @@ import config from '../config/config';
 import {
   RETRIEVE_ACCOUNT_DATA_IN_INTERVALS_SUCCESS,
   RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS,
-  RETRIEVE_GATES_DATA_SUCCESS,
+  RETRIEVE_GATEWAYS_DATA_SUCCESS,
 } from '../actions/walletActions';
 
 const initialVault = {
@@ -23,7 +23,7 @@ const initialVault = {
   selectedAccount: null,
   nodes: [],
   loginErrorMsg: '',
-  gates: [],
+  gateways: [],
 };
 
 export default function (vault = initialVault, action) {
@@ -256,10 +256,10 @@ export default function (vault = initialVault, action) {
       };
     }
 
-    case RETRIEVE_GATES_DATA_SUCCESS: {
+    case RETRIEVE_GATEWAYS_DATA_SUCCESS: {
       return {
         ...vault,
-        gates: action.gates,
+        gateways: action.gateways,
       };
     }
 

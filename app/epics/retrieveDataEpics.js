@@ -17,8 +17,8 @@ import {
   RETRIEVE_NODES_DATA_IN_INTERVALS_STOP,
   retrieveAccountDataInIntervalsFailure,
   retrieveAccountDataInIntervalsSuccess,
-  retrieveGatesDataFailure,
-  retrieveGatesDataSuccess,
+  retrieveGatewaysDataFailure,
+  retrieveGatewaysDataSuccess,
   retrieveNodesDataInIntervalsFailure,
   retrieveNodesDataInIntervalsSuccess,
 } from '../actions/walletActions';
@@ -73,13 +73,13 @@ export const retrieveNodesEpic = (action$, state$, { adsRpc }) => action$.pipe(
   )
 );
 
-export const retrieveGatesEpic = (action$, state$, { adsRpc }) => action$.pipe(
+export const retrieveGatewaysEpic = (action$, state$, { adsRpc }) => action$.pipe(
   ofType(ADS_WALLET_INIT),
   withLatestFrom(state$),
-  switchMap(() => from(adsRpc.getGates())
+  switchMap(() => from(adsRpc.getGateways())
     .pipe(
-      mergeMap(gates => of(retrieveGatesDataSuccess(gates))),
-      catchError(error => of(retrieveGatesDataFailure(
+      mergeMap(gateways => of(retrieveGatewaysDataSuccess(gateways))),
+      catchError(error => of(retrieveGatewaysDataFailure(
         error instanceof RpcError ? error.message : 'Unknown error'
       )))
     )

@@ -55,12 +55,12 @@ class HomePage extends React.PureComponent {
     this.props.actions.createFreeAccount();
   }
 
-  renderShortcuts(accountData, gates) {
+  renderShortcuts(accountData, gateways) {
     const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${accountData.address}`;
     const amount = accountData.balance ? formatAdsMoney(accountData.balance, 4) : null;
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
     const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
-    const hasGates = gates && gates.length > 0;
+    const hasGateways = gateways && gateways.length > 0;
     return (
       <div>
         <Box className={style.box} icon={faGlobe} layout="info">
@@ -89,8 +89,8 @@ class HomePage extends React.PureComponent {
           <ButtonLink to="/transactions/send-one" layout="contrast" size="wide7" icon="left">
             <FontAwesomeIcon icon={faPaperPlane} /> Send ADS
           </ButtonLink>
-          <ButtonLink to="/transactions/gates" layout="contrast" size="wide3" icon="left" disabled={!hasGates}>
-            <FontAwesomeIcon icon={faRandom} /> Gates
+          <ButtonLink to="/transactions/gateways" layout="contrast" size="wide3" icon="left" disabled={!hasGateways}>
+            <FontAwesomeIcon icon={faRandom} /> Wrap
           </ButtonLink>
 
         </Box>
@@ -146,7 +146,7 @@ class HomePage extends React.PureComponent {
       !!config.testnet === !!t.testnet &&
       t.type === 'sign'
     );
-    const { selectedAccount, accounts, gates } = vault;
+    const { selectedAccount, accounts, gateways } = vault;
     const accountData = accounts.find(account => account.address === selectedAccount);
 
     return (
@@ -159,7 +159,7 @@ class HomePage extends React.PureComponent {
           <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
             <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})
           </ButtonLink> : ''}
-        {accountData ? this.renderShortcuts(accountData, gates) : this.renderConfigure()}
+        {accountData ? this.renderShortcuts(accountData, gateways) : this.renderConfigure()}
       </Page>
     );
   }

@@ -82,9 +82,9 @@ const TX_TYPES = {
   SET_NODE_STATUS: 'set_node_status',
   UNSET_ACCOUNT_STATUS: 'unset_account_status',
   UNSET_NODE_STATUS: 'unset_node_status',
-  GET_GATES: 'get_gates',
-  GET_GATE_FEE: 'get_gate_fee',
-  GATE: 'gate',
+  GET_GATEWAYS: 'get_gateways',
+  GET_GATEWAY_FEE: 'get_gateway_fee',
+  GATEWAY: 'gateway',
 };
 
 /**
@@ -815,7 +815,6 @@ function calculateFee(command) {
   const encoder = new Encoder(command);
   let length;
   let fee = 0;
-
   switch (command[TX_FIELDS.TYPE]) {
     case TX_TYPES.BROADCAST:
       length = (encoder.encode(TX_FIELDS.MSG).lastEncodedField.length / 2) - 2;
@@ -841,6 +840,14 @@ function calculateFee(command) {
   }
 
   return Math.max(config.txsMinFee, fee);
+}
+
+function calculateChargedAmount(command) {
+  return calculateFee(command) + parseInt(command[TX_FIELDS.AMOUNT], 10);
+}
+
+function calculateReceivedAmount(externalFee, command) {
+  return Math.max(0, parseInt(command[TX_FIELDS.AMOUNT], 10) - parseInt(externalFee, 10));
 }
 
 /**
@@ -876,5 +883,7 @@ export default {
   compareAddressesByNode,
   strToClicks,
   calculateFee,
+  calculateChargedAmount,
+  calculateReceivedAmount,
   validateEthAddress,
 };

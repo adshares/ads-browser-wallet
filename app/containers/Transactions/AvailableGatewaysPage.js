@@ -10,33 +10,33 @@ import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import PageComponent from '../../components/PageComponent';
 
-class AvailableGatesPage extends PageComponent {
+class AvailableGatewaysPage extends PageComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
   }
 
-  renderGates(gates) {
-    if (gates.length === 0) {
+  renderGateways(gateways) {
+    if (gateways.length === 0) {
       return (
         <Box title="Server error" layout="warning" icon={faExclamation}>
-          No gates found
+          No gateways found
         </Box>
       );
     }
 
     return (
       <div className={style.availableLinks}>
-        {gates.map(gate =>
+        {gateways.map(gateway =>
           <ButtonLink
-            key={gate.code}
+            key={gateway.code}
             icon="left" layout="info" inverse
             to={{
-              pathname: `/transactions/gates/${gate.code}`,
+              pathname: `/transactions/gateways/${gateway.code}`,
               state: { referrer: this.props.history.location }
             }}
           >
-            <FontAwesomeIcon icon={faRandom} /> {gate.name}
+            <FontAwesomeIcon icon={faRandom} /> {gateway.name}
           </ButtonLink>
         )}
       </div>
@@ -49,11 +49,11 @@ class AvailableGatesPage extends PageComponent {
     return (
       <Page
         className={style.page}
-        title="ADS gates"
+        title="Wrapped ADS gateways"
         cancelLink={this.getReferrer()}
         onCancelClick={this.handleCloseForm}
       >
-        {this.renderGates(vault.gates || [])}
+        {this.renderGateways(vault.gateways || [])}
       </Page>
     );
   }
@@ -63,4 +63,4 @@ export default withRouter(connect(
   state => ({
     vault: state.vault
   })
-)(AvailableGatesPage));
+)(AvailableGatewaysPage));

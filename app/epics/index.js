@@ -8,12 +8,13 @@ import {
 import {
   retrieveAccountEpic,
   retrieveNodesEpic,
-  retrieveGatesEpic
+  retrieveGatewaysEpic
 } from './retrieveDataEpics';
 import unsealEpic from './unsealEpic';
 import {
   validateTransactionFormEpic,
-  sendTransactionEpic
+  sendTransactionEpic,
+  getGatewayFeeEpic,
 } from './transactionEpics';
 import {
   secretDataAccessEpic,
@@ -30,9 +31,6 @@ import {
   findAccountsEpic,
   refreshAccountsEpic,
 } from './settingsEpics';
-// import {
-//   retrieveGatesEpic,
-// } from './gatesEpic';
 
 export default combineEpics(
   validateForm,
@@ -57,5 +55,6 @@ export default combineEpics(
   createFreeAccountEpic,
   findAccountsEpic,
   refreshAccountsEpic,
-  retrieveGatesEpic,
+  retrieveGatewaysEpic,
+  getGatewayFeeEpic,
 );

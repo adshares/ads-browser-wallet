@@ -65,7 +65,6 @@ export default class {
         public_key: publicKey
       }
     ).then((response) => {
-      chrome.extension.getBackgroundPage().console.debug(response);
       if (!response || !response.accounts) {
         throw new RpcError('RPC Server Response Error');
       }
@@ -113,7 +112,6 @@ export default class {
   }
 
   sendTransaction(data, signature, host) {
-    console.debug(data, signature, host);
     return this.request(
       ADS.TX_TYPES.SEND_AGAIN, {
         data,
@@ -121,7 +119,6 @@ export default class {
         _host: host
       }
     ).then((response) => {
-      console.debug(response);
       if (!response || !response.tx) {
         throw new RpcError('RPC Server Response Error', response);
       }
@@ -134,17 +131,21 @@ export default class {
     });
   }
 
-  getGates() {
-    return this.request(ADS.TX_TYPES.GET_GATES).then((response) => {
-      if (!response || !response.gates) {
+  getGateways() {
+    return this.request(ADS.TX_TYPES.GET_GATEWAYS).then((response) => {
+      if (!response || !response.gateways) {
         throw new RpcError('RPC Server Response Error', response);
       }
-      return response.gates;
+      return response.gateways;
     });
   }
 
-  getGateFee(code, amount, address) {
-    return this.request(ADS.TX_TYPES.GET_GATE_FEE, { code, amount, address }).then((response) => {
+  getGatewayFee(gatewayCode, amount, address) {
+    return this.request(ADS.TX_TYPES.GET_GATEWAY_FEE, {
+      code: gatewayCode,
+      amount: parseInt(amount, 10),
+      address
+    }).then((response) => {
       if (!response || !response.fee) {
         throw new RpcError('RPC Server Response Error', response);
       }

@@ -79,7 +79,7 @@ class GatewayPage extends TransactionPage {
         <div>
           <InputControl
             name="address"
-            label={`${fieldLabels.address} (${this.gateway.format})`}
+            label={`${fieldLabels.address} (${this.gateway.name})`}
             value={address.value}
             isValid={address.isValid}
             rows={2}
@@ -112,7 +112,7 @@ class GatewayPage extends TransactionPage {
   }
 
   getTitle() {
-    return this.gateway.name;
+    return "Send to " + this.gateway.name;
   }
 
   getDescription() {

@@ -15,7 +15,7 @@ import {
 import TransactionPage from './TransactionPage';
 import InputControl from '../../components/atoms/InputControl';
 import ADS from '../../utils/ads';
-import {  sanitize0xHex } from '../../utils/utils';
+import { sanitize0xHex } from '../../utils/utils';
 import { fieldLabels } from './labels';
 import style from './style.css';
 import Page from '../../components/Page/Page';
@@ -112,7 +112,7 @@ class GatewayPage extends TransactionPage {
   }
 
   getTitle() {
-    return "Send to " + this.gateway.name;
+    return `Send to ${this.gateway.name}`;
   }
 
   getDescription() {

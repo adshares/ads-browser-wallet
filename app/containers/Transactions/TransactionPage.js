@@ -234,7 +234,7 @@ export default class TransactionPage extends PageComponent {
         <h2>
           {this.getTitle()}
         </h2>
-        {this.getDescription() ? <p className={style.description}><small dangerouslySetInnerHTML={{ __html: this.getDescription() }} /></p> : ''}
+        {this.getDescription() ? <p className={style.description}><small>{this.getDescription()}</small></p> : ''}
         {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
           {errorMsg}
         </Box> : ''}

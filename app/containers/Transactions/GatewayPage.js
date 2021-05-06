@@ -122,7 +122,7 @@ class GatewayPage extends TransactionPage {
   render() {
     const { vault: { gateways } } = this.props;
     const { code } = this.props.match.params;
-    this.gateway = gateways.find(g => g.code === code);
+    this.gateway = (gateways || []).find(g => g.code === code);
 
     if (this.gateway !== undefined) {
       return super.render();
@@ -134,7 +134,7 @@ class GatewayPage extends TransactionPage {
         title="Wrapped ADS gateways"
         cancelLink={this.getReferrer()}
         onCancelClick={this.handleCloseForm}
-        showLoader={gateways.length === 0}
+        showLoader={(gateways || []).length === 0}
         errorMsg={this.gateway === undefined ? `Cannot find gateway ${code}` : null}
       />
     );

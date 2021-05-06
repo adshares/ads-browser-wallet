@@ -14,7 +14,7 @@ const baseDevConfig = () => ({
     background: [customPath, hotScript, path.join(__dirname, '../chrome/extension/background')],
   },
   devMiddleware: {
-    publicPath: `https://${host}:${port}/js`,
+    publicPath: `http://${host}:${port}/js`,
     stats: {
       colors: true
     },

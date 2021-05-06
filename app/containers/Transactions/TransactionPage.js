@@ -66,7 +66,8 @@ export default class TransactionPage extends PageComponent {
     event.preventDefault();
     event.stopPropagation();
     this.props.actions.validateForm(
-      this.transactionType
+      this.transactionType,
+      this.gateway,
     );
   };
 
@@ -115,7 +116,7 @@ export default class TransactionPage extends PageComponent {
             {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
           </ButtonLink>
           <small>Transaction fee:
-          <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
+            <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
           </small>
         </Box>
         <ButtonLink
@@ -184,6 +185,14 @@ export default class TransactionPage extends PageComponent {
     );
   }
 
+  getTitle() {
+    return typeLabels[this.transactionType];
+  }
+
+  getDescription() {
+    return '';
+  }
+
   render() {
     const {
       vault,
@@ -222,7 +231,10 @@ export default class TransactionPage extends PageComponent {
         showLoader={isSubmitted}
         history={history}
       >
-        <h2>{typeLabels[this.transactionType]}</h2>
+        <h2>
+          {this.getTitle()}
+        </h2>
+        {this.getDescription() ? <p className={style.description}><small>{this.getDescription()}</small></p> : ''}
         {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
           {errorMsg}
         </Box> : ''}

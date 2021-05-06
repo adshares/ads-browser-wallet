@@ -1,6 +1,6 @@
 import { ofType } from 'redux-observable';
 import { of, from } from 'rxjs';
-import { mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { mergeMap, withLatestFrom, catchError, switchMap } from 'rxjs/operators';
 import {
   inputValidateSuccess,
   inputValidateFailure,
@@ -10,12 +10,12 @@ import {
   transactionSuccess,
   transactionFailure,
   VALIDATE_FORM,
-  TRANSACTION_ACCEPTED,
+  TRANSACTION_ACCEPTED, GET_GATEWAY_FEE, getGatewaySuccess, getGatewayFailure,
 } from '../actions/transactionActions';
 import { RpcError } from '../actions/errors';
 import * as validators from '../utils/transactionValidators';
 import ADS from '../utils/ads';
-import { stringToHex } from '../utils/utils';
+import { stringToHex, sanitizeHex } from '../utils/utils';
 
 function sanitizeField(name, value, inputs) {
   switch (name) {
@@ -33,27 +33,40 @@ function sanitizeField(name, value, inputs) {
 
 export const prepareCommand = (transactionType, sender, inputs) => {
   const command = {};
-  command[ADS.TX_FIELDS.TYPE] = transactionType;
+  command[ADS.TX_FIELDS.TYPE] = transactionType === ADS.TX_TYPES.GATEWAY ?
+    ADS.TX_TYPES.SEND_ONE :
+    transactionType
+  ;
   command[ADS.TX_FIELDS.SENDER] = sender.address;
   command[ADS.TX_FIELDS.MESSAGE_ID] = sender.messageId || '0';
   command[ADS.TX_FIELDS.TIME] = new Date();
   Object.keys(inputs).forEach((k) => {
     command[k] = sanitizeField(k, inputs[k].value, inputs);
   });
-
   return command;
 };
 
-export const prepareTransaction = (transactionType, vault, inputs) => {
+export const prepareGatewayCommand = (gateway, sender, inputs) => {
+  const address = sanitizeHex(inputs[ADS.TX_FIELDS.ADDRESS].value);
+  const fields = {};
+  fields[ADS.TX_FIELDS.ADDRESS] = { value: gateway.address };
+  fields[ADS.TX_FIELDS.AMOUNT] = inputs[ADS.TX_FIELDS.AMOUNT];
+  fields[ADS.TX_FIELDS.MSG] = { value: `${gateway.prefix}${address}` };
+  return prepareCommand(ADS.TX_TYPES.SEND_ONE, sender, fields);
+};
+
+export const prepareTransaction = (transactionType, gateway, vault, inputs) => {
   const account = vault.accounts.find(a => a.address === vault.selectedAccount);
-  const command = prepareCommand(transactionType, account, inputs);
+  const command = transactionType === ADS.TX_TYPES.GATEWAY ?
+    prepareGatewayCommand(gateway, account, inputs) :
+    prepareCommand(transactionType, account, inputs);
   const transactionData = ADS.encodeCommand(command);
 
   return [transactionType, account.hash || '0', transactionData];
 };
 
 const validateForm = (action, state) => {
-  const { transactionType } = action;
+  const { transactionType, gateway } = action;
   const { transactions, vault } = state;
   const { inputs } = transactions[transactionType];
 
@@ -67,7 +80,7 @@ const validateForm = (action, state) => {
             throw new Error(`No validator is defined for name ${inputName}`);
           }
           if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
-            errorMsg = validator({ value: inputProps.value, inputs, transactionType });
+            errorMsg = validator({ value: inputProps.value, inputs, transactionType, gateway });
           }
         }
         const isInputValid = errorMsg === null;
@@ -87,7 +100,7 @@ const validateForm = (action, state) => {
       ? of(
         ...actionsToDispatch,
         formValidationSuccess(transactionType),
-        signTransaction(...prepareTransaction(transactionType, vault, inputs)),
+        signTransaction(...prepareTransaction(transactionType, gateway, vault, inputs)),
       )
       : of(
         ...actionsToDispatch,
@@ -112,7 +125,6 @@ const sendTransaction = (action, state, adsRpc) => {
       `Cannot find node '${nodeId}'`
     ));
   }
-
   return from(adsRpc.sendTransaction(
     tr.transactionData,
     tr.signature,
@@ -142,4 +154,19 @@ export const sendTransactionEpic = (action$, state$, { adsRpc }) => action$.pipe
   ofType(TRANSACTION_ACCEPTED),
   withLatestFrom(state$),
   mergeMap(([action, state]) => sendTransaction(action, state, adsRpc))
+);
+
+export const getGatewayFeeEpic = (action$, state$, { adsRpc }) => action$.pipe(
+  ofType(GET_GATEWAY_FEE),
+  withLatestFrom(state$),
+  switchMap(([action]) => from(adsRpc.getGatewayFee(
+    action.gatewayCode,
+    action.amount,
+    action.address)
+  ).pipe(
+    mergeMap(fee => of(getGatewaySuccess(fee))),
+    catchError(error => of(getGatewayFailure(
+      error instanceof RpcError ? error.message : 'Unknown error'
+    )))
+  ))
 );

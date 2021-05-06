@@ -1,9 +1,13 @@
 import ADS from './ads';
 import config from '../config/config';
 
-export const address = ({ value }) => {
-  if (!value || !ADS.validateAddress(value)) {
-    return 'Please provide an valid account address';
+export const address = ({ value, gateway }) => {
+  if (gateway && gateway.format.toLowerCase() === 'eth') {
+    if (!value || !ADS.validateEthAddress(value)) {
+      return 'Please provide an valid ETH account address';
+    }
+  } else if (!value || !ADS.validateAddress(value)) {
+    return 'Please provide an valid ADS account address';
   }
   return null;
 };
@@ -27,6 +31,7 @@ export const message = ({ value, transactionType, inputs }) => {
     maxLength /= 2;
   }
 
+  // eslint-disable-next-line no-control-regex
   if (textMessage && !/^[\x00-\x7F]*$/.test(value)) {
     return 'Message can contain only ASCII characters';
   } else if (!textMessage && !/^[0-9a-fA-F]*$/.test(value)) {

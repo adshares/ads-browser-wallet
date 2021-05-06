@@ -63,6 +63,7 @@ const TX_TYPES = {
   LOG_ACCOUNT: 'log_account',
   GET_ACCOUNT: 'get_account',
   GET_ACCOUNTS: 'get_accounts',
+  FIND_ACCOUNTS: 'find_accounts',
   GET_BLOCK: 'get_block',
   GET_BLOCKS: 'get_blocks',
   GET_BROADCAST: 'get_broadcast',
@@ -81,6 +82,9 @@ const TX_TYPES = {
   SET_NODE_STATUS: 'set_node_status',
   UNSET_ACCOUNT_STATUS: 'unset_account_status',
   UNSET_NODE_STATUS: 'unset_node_status',
+  GET_GATEWAYS: 'get_gateways',
+  GET_GATEWAY_FEE: 'get_gateway_fee',
+  GATEWAY: 'gateway',
 };
 
 /**
@@ -811,7 +815,6 @@ function calculateFee(command) {
   const encoder = new Encoder(command);
   let length;
   let fee = 0;
-
   switch (command[TX_FIELDS.TYPE]) {
     case TX_TYPES.BROADCAST:
       length = (encoder.encode(TX_FIELDS.MSG).lastEncodedField.length / 2) - 2;
@@ -839,6 +842,27 @@ function calculateFee(command) {
   return Math.max(config.txsMinFee, fee);
 }
 
+function calculateChargedAmount(command) {
+  return calculateFee(command) + parseInt(command[TX_FIELDS.AMOUNT], 10);
+}
+
+function calculateReceivedAmount(externalFee, command) {
+  return Math.max(0, parseInt(command[TX_FIELDS.AMOUNT], 10) - parseInt(externalFee, 10));
+}
+
+/**
+ * Checks if ETH account address is valid.
+ *
+ * @param address e.g. 0001-00000001-8B4E
+ * @returns {boolean}
+ */
+function validateEthAddress(address) {
+  if (!address) {
+    return false;
+  }
+  return /^(0x)?[0-9a-fA-F]{40}$/.test(address.trim());
+}
+
 export default {
   TX_FIELDS,
   TX_TYPES,
@@ -859,4 +883,7 @@ export default {
   compareAddressesByNode,
   strToClicks,
   calculateFee,
+  calculateChargedAmount,
+  calculateReceivedAmount,
+  validateEthAddress,
 };

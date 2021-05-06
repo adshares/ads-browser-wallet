@@ -10,6 +10,8 @@ import FreeAccountReducer from './FreeAccountReducer';
 import SendOneReducer from './SendOneReducer';
 import BroadcastReducer from './BroadcastReducer';
 import ChangeAccountKeyReducer from './ChangeAccountKeyReducer';
+import SettingsReducer from './SettingsReducer';
+import GatewayReducer from './GatewayReducer';
 import * as SA from '../actions/settingsActions';
 import ADS from '../utils/ads';
 
@@ -23,10 +25,12 @@ export default history => combineReducers({
     [SA.SAVE_ACCOUNT]: AccountEditorReducer,
     [SA.CHANGE_PASSWORD]: PasswordEditorReducer,
     [SA.CREATE_FREE_ACCOUNT]: FreeAccountReducer,
+    [SA.SETTINGS]: SettingsReducer,
   }),
   transactions: combineReducers({
     [ADS.TX_TYPES.SEND_ONE]: SendOneReducer,
     [ADS.TX_TYPES.BROADCAST]: BroadcastReducer,
     [ADS.TX_TYPES.CHANGE_ACCOUNT_KEY]: ChangeAccountKeyReducer,
+    [ADS.TX_TYPES.GATEWAY]: GatewayReducer,
   }),
 });

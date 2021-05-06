@@ -14,8 +14,9 @@ import {
   faSignature,
   faStar,
   faExclamation,
+  faRandom,
 } from '@fortawesome/free-solid-svg-icons';
-import { CREATE_FREE_ACCOUNT, createFreeAccount } from '../../actions/settingsActions';
+import { CREATE_FREE_ACCOUNT, SETTINGS, createFreeAccount } from '../../actions/settingsActions';
 import { cleanForm } from '../../actions/formActions';
 import Page from '../../components/Page/Page';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -32,7 +33,8 @@ class HomePage extends React.PureComponent {
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
-    page: PropTypes.object.isRequired,
+    mainPage: PropTypes.object.isRequired,
+    settingsPage: PropTypes.object.isRequired,
     actions: PropTypes.shape({
       createFreeAccount: PropTypes.func.isRequired,
       cleanForm: PropTypes.func.isRequired,
@@ -53,15 +55,16 @@ class HomePage extends React.PureComponent {
     this.props.actions.createFreeAccount();
   }
 
-  renderShortcuts(accountData) {
+  renderShortcuts(accountData, gateways) {
     const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${accountData.address}`;
     const amount = accountData.balance ? formatAdsMoney(accountData.balance, 4) : null;
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
     const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
+    const hasGateways = gateways && gateways.length > 0;
     return (
       <div>
         <Box className={style.box} icon={faGlobe} layout="info">
-          <small title="Account name">{accountData.name}</small>
+          <small title="Account name">{accountData.name}&nbsp;</small>
           <div className={style.balance} title="Account balance">
             {amountInt}
             <small>{amountDec}</small>
@@ -83,8 +86,11 @@ class HomePage extends React.PureComponent {
               Details
             </a>
           </div>
-          <ButtonLink to="/transactions/send-one" layout="contrast" size="wide" icon="left">
+          <ButtonLink to="/transactions/send-one" layout="contrast" size="wide7" icon="left">
             <FontAwesomeIcon icon={faPaperPlane} /> Send ADS
+          </ButtonLink>
+          <ButtonLink to="/transactions/gateways" layout="contrast" size="wide3" icon="left" disabled={!hasGateways}>
+            <FontAwesomeIcon icon={faRandom} /> Wrap
           </ButtonLink>
 
         </Box>
@@ -94,7 +100,7 @@ class HomePage extends React.PureComponent {
 
   renderConfigure() {
     const {
-      page: {
+      mainPage: {
         isSubmitted,
         errorMsg,
       }
@@ -135,21 +141,25 @@ class HomePage extends React.PureComponent {
   }
 
   render() {
-    const { vault, queue, page } = this.props;
+    const { vault, queue, mainPage, settingsPage } = this.props;
     const filteredQueue = queue.filter(t =>
       !!config.testnet === !!t.testnet &&
       t.type === 'sign'
     );
-    const { selectedAccount, accounts } = vault;
+    const { selectedAccount, accounts, gateways } = vault;
     const accountData = accounts.find(account => account.address === selectedAccount);
 
     return (
-      <Page className={style.page} homeLink={false} showLoader={page.isSubmitted}>
+      <Page
+        className={style.page}
+        homeLink={false}
+        showLoader={mainPage.isSubmitted || settingsPage.isSubmitted}
+      >
         {filteredQueue.length > 0 ?
           <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
             <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})
           </ButtonLink> : ''}
-        {accountData ? this.renderShortcuts(accountData) : this.renderConfigure()}
+        {accountData ? this.renderShortcuts(accountData, gateways) : this.renderConfigure()}
       </Page>
     );
   }
@@ -159,7 +169,8 @@ export default withRouter(connect(
   state => ({
     vault: state.vault,
     queue: state.queue,
-    page: state.pages[CREATE_FREE_ACCOUNT]
+    mainPage: state.pages[CREATE_FREE_ACCOUNT],
+    settingsPage: state.pages[SETTINGS],
   }),
   dispatch => ({
     actions: bindActionCreators(

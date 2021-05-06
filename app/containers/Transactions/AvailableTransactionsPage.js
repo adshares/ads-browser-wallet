@@ -9,7 +9,7 @@ import {
   faChevronLeft,
   faPaperPlane,
   faBullhorn,
-  faKey,
+  faKey, faRandom,
   // faUserPlus,
   // faPlusSquare,
   // faRetweet,
@@ -48,6 +48,15 @@ class AvailableTransactionsPage extends PageComponent {
           }}
         >
           <FontAwesomeIcon icon={faBullhorn} /> {typeLabels.broadcast}
+        </ButtonLink>
+        <ButtonLink
+          icon="left" layout="info" inverse
+          to={{
+            pathname: '/transactions/gateways',
+            state: { referrer: this.props.history.location }
+          }}
+        >
+          <FontAwesomeIcon icon={faRandom} /> Wrap ADS
         </ButtonLink>
         {/*<ButtonLink
           icon="left" inverse

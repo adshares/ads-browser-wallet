@@ -7,6 +7,8 @@ export const RETRIEVE_NODES_DATA_IN_INTERVALS = 'RETRIEVE_NODES_DATA_IN_INTERVAL
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS = 'RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS';
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_FAILURE = 'RETRIEVE_NODES_DATA_IN_INTERVALS_FAILURE';
 export const RETRIEVE_NODES_DATA_IN_INTERVALS_STOP = 'RETRIEVE_NODES_DATA_IN_INTERVALS_STOP';
+export const RETRIEVE_GATEWAYS_DATA_SUCCESS = 'RETRIEVE_GATEWAYS_DATA_SUCCESS';
+export const RETRIEVE_GATEWAYS_DATA_FAILURE = 'RETRIEVE_GATEWAYS_DATA_FAILURE';
 
 export const adsWalletInit = () => ({
   type: ADS_WALLET_INIT,
@@ -48,3 +50,14 @@ export const retrieveNodesDataInIntervalsFailure = error => ({
 export const retrieveNodesDataInIntervalsStop = () => ({
   type: RETRIEVE_NODES_DATA_IN_INTERVALS_STOP,
 });
+
+export const retrieveGatewaysDataSuccess = gateways => ({
+  type: RETRIEVE_GATEWAYS_DATA_SUCCESS,
+  gateways,
+});
+
+export const retrieveGatewaysDataFailure = error => ({
+  type: RETRIEVE_GATEWAYS_DATA_FAILURE,
+  error,
+});
+

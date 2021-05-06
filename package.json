@@ -1,6 +1,6 @@
 {
   "name": "ads-browser-wallet",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "display-name": "ADS Wallet",
   "description": "Secure identity vault for Adshares network.",
   "private": true,

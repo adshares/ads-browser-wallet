@@ -10,6 +10,7 @@ const config = {
   txsRemoteTransferFee: 0.0005,
   txsChangeKeyFee: 10000000,
   txsBroadcastFee: 1000,
+  feeThreshold: 0.2,
   derivationPath: "m/44'/311'/",
   passwordMinLength: 8,
   initKeysQuantity: 3,

@@ -150,7 +150,7 @@ export default class TransactionPage extends PageComponent {
     );
   }
 
-  renderButtons() {
+  renderButtons(isDisabled = false) {
     return (
       <div className={style.buttons}>
         <ButtonLink
@@ -167,7 +167,7 @@ export default class TransactionPage extends PageComponent {
           type="submit"
           icon="right"
           layout="info"
-          disabled={this.props.isSubmitted}
+          disabled={isDisabled || this.props.isSubmitted}
         >Next <FontAwesomeIcon icon={faChevronRight} />
         </Button>
       </div>
@@ -202,7 +202,7 @@ export default class TransactionPage extends PageComponent {
       accountHash,
       transactionData,
       errorMsg,
-      history
+      history,
     } = this.props;
 
     if (isSignRequired) {

@@ -106,7 +106,6 @@ const validateForm = (action, state) => {
     const { isFormValid, actionsToDispatch } = Object.entries(inputs).reduce(
       (acc, [inputName]) => {
         const errorMsg = getInputErrorMsg(transactionType, inputName, state, gateway);
-        console.debug(errorMsg);
         const isInputValid = errorMsg === null;
         const actionToDispatch = isInputValid
           ? inputValidateSuccess(transactionType, inputName)

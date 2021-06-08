@@ -14,6 +14,7 @@ export default class ButtonLink extends React.Component {
       icon,
       external,
       disabled,
+      onClick,
       ...rest
     } = this.props;
 
@@ -48,13 +49,13 @@ export default class ButtonLink extends React.Component {
     }
     if (external) {
       return (
-        <a className={styleClassName} {...rest}>
+        <a className={styleClassName} onClick={onClick} {...rest}>
           {children}
         </a>
       );
     }
     return (
-      <Link className={styleClassName} {...rest}>
+      <Link className={styleClassName} onClick={onClick} {...rest}>
         {children}
       </Link>
     );
@@ -70,4 +71,5 @@ ButtonLink.propTypes = {
   icon: PropTypes.string,
   external: PropTypes.bool,
   disabled: PropTypes.bool,
+  onClick: PropTypes.func,
 };

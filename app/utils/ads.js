@@ -777,8 +777,16 @@ function decodeMessage(value, onlyPrintable = true) {
   return str.length > 0 ? str : '--- empty ---';
 }
 
-function formatAdsMoney(amount, precision = 4, trim = false, decimal = '.', thousand = ',') {
+function formatNumber(amount, precision = 2, trim = true, decimal = '.', thousand = ',') {
   return (Number(amount) || 0).toFixed(precision).replace(/([0-9]{2})(0+)$/, trim ? '$1' : '$1$2').replace(/\d(?=(\d{3})+\.)/g, `$&${thousand}`).replace('.', decimal);
+}
+
+function formatPercent(amount, precision = 2, trim = false, decimal = '.', thousand = ',') {
+  return `${formatNumber(100 * (Number(amount) || 0), precision, trim, decimal, thousand)}%`;
+}
+
+function formatAdsMoney(amount, precision = 4, trim = false, decimal = '.', thousand = ',') {
+  return formatNumber(amount, precision, trim, decimal, thousand);
 }
 
 function formatClickMoney(value, precision = 11, trim = false, decimal = '.', thousand = ',') {
@@ -875,6 +883,8 @@ export default {
   encodeCommand,
   decodeCommand,
   decodeMessage,
+  formatNumber,
+  formatPercent,
   formatAdsMoney,
   formatClickMoney,
   formatAddress,

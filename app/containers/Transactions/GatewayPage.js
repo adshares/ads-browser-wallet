@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons';
+import config from '../../config/config';
 import {
   cleanForm,
   inputChanged,
+  validateInput,
   validateForm,
   transactionAccepted,
   transactionRejected,
@@ -21,6 +24,7 @@ import style from './style.css';
 import Page from '../../components/Page/Page';
 import { prepareCommand } from '../../epics/transactionEpics';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
+import Box from '../../components/atoms/Box';
 
 class GatewayPage extends TransactionPage {
   static propTypes = {
@@ -34,6 +38,17 @@ class GatewayPage extends TransactionPage {
 
   constructor(props) {
     super(ADS.TX_TYPES.GATEWAY, props);
+  }
+
+  calculateFee() {
+    const sender = this.props.vault.accounts.find(
+      a => a.address === this.props.vault.selectedAccount
+    );
+    const command = prepareCommand(this.transactionType, sender, this.props.inputs);
+    this.chargedAmount = ADS.calculateChargedAmount(command);
+    this.externalFee = this.props.gatewayFee.value;
+    this.receivedAmount = ADS.calculateReceivedAmount(this.externalFee, command);
+    this.feeShare = 1.0 - (this.receivedAmount / this.chargedAmount);
   }
 
   handleAmountChange = (inputValue, inputName) => {
@@ -91,22 +106,24 @@ class GatewayPage extends TransactionPage {
     );
   }
 
+  renderButtons() {
+    return super.renderButtons(this.feeShare > config.feeThreshold);
+  }
+
   renderFee() {
-    const sender = this.props.vault.accounts.find(
-      a => a.address === this.props.vault.selectedAccount
-    );
-    const command = prepareCommand(this.transactionType, sender, this.props.inputs);
-    const chargedAmount = ADS.calculateChargedAmount(command);
-    const externalFee = this.props.gatewayFee.value;
-    const receivedAmount = ADS.calculateReceivedAmount(externalFee, command);
     return (
-      <div className={style.feeInfo}>
-        {this.props.gatewayFee.isSubmitted ? <LoaderOverlay /> : ''}
-        <small>You will be charged:</small><br />
-        {ADS.formatClickMoney(chargedAmount, 11, true)} ADS
-        <hr />
-        <small>You will receive approximately:</small><br />
-        {externalFee === null ? '---' : ADS.formatClickMoney(receivedAmount, 11, true)} ADS
+      <div className={style.feeInfoBox}>
+        { this.feeShare > config.feeThreshold ? <Box title="" layout="danger" icon={faExclamation}>
+          The fee exceeded {ADS.formatPercent(config.feeThreshold, 0)}
+        </Box> : ''}
+        <div className={style.feeInfo}>
+          {this.props.gatewayFee.isSubmitted ? <LoaderOverlay /> : ''}
+          <small>You will be charged:</small><br />
+          {ADS.formatClickMoney(this.chargedAmount, 11, true)} ADS
+          <hr />
+          <small>You will receive approximately:</small><br />
+          {this.externalFee === null ? '---' : ADS.formatClickMoney(this.receivedAmount, 11, true)} ADS
+        </div>
       </div>
     );
   }
@@ -123,8 +140,8 @@ class GatewayPage extends TransactionPage {
     const { vault: { gateways } } = this.props;
     const { code } = this.props.match.params;
     this.gateway = (gateways || []).find(g => g.code === code);
-
     if (this.gateway !== undefined) {
+      this.calculateFee();
       return super.render();
     }
 
@@ -151,6 +168,7 @@ export default withRouter(connect(
       {
         cleanForm,
         inputChanged,
+        validateInput,
         validateForm,
         transactionAccepted,
         transactionRejected,

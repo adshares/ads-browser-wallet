@@ -38,7 +38,7 @@ export default class Button extends React.Component {
     const styleClassName = classNames.join(' ');
 
     return (
-      <button className={styleClassName} {...rest}>
+      <button className={styleClassName} disabled={disabled} {...rest}>
         {children}
       </button>
     );

@@ -37,6 +37,7 @@ export default class TransactionPage extends PageComponent {
     actions: PropTypes.shape({
       cleanForm: PropTypes.func.isRequired,
       inputChanged: PropTypes.func.isRequired,
+      validateInput: PropTypes.func.isRequired,
       validateForm: PropTypes.func.isRequired,
       transactionRejected: PropTypes.func.isRequired,
       transactionAccepted: PropTypes.func.isRequired,
@@ -60,6 +61,13 @@ export default class TransactionPage extends PageComponent {
       inputName,
       inputValue
     );
+    if (!this.props.inputs[inputName].isValid) {
+      this.props.actions.validateInput(
+        this.transactionType,
+        inputName,
+        this.gateway,
+      );
+    }
   };
 
   handleSubmit = (event) => {
@@ -150,7 +158,7 @@ export default class TransactionPage extends PageComponent {
     );
   }
 
-  renderButtons() {
+  renderButtons(isDisabled = false) {
     return (
       <div className={style.buttons}>
         <ButtonLink
@@ -167,7 +175,7 @@ export default class TransactionPage extends PageComponent {
           type="submit"
           icon="right"
           layout="info"
-          disabled={this.props.isSubmitted}
+          disabled={isDisabled || this.props.isSubmitted}
         >Next <FontAwesomeIcon icon={faChevronRight} />
         </Button>
       </div>
@@ -202,7 +210,7 @@ export default class TransactionPage extends PageComponent {
       accountHash,
       transactionData,
       errorMsg,
-      history
+      history,
     } = this.props;
 
     if (isSignRequired) {

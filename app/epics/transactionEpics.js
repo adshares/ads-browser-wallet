@@ -1,21 +1,25 @@
 import { ofType } from 'redux-observable';
-import { of, from } from 'rxjs';
-import { mergeMap, withLatestFrom, catchError, switchMap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
-  inputValidateSuccess,
-  inputValidateFailure,
-  formValidationSuccess,
   formValidationFailure,
+  formValidationSuccess,
+  GET_GATEWAY_FEE,
+  getGatewayFailure,
+  getGatewaySuccess,
+  inputValidateFailure,
+  inputValidateSuccess,
   signTransaction,
-  transactionSuccess,
+  TRANSACTION_ACCEPTED,
   transactionFailure,
+  transactionSuccess,
   VALIDATE_FORM,
-  TRANSACTION_ACCEPTED, GET_GATEWAY_FEE, getGatewaySuccess, getGatewayFailure,
+  VALIDATE_INPUT,
 } from '../actions/transactionActions';
 import { RpcError } from '../actions/errors';
 import * as validators from '../utils/transactionValidators';
 import ADS from '../utils/ads';
-import { stringToHex, sanitizeHex } from '../utils/utils';
+import { sanitizeHex, stringToHex } from '../utils/utils';
 
 function sanitizeField(name, value, inputs) {
   switch (name) {
@@ -65,6 +69,34 @@ export const prepareTransaction = (transactionType, gateway, vault, inputs) => {
   return [transactionType, account.hash || '0', transactionData];
 };
 
+const getInputErrorMsg = (transactionType, inputName, state, gateway) => {
+  const { transactions } = state;
+  const { inputs } = transactions[transactionType];
+  const inputProps = inputs ? inputs[inputName] : null;
+  if (!inputProps) {
+    return 'Unknown error';
+  }
+  let errorMsg = null;
+  if (!inputProps.noValid) {
+    const validator = validators[inputName];
+    if (!validator) {
+      throw new Error(`No validator is defined for name ${inputName}`);
+    }
+    if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
+      errorMsg = validator({ value: inputProps.value, inputs, transactionType, gateway });
+    }
+  }
+  return errorMsg;
+};
+
+const validateInput = (action, state) => {
+  const { transactionType, inputName, gateway } = action;
+  const errorMsg = getInputErrorMsg(transactionType, inputName, state, gateway);
+  return errorMsg === null
+    ? of(inputValidateSuccess(transactionType, inputName))
+    : of(inputValidateFailure(transactionType, inputName, errorMsg));
+};
+
 const validateForm = (action, state) => {
   const { transactionType, gateway } = action;
   const { transactions, vault } = state;
@@ -72,19 +104,9 @@ const validateForm = (action, state) => {
 
   if (inputs) {
     const { isFormValid, actionsToDispatch } = Object.entries(inputs).reduce(
-      (acc, [inputName, inputProps]) => {
-        let errorMsg = null;
-        if (!inputProps.noValid) {
-          const validator = validators[inputName];
-          if (!validator) {
-            throw new Error(`No validator is defined for name ${inputName}`);
-          }
-          if (typeof inputProps.shown === 'undefined' || inputProps.shown === true) {
-            errorMsg = validator({ value: inputProps.value, inputs, transactionType, gateway });
-          }
-        }
+      (acc, [inputName]) => {
+        const errorMsg = getInputErrorMsg(transactionType, inputName, state, gateway);
         const isInputValid = errorMsg === null;
-
         const actionToDispatch = isInputValid
           ? inputValidateSuccess(transactionType, inputName)
           : inputValidateFailure(transactionType, inputName, errorMsg);
@@ -143,6 +165,12 @@ const sendTransaction = (action, state, adsRpc) => {
     )))
   );
 };
+
+export const validateTransactionInputEpic = (action$, state$) => action$.pipe(
+  ofType(VALIDATE_INPUT),
+  withLatestFrom(state$),
+  mergeMap(([action, state]) => validateInput(action, state))
+);
 
 export const validateTransactionFormEpic = (action$, state$) => action$.pipe(
   ofType(VALIDATE_FORM),

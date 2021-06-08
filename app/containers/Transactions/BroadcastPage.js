@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import {
   cleanForm,
   inputChanged,
+  validateInput,
   validateForm,
   transactionAccepted,
   transactionRejected,
@@ -69,6 +70,7 @@ export default withRouter(connect(
       {
         cleanForm,
         inputChanged,
+        validateInput,
         validateForm,
         transactionAccepted,
         transactionRejected,

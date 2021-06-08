@@ -112,9 +112,9 @@ class GatewayPage extends TransactionPage {
 
   renderFee() {
     return (
-      <div>
+      <div className={style.feeInfoBox}>
         { this.feeShare > config.feeThreshold ? <Box title="" layout="danger" icon={faExclamation}>
-          The fee is greater than 20%
+          The fee exceeded {ADS.formatPercent(config.feeThreshold, 0)}
         </Box> : ''}
         <div className={style.feeInfo}>
           {this.props.gatewayFee.isSubmitted ? <LoaderOverlay /> : ''}

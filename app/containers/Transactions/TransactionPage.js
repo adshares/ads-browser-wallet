@@ -37,6 +37,7 @@ export default class TransactionPage extends PageComponent {
     actions: PropTypes.shape({
       cleanForm: PropTypes.func.isRequired,
       inputChanged: PropTypes.func.isRequired,
+      validateInput: PropTypes.func.isRequired,
       validateForm: PropTypes.func.isRequired,
       transactionRejected: PropTypes.func.isRequired,
       transactionAccepted: PropTypes.func.isRequired,
@@ -60,6 +61,13 @@ export default class TransactionPage extends PageComponent {
       inputName,
       inputValue
     );
+    if (!this.props.inputs[inputName].isValid) {
+      this.props.actions.validateInput(
+        this.transactionType,
+        inputName,
+        this.gateway,
+      );
+    }
   };
 
   handleSubmit = (event) => {

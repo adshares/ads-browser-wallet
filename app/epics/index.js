@@ -12,6 +12,7 @@ import {
 } from './retrieveDataEpics';
 import unsealEpic from './unsealEpic';
 import {
+  validateTransactionInputEpic,
   validateTransactionFormEpic,
   sendTransactionEpic,
   getGatewayFeeEpic,
@@ -37,6 +38,7 @@ export default combineEpics(
   retrieveAccountEpic,
   retrieveNodesEpic,
   unsealEpic,
+  validateTransactionInputEpic,
   validateTransactionFormEpic,
   sendTransactionEpic,
   openDialogEpic,

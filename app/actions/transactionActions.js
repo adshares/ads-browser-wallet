@@ -1,6 +1,7 @@
 import ADS from '../utils/ads';
 
 export const INPUT_CHANGED = 'TRANSACTIONS_INPUT_CHANGED';
+export const VALIDATE_INPUT = 'TRANSACTIONS_VALIDATE_INPUT';
 export const VALIDATE_FORM = 'TRANSACTIONS_VALIDATE_FORM';
 export const INPUT_VALIDATION_SUCCESS = 'TRANSACTIONS_INPUT_VALIDATION_SUCCESS';
 export const INPUT_VALIDATION_FAILURE = 'TRANSACTIONS_INPUT_VALIDATION_FAILURE';
@@ -21,6 +22,13 @@ export const inputChanged = (transactionType, inputName, inputValue) => ({
   transactionType,
   inputName,
   inputValue
+});
+
+export const validateInput = (transactionType, inputName, gateway) => ({
+  type: VALIDATE_INPUT,
+  transactionType,
+  inputName,
+  gateway
 });
 
 export const validateForm = (transactionType, gateway) => ({

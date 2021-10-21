@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/index';
+import { faCheck, faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons/index';
 import { TransactionDataError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
@@ -11,19 +11,32 @@ import Button from '../../components/atoms/Button';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 import ADS from '../../utils/ads';
 import { formatDate } from '../../utils/utils';
-import { typeLabels, fieldLabels } from './labels';
+import { fieldLabels, typeLabels } from './labels';
 import config from '../../config/config';
 import style from './SignForm.css';
 
 export default class SignForm extends FormComponent {
   constructor(props) {
     super(props);
-
     const { transaction } = this.props;
+    this.state = {
+      transaction,
+      command: null,
+      dataError: false,
+      account: null,
+      key: null,
+      keyError: false,
+      showKeySelector: false,
+      showAdvanced: false,
+      ...this.parseCommand(transaction),
+    };
+  }
+
+  parseCommand(transaction) {
     let command;
     let key;
 
-    if (transaction && transaction.data) {
+    if (transaction && transaction.data && typeof transaction.data === 'string') {
       try {
         command = ADS.decodeCommand(transaction.data);
         key = this.findKey(command.sender, transaction.publicKey);
@@ -34,14 +47,12 @@ export default class SignForm extends FormComponent {
       }
     }
 
-    this.state = {
-      transaction,
+    return {
       command,
       dataError: !command,
       key,
       keyError: !key && transaction.publicKey,
       showKeySelector: !key,
-      showAdvanced: false,
     };
   }
 
@@ -65,6 +76,16 @@ export default class SignForm extends FormComponent {
     return null;
   }
 
+  prepareResponse(state) {
+    const { transaction, key } = state;
+    const signature = ADS.sign(
+      transaction.hash + transaction.data,
+      key.publicKey,
+      key.secretKey
+    );
+    return { signature };
+  }
+
   toggleAdvanced = (visible) => {
     this.setState({ showAdvanced: visible });
   };
@@ -80,14 +101,7 @@ export default class SignForm extends FormComponent {
   handleAccept = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    const { transaction, key } = this.state;
-    const signature = ADS.sign(
-      transaction.hash + transaction.data,
-      key.publicKey,
-      key.secretKey
-    );
-    this.props.acceptAction(signature);
+    this.props.acceptAction(this.prepareResponse(this.state));
   };
 
   handleReject = (event) => {
@@ -104,13 +118,17 @@ export default class SignForm extends FormComponent {
     }
   };
 
+  renderInfo() {
+    return '';
+  }
+
   renderCommand(type, fields) {
     switch (type) {
-      case 'broadcast':
+      case ADS.TX_TYPES.BROADCAST:
         return this.renderBroadcast(fields);
-      case 'send_one':
+      case ADS.TX_TYPES.SEND_ONE:
         return this.renderSendOne(fields);
-      case 'send_many':
+      case ADS.TX_TYPES.SEND_MANY:
         return this.renderSendMany(fields);
       default:
         return this.renderFields(fields);
@@ -118,6 +136,9 @@ export default class SignForm extends FormComponent {
   }
 
   renderAddress(address, label = fieldLabels.address) {
+    if (!address) {
+      return;
+    }
     const link = `${config.operatorUrl}blockexplorer/accounts/${address}`;
     return (
       <tr>
@@ -278,40 +299,49 @@ export default class SignForm extends FormComponent {
     );
   }
 
-  renderAdvanced(type, time, messageId, hash, key) {
+  renderAdvanced(command, transaction, key) {
     if (!this.state.showAdvanced) {
       return '';
     }
+    const { type, time } = command;
     const docLink = `${config.apiDocUrl}${type}`;
     return (
       <React.Fragment>
         <tr>
           <td>{fieldLabels.type}</td>
           <td>
-            {typeLabels[type]}<br />
-            <a href={docLink} target="_blank" rel="noopener noreferrer"><small>
-              {type}<FontAwesomeIcon icon={faExternalLinkAlt} />
-            </small></a>
+            {typeLabels[type]}{this.props.showDoc ? <React.Fragment><br />
+              <a href={docLink} target="_blank" rel="noopener noreferrer"><small>
+                {type}<FontAwesomeIcon icon={faExternalLinkAlt} />
+              </small></a></React.Fragment> : ''}
           </td>
         </tr>
         {time ? <tr>
           <td>{fieldLabels.time}</td>
           <td title={formatDate(time, true, true)}>{formatDate(time)}</td>
         </tr> : '' }
-        {messageId ? <tr>
-          <td>{fieldLabels.messageId}</td>
-          <td>{messageId}</td>
-        </tr> : '' }
-        {hash ? <tr>
-          <td>{fieldLabels.hash}</td>
-          <td><code>{hash}</code></td>
-        </tr> : '' }
+        {this.renderAdvancedFields(command, transaction)}
         {key ? <tr>
           <td>Public key</td>
           <td className={style.keyLabel}>
             <small>{key.name}</small>
             <code>{key.publicKey}</code>
           </td>
+        </tr> : '' }
+      </React.Fragment>
+    );
+  }
+
+  renderAdvancedFields(command, transaction) {
+    return (
+      <React.Fragment>
+        {command.messageId ? <tr>
+          <td>{fieldLabels.messageId}</td>
+          <td>{command.messageId}</td>
+        </tr> : '' }
+        {transaction.hash ? <tr>
+          <td>{fieldLabels.hash}</td>
+          <td><code>{transaction.hash}</code></td>
         </tr> : '' }
       </React.Fragment>
     );
@@ -340,10 +370,11 @@ export default class SignForm extends FormComponent {
   }
 
   renderSignForm(transaction, command, key, keys) {
-    const { type, sender, time, messageId, ...rest } = command;
+    const { type, sender, ...rest } = command;
 
     return (
       <Form>
+        {this.renderInfo(command)}
         <table className={style.fields}>
           <tbody>
             {this.renderAddress(sender, fieldLabels.sender)}
@@ -357,7 +388,7 @@ export default class SignForm extends FormComponent {
                 />
               </td>
             </tr>
-            {this.renderAdvanced(type, time, messageId, transaction.hash, key)}
+            {this.renderAdvanced(command, transaction, key)}
             {this.renderKeySelector(keys, key)}
           </tbody>
         </table>
@@ -414,8 +445,8 @@ export default class SignForm extends FormComponent {
     return (
       <Page
         className={style.page}
-        title={typeLabels[type] || type}
-        subTitle={`${sender}`}
+        title={this.props.showTitle ? typeLabels[type] || type : null}
+        subTitle={this.props.showTitle ? `${sender}` : null}
         cancelLink={this.props.cancelLink}
         onCancelClick={this.handleCancelClick}
         noLinks={this.props.noLinks}
@@ -436,4 +467,6 @@ SignForm.propTypes = {
   cancelAction: PropTypes.func,
   noLinks: PropTypes.bool,
   showLoader: PropTypes.bool,
+  showTitle: PropTypes.bool,
+  showDoc: PropTypes.bool,
 };

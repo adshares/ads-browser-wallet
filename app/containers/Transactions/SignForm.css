@@ -1,5 +1,5 @@
-.page {
-
+.page h1 {
+    text-align: center;
 }
 
 .fields {
@@ -96,4 +96,11 @@
 
 .buttons > * {
     margin: 0 15px;
+}
+
+.info {
+    text-align: center;
+    padding: 0px 4px 20px 4px;
+    margin: 0;
+    border-bottom: 1px solid var(--gray);
 }

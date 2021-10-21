@@ -24,6 +24,7 @@ export const typeLabels = {
   get_message_list: 'Receiving messages',
   get_message: 'Receiving message',
   get_fields: 'Receiving fields',
+  authenticate: 'Authentication'
 };
 
 export const fieldLabels = {
@@ -49,4 +50,6 @@ export const fieldLabels = {
   vipHash: 'VIP hash',
   wireCount: 'Recipients',
   wires: 'Recipients',
+  nonce: 'Nonce',
+  hostname: 'Hostname',
 };

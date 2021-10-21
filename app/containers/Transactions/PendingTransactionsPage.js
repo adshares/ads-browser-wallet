@@ -14,6 +14,7 @@ import { TransactionDataError } from '../../actions/errors';
 import { formatDate } from '../../utils/utils';
 import { typeLabels } from './labels';
 import config from '../../config/config';
+import * as types from '../../../app/constants/MessageTypes';
 import style from './style.css';
 
 class PendingTransactionsPage extends PageComponent {
@@ -33,22 +34,28 @@ class PendingTransactionsPage extends PageComponent {
   }
 
   renderItem(item) {
-    let command;
-    if (!item.data || !item.data.data) {
-      return this.renderErrorPage(400, 'Malformed transaction data');
-    }
-    try {
-      command = ADS.decodeCommand(item.data.data);
-    } catch (err) {
-      if (err instanceof TransactionDataError) {
+    let type;
+
+    if (item.type === types.MSG_SIGN) {
+      if (!item.data || !item.data.data) {
         return this.renderErrorPage(400, 'Malformed transaction data');
       }
-      throw err;
+      try {
+        const command = ADS.decodeCommand(item.data.data);
+        type = command.type;
+      } catch (err) {
+        if (err instanceof TransactionDataError) {
+          return this.renderErrorPage(400, 'Malformed transaction data');
+        }
+        throw err;
+      }
+    } else {
+      type = item.type;
     }
 
     return (
       <div key={item.id}>
-        <b>{typeLabels[command.type]}</b>
+        <b>{typeLabels[type]}</b>
         <span title={formatDate(item.time, true, true)}>{formatDate(item.time)}</span>
         <i>#{item.id}</i>
         <ButtonLink
@@ -67,7 +74,7 @@ class PendingTransactionsPage extends PageComponent {
   render() {
     const queue = this.props.queue.filter(t =>
       !!config.testnet === !!t.testnet &&
-      t.type === 'sign'
+      (t.type === types.MSG_SIGN || t.type === types.MSG_AUTHENTICATE)
     );
 
     return (

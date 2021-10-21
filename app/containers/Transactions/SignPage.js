@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PageComponent from '../../components/PageComponent';
+import AuthenticateForm from './AuthenticateForm';
 import SignForm from './SignForm';
 import BgClient from '../../utils/background';
+import * as types from '../../../app/constants/MessageTypes';
 import config from '../../config/config';
 
 class SignPage extends PageComponent {
@@ -21,7 +23,7 @@ class SignPage extends PageComponent {
     const { action, source, id } = this.props.match.params;
     const message = this.props.queue.find(t =>
       !!config.testnet === !!t.testnet &&
-      t.type === 'sign' &&
+      (t.type === types.MSG_AUTHENTICATE || t.type === types.MSG_SIGN) &&
       t.sourceId === source &&
       t.id === id
     );
@@ -35,11 +37,11 @@ class SignPage extends PageComponent {
     };
   }
 
-  sendResponse = (status, signature) => {
+  sendResponse = (status, data) => {
     BgClient.sendResponse(
       this.state.message.sourceId,
       this.state.message.id,
-      { status, signature },
+      { status, ...data },
     );
     if (this.state.popup) {
       chrome.tabs.getCurrent((tab) => {
@@ -50,11 +52,11 @@ class SignPage extends PageComponent {
     }
   }
 
-  handleAccept = (signature) => {
+  handleAccept = (data) => {
     this.setState({
       isSubmitted: true
     }, () => {
-      this.sendResponse('accepted', signature);
+      this.sendResponse('accepted', data);
     });
   }
 
@@ -71,18 +73,22 @@ class SignPage extends PageComponent {
     if (!message) {
       return this.renderErrorPage(404, `Cannot find message ${id}`);
     }
-    return (
-      <SignForm
-        transaction={message.data}
-        vault={this.props.vault}
-        acceptAction={this.handleAccept}
-        rejectAction={this.handleReject}
-        cancelLink={this.getReferrer()}
-        onCancelClick={this.handleReject}
-        noLinks={this.state.popup}
-        showLoader={this.state.isSubmitted}
-        history={this.props.history}
-      />
+    const isAuth = message.type === types.MSG_AUTHENTICATE;
+    const form = isAuth ? AuthenticateForm : SignForm;
+    return React.createElement(form,
+      {
+        transaction: message.data,
+        vault: this.props.vault,
+        acceptAction: this.handleAccept,
+        rejectAction: this.handleReject,
+        cancelLink: this.getReferrer(),
+        onCancelClick: this.handleReject,
+        noLinks: this.state.popup,
+        showLoader: this.state.isSubmitted,
+        history: this.props.history,
+        showTitle: !isAuth,
+        showDoc: !isAuth,
+      }
     );
   }
 }

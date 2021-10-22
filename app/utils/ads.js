@@ -49,6 +49,8 @@ const TX_FIELDS = {
   WIRE_COUNT: 'wireCount',
   /** wires */
   WIRES: 'wires',
+  /** extra */
+  EXTRA: 'extra',
 };
 
 /**
@@ -85,6 +87,7 @@ const TX_TYPES = {
   GET_GATEWAYS: 'get_gateways',
   GET_GATEWAY_FEE: 'get_gateway_fee',
   GATEWAY: 'gateway',
+  GET_TIMESTAMP: 'get_timestamp',
 };
 
 /**

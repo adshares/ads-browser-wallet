@@ -65,11 +65,12 @@ export const cleanForm = transactionType => ({
   transactionType
 });
 
-export const signTransaction = (transactionType, accountHash, transactionData) => ({
+export const signTransaction = (transactionType, accountHash, transactionData, extra) => ({
   type: SIGN_TRANSACTION,
   transactionType,
   accountHash,
-  transactionData
+  transactionData,
+  extra
 });
 
 export const transactionAccepted = (transactionType, signature) => ({

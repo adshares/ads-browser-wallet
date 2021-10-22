@@ -4,33 +4,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# [0.4.2] - 2021-06-08
+## [Unreleased]
+
+## [0.4.3] - 2021-10-22
+### Added
+- Authentication with wallet
+### Changed
+- Wrap summary page
+### Fixed
+- Out of sync transaction time
+- Account name validation
+
+## [0.4.2] - 2021-06-08
 ### Added
 - Gateway fee threshold
 ### Fixed
 - Gateway form validation
 
-# [0.4.1] - 2021-05-06
+## [0.4.1] - 2021-05-06
 ### Fixed
 - Undefined gateways error
 
-# [0.4.0] - 2021-05-06
+## [0.4.0] - 2021-05-06
 ### Added
 - ADS Error info support
 - Automatic account finder
 - Wrapped ADS support
 
-# [0.3.2] - 2019-03-22
+## [0.3.2] - 2019-03-22
 ### Removed
 - npm lock file
 
-# [0.3.1] - 2019-02-25
+## [0.3.1] - 2019-02-25
 ### Added
 - Free coins info
 ### Fixed
 - Calculation of the fee
 
-# [0.3.0] - 2019-01-30
+## [0.3.0] - 2019-01-30
 ### Added
 - Firefox extension support
 - Transaction fee info
@@ -42,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Password validation during adding items
 
-# [0.2.1] - 2019-01-16
+## [0.2.1] - 2019-01-16
 ### Added
 - Account menu chevron
 ### Fixed
@@ -51,7 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Page scroll
 - Manifest permissions
 
-# [0.2.0] - 2019-01-15
+## [0.2.0] - 2019-01-15
 ### Added
 - Free accounts support
 - Broadcast support
@@ -60,7 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Swinging buttons after submit
 
-## [0.1.1] - 2019-01-11
+### [0.1.1] - 2019-01-11
 ### Added
 - Store form temporary state
 ### Changed
@@ -68,7 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Location preservation
 
-## [0.1.0] - 2019-01-10
+### [0.1.0] - 2019-01-10
 ### Added
 - Creating transactions
 - Signing transactions
@@ -80,8 +91,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Storage encryption
 - Docs
 
-[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.3...HEAD
 
+[0.4.3]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/adshares/ads-browser-wallet/compare/v0.3.2...v0.4.0

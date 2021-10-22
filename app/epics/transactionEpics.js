@@ -35,7 +35,7 @@ function sanitizeField(name, value, inputs) {
   }
 }
 
-export const prepareCommand = (transactionType, sender, inputs) => {
+export const prepareCommand = (transactionType, sender, inputs, time) => {
   const command = {};
   command[ADS.TX_FIELDS.TYPE] = transactionType === ADS.TX_TYPES.GATEWAY ?
     ADS.TX_TYPES.SEND_ONE :
@@ -43,30 +43,30 @@ export const prepareCommand = (transactionType, sender, inputs) => {
   ;
   command[ADS.TX_FIELDS.SENDER] = sender.address;
   command[ADS.TX_FIELDS.MESSAGE_ID] = sender.messageId || '0';
-  command[ADS.TX_FIELDS.TIME] = new Date();
+  command[ADS.TX_FIELDS.TIME] = time ? new Date(time * 1000) : new Date();
   Object.keys(inputs).forEach((k) => {
     command[k] = sanitizeField(k, inputs[k].value, inputs);
   });
   return command;
 };
 
-export const prepareGatewayCommand = (gateway, sender, inputs) => {
+export const prepareGatewayCommand = (gateway, sender, inputs, time) => {
   const address = sanitizeHex(inputs[ADS.TX_FIELDS.ADDRESS].value);
   const fields = {};
   fields[ADS.TX_FIELDS.ADDRESS] = { value: gateway.address };
   fields[ADS.TX_FIELDS.AMOUNT] = inputs[ADS.TX_FIELDS.AMOUNT];
   fields[ADS.TX_FIELDS.MSG] = { value: `${gateway.prefix}${address}` };
-  return prepareCommand(ADS.TX_TYPES.SEND_ONE, sender, fields);
+  fields[ADS.TX_FIELDS.EXTRA] = { value: { gateway } };
+  return prepareCommand(ADS.TX_TYPES.GATEWAY, sender, fields, time);
 };
 
-export const prepareTransaction = (transactionType, gateway, vault, inputs) => {
+export const prepareTransaction = (transactionType, gateway, vault, inputs, time) => {
   const account = vault.accounts.find(a => a.address === vault.selectedAccount);
   const command = transactionType === ADS.TX_TYPES.GATEWAY ?
-    prepareGatewayCommand(gateway, account, inputs) :
-    prepareCommand(transactionType, account, inputs);
+    prepareGatewayCommand(gateway, account, inputs, time) :
+    prepareCommand(transactionType, account, inputs, time);
   const transactionData = ADS.encodeCommand(command);
-
-  return [transactionType, account.hash || '0', transactionData];
+  return [transactionType, account.hash || '0', transactionData, command.extra || null];
 };
 
 const getInputErrorMsg = (transactionType, inputName, state, gateway) => {
@@ -97,7 +97,7 @@ const validateInput = (action, state) => {
     : of(inputValidateFailure(transactionType, inputName, errorMsg));
 };
 
-const validateForm = (action, state) => {
+const validateForm = (action, state, time) => {
   const { transactionType, gateway } = action;
   const { transactions, vault } = state;
   const { inputs } = transactions[transactionType];
@@ -122,7 +122,7 @@ const validateForm = (action, state) => {
       ? of(
         ...actionsToDispatch,
         formValidationSuccess(transactionType),
-        signTransaction(...prepareTransaction(transactionType, gateway, vault, inputs)),
+        signTransaction(...prepareTransaction(transactionType, gateway, vault, inputs, time)),
       )
       : of(
         ...actionsToDispatch,
@@ -172,10 +172,16 @@ export const validateTransactionInputEpic = (action$, state$) => action$.pipe(
   mergeMap(([action, state]) => validateInput(action, state))
 );
 
-export const validateTransactionFormEpic = (action$, state$) => action$.pipe(
+export const validateTransactionFormEpic = (action$, state$, { adsRpc }) => action$.pipe(
   ofType(VALIDATE_FORM),
   withLatestFrom(state$),
-  mergeMap(([action, state]) => validateForm(action, state))
+  switchMap(([action, state]) => from(adsRpc.getTimestamp()).pipe(
+    mergeMap(time => validateForm(action, state, time)),
+    catchError(error => of(transactionFailure(
+      action.transactionType,
+      error instanceof RpcError ? error.message : 'Unknown error'
+    )))
+  ))
 );
 
 export const sendTransactionEpic = (action$, state$, { adsRpc }) => action$.pipe(

@@ -30,6 +30,7 @@ export default function handleMessage(message, sourceId, callback) {
         time: (new Date()).toISOString(),
       });
       break;
+    case types.MSG_AUTHENTICATE:
     case types.MSG_SIGN:
       queue.pushUnique({
         sourceId,

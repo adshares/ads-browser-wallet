@@ -26,6 +26,7 @@ import Logo from '../../components/Logo/Logo';
 import { formatAdsMoney } from '../../utils/ads';
 import style from './HomePage.css';
 import config from '../../config/config';
+import * as types from '../../../app/constants/MessageTypes';
 import { copyToClipboard } from '../../utils/utils';
 
 class HomePage extends React.PureComponent {
@@ -144,7 +145,7 @@ class HomePage extends React.PureComponent {
     const { vault, queue, mainPage, settingsPage } = this.props;
     const filteredQueue = queue.filter(t =>
       !!config.testnet === !!t.testnet &&
-      t.type === 'sign'
+      (t.type === types.MSG_SIGN || t.type === types.MSG_AUTHENTICATE)
     );
     const { selectedAccount, accounts, gateways } = vault;
     const accountData = accounts.find(account => account.address === selectedAccount);

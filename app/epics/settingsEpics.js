@@ -137,8 +137,8 @@ export const saveKeyEpic = (action$, state$, { history }) => action$.pipe(
           .catch(error => SA.saveKeyFailure(SA.SAVE_KEY, initAction.editedId, error.message || 'Unknown error'));
 
         const { pages: { [SA.SAVE_KEY]: { inputs } } } = state;
-        const name = inputs.name.value;
-        const secretKey = inputs.secretKey.value;
+        const name = inputs.name.value.trim();
+        const secretKey = inputs.secretKey.value.trim();
         return concat(
           of(VA.saveKey(secretKey, name, resolve)),
           from(promise),
@@ -231,8 +231,8 @@ export const saveAccountEpic = (action$, state$, { history }) => action$.pipe(
           .catch(error => SA.saveAccountFailure(SA.SAVE_ACCOUNT, initAction.editedId, error.message || 'Unknown error'));
 
         const { vault, pages: { [SA.SAVE_ACCOUNT]: { publicKey, inputs } } } = state;
-        const name = inputs.name.value;
-        const address = inputs.address.value;
+        const name = inputs.name.value.trim();
+        const address = inputs.address.value.trim();
         const keyIndex = findKeyIndex(vault.seed, publicKey);
 
         const actions = [];

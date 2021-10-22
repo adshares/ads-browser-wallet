@@ -5,25 +5,26 @@ import { getPublicKeyFromSecret, findKeyIndex } from './keybox';
 import { SAVE_KEY, SAVE_ACCOUNT } from '../actions/settingsActions';
 
 const name = ({ pageName, value, vault, editedId }) => {
+  const val = value.trim();
   if (pageName === SAVE_KEY) {
-    if (vault.keys.find(key => key.name.toLowerCase() === value.toLowerCase())) {
-      return `Key named ${value} already exists`;
+    if (vault.keys.find(key => key.name.toLowerCase() === val.toLowerCase())) {
+      return `Key named ${val} already exists`;
     }
     if (vault.keys.filter(key => key.type === 'imported').length >=
       config.importedKeysLimit) {
       return 'Maximum imported keys limit has been reached. Please remove unused keys.';
     }
   }
-  if (pageName === SAVE_ACCOUNT && vault.accounts.find(a =>
-    a.address !== editedId && a.name.toLowerCase() === value.toLowerCase()
+  if (pageName === SAVE_ACCOUNT && val.length > 0 && vault.accounts.find(a =>
+    a.address !== editedId && a.name.toLowerCase() === val.toLowerCase()
   )) {
-    return `Account named ${value} already exists`;
+    return `Account named ${val} already exists`;
   }
-  if (value.length > config.itemNameMaxLength) {
+  if (val.length > config.itemNameMaxLength) {
     return `Given name is too long (max ${config.itemNameMaxLength} characters).`;
   }
 
-  if (pageName !== SAVE_ACCOUNT && !value) {
+  if (pageName !== SAVE_ACCOUNT && !val) {
     return 'Name cannot be empty';
   }
   return null;

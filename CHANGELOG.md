@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # [0.4.3] - 2021-10-22
 ### Added
 - Authentication with wallet
+### Fixed
+- Account name validation
 
 # [0.4.2] - 2021-06-08
 ### Added

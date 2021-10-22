@@ -4,6 +4,7 @@ const transactionInitialState = {
   isSubmitted: false,
   accountHash: null,
   transactionData: null,
+  extra: null,
   isSignRequired: false,
   signature: null,
   isTransactionSent: false,
@@ -90,7 +91,8 @@ const transactionActionsMap = {
       ...state,
       isSignRequired: true,
       accountHash: action.accountHash,
-      transactionData: action.transactionData
+      transactionData: action.transactionData,
+      extra: action.extra
     };
   },
 

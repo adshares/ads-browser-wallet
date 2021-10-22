@@ -32,6 +32,10 @@ export default class SignForm extends FormComponent {
     };
   }
 
+  isGateway() {
+    return this.props.extra && this.props.extra.gateway;
+  }
+
   parseCommand(transaction) {
     let command;
     let key;
@@ -118,11 +122,34 @@ export default class SignForm extends FormComponent {
     }
   };
 
+  getTitle(command) {
+    if (!this.props.showTitle) {
+      return null;
+    }
+    if (this.isGateway()) {
+      return this.props.extra.gateway.name;
+    }
+    return typeLabels[command.type] || command.type;
+  }
+
+  getSubTitle(command) {
+    if (!this.props.showTitle) {
+      return null;
+    }
+    if (this.isGateway()) {
+      return null;
+    }
+    return `${command.sender}`;
+  }
+
   renderInfo() {
     return '';
   }
 
   renderCommand(type, fields) {
+    if (this.isGateway()) {
+      return this.renderGateway(fields);
+    }
     switch (type) {
       case ADS.TX_TYPES.BROADCAST:
         return this.renderBroadcast(fields);
@@ -146,6 +173,34 @@ export default class SignForm extends FormComponent {
         <td><a href={link} target="_blank" rel="noopener noreferrer">
           {address}<FontAwesomeIcon icon={faExternalLinkAlt} />
         </a></td>
+      </tr>
+    );
+  }
+
+  renderGatewayAddress(message, gateway, label = fieldLabels.address) {
+    if (!message) {
+      return;
+    }
+
+    const address = message.replace(gateway.prefix, '').toLowerCase();
+    let link = null;
+    if (gateway.code === 'ETH') {
+      link = `https://etherscan.io/address/0x${address}`;
+    } else if (gateway.code === 'BSC') {
+      link = `https://bscscan.com/address/0x${address}`;
+    }
+
+    return (
+      <tr>
+        <td>{label}</td>
+        <td>
+          {link ?
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              <code>{address}</code><FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a> :
+            <code>{address}</code>
+          }
+        </td>
       </tr>
     );
   }
@@ -199,6 +254,18 @@ export default class SignForm extends FormComponent {
         <td>{label}</td>
         <td><code title={ADS.decodeMessage(msg)}>{msg}</code></td>
       </tr>
+    );
+  }
+
+  renderGateway(fields) {
+    return (
+      <React.Fragment>
+        {this.renderGatewayAddress(fields.message, this.props.extra.gateway, fieldLabels.recipient)}
+        <tr>
+          <td>{fieldLabels.amount}</td>
+          <td>{ADS.formatClickMoney(fields.amount, 11, true)} ADS</td>
+        </tr>
+      </React.Fragment>
     );
   }
 
@@ -303,7 +370,7 @@ export default class SignForm extends FormComponent {
     if (!this.state.showAdvanced) {
       return '';
     }
-    const { type, time } = command;
+    const { type, time, address, message } = command;
     const docLink = `${config.apiDocUrl}${type}`;
     return (
       <React.Fragment>
@@ -316,6 +383,8 @@ export default class SignForm extends FormComponent {
               </small></a></React.Fragment> : ''}
           </td>
         </tr>
+        {this.isGateway() ? this.renderAddress(address, fieldLabels.gate) : ''}
+        {this.isGateway() ? this.renderMessage(message) : ''}
         {time ? <tr>
           <td>{fieldLabels.time}</td>
           <td title={formatDate(time, true, true)}>{formatDate(time)}</td>
@@ -440,13 +509,12 @@ export default class SignForm extends FormComponent {
     }
 
     const keys = this.state.showKeySelector ? this.props.vault.keys : null;
-    const { type, sender } = command;
 
     return (
       <Page
         className={style.page}
-        title={this.props.showTitle ? typeLabels[type] || type : null}
-        subTitle={this.props.showTitle ? `${sender}` : null}
+        title={this.getTitle(command)}
+        subTitle={this.getSubTitle(command)}
         cancelLink={this.props.cancelLink}
         onCancelClick={this.handleCancelClick}
         noLinks={this.props.noLinks}
@@ -463,6 +531,7 @@ SignForm.propTypes = {
   vault: PropTypes.object.isRequired,
   acceptAction: PropTypes.func.isRequired,
   rejectAction: PropTypes.func.isRequired,
+  extra: PropTypes.object,
   cancelLink: PropTypes.any,
   cancelAction: PropTypes.func,
   noLinks: PropTypes.bool,

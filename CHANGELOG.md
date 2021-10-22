@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.4.3] - 2021-10-22
 ### Added
 - Authentication with wallet
+### Changed
+- Wrap summary page
 ### Fixed
 - Out of sync transaction time
 - Account name validation

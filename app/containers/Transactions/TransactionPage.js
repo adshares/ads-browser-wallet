@@ -211,6 +211,7 @@ export default class TransactionPage extends PageComponent {
       isTransactionSent,
       accountHash,
       transactionData,
+      extra,
       errorMsg,
       history,
     } = this.props;
@@ -223,12 +224,15 @@ export default class TransactionPage extends PageComponent {
       return (
         <SignForm
           transaction={transaction}
+          extra={extra}
           vault={vault}
           acceptAction={this.handleAccept}
           rejectAction={this.handleReject}
           cancelAction={this.handleSignCancel}
           cancelLink={this.getReferrer()}
           showLoader={isSubmitted}
+          showTitle
+          showDoc
           history={history}
         />
       );

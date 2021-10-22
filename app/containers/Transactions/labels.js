@@ -52,4 +52,5 @@ export const fieldLabels = {
   wires: 'Recipients',
   nonce: 'Nonce',
   hostname: 'Hostname',
+  gate: 'Gate',
 };

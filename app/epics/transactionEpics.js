@@ -56,7 +56,8 @@ export const prepareGatewayCommand = (gateway, sender, inputs, time) => {
   fields[ADS.TX_FIELDS.ADDRESS] = { value: gateway.address };
   fields[ADS.TX_FIELDS.AMOUNT] = inputs[ADS.TX_FIELDS.AMOUNT];
   fields[ADS.TX_FIELDS.MSG] = { value: `${gateway.prefix}${address}` };
-  return prepareCommand(ADS.TX_TYPES.SEND_ONE, sender, fields, time);
+  fields[ADS.TX_FIELDS.EXTRA] = { value: { gateway } };
+  return prepareCommand(ADS.TX_TYPES.GATEWAY, sender, fields, time);
 };
 
 export const prepareTransaction = (transactionType, gateway, vault, inputs, time) => {
@@ -65,8 +66,7 @@ export const prepareTransaction = (transactionType, gateway, vault, inputs, time
     prepareGatewayCommand(gateway, account, inputs, time) :
     prepareCommand(transactionType, account, inputs, time);
   const transactionData = ADS.encodeCommand(command);
-
-  return [transactionType, account.hash || '0', transactionData];
+  return [transactionType, account.hash || '0', transactionData, command.extra || null];
 };
 
 const getInputErrorMsg = (transactionType, inputName, state, gateway) => {

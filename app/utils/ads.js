@@ -49,6 +49,8 @@ const TX_FIELDS = {
   WIRE_COUNT: 'wireCount',
   /** wires */
   WIRES: 'wires',
+  /** extra */
+  EXTRA: 'extra',
 };
 
 /**

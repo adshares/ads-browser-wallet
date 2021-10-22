@@ -44,7 +44,7 @@ class GatewayPage extends TransactionPage {
     const sender = this.props.vault.accounts.find(
       a => a.address === this.props.vault.selectedAccount
     );
-    const command = prepareCommand(this.transactionType, sender, this.props.inputs);
+    const command = prepareCommand(this.transactionType, sender, this.props.inputs, 0);
     this.chargedAmount = ADS.calculateChargedAmount(command);
     this.externalFee = this.props.gatewayFee.value;
     this.receivedAmount = ADS.calculateReceivedAmount(this.externalFee, command);

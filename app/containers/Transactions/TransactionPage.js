@@ -79,10 +79,10 @@ export default class TransactionPage extends PageComponent {
     );
   };
 
-  handleAccept = (signature) => {
+  handleAccept = (data) => {
     this.props.actions.transactionAccepted(
       this.transactionType,
-      signature
+      data.signature
     );
   };
 
@@ -152,7 +152,9 @@ export default class TransactionPage extends PageComponent {
     const sender = this.props.vault.accounts.find(
       a => a.address === this.props.vault.selectedAccount
     );
-    const fee = ADS.calculateFee(prepareCommand(this.transactionType, sender, this.props.inputs));
+    const fee = ADS.calculateFee(
+      prepareCommand(this.transactionType, sender, this.props.inputs, 0)
+    );
     return (
       <div className={style.feeInfo}>Fee: {ADS.formatClickMoney(fee, 11, true)} ADS</div>
     );

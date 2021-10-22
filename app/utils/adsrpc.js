@@ -152,4 +152,13 @@ export default class {
       return response.fee;
     });
   }
+
+  getTimestamp() {
+    return this.request(ADS.TX_TYPES.GET_TIMESTAMP).then((response) => {
+      if (!response || !response.timestamp) {
+        throw new RpcError('RPC Server Response Error', response);
+      }
+      return response.timestamp;
+    });
+  }
 }

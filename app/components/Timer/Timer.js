@@ -34,7 +34,7 @@ export default class Timer extends React.Component {
       block,
       nextBlock,
       time: (nextBlock - now) + 1,
-      dividend: block % (config.blockLength * config.dividentLength) === 0,
+      dividend: block % (config.blockLength * config.dividendLength) === 0,
     };
   };
 

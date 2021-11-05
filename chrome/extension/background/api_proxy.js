@@ -46,6 +46,22 @@ export default function handleMessage(message, sourceId, callback) {
         openInTheNewTab(url);
       }
       break;
+    case types.MSG_BROADCAST:
+    case types.MSG_SEND_ONE:
+      queue.pushUnique({
+        sourceId,
+        testnet: !!message.testnet,
+        type: message.type,
+        id: message.id,
+        data: message.data,
+        time: (new Date()).toISOString(),
+      });
+      {
+        const network = message.testnet ? '/testnet' : '/mainnet';
+        const url = `window.html#${network}/transactions/${message.type}/${sourceId}/${message.id}`;
+        openInTheNewTab(url);
+      }
+      break;
     default:
       throw new PostMessageError(`Unknown message type: ${message.type}`, 400);
   }

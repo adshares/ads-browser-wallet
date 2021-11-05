@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 const config = {
   testnet: false,
   blockLength: 512,
-  dividentLength: 2048,
+  dividendLength: 2048,
   totalSupply: new BigNumber('3875820600000000000'),
   txsMinFee: 10000,
   txsLocalTransferFee: 0.0005,
@@ -38,6 +38,7 @@ const config = {
   about: require('./about'),
   terms: require('./terms'),
   attributions: require('./attributions'),
+  retrieve_account_data_period: 5000,
 };
 
 module.exports = config;

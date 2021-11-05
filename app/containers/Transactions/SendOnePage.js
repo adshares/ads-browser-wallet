@@ -10,6 +10,7 @@ import {
   validateForm,
   transactionAccepted,
   transactionRejected,
+  initMessageForm,
 } from '../../actions/transactionActions';
 import TransactionPage from './TransactionPage';
 import InputControl from '../../components/atoms/InputControl';
@@ -39,6 +40,9 @@ class SendOnePage extends TransactionPage {
       inputs: { address, amount, message, rawMessage },
       vault: { accounts, selectedAccount }
     } = this.props;
+    const {
+      readOnly
+    } = this.state;
     const account = accounts.find(a => a.address === selectedAccount);
     return (
       <React.Fragment>
@@ -51,6 +55,7 @@ class SendOnePage extends TransactionPage {
           isInput
           handleChange={this.handleInputChange}
           errorMessage={address.errorMsg}
+          readOnly={readOnly}
         />
         <div className={style.amount}>
           <InputControl
@@ -62,6 +67,7 @@ class SendOnePage extends TransactionPage {
             isInput
             handleChange={this.handleInputChange}
             errorMessage={amount.errorMsg}
+            readOnly={readOnly}
           ><span>ADS</span></InputControl>
           <span>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
         </div>
@@ -74,6 +80,7 @@ class SendOnePage extends TransactionPage {
             rows={2}
             handleChange={this.handleInputChange}
             errorMessage={message.errorMsg}
+            readOnly={readOnly}
           >
             <div className={style.messageCheckbox}>
               <CheckboxControl
@@ -81,6 +88,7 @@ class SendOnePage extends TransactionPage {
                 label="Hexadecimal data"
                 checked={rawMessage.value}
                 handleChange={this.handleInputChange}
+                readOnly={readOnly}
               />
             </div>
           </InputControl>
@@ -93,11 +101,13 @@ class SendOnePage extends TransactionPage {
 export default withRouter(connect(
   state => ({
     vault: state.vault,
+    queue: state.queue,
     ...state.transactions[ADS.TX_TYPES.SEND_ONE]
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
+        initMessageForm,
         cleanForm,
         inputChanged,
         validateInput,

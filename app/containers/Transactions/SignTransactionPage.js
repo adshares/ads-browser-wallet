@@ -9,7 +9,7 @@ import BgClient from '../../utils/background';
 import * as types from '../../../app/constants/MessageTypes';
 import config from '../../config/config';
 
-class SignPage extends PageComponent {
+class SignTransactionPage extends PageComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -41,15 +41,16 @@ class SignPage extends PageComponent {
     BgClient.sendResponse(
       this.state.message.sourceId,
       this.state.message.id,
-      { status, ...data },
-    );
-    if (this.state.popup) {
-      chrome.tabs.getCurrent((tab) => {
-        chrome.tabs.remove(tab.id);
-      });
-    } else {
-      this.props.history.push(this.getReferrer());
-    }
+      { status, testnet: config.testnet, ...data },
+    ).then(() => {
+      if (this.state.popup) {
+        chrome.tabs.getCurrent((tab) => {
+          chrome.tabs.remove(tab.id);
+        });
+      } else {
+        this.props.history.push(this.getReferrer());
+      }
+    });
   }
 
   handleAccept = (data) => {
@@ -98,4 +99,4 @@ export default withRouter(connect(
     vault: state.vault,
     queue: state.queue,
   })
-)(SignPage));
+)(SignTransactionPage));

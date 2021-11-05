@@ -5,6 +5,8 @@ export const MSG_INFO = 'info';
 export const MSG_PUSH = 'push';
 export const MSG_SIGN = 'sign';
 export const MSG_AUTHENTICATE = 'authenticate';
+export const MSG_BROADCAST = 'broadcast';
+export const MSG_SEND_ONE = 'send_one';
 
 export const MSG_SESSION_START = 'startSession';
 export const MSG_SESSION = 'session';

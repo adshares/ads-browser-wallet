@@ -22,11 +22,12 @@ import {
   retrieveNodesDataInIntervalsFailure,
   retrieveNodesDataInIntervalsSuccess,
 } from '../actions/walletActions';
+import config from '../config/config';
 
 export const retrieveAccountEpic = (action$, state$, { adsRpc }) => action$.pipe(
   ofType(ADS_WALLET_INIT, RETRIEVE_ACCOUNT_DATA_IN_INTERVALS),
   mergeMap(() =>
-    timer(0, 5000)
+    timer(0, config.retrieve_account_data_period)
       .pipe(
         withLatestFrom(state$),
         filter(([, state]) => state.vault.accounts && state.vault.accounts.length > 0),

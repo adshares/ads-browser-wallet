@@ -170,7 +170,7 @@ class SettingsPage extends FormComponent {
         <p>
           <ButtonLink
             to={{
-              pathname: '/settings/changePassword',
+              pathname: '/settings/change_password',
               state: { referrer: this.props.history.location }
             }}
             size="wide"

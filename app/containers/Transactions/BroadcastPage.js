@@ -5,18 +5,19 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {
   cleanForm,
+  initMessageForm,
   inputChanged,
-  validateInput,
-  validateForm,
   transactionAccepted,
   transactionRejected,
+  validateForm,
+  validateInput,
 } from '../../actions/transactionActions';
-import TransactionPage from './TransactionPage';
-import InputControl from '../../components/atoms/InputControl';
-import CheckboxControl from '../../components/atoms/CheckboxControl';
 import ADS from '../../utils/ads';
-import { fieldLabels } from './labels';
+import TransactionPage from './TransactionPage';
 import style from './style.css';
+import InputControl from '../../components/atoms/InputControl';
+import { fieldLabels } from './labels';
+import CheckboxControl from '../../components/atoms/CheckboxControl';
 
 class BroadcastPage extends TransactionPage {
   static propTypes = {
@@ -25,7 +26,7 @@ class BroadcastPage extends TransactionPage {
       message: PropTypes.object.isRequired,
       rawMessage: PropTypes.object.isRequired,
     })
-  }
+  };
 
   constructor(props) {
     super(ADS.TX_TYPES.BROADCAST, props);
@@ -35,6 +36,9 @@ class BroadcastPage extends TransactionPage {
     const {
       inputs: { message, rawMessage }
     } = this.props;
+    const {
+      readOnly
+    } = this.state;
     return (
       <div className={style.message}>
         <InputControl
@@ -45,6 +49,7 @@ class BroadcastPage extends TransactionPage {
           rows={5}
           handleChange={this.handleInputChange}
           errorMessage={message.errorMsg}
+          readOnly={readOnly}
         >
           <div className={style.messageCheckbox}>
             <CheckboxControl
@@ -52,6 +57,7 @@ class BroadcastPage extends TransactionPage {
               label="Hexadecimal data"
               checked={rawMessage.value}
               handleChange={this.handleInputChange}
+              readOnly={readOnly}
             />
           </div>
         </InputControl>
@@ -63,11 +69,13 @@ class BroadcastPage extends TransactionPage {
 export default withRouter(connect(
   state => ({
     vault: state.vault,
+    queue: state.queue,
     ...state.transactions[ADS.TX_TYPES.BROADCAST]
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
+        initMessageForm,
         cleanForm,
         inputChanged,
         validateInput,

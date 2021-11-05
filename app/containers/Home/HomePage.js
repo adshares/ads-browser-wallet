@@ -87,7 +87,7 @@ class HomePage extends React.PureComponent {
               Details
             </a>
           </div>
-          <ButtonLink to="/transactions/send-one" layout="contrast" size="wide7" icon="left">
+          <ButtonLink to="/transactions/send_one" layout="contrast" size="wide7" icon="left">
             <FontAwesomeIcon icon={faPaperPlane} /> Send ADS
           </ButtonLink>
           <ButtonLink to="/transactions/gateways" layout="contrast" size="wide3" icon="left" disabled={!hasGateways}>

@@ -1,5 +1,5 @@
 {
-  "name": "ads-browser-wallet",
+  "name": "@adshares/ads-browser-wallet",
   "version": "0.4.3",
   "display-name": "ADS Wallet",
   "description": "Secure identity vault for Adshares network.",

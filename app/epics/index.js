@@ -16,6 +16,7 @@ import {
   validateTransactionFormEpic,
   sendTransactionEpic,
   getGatewayFeeEpic,
+  queueMessageEpic,
 } from './transactionEpics';
 import {
   secretDataAccessEpic,
@@ -59,4 +60,5 @@ export default combineEpics(
   refreshAccountsEpic,
   retrieveGatewaysEpic,
   getGatewayFeeEpic,
+  queueMessageEpic,
 );

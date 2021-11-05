@@ -5,6 +5,7 @@ import ADS from '../../utils/ads';
 import * as types from '../../../app/constants/MessageTypes';
 import { fieldLabels } from './labels';
 import style from './SignForm.css';
+import { stringToHex } from '../../utils/utils';
 
 export default class AuthenticateForm extends SignForm {
   parseCommand(transaction) {
@@ -74,11 +75,11 @@ export default class AuthenticateForm extends SignForm {
   prepareResponse(state) {
     const { command, account, key } = state;
     const signature = ADS.sign(
-      command.nonce,
+      stringToHex(command.nonce),
       key.publicKey,
       key.secretKey
     );
-    const { address, publicKey, balance } = account;
-    return { signature, account: { address, publicKey, balance } };
+    const { address, publicKey, balance, messageId, hash } = account;
+    return { signature, account: { address, publicKey, balance, messageId, hash } };
   }
 }

@@ -1,16 +1,22 @@
 import { ofType } from 'redux-observable';
 import { from, of } from 'rxjs';
-import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import {
+  CLEAN_FORM,
+  cleanForm,
   formValidationFailure,
   formValidationSuccess,
   GET_GATEWAY_FEE,
   getGatewayFailure,
   getGatewaySuccess,
+  INIT_MESSAGE_FORM,
   inputValidateFailure,
   inputValidateSuccess,
+  messageSent,
   signTransaction,
   TRANSACTION_ACCEPTED,
+  TRANSACTION_REJECTED,
+  TRANSACTION_SUCCESS,
   transactionFailure,
   transactionSuccess,
   VALIDATE_FORM,
@@ -20,6 +26,8 @@ import { RpcError } from '../actions/errors';
 import * as validators from '../utils/transactionValidators';
 import ADS from '../utils/ads';
 import { sanitizeHex, stringToHex } from '../utils/utils';
+import BgClient from '../utils/background';
+import config from '../config/config';
 
 function sanitizeField(name, value, inputs) {
   switch (name) {
@@ -44,9 +52,10 @@ export const prepareCommand = (transactionType, sender, inputs, time) => {
   command[ADS.TX_FIELDS.SENDER] = sender.address;
   command[ADS.TX_FIELDS.MESSAGE_ID] = sender.messageId || '0';
   command[ADS.TX_FIELDS.TIME] = time ? new Date(time * 1000) : new Date();
-  Object.keys(inputs).forEach((k) => {
-    command[k] = sanitizeField(k, inputs[k].value, inputs);
-  });
+  Object.keys(inputs)
+    .forEach((k) => {
+      command[k] = sanitizeField(k, inputs[k].value, inputs);
+    });
   return command;
 };
 
@@ -103,20 +112,21 @@ const validateForm = (action, state, time) => {
   const { inputs } = transactions[transactionType];
 
   if (inputs) {
-    const { isFormValid, actionsToDispatch } = Object.entries(inputs).reduce(
-      (acc, [inputName]) => {
-        const errorMsg = getInputErrorMsg(transactionType, inputName, state, gateway);
-        const isInputValid = errorMsg === null;
-        const actionToDispatch = isInputValid
-          ? inputValidateSuccess(transactionType, inputName)
-          : inputValidateFailure(transactionType, inputName, errorMsg);
-        return {
-          isFormValid: acc.isFormValid === false ? false : isInputValid,
-          actionsToDispatch: [...acc.actionsToDispatch, actionToDispatch]
-        };
-      },
-      { isFormValid: true, actionsToDispatch: [] }
-    );
+    const { isFormValid, actionsToDispatch } = Object.entries(inputs)
+      .reduce(
+        (acc, [inputName]) => {
+          const errorMsg = getInputErrorMsg(transactionType, inputName, state, gateway);
+          const isInputValid = errorMsg === null;
+          const actionToDispatch = isInputValid
+            ? inputValidateSuccess(transactionType, inputName)
+            : inputValidateFailure(transactionType, inputName, errorMsg);
+          return {
+            isFormValid: acc.isFormValid === false ? false : isInputValid,
+            actionsToDispatch: [...acc.actionsToDispatch, actionToDispatch]
+          };
+        },
+        { isFormValid: true, actionsToDispatch: [] }
+      );
 
     return isFormValid
       ? of(
@@ -151,19 +161,20 @@ const sendTransaction = (action, state, adsRpc) => {
     tr.transactionData,
     tr.signature,
     node.ipv4
-  )).pipe(
-    mergeMap(tx => of(transactionSuccess(
-      transactionType,
-      tx.id,
-      tx.fee,
-      tx.accountHash,
-      tx.accountMessageId
-    ))),
-    catchError(error => of(transactionFailure(
-      transactionType,
-      error instanceof RpcError ? error.message : 'Unknown error'
-    )))
-  );
+  ))
+    .pipe(
+      mergeMap(tx => of(transactionSuccess(
+        transactionType,
+        tx.id,
+        tx.fee,
+        tx.accountHash,
+        tx.accountMessageId
+      ))),
+      catchError(error => of(transactionFailure(
+        transactionType,
+        error instanceof RpcError ? error.message : 'Unknown error'
+      )))
+    );
 };
 
 export const validateTransactionInputEpic = (action$, state$) => action$.pipe(
@@ -175,13 +186,14 @@ export const validateTransactionInputEpic = (action$, state$) => action$.pipe(
 export const validateTransactionFormEpic = (action$, state$, { adsRpc }) => action$.pipe(
   ofType(VALIDATE_FORM),
   withLatestFrom(state$),
-  switchMap(([action, state]) => from(adsRpc.getTimestamp()).pipe(
-    mergeMap(time => validateForm(action, state, time)),
-    catchError(error => of(transactionFailure(
-      action.transactionType,
-      error instanceof RpcError ? error.message : 'Unknown error'
-    )))
-  ))
+  switchMap(([action, state]) => from(adsRpc.getTimestamp())
+    .pipe(
+      mergeMap(time => validateForm(action, state, time)),
+      catchError(error => of(transactionFailure(
+        action.transactionType,
+        error instanceof RpcError ? error.message : 'Unknown error'
+      )))
+    ))
 );
 
 export const sendTransactionEpic = (action$, state$, { adsRpc }) => action$.pipe(
@@ -197,10 +209,47 @@ export const getGatewayFeeEpic = (action$, state$, { adsRpc }) => action$.pipe(
     action.gatewayCode,
     action.amount,
     action.address)
-  ).pipe(
-    mergeMap(fee => of(getGatewaySuccess(fee))),
-    catchError(error => of(getGatewayFailure(
-      error instanceof RpcError ? error.message : 'Unknown error'
-    )))
+  )
+    .pipe(
+      mergeMap(fee => of(getGatewaySuccess(fee))),
+      catchError(error => of(getGatewayFailure(
+        error instanceof RpcError ? error.message : 'Unknown error'
+      )))
+    ))
+);
+
+const sendResponse = (message, status, data) => from(BgClient.sendResponse(
+  message.sourceId,
+  message.id,
+  { status, testnet: config.testnet, ...data },
+))
+  .pipe(mergeMap(() => {
+    chrome.tabs.getCurrent((tab) => {
+      chrome.tabs.remove(tab.id);
+    });
+    return of(
+      cleanForm(data.transaction.type),
+      messageSent(message)
+    );
+  }));
+
+export const queueMessageEpic = (action$, state$) => action$.pipe(
+  ofType(INIT_MESSAGE_FORM),
+  withLatestFrom(state$),
+  switchMap(([{ message }]) => action$.pipe(
+    ofType(TRANSACTION_SUCCESS, TRANSACTION_REJECTED, CLEAN_FORM),
+    take(1),
+    mergeMap((action) => {
+      if (TRANSACTION_SUCCESS === action.type) {
+        return sendResponse(message, 'accepted', {
+          transaction: {
+            id: action.transactionId,
+            type: action.transactionType,
+            fee: action.transactionFee,
+          }
+        });
+      }
+      return sendResponse(message, 'rejected');
+    })
   ))
 );

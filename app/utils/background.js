@@ -42,16 +42,20 @@ function removeSession(callback) {
   });
 }
 
-function sendResponse(sourceId, id, data, callback) {
-  chrome.runtime.sendMessage({
-    type: types.MSG_RESPONSE,
-    sourceId,
-    id,
-    data,
-  }, (response) => {
-    if (callback) {
-      callback(response.error ? { error: response.error } : response.data);
-    }
+function sendResponse(sourceId, id, data) {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({
+      type: types.MSG_RESPONSE,
+      sourceId,
+      id,
+      data,
+    }, (response) => {
+      if (response.error) {
+        reject(response.error);
+      } else {
+        resolve(response.data);
+      }
+    });
   });
 }
 

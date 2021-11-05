@@ -14,6 +14,19 @@ const transactionInitialState = {
 };
 
 const transactionActionsMap = {
+  [TA.INIT_MESSAGE_FORM](state, action) {
+    const inputs = state.inputs;
+    for (const [inputName, inputValue] of Object.entries(action.message.data)) {
+      inputs[inputName] = {
+        ...inputs[inputName],
+        value: inputValue,
+      };
+    }
+    return {
+      ...state,
+      inputs
+    };
+  },
   [TA.INPUT_CHANGED](state, action) {
     return {
       ...state,

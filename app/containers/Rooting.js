@@ -22,7 +22,7 @@ import BroadcastPage from './Transactions/BroadcastPage';
 import ChangeAccountKeyPage from './Transactions/ChangeAccountKeyPage';
 import AvailableGatewaysPage from './Transactions/AvailableGatewaysPage';
 import GatewayPage from './Transactions/GatewayPage';
-import SignPage from './Transactions/SignPage';
+import SignTransactionPage from './Transactions/SignTransactionPage';
 import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
 import KeyDetailsPage from './Settings/KeyDetailsPage';
@@ -139,7 +139,7 @@ class Rooting extends Component {
             exact vault={vault} component={SettingsPage}
           />
           <PrivateRoute
-            path="/settings/changePassword"
+            path="/settings/change_password"
             exact vault={vault} component={PasswordChangePage}
           />
           <PrivateRoute
@@ -176,10 +176,14 @@ class Rooting extends Component {
           />
           <PrivateRoute
             path="/transactions/:source(.+)/:id(.+)/:action(sign|popup-sign)"
-            exact vault={vault} component={SignPage}
+            exact vault={vault} component={SignTransactionPage}
           />
           <PrivateRoute
-            path="/transactions/send-one"
+            path="/transactions/send_one"
+            exact vault={vault} component={SendOnePage}
+          />
+          <PrivateRoute
+            path="/transactions/send_one/:source(.+)/:id(.+)"
             exact vault={vault} component={SendOnePage}
           />
           <PrivateRoute
@@ -187,7 +191,11 @@ class Rooting extends Component {
             exact vault={vault} component={BroadcastPage}
           />
           <PrivateRoute
-            path="/transactions/change-account-key"
+            path="/transactions/broadcast/:source(.+)/:id(.+)"
+            exact vault={vault} component={BroadcastPage}
+          />
+          <PrivateRoute
+            path="/transactions/change_account_key"
             exact vault={vault} component={ChangeAccountKeyPage}
           />
           <PrivateRoute

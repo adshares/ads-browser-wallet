@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.4.3] - 2021-10-22
+## [0.4.3] - 2021-11-05
 ### Added
 - Authentication with wallet
+- Broadcast from JS client
+- Send one from JS client
 ### Changed
 - Wrap summary page
 ### Fixed

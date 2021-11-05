@@ -228,7 +228,7 @@ const sendResponse = (message, status, data) => from(BgClient.sendResponse(
       chrome.tabs.remove(tab.id);
     });
     return of(
-      cleanForm(data.transactionType),
+      cleanForm(data.transaction.type),
       messageSent(message)
     );
   }));
@@ -242,9 +242,11 @@ export const queueMessageEpic = (action$, state$) => action$.pipe(
     mergeMap((action) => {
       if (TRANSACTION_SUCCESS === action.type) {
         return sendResponse(message, 'accepted', {
-          transactionType: action.transactionType,
-          transactionId: action.transactionId,
-          transactionFee: action.transactionFee,
+          transaction: {
+            id: action.transactionId,
+            type: action.transactionType,
+            fee: action.transactionFee,
+          }
         });
       }
       return sendResponse(message, 'rejected');

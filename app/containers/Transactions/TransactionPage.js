@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faExclamation,
   faCheck,
+  faChevronRight,
+  faExclamation,
   faExternalLinkAlt,
   faTimes,
-  faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import ADS from '../../utils/ads';
 import config from '../../config/config';
@@ -52,17 +52,21 @@ export default class TransactionPage extends PageComponent {
     super(props);
     this.transactionType = transactionType;
     const { source, id } = this.props.match.params;
-    const message = this.props.queue && source && id ? this.props.queue.find(t =>
+    const fromMessage = this.props.queue && source && id;
+    const message = fromMessage ? this.props.queue.find(t =>
       !!config.testnet === !!t.testnet &&
       (t.type === types.MSG_BROADCAST || t.type === types.MSG_SEND_ONE) &&
       t.sourceId === source &&
       t.id === id
     ) : null;
+
     this.state = {
+      fromMessage,
       messageId: id,
       message,
       isSubmitted: false,
       initialized: false,
+      readOnly: !!message,
     };
   }
 
@@ -148,7 +152,7 @@ export default class TransactionPage extends PageComponent {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+            {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt}/>
           </ButtonLink>
           <small>Transaction fee:
             <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
@@ -161,7 +165,7 @@ export default class TransactionPage extends PageComponent {
           layout="info"
           size="wide"
         >
-          <FontAwesomeIcon icon={faTimes} /> Close
+          <FontAwesomeIcon icon={faTimes}/> Close
         </ButtonLink>
       </React.Fragment>
     );
@@ -198,14 +202,14 @@ export default class TransactionPage extends PageComponent {
           layout="info"
           disabled={this.props.isSubmitted}
         >
-          <FontAwesomeIcon icon={faTimes} /> Cancel
+          <FontAwesomeIcon icon={faTimes}/> Cancel
         </ButtonLink>
         <Button
           type="submit"
           icon="right"
           layout="info"
           disabled={isDisabled || this.props.isSubmitted}
-        >Next <FontAwesomeIcon icon={faChevronRight} />
+        >Next <FontAwesomeIcon icon={faChevronRight}/>
         </Button>
       </div>
     );
@@ -242,8 +246,12 @@ export default class TransactionPage extends PageComponent {
       errorMsg,
       history,
     } = this.props;
+    const {
+      fromMessage,
+      message
+    } = this.state;
 
-    if (typeof this.state.message === 'undefined') {
+    if (fromMessage && !message) {
       return this.renderErrorPage(404, `Cannot find message ${this.state.messageId}`);
     }
 
@@ -279,7 +287,8 @@ export default class TransactionPage extends PageComponent {
         <h2>
           {this.getTitle()}
         </h2>
-        {this.getDescription() ? <p className={style.description}><small>{this.getDescription()}</small></p> : ''}
+        {this.getDescription() ?
+          <p className={style.description}><small>{this.getDescription()}</small></p> : ''}
         {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
           {errorMsg}
         </Box> : ''}

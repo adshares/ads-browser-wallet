@@ -139,7 +139,7 @@ class Rooting extends Component {
             exact vault={vault} component={SettingsPage}
           />
           <PrivateRoute
-            path="/settings/changePassword"
+            path="/settings/change_password"
             exact vault={vault} component={PasswordChangePage}
           />
           <PrivateRoute
@@ -179,7 +179,11 @@ class Rooting extends Component {
             exact vault={vault} component={SignTransactionPage}
           />
           <PrivateRoute
-            path="/transactions/send-one"
+            path="/transactions/send_one"
+            exact vault={vault} component={SendOnePage}
+          />
+          <PrivateRoute
+            path="/transactions/send_one/:source(.+)/:id(.+)"
             exact vault={vault} component={SendOnePage}
           />
           <PrivateRoute
@@ -191,7 +195,7 @@ class Rooting extends Component {
             exact vault={vault} component={BroadcastPage}
           />
           <PrivateRoute
-            path="/transactions/change-account-key"
+            path="/transactions/change_account_key"
             exact vault={vault} component={ChangeAccountKeyPage}
           />
           <PrivateRoute

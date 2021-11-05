@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './CheckboxControl.css';
 
-const CheckboxControl = ({ name, checked, label, handleChange }) => {
+const CheckboxControl = ({ name, checked, label, handleChange, readOnly = false }) => {
   const handleChanges = (e) => {
     if (e.keyCode && e.keyCode !== 13) return;
     handleChange(e.target.checked, e.target.name);
@@ -18,6 +18,7 @@ const CheckboxControl = ({ name, checked, label, handleChange }) => {
         id={label}
         checked={checked}
         onChange={handleChanges}
+        disabled={readOnly}
       />
       <span className={style.checked}>
         <svg viewBox={[0, 0, 50, 50].join()} className={style.checkedSvg}>

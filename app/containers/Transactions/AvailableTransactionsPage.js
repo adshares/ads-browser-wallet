@@ -34,7 +34,7 @@ class AvailableTransactionsPage extends PageComponent {
         <ButtonLink
           icon="left" layout="info" inverse
           to={{
-            pathname: '/transactions/send-one',
+            pathname: '/transactions/send_one',
             state: { referrer: this.props.history.location }
           }}
         >
@@ -79,7 +79,7 @@ class AvailableTransactionsPage extends PageComponent {
         <ButtonLink
           icon="left" layout="warning" inverse
           to={{
-            pathname: '/transactions/change-account-key',
+            pathname: '/transactions/change_account_key',
             state: { referrer: this.props.history.location }
           }}
         >

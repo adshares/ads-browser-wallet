@@ -36,6 +36,9 @@ class BroadcastPage extends TransactionPage {
     const {
       inputs: { message, rawMessage }
     } = this.props;
+    const {
+      readOnly
+    } = this.state;
     return (
       <div className={style.message}>
         <InputControl
@@ -46,6 +49,7 @@ class BroadcastPage extends TransactionPage {
           rows={5}
           handleChange={this.handleInputChange}
           errorMessage={message.errorMsg}
+          readOnly={readOnly}
         >
           <div className={style.messageCheckbox}>
             <CheckboxControl
@@ -53,6 +57,7 @@ class BroadcastPage extends TransactionPage {
               label="Hexadecimal data"
               checked={rawMessage.value}
               handleChange={this.handleInputChange}
+              readOnly={readOnly}
             />
           </div>
         </InputControl>

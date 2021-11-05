@@ -1,5 +1,6 @@
 import ADS from '../utils/ads';
 
+export const INIT_MESSAGE_FORM = 'TRANSACTIONS_INIT_MESSAGE_FORM';
 export const INPUT_CHANGED = 'TRANSACTIONS_INPUT_CHANGED';
 export const VALIDATE_INPUT = 'TRANSACTIONS_VALIDATE_INPUT';
 export const VALIDATE_FORM = 'TRANSACTIONS_VALIDATE_FORM';
@@ -16,6 +17,13 @@ export const TRANSACTION_FAILURE = 'TRANSACTIONS_TRANSACTION_FAILURE';
 export const GET_GATEWAY_FEE = 'TRANSACTIONS_GET_GATEWAY_FEE';
 export const GET_GATEWAY_FEE_SUCCESS = 'TRANSACTIONS_GET_GATEWAY_FEE_SUCCESS';
 export const GET_GATEWAY_FEE_FAILURE = 'TRANSACTIONS_GET_GATEWAY_FEE_FAILURE';
+export const MESSAGE_SENT = 'TRANSACTIONS_MESSAGE_SENT';
+
+export const initMessageForm = (transactionType, message) => ({
+  type: INIT_MESSAGE_FORM,
+  transactionType,
+  message
+});
 
 export const inputChanged = (transactionType, inputName, inputValue) => ({
   type: INPUT_CHANGED,
@@ -125,3 +133,7 @@ export const getGatewayFailure = errorMsg => ({
   errorMsg
 });
 
+export const messageSent = message => ({
+  type: MESSAGE_SENT,
+  message
+});

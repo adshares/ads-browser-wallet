@@ -21,6 +21,7 @@ import Button from '../../components/atoms/Button';
 import SignForm from './SignForm';
 import { typeLabels } from './labels';
 import style from './style.css';
+import * as types from '../../constants/MessageTypes';
 
 export default class TransactionPage extends PageComponent {
   static propTypes = {
@@ -34,7 +35,10 @@ export default class TransactionPage extends PageComponent {
     transactionFee: PropTypes.string,
     errorMsg: PropTypes.string,
     history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    queue: PropTypes.array,
     actions: PropTypes.shape({
+      initMessageForm: PropTypes.func,
       cleanForm: PropTypes.func.isRequired,
       inputChanged: PropTypes.func.isRequired,
       validateInput: PropTypes.func.isRequired,
@@ -47,6 +51,29 @@ export default class TransactionPage extends PageComponent {
   constructor(transactionType, props) {
     super(props);
     this.transactionType = transactionType;
+    const { source, id } = this.props.match.params;
+    const message = this.props.queue && source && id ? this.props.queue.find(t =>
+      !!config.testnet === !!t.testnet &&
+      (t.type === types.MSG_BROADCAST || t.type === types.MSG_SEND_ONE) &&
+      t.sourceId === source &&
+      t.id === id
+    ) : null;
+    this.state = {
+      messageId: id,
+      message,
+      isSubmitted: false,
+      initialized: false,
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const { message } = state;
+    if (!state.initialized) {
+      if (message && props.actions.initMessageForm) {
+        props.actions.initMessageForm(message.type, message);
+      }
+    }
+    return { initialized: true };
   }
 
   handleCloseForm = () => {
@@ -215,6 +242,10 @@ export default class TransactionPage extends PageComponent {
       errorMsg,
       history,
     } = this.props;
+
+    if (typeof this.state.message === 'undefined') {
+      return this.renderErrorPage(404, `Cannot find message ${this.state.messageId}`);
+    }
 
     if (isSignRequired) {
       const transaction = {

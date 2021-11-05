@@ -38,6 +38,7 @@ const config = {
   about: require('./about'),
   terms: require('./terms'),
   attributions: require('./attributions'),
+  retrieve_account_data_period: 5000,
 };
 
 module.exports = config;

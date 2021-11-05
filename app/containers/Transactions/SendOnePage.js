@@ -93,6 +93,7 @@ class SendOnePage extends TransactionPage {
 export default withRouter(connect(
   state => ({
     vault: state.vault,
+    queue: state.queue,
     ...state.transactions[ADS.TX_TYPES.SEND_ONE]
   }),
   dispatch => ({

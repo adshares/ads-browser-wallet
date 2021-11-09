@@ -75,7 +75,7 @@ export default class AuthenticateForm extends SignForm {
   prepareResponse(state) {
     const { command, account, key } = state;
     const signature = ADS.sign(
-      stringToHex(`nonce:${command.nonce}`),
+      stringToHex(`message:${command.nonce}`),
       key.publicKey,
       key.secretKey
     );

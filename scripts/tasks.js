@@ -34,8 +34,8 @@ const getContentSecurityPolicy = (isProd) => {
 };
 
 exports.copyAssets = (type) => {
-    const find = "'";
-    const re = new RegExp(find, 'g');
+  const find = "'";
+  const re = new RegExp(find, 'g');
   const isProd = type === 'build';
   const view = JSON.stringify({
     env: isProd ? 'prod' : type,
@@ -47,8 +47,6 @@ exports.copyAssets = (type) => {
     csp: cspBuilder(getContentSecurityPolicy(isProd)),
     geckoId: `${process.env.npm_package_name}@adshares.net`,
   }).replace(re, "'\"'\"'");
-
-
 
   sh.rm('-rf', type);
   sh.mkdir(type);

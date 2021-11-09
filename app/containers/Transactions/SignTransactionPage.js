@@ -43,12 +43,11 @@ class SignTransactionPage extends PageComponent {
       this.state.message.id,
       { status, testnet: config.testnet, ...data },
     ).then(() => {
+      this.props.history.push(this.getReferrer());
       if (this.state.popup) {
         chrome.tabs.getCurrent((tab) => {
           chrome.tabs.remove(tab.id);
         });
-      } else {
-        this.props.history.push(this.getReferrer());
       }
     });
   }

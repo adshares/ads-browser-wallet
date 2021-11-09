@@ -35,6 +35,7 @@ export default CheckboxControl;
 CheckboxControl.propTypes = {
   name: PropTypes.string,
   checked: PropTypes.bool,
+  readOnly: PropTypes.bool,
   label: PropTypes.string.isRequired,
   handleChange: PropTypes.func,
 };

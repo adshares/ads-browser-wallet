@@ -15,7 +15,7 @@ export default class AuthenticateForm extends SignForm {
     };
     return {
       command,
-      dataError: !command.hostname || !command.nonce,
+      dataError: !command.hostname,
     };
   }
 
@@ -75,7 +75,7 @@ export default class AuthenticateForm extends SignForm {
   prepareResponse(state) {
     const { command, account, key } = state;
     const signature = ADS.sign(
-      stringToHex(command.nonce),
+      stringToHex(`nonce:${command.nonce}`),
       key.publicKey,
       key.secretKey
     );

@@ -152,7 +152,7 @@ export default class TransactionPage extends PageComponent {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt}/>
+            {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
           </ButtonLink>
           <small>Transaction fee:
             <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
@@ -165,7 +165,7 @@ export default class TransactionPage extends PageComponent {
           layout="info"
           size="wide"
         >
-          <FontAwesomeIcon icon={faTimes}/> Close
+          <FontAwesomeIcon icon={faTimes} /> Close
         </ButtonLink>
       </React.Fragment>
     );
@@ -202,14 +202,14 @@ export default class TransactionPage extends PageComponent {
           layout="info"
           disabled={this.props.isSubmitted}
         >
-          <FontAwesomeIcon icon={faTimes}/> Cancel
+          <FontAwesomeIcon icon={faTimes} /> Cancel
         </ButtonLink>
         <Button
           type="submit"
           icon="right"
           layout="info"
           disabled={isDisabled || this.props.isSubmitted}
-        >Next <FontAwesomeIcon icon={faChevronRight}/>
+        >Next <FontAwesomeIcon icon={faChevronRight} />
         </Button>
       </div>
     );

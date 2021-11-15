@@ -347,8 +347,15 @@ export default class SignForm extends FormComponent {
                 case ADS.TX_FIELDS.VIP_HASH:
                   return (
                     <tr>
-                      <td>{fieldLabels[k] || k}</td>
+                      <td>{fieldLabels.vipHash}</td>
                       <td><code>{fields[k]}</code></td>
+                    </tr>
+                  );
+                case ADS.TX_FIELDS.TIME:
+                  return (
+                    <tr>
+                      <td>{fieldLabels.time}</td>
+                      <td title={formatDate(fields[k], true, true)}>{formatDate(fields[k])}</td>
                     </tr>
                   );
                 default:
@@ -454,7 +461,7 @@ export default class SignForm extends FormComponent {
     return this.renderErrorPage(
       400,
       'Malformed transaction data',
-      this.getTitle(this.state.command),
+      'Malformed data',
       this.props.cancelLink,
       this.handleCancelClick
     );

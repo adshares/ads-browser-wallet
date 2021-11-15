@@ -8,7 +8,7 @@ import style from './SignForm.css';
 import { stringToHex } from '../../utils/utils';
 
 export default class AuthenticateForm extends SignForm {
-  parseCommand(transaction) {
+  static parseCommand(transaction) {
     const command = {
       ...transaction,
       type: types.MSG_AUTHENTICATE,
@@ -20,19 +20,22 @@ export default class AuthenticateForm extends SignForm {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { accounts, keys, selectedAccount } = props.vault;
+    const { accounts, keys, selectedAccount, accountsLoaded } = props.vault;
     const account = accounts.find(
       a => a.address === selectedAccount
     );
     let key = state.key;
-    let showKeySelector = state.showKeySelector;
     if (state.account && account && state.account.publicKey !== account.publicKey) {
       key = keys.find(
         k => k.publicKey === account.publicKey
       );
-      showKeySelector = !key;
     }
-    return { account, key, showKeySelector };
+    return { account, key, keyError: !key && accountsLoaded, };
+  }
+
+  getCommand() {
+    const { transaction } = this.props;
+    return AuthenticateForm.parseCommand(transaction);
   }
 
   renderCommand(type, fields) {

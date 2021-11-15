@@ -152,8 +152,7 @@ class AccountEditorPage extends FormComponent {
             : '' }
           {publicKeyErrorMsg ?
             <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
-              {publicKeyErrorMsg}<br />
-              You can still add this account, but you may have problems with transactions.
+              {publicKeyErrorMsg}
             </Box> : ''
           }
           <div className={style.buttons}>
@@ -171,7 +170,7 @@ class AccountEditorPage extends FormComponent {
               name="button"
               icon="right"
               layout="info"
-              disabled={publicKeyLoading || isSubmitted}
+              disabled={publicKeyLoading || publicKeyErrorMsg || isSubmitted}
             >
               {this.state.account ? 'Save' : 'Import'}
               <FontAwesomeIcon icon={faChevronRight} />

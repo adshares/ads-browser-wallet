@@ -19,6 +19,7 @@ const initialVault = {
   seed: '',
   keys: [],
   keyCount: config.initKeysQuantity,
+  accountsLoaded: false,
   accounts: [],
   selectedAccount: null,
   nodes: [],
@@ -245,6 +246,7 @@ export default function (vault = initialVault, action) {
       } : a);
       return {
         ...vault,
+        accountsLoaded: true,
         accounts,
       };
     }

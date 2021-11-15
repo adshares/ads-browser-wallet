@@ -19,6 +19,7 @@ import {
   openDialog as openAuthDialog
 } from '../actions/authDialogActions';
 import { getReferrer } from './helpers';
+import config from '../config/config';
 
 export const secretDataAccessEpic = (action$, state$, { history }) => action$.pipe(
   ofType(SA.SECRET_DATA_ACCESS),
@@ -303,7 +304,7 @@ export const createFreeAccountEpic = (action$, state$, { adsRpc }) => action$.pi
           .catch(error => SA.createFreeAccountFailure(error.message || 'Unknown error'));
 
         return concat(
-          of(VA.saveAccount(address, 'Main account', resolve)),
+          of(VA.saveAccount(address, config.testnet ? 'Test account' : 'My account', resolve)),
           from(promise),
           of(VA.selectActiveAccount(address))
         );

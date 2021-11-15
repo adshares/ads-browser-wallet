@@ -26,24 +26,24 @@ export default class SignForm extends FormComponent {
       account: null,
       key: null,
       keyError: false,
-      showKeySelector: false,
       showAdvanced: false,
-      ...this.parseCommand(transaction),
+      ...this.getCommand()
     };
   }
 
-  isGateway() {
-    return this.props.extra && this.props.extra.gateway;
+  static getDerivedStateFromProps(props) {
+    const { transaction, vault } = props;
+    return SignForm.parseCommand(transaction, vault);
   }
 
-  parseCommand(transaction) {
+  static parseCommand(transaction, vault) {
     let command;
     let key;
 
     if (transaction && transaction.data && typeof transaction.data === 'string') {
       try {
         command = ADS.decodeCommand(transaction.data);
-        key = this.findKey(command.sender, transaction.publicKey);
+        key = SignForm.findKey(command.sender, transaction.publicKey, vault);
       } catch (err) {
         if (!(err instanceof TransactionDataError)) {
           throw err;
@@ -55,13 +55,21 @@ export default class SignForm extends FormComponent {
       command,
       dataError: !command,
       key,
-      keyError: !key && transaction.publicKey,
-      showKeySelector: !key,
+      keyError: !key && vault.accountsLoaded,
     };
   }
 
-  findKey(sender, publicKey) {
-    const { keys, accounts } = this.props.vault;
+  getCommand() {
+    const { transaction, vault } = this.props;
+    return SignForm.parseCommand(transaction, vault);
+  }
+
+  isGateway() {
+    return this.props.extra && this.props.extra.gateway;
+  }
+
+  static findKey(sender, publicKey, vault) {
+    const { keys, accounts } = vault;
     if (publicKey) {
       const key = keys.find(k => k.publicKey === publicKey);
       if (key) {
@@ -92,14 +100,6 @@ export default class SignForm extends FormComponent {
 
   toggleAdvanced = (visible) => {
     this.setState({ showAdvanced: visible });
-  };
-
-  handleKeySelect = (event) => {
-    let key = null;
-    if (event.target.value) {
-      key = this.props.vault.keys.find(k => k.publicKey === event.target.value);
-    }
-    this.setState({ key });
   };
 
   handleAccept = (event) => {
@@ -416,29 +416,7 @@ export default class SignForm extends FormComponent {
     );
   }
 
-  renderKeySelector(keys, key) {
-    if (!keys || keys.length === 0) {
-      return null;
-    }
-
-    return (
-      <tr className={style.keys}>
-        <td>Key</td>
-        <td>
-          <select name="key" value={key ? key.publicKey : ''} required onChange={this.handleKeySelect}>
-            <option>Select key</option>
-            {keys.filter(k => k.publicKey).map(k => (
-              <option key={k.publicKey} value={k.publicKey}>
-                {k.name}: {k.publicKey.substr(0, 8)}…{k.publicKey.substr(k.publicKey.length - 8)}
-              </option>
-            ))}
-          </select>
-        </td>
-      </tr>
-    );
-  }
-
-  renderSignForm(transaction, command, key, keys) {
+  renderSignForm(transaction, command, key) {
     const { type, sender, ...rest } = command;
 
     return (
@@ -458,14 +436,13 @@ export default class SignForm extends FormComponent {
               </td>
             </tr>
             {this.renderAdvanced(command, transaction, key)}
-            {this.renderKeySelector(keys, key)}
           </tbody>
         </table>
         <div className={style.buttons}>
           <Button type="reset" layout="danger" onClick={this.handleReject}>
             <FontAwesomeIcon icon={faTimes} /> Reject
           </Button>
-          <Button type="submit" layout="success" onClick={this.handleAccept} disabled={keys && !key}>
+          <Button type="submit" layout="success" onClick={this.handleAccept}>
             <FontAwesomeIcon icon={faCheck} /> Accept
           </Button>
         </div>
@@ -477,6 +454,7 @@ export default class SignForm extends FormComponent {
     return this.renderErrorPage(
       400,
       'Malformed transaction data',
+      this.getTitle(this.state.command),
       this.props.cancelLink,
       this.handleCancelClick
     );
@@ -485,7 +463,8 @@ export default class SignForm extends FormComponent {
   renderKeyErrorPage() {
     return this.renderErrorPage(
       400,
-      'Cannot find a key in storage. Please import secret key first.',
+      'Cannot find the key in the storage. Please import the secret key first or change the account.',
+      this.getTitle(this.state.command),
       this.props.cancelLink,
       this.handleCancelClick
     );
@@ -508,7 +487,7 @@ export default class SignForm extends FormComponent {
       return this.renderKeyErrorPage();
     }
 
-    const keys = this.state.showKeySelector ? this.props.vault.keys : null;
+    const showLoader = this.props.showLoader || !this.props.vault.accountsLoaded;
 
     return (
       <Page
@@ -518,9 +497,9 @@ export default class SignForm extends FormComponent {
         cancelLink={this.props.cancelLink}
         onCancelClick={this.handleCancelClick}
         noLinks={this.props.noLinks}
-        showLoader={this.props.showLoader}
+        showLoader={showLoader}
       >
-        {this.renderSignForm(transaction, command, key, keys)}
+        {this.renderSignForm(transaction, command, key)}
       </Page>
     );
   }

@@ -23,11 +23,12 @@ class PendingTransactionsPage extends PageComponent {
     queue: PropTypes.array.isRequired,
   };
 
-  renderErrorPage(code, message) {
+  renderErrorPage(code, message, title) {
     return (
       <ErrorPage
         code={code}
         message={message}
+        title={title}
         cancelLink={this.getReferrer()}
       />
     );

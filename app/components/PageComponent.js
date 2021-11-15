@@ -10,11 +10,12 @@ export default class PageComponent extends React.PureComponent {
     return defaultLocation;
   }
 
-  renderErrorPage(code, message, cancelLink, onCancelClick) {
+  renderErrorPage(code, message, title, cancelLink, onCancelClick) {
     return (
       <ErrorPage
         code={code}
         message={message}
+        title={title}
         cancelLink={cancelLink || this.getReferrer()}
         onCancelClick={onCancelClick}
       />

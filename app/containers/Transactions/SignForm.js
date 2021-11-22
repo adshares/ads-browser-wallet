@@ -55,7 +55,7 @@ export default class SignForm extends FormComponent {
       command,
       dataError: !command,
       key,
-      keyError: !key && vault.accountsLoaded,
+      keyError: !key,
     };
   }
 
@@ -494,7 +494,7 @@ export default class SignForm extends FormComponent {
       return this.renderKeyErrorPage();
     }
 
-    const showLoader = this.props.showLoader || !this.props.vault.accountsLoaded;
+    const showLoader = this.props.showLoader;
 
     return (
       <Page

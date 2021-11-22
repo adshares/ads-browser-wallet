@@ -19,7 +19,6 @@ const initialVault = {
   seed: '',
   keys: [],
   keyCount: config.initKeysQuantity,
-  accountsLoaded: false,
   accounts: [],
   selectedAccount: null,
   nodes: [],
@@ -244,11 +243,14 @@ export default function (vault = initialVault, action) {
         ...a,
         ...action.account
       } : a);
-      return {
+
+      const updatedVault = {
         ...vault,
-        accountsLoaded: true,
         accounts,
       };
+
+      updatedVault.secret = VaultCrypt.save(updatedVault);
+      return updatedVault;
     }
 
     case RETRIEVE_NODES_DATA_IN_INTERVALS_SUCCESS: {

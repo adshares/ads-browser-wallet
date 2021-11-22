@@ -20,7 +20,7 @@ export default class AuthenticateForm extends SignForm {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { accounts, keys, selectedAccount, accountsLoaded } = props.vault;
+    const { accounts, keys, selectedAccount } = props.vault;
     const account = accounts.find(
       a => a.address === selectedAccount
     );
@@ -30,7 +30,7 @@ export default class AuthenticateForm extends SignForm {
         k => k.publicKey === account.publicKey
       );
     }
-    return { account, key, keyError: !key && accountsLoaded, };
+    return { account, key, keyError: !key };
   }
 
   getCommand() {

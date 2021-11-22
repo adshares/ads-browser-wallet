@@ -11,6 +11,7 @@ const KEY_NAME = 'n';
 const ACCOUNTS = 'a';
 const ACCOUNT_ADDRESS = 'a';
 const ACCOUNT_NAME = 'n';
+const ACCOUNT_PUBLIC_KEY = 'p';
 
 function checkPassword(vault, password) {
   try {
@@ -41,6 +42,7 @@ function encrypt(vault, password) {
         {
           [ACCOUNT_ADDRESS]: account.address,
           [ACCOUNT_NAME]: account.name,
+          [ACCOUNT_PUBLIC_KEY]: account.publicKey,
         }
       )),
   });
@@ -69,6 +71,7 @@ function decrypt(encryptedVault, password) {
       {
         address: account[ACCOUNT_ADDRESS],
         name: account[ACCOUNT_NAME],
+        publicKey: account[ACCOUNT_PUBLIC_KEY],
       }
     )),
   };

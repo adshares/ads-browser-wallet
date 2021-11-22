@@ -12,7 +12,7 @@
 }
 
 .box hr {
-    background-color: var(--white);
+    border-color: var(--white);
 }
 
 .box.info {
@@ -42,7 +42,7 @@
 }
 
 .box.inverse hr {
-    background-color: var(--slate-dark);
+    border-color: var(--slate-dark);
 }
 
 .box.inverse > .icon {
@@ -55,7 +55,7 @@
 }
 
 .box.inverse.info hr {
-    background-color: var(--blue-dark);
+    border-color: var(--blue-dark);
 }
 
 .box.inverse.success {
@@ -64,7 +64,7 @@
 }
 
 .box.inverse.success hr {
-    background-color: var(--green-dark);
+    border-color: var(--green-dark);
 }
 
 .box.inverse.warning {
@@ -73,7 +73,7 @@
 }
 
 .box.inverse.warning hr {
-    background-color: var(--yellow-dark);
+    border-color: var(--yellow-dark);
 }
 
 .box.inverse.danger {
@@ -82,7 +82,7 @@
 }
 
 .box.inverse.danger hr {
-    background-color: var(--red-dark);
+    border-color: var(--red-dark);
 }
 
 .box .content {

@@ -40,7 +40,7 @@ export default function handleMessage(message, sourceId, callback) {
         data: message.data,
         time: (new Date()).toISOString(),
       });
-      if (message.options.newTab) {
+      {
         const network = message.testnet ? '/testnet' : '/mainnet';
         const url = `window.html#${network}/transactions/${sourceId}/${message.id}/popup-sign`;
         openInTheNewTab(url);

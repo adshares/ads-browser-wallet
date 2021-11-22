@@ -123,3 +123,13 @@
 .availableLinks > *:nth-child(odd) {
 
 }
+
+.availableLinks hr {
+    margin-bottom: 18px;
+    border-color: var(--blue-dark);
+    border-style: dashed;
+}
+
+.unwrap svg {
+    transform: rotatey(180deg);
+}

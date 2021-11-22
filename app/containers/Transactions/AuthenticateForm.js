@@ -30,7 +30,7 @@ export default class AuthenticateForm extends SignForm {
         k => k.publicKey === account.publicKey
       );
     }
-    return { account, key, keyError: !key};
+    return { account, key, keyError: !key };
   }
 
   getCommand() {

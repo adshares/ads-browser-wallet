@@ -63,9 +63,10 @@ a:hover {
 }
 
 hr {
-  border: none;
+  border: 0;
+  border-top: 1px solid var(--gray-dark);
+  background: none;
   height: 1px;
-  background-color: var(--gray-dark);
 }
 
 code {

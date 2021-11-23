@@ -25,7 +25,7 @@ export default class AuthenticateForm extends SignForm {
       a => a.address === selectedAccount
     );
     let key = state.key;
-    if (state.account && account && state.account.publicKey !== account.publicKey) {
+    if (account) {
       key = keys.find(
         k => k.publicKey === account.publicKey
       );

@@ -45,7 +45,7 @@ exports.copyAssets = (type) => {
     author: `${process.env.npm_package_author_name} <${process.env.npm_package_author_email}>`,
     host: isProd ? '' : 'http://localhost:3000',
     csp: cspBuilder(getContentSecurityPolicy(isProd)),
-    geckoId: `${process.env.npm_package_name}@adshares.net`,
+    geckoId: `${process.env.npm_package_name.replace('@adshares/', '')}@adshares.net`,
   }).replace(re, "'\"'\"'");
 
   sh.rm('-rf', type);

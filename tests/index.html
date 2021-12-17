@@ -20,10 +20,10 @@
 <table>
     <tr>
         <td>
-            <label for="data">nonce:</label>
+            <label for="auth-message">message:</label>
         </td>
         <td>
-            <input type="text" id="nonce" value="qwerty123"/>
+            <input type="text" id="auth-message" value="qwerty123"/>
         </td>
     </tr>
     <tr>
@@ -233,8 +233,8 @@
       return this.sendMessage('push', { message });
     }
 
-    authenticate(nonce, newTab = false) {
-      return this.sendMessage('authenticate', { nonce, hostname: window.location.hostname }, { newTab });
+    authenticate(message, newTab = false) {
+      return this.sendMessage('authenticate', { message, hostname: window.location.hostname }, { newTab });
     }
 
     signTransaction(data, hash, publicKey, newTab = false) {
@@ -242,7 +242,7 @@
     }
   }
 
-  let wallet = new AdsWallet('gcplamledfnolhnnhhaffpekipapilha', '2c9e2cfd-8fe9-4329-a9f1-84883f1da5a2', true);
+  let wallet = new AdsWallet('plhalclcdonbmokpgbophapibncijdko', '2c9e2cfd-8fe9-4329-a9f1-84883f1da5a2', true);
 
   wallet.getInfo()
     .then((data) => {
@@ -277,10 +277,10 @@
   let btnSend2 = document.getElementById('btn-auth');
   btnSend2.addEventListener('click', function () {
     console.log('index.html: btn-auth');
-    const nonce = document.getElementById('nonce').value;
+    const message = document.getElementById('auth-message').value;
     const authNewTab = document.getElementById('auth-newTab').checked;
     const authStatus = document.getElementById('btn-auth-status');
-    wallet.authenticate(nonce, authNewTab)
+    wallet.authenticate(message, authNewTab)
       .then((data) => {
         console.debug('authenticate ok:', data);
         authStatus.innerText = `${data.status} - ${'accepted' === data.status ? data.account.address : '---'}`;

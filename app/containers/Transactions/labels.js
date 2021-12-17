@@ -50,7 +50,6 @@ export const fieldLabels = {
   vipHash: 'VIP hash',
   wireCount: 'Recipients',
   wires: 'Recipients',
-  nonce: 'Nonce',
   hostname: 'Hostname',
   gate: 'Gate',
 };

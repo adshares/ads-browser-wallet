@@ -47,14 +47,18 @@ export default class AuthenticateForm extends SignForm {
     }
   }
 
-  renderInfo(commnad) {
+  renderInfo(command) {
     const { account } = this.state;
     const name = account.name ? `(${account.name})` : '';
     return (
       <React.Fragment>
-        <h1>Authentication<br /><small>on <i>{commnad.hostname}</i></small></h1>
+        <h1>Authentication<br /><small>on <i>{command.hostname}</i></small></h1>
         <p className={style.info}>
-          Do you want to pass information about account<br /> <b>{account.address}</b> {name}<br /> to the website <b>{commnad.hostname || 'unknown'}</b>?
+          Do you want to pass information about account<br /> <b>{account.address}</b> {name}<br /> to the website <b>{command.hostname || 'unknown'}</b>?
+          { command.message ?
+            <React.Fragment>
+              <br /><br />Message from the website:<br /><b>{command.message}</b>
+            </React.Fragment> : '' }
         </p>
       </React.Fragment>
     );
@@ -67,10 +71,6 @@ export default class AuthenticateForm extends SignForm {
           <td>{fieldLabels.hostname}</td>
           <td>{command.hostname}</td>
         </tr> : '' }
-        {command.nonce ? <tr>
-          <td>{fieldLabels.nonce}</td>
-          <td><code>{command.nonce}</code></td>
-        </tr> : '' }
       </React.Fragment>
     );
   }
@@ -78,7 +78,7 @@ export default class AuthenticateForm extends SignForm {
   prepareResponse(state) {
     const { command, account, key } = state;
     const signature = ADS.sign(
-      stringToHex(`message:${command.nonce}`),
+      stringToHex(`message:${command.message}`),
       key.publicKey,
       key.secretKey
     );

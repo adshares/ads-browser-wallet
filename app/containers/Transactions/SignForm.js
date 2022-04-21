@@ -196,9 +196,9 @@ export default class SignForm extends FormComponent {
         <td>
           {link ?
             <a href={link} target="_blank" rel="noopener noreferrer">
-              <code>{address}</code><FontAwesomeIcon icon={faExternalLinkAlt} />
+              <code>0x{address}</code><FontAwesomeIcon icon={faExternalLinkAlt} />
             </a> :
-            <code>{address}</code>
+            <code>0x{address}</code>
           }
         </td>
       </tr>

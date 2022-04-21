@@ -6,10 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- Recipient field
-- Align text to left side in authentication transaction
-### Added
-- Border in message box in authenticate transaction 
+- Format recipient address
+- Format text message in authentication transaction
 
 ## [0.4.7] - 2021-12-17
 ### Changed

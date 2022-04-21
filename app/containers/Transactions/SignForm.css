@@ -106,6 +106,8 @@
 }
 
 .info > pre {
+    border: 1px solid var(--gray);
+    padding: 4px;
     white-space: pre-wrap;
     text-align: left;
     margin: 0;

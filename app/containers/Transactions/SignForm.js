@@ -184,10 +184,15 @@ export default class SignForm extends FormComponent {
 
     const address = message.replace(gateway.prefix, '').toLowerCase();
     let link = null;
+    let prefix = '';
     if (gateway.code === 'ETH') {
       link = `https://etherscan.io/address/0x${address}`;
     } else if (gateway.code === 'BSC') {
       link = `https://bscscan.com/address/0x${address}`;
+    }
+
+    if (gateway.format === 'eth') {
+      prefix = '0x';
     }
 
     return (
@@ -196,9 +201,9 @@ export default class SignForm extends FormComponent {
         <td>
           {link ?
             <a href={link} target="_blank" rel="noopener noreferrer">
-              <code>0x{address}</code><FontAwesomeIcon icon={faExternalLinkAlt} />
+              <code>{prefix}{address}</code><FontAwesomeIcon icon={faExternalLinkAlt} />
             </a> :
-            <code>0x{address}</code>
+            <code>{prefix}{address}</code>
           }
         </td>
       </tr>

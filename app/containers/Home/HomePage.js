@@ -23,7 +23,7 @@ import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
 import Box from '../../components/atoms/Box';
 import Logo from '../../components/Logo/Logo';
-import { formatAdsMoney } from '../../utils/ads';
+import { formatAdsMoney, calculateToUsd } from '../../utils/ads';
 import style from './HomePage.css';
 import config from '../../config/config';
 import * as types from '../../../app/constants/MessageTypes';
@@ -31,6 +31,7 @@ import { copyToClipboard } from '../../utils/utils';
 
 class HomePage extends React.PureComponent {
   static propTypes = {
+    adsOperatorApi: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     vault: PropTypes.object.isRequired,
     queue: PropTypes.array.isRequired,
@@ -62,6 +63,8 @@ class HomePage extends React.PureComponent {
     const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
     const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
     const hasGateways = gateways && gateways.length > 0;
+    const usdRate = this.props.adsOperatorApi.currencyCourses.usdRate;
+    const amountInUsd = calculateToUsd(accountData.balance, usdRate);
     return (
       <div>
         <Box className={style.box} icon={faGlobe} layout="info">
@@ -71,6 +74,9 @@ class HomePage extends React.PureComponent {
             <small>{amountDec}</small>
             &nbsp;
             <small>ADS</small>
+          </div>
+          <div className={style.currency}>
+            <small>{amountInUsd}</small>
           </div>
           {config.testnet && <small className={style.frreCoins}>
             <a href={config.freeCoinsUrl} target="_blank" rel="noopener noreferrer">
@@ -172,6 +178,7 @@ export default withRouter(connect(
     queue: state.queue,
     mainPage: state.pages[CREATE_FREE_ACCOUNT],
     settingsPage: state.pages[SETTINGS],
+    adsOperatorApi: state.adsOperatorApi,
   }),
   dispatch => ({
     actions: bindActionCreators(

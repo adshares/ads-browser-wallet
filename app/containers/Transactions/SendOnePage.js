@@ -22,6 +22,7 @@ import style from './style.css';
 
 class SendOnePage extends TransactionPage {
   static propTypes = {
+    adsOperatorApi: PropTypes.object.isRequired,
     ...TransactionPage.propTypes,
     inputs: PropTypes.shape({
       address: PropTypes.object.isRequired,
@@ -44,6 +45,8 @@ class SendOnePage extends TransactionPage {
       readOnly
     } = this.state;
     const account = accounts.find(a => a.address === selectedAccount);
+    const usdRate = this.props.adsOperatorApi.currencyCourses.usdRate;
+    const amountInUsd = ADS.calculateToUsd(amount.value, usdRate);
     return (
       <React.Fragment>
         <InputControl
@@ -68,7 +71,10 @@ class SendOnePage extends TransactionPage {
             handleChange={this.handleInputChange}
             errorMessage={amount.errorMsg}
             readOnly={readOnly}
-          ><span>ADS</span></InputControl>
+          >
+            <span>ADS</span>
+            <small>{amountInUsd}</small>
+          </InputControl>
           <span>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
         </div>
         <div className={style.message}>
@@ -102,7 +108,8 @@ export default withRouter(connect(
   state => ({
     vault: state.vault,
     queue: state.queue,
-    ...state.transactions[ADS.TX_TYPES.SEND_ONE]
+    ...state.transactions[ADS.TX_TYPES.SEND_ONE],
+    adsOperatorApi: state.adsOperatorApi,
   }),
   dispatch => ({
     actions: bindActionCreators(

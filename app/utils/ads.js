@@ -874,6 +874,18 @@ function validateEthAddress(address) {
   return /^(0x)?[0-9a-fA-F]{40}$/.test(address.trim());
 }
 
+function calculateToUsd(amount, rate) {
+  const validAmount = Number(amount.replace(',', '.'))
+  const course = validAmount * rate
+  const toBigNumber = strToClicks(course.toString())
+  const formatedBigNumber = formatClickMoney(toBigNumber, 2, true)
+  console.log(formatAdsMoney(formatedBigNumber, 11))
+
+  // console.log(strToClicks(amount))
+  // console.log(formatClickMoney(strToClicks(amount)))
+  return (!!rate && !!amount) && `$${'0'}`;
+}
+
 export default {
   TX_FIELDS,
   TX_TYPES,
@@ -899,4 +911,5 @@ export default {
   calculateChargedAmount,
   calculateReceivedAmount,
   validateEthAddress,
+  calculateToUsd,
 };

@@ -12,6 +12,7 @@ import BroadcastReducer from './BroadcastReducer';
 import ChangeAccountKeyReducer from './ChangeAccountKeyReducer';
 import SettingsReducer from './SettingsReducer';
 import GatewayReducer from './GatewayReducer';
+import AdsOperatorApiReducer from './AdsOperatorApiReducer';
 import * as SA from '../actions/settingsActions';
 import ADS from '../utils/ads';
 
@@ -20,6 +21,7 @@ export default history => combineReducers({
   authDialog: AuthDialogReducer,
   vault: VaultReducer,
   queue: QueueReducer,
+  adsOperatorApi: AdsOperatorApiReducer,
   pages: combineReducers({
     [SA.SAVE_KEY]: KeyEditorReducer,
     [SA.SAVE_ACCOUNT]: AccountEditorReducer,

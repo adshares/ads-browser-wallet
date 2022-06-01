@@ -33,8 +33,10 @@ import {
   findAccountsEpic,
   refreshAccountsEpic,
 } from './settingsEpics';
+import { getCurrencyExchangeCourseEpics } from './adsOperatorApiEpics';
 
 export default combineEpics(
+  getCurrencyExchangeCourseEpics,
   validateForm,
   retrieveAccountEpic,
   retrieveNodesEpic,

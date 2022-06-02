@@ -57,7 +57,7 @@ export default class AuthenticateForm extends SignForm {
           Do you want to pass information about account<br /> <b>{account.address}</b> {name}<br /> to the website <b>{command.hostname || 'unknown'}</b>?
           { command.message ?
             <React.Fragment>
-              <br /><br />Message from the website:<br /><b>{command.message}</b>
+              <br /><br />Message from the website:<br /><pre>{command.message}</pre>
             </React.Fragment> : '' }
         </p>
       </React.Fragment>

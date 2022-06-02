@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Converting into USD current account balance and when creating a transaction
+### Fixed
+- Format recipient address
+- Format text message in authentication transaction
 
 ## [0.4.7] - 2021-12-17
 ### Changed

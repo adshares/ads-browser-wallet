@@ -28,6 +28,7 @@ import Box from '../../components/atoms/Box';
 
 class GatewayPage extends TransactionPage {
   static propTypes = {
+    adsOperatorApi: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     ...TransactionPage.propTypes,
     inputs: PropTypes.shape({
@@ -75,7 +76,8 @@ class GatewayPage extends TransactionPage {
       vault: { accounts, selectedAccount }
     } = this.props;
     const account = accounts.find(a => a.address === selectedAccount);
-
+    const usdRate = this.props.adsOperatorApi.currencyCourses.usdRate;
+    const amountInUsd = ADS.calculateToUsd(amount.value, usdRate);
     return (
       <React.Fragment>
         <div className={style.amount}>
@@ -88,7 +90,10 @@ class GatewayPage extends TransactionPage {
             isInput
             handleChange={this.handleAmountChange}
             errorMessage={amount.errorMsg}
-          ><span>ADS</span></InputControl>
+          >
+            <span>ADS</span>
+            <small>{amountInUsd}</small>
+          </InputControl>
           <span>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
         </div>
         <div>
@@ -161,6 +166,7 @@ class GatewayPage extends TransactionPage {
 export default withRouter(connect(
   state => ({
     vault: state.vault,
+    adsOperatorApi: state.adsOperatorApi,
     ...state.transactions[ADS.TX_TYPES.GATEWAY],
   }),
   dispatch => ({

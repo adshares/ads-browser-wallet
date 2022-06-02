@@ -875,15 +875,12 @@ function validateEthAddress(address) {
 }
 
 function calculateToUsd(amount, rate) {
-  const validAmount = Number(amount.replace(',', '.'))
-  const course = validAmount * rate
-  const toBigNumber = strToClicks(course.toString())
-  const formatedBigNumber = formatClickMoney(toBigNumber, 2, true)
-  console.log(formatAdsMoney(formatedBigNumber, 11))
-
-  // console.log(strToClicks(amount))
-  // console.log(formatClickMoney(strToClicks(amount)))
-  return (!!rate && !!amount) && `$${'0'}`;
+  if (!amount || !rate) {
+    return;
+  }
+  const validAmount = Number(amount.replace(',', '.'));
+  const convertedAmount = validAmount * rate;
+  return (!!rate && !!amount) ? `$${formatNumber(convertedAmount)}` : '$---';
 }
 
 export default {

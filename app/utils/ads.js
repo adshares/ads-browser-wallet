@@ -880,7 +880,7 @@ function calculateToUsd(amount, rate) {
   }
   const validAmount = Number(amount.replace(',', '.'));
   const convertedAmount = validAmount * rate;
-  return (!!rate && !!amount) ? `$${formatNumber(convertedAmount)}` : '$---';
+  return `$${formatNumber(convertedAmount)}`;
 }
 
 export default {

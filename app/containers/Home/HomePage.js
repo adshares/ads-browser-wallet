@@ -76,7 +76,7 @@ class HomePage extends React.PureComponent {
             <small>ADS</small>
           </div>
           <div className={style.currency}>
-            <small>{amountInUsd}</small>
+            <small>{(accountData.balance && usdRate) ? amountInUsd : '$---'}</small>
           </div>
           {config.testnet && <small className={style.frreCoins}>
             <a href={config.freeCoinsUrl} target="_blank" rel="noopener noreferrer">

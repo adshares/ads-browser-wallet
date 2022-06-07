@@ -874,6 +874,15 @@ function validateEthAddress(address) {
   return /^(0x)?[0-9a-fA-F]{40}$/.test(address.trim());
 }
 
+function calculateToUsd(amount, rate) {
+  if (!amount || !rate) {
+    return;
+  }
+  const validAmount = Number(amount.replace(',', '.'));
+  const convertedAmount = validAmount * rate;
+  return `$${formatNumber(convertedAmount)}`;
+}
+
 export default {
   TX_FIELDS,
   TX_TYPES,
@@ -899,4 +908,5 @@ export default {
   calculateChargedAmount,
   calculateReceivedAmount,
   validateEthAddress,
+  calculateToUsd,
 };

@@ -49,6 +49,11 @@
     margin-top: 10px;
 }
 
+.currency {
+    text-align: right;
+    line-height: 1.5em;
+}
+
 .details {
     margin-top: 20px;
     margin-bottom: 15px;

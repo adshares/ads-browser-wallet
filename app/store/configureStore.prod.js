@@ -7,6 +7,7 @@ import AdsRpc from '../utils/adsrpc';
 import storage from '../utils/storage';
 import config from '../config/config';
 import { adsWalletInit } from '../actions/walletActions';
+import { getCurrencyExchangeCourse } from '../actions/adsOperatorApiActions';
 
 export default function (initialState, history) {
   const adsRpc = new AdsRpc(config.adsRpcHost);
@@ -22,5 +23,6 @@ export default function (initialState, history) {
 
   epicMiddleware.run(rootEpic);
   store.dispatch(adsWalletInit());
+  store.dispatch(getCurrencyExchangeCourse());
   return store;
 }

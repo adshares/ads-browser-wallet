@@ -16,7 +16,7 @@
 }
 
 .amount input {
-    width: 50%;
+    width: 40%;
 }
 
 .amount > div {
@@ -28,6 +28,10 @@
     font-size: 30px;
     line-height: 50px;
     vertical-align: middle;
+    margin-left: 20px;
+}
+
+.amount > div > small {
     margin-left: 20px;
 }
 

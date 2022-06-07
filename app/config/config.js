@@ -27,7 +27,7 @@ const config = {
   proxyConnectionName: 'ads-wallet-proxy',
   adsRpcHost: 'https://rpc.adshares.net/',
   operatorUrl: 'https://operator.adshares.net/',
-  operatorApiUrl: 'https://ads-operator.adshares.net',
+  operatorApiUrl: 'https://ads-operator.adshares.net/',
   apiDocUrl: 'https://github.com/adshares/ads/wiki/ADS-API#',
   helpUrl: 'https://github.com/adshares/ads-browser-wallet/wiki',
   websiteUrl: 'https://adshares.net/',

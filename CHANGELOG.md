@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.9] - 2022-06-07
+### Fixed
+- Operator API URL
+
 ## [0.4.8] - 2022-06-07
 ### Added
 - Converting into USD current account balance and when creating a transaction
@@ -124,8 +128,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Storage encryption
 - Docs
 
-[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.8...HEAD
+[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.9...HEAD
 
+[0.4.9]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.7...v0.4.8
 [0.4.7]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.6...v0.4.7
 [0.4.6]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.5...v0.4.6

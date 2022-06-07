@@ -19,7 +19,7 @@ const getContentSecurityPolicy = (isProd) => {
   const directives = {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'"],
-    connectSrc: ["'self'", 'https://rpc.adshares.net', 'https://rpc.e11.click', 'data:'],
+    connectSrc: ["'self'", 'https://rpc.adshares.net', 'https://rpc.e11.click', 'https://ads-operator.adshares.net', 'https://ads-operator.e11.click', 'data:'],
     styleSrc: ['*', 'blob:', "'unsafe-inline'"],
     fontSrc: ["'self'", 'https://fonts.gstatic.com'],
     imgSrc: ["'self'", 'data:'],

@@ -10,6 +10,7 @@ import createRootReducer from '../reducers';
 import storage from '../utils/storage';
 import rootEpic from '../epics';
 import { adsWalletInit } from '../actions/walletActions';
+import { getCurrencyExchangeCourse } from '../actions/adsOperatorApiActions';
 
 
 export default function (initialState, history) {
@@ -37,5 +38,6 @@ export default function (initialState, history) {
     });
   }
   store.dispatch(adsWalletInit());
+  store.dispatch(getCurrencyExchangeCourse());
   return store;
 }

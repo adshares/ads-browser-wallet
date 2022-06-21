@@ -85,9 +85,10 @@ export function fixByteOrder(data) {
  * @param value date to format
  * @param showTime foramt with time
  * @param utc in UTC or local timezone
+ * @param iso ISO 8601 date time
  * @returns {string}
  */
-export function formatDate(value, showTime = true, utc = false) {
+export function formatDate(value, showTime = true, utc = false, iso = false) {
   const val = value instanceof Date ? value : new Date(value);
 
   let year;
@@ -96,6 +97,7 @@ export function formatDate(value, showTime = true, utc = false) {
   let hours;
   let minutes;
   let seconds;
+  let timeZone;
 
   if (utc) {
     year = val.getUTCFullYear();
@@ -104,6 +106,7 @@ export function formatDate(value, showTime = true, utc = false) {
     hours = val.getUTCHours();
     minutes = val.getUTCMinutes();
     seconds = val.getUTCSeconds();
+    timeZone = 0;
   } else {
     year = val.getFullYear();
     month = val.getMonth() + 1;
@@ -111,6 +114,7 @@ export function formatDate(value, showTime = true, utc = false) {
     hours = val.getHours();
     minutes = val.getMinutes();
     seconds = val.getSeconds();
+    timeZone = Math.round(-100 * (val.getTimezoneOffset() / 60));
   }
 
   year = year.toString().padStart(4, '0');
@@ -119,11 +123,16 @@ export function formatDate(value, showTime = true, utc = false) {
   hours = hours.toString().padStart(2, '0');
   minutes = minutes.toString().padStart(2, '0');
   seconds = seconds.toString().padStart(2, '0');
+  timeZone = timeZone.toString().padStart(4, '0');
 
   const date = `${year}-${month}-${day}`;
   const time = `${hours}:${minutes}:${seconds}`;
 
-  return `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
+  return iso ? `${date}${showTime ? `T${time}` : ''}+${timeZone}` : `${date}${showTime ? ` ${time}` : ''}${utc ? ' UTC' : ''}`;
+}
+
+export function formatIsoDate(value) {
+  return formatDate(value, true, true, true);
 }
 
 /**

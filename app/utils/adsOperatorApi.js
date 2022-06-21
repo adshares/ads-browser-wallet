@@ -1,5 +1,6 @@
 import { RpcError } from '../actions/errors';
 import config from '../config/config';
+import { formatIsoDate } from './utils';
 
 export default class AdsOperatorApi {
   host = config.operatorApiUrl
@@ -29,11 +30,9 @@ export default class AdsOperatorApi {
   }
 
   getCurrencyExchangeCourse() {
-    const currency = 'USD';
     const date = new Date();
-    const timeZone = date.toString().match(/\sGMT(\+\d{4}\s)/)[0].trim().slice(3);
-    const dateString = date.toISOString().slice(0, 19) + timeZone;
-    const path = `exchange-rate/${dateString}/${currency}`;
+    date.setHours(date.getHours() - 1);
+    const path = `exchange-rate/${formatIsoDate(date)}/USD`;
     return this.request(path).then((response) => {
       if (!response) {
         throw new RpcError('RPC Server Response Error', response);

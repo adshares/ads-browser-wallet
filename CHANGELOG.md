@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.10] - 2022-06-21
+### Fixed
+- Format the time zone when fetching an exchange rate
+
 ## [0.4.9] - 2022-06-07
 ### Fixed
 - Operator API URL
@@ -128,8 +132,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Storage encryption
 - Docs
 
-[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.9...HEAD
+[Unreleased]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.10...HEAD
 
+[0.4.10]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.9...v0.4.10
 [0.4.9]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.7...v0.4.8
 [0.4.7]: https://github.com/adshares/ads-browser-wallet/compare/v0.4.6...v0.4.7

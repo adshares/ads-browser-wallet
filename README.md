@@ -8,7 +8,7 @@
     ·
     <a href="https://github.com/adshares/ads-browser-wallet/issues/new?template=feature_request.md&labels=New%20Feature">Request feature</a>
     ·
-    <a href="https://github.com/adshares/ads-browser-wallet/wiki">Wiki</a>
+    <a href="https://docs.adshares.net/ads-browser-wallet/">Docs</a>
   </p>
 </p>
 
@@ -66,4 +66,4 @@ the funds it holds. Back it up in multiple physical locations – not just on yo
 
 ### More info
 
-- [ADS Blockchain Wiki](https://github.com/adshares/ads/wiki)
+- [ADS Blockchain docs](https://docs.adshares.net/ads/)

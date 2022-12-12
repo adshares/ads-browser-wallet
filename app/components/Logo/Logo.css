@@ -1,9 +1,9 @@
 @keyframes logo {
     from {
-        fill: rgba(95, 178, 249, 0);
+        fill: rgba(255, 65, 77, 0);
     }
     to {
-        fill: rgba(95, 178, 249, 1);
+        fill: var(--primary);
         stroke-width: 0;
     }
 }
@@ -14,7 +14,7 @@
 
 .logo .cls1 {
     fill: transparent;
-    stroke: #5FB2F9 !important;
+    stroke: var(--primary) !important;
     animation-name: logo;
     animation-duration: 0.7s;
     animation-timing-function: linear;

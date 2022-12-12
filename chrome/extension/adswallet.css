@@ -1,17 +1,54 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700');
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Light_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Light_Web.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Book_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Book_Web.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Medium_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Medium_Web.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Bold_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Bold_Web.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
 
 :root {
+  /* --------------- colors --------------- */
+  --warning: #F3A838;
+  --info: #1DA5DF;
+  --primary: rgb(255, 65, 77);
+;
+  --light: #FFF;
+  --dark: #000;
+
+  /* -------------------------------------- */
+  
   --green: #8FBF5B;
   --green-dark: #5D9421;
-  --blue: #4B9CD0;
   --blue-dark: #2A87C4;
   --purple: #A796D0;
   --purple-dark: #6A50A7;
   --yellow: #FFD683;
   --yellow-dark: #F6BB42;
-  --orange: #FF9483;
   --orange-dark: #E9573F;
-  --red: #E05967;
   --red-dark: #BD1F2E;
   --pink: #FC7798;
   --pink-dark: #FB3365;
@@ -22,23 +59,36 @@
   --slate: #6A7078;
   --slate-dark: #434A54;
   --grayish-white: #F6F6F6;
-  --white: #FFF;
-  --black: #000;
 
-  --font-normal: 16px;
-  --font-small: 14px;
+  /* --------------- typography --------------- */
+
+  --font-normal: 1.125rem;
+  --font-small: 1rem;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* ------------------------------------------- */
+
   --font-smaller: 13px;
   --font-smallest: 11px;
   --font-big: 18px;
   --font-bigger: 20px;
 
-  --shadow: 0 0 27px 0 rgba(0,0,0,.05), 0 0 14px 0 rgba(0,0,0,.05);
-  --shadow-dark: 0 3px 6px rgba(126,126,126,.16), 0 3px 6px rgba(126,126,126,.23);
+  /* --------------- shadows ------------------- */
+
+  --shadow-dark: 4px 4px 0 var(--dark);
+  --shadow-dark-inverted: -4px -4px 0 var(--dark);
+  --shadow-primary: 4px 4px 0 var(--primary);
+  --shadow-primary-inverted: -4px -4px 0 var(--primary);
+
+  /* ------------------------------------------- */
 }
 
 body {
   overflow: hidden;
-  font: var(--font-normal) 'Lato', Arial, sans-serif;
+  font: var(--font-normal) 'Gotham', Arial, sans-serif;
   line-height: 1.4em;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
@@ -46,7 +96,7 @@ body {
   font-smoothing: antialiased;
   font-weight: 400;
   background: var(--white);
-  color: var(--slate-dark);
+  color: var(--black);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -55,16 +105,18 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   text-decoration: none;
-  color: var(--slate-dark);
+  color: var(--black);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid currentColor;
 }
 
 a:hover {
-  text-decoration: underline;
+  border-bottom: 1px solid var(--red);
 }
 
 hr {
   border: 0;
-  border-top: 1px solid var(--gray-dark);
+  border-top: 1px solid var(--black);
   background: none;
   height: 1px;
 }

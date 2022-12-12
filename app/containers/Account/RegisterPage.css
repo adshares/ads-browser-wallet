@@ -1,6 +1,7 @@
 .welcomePage {
     text-align: center;
     padding: 15px;
+    font-weight: 400;
 }
 
 .welcomePage .about {
@@ -20,18 +21,15 @@
 }
 
 .logo h3 {
-    color: var(--orange-dark);
+    color: var(--warning);
     margin: 15px 0;
     line-height: 22px;
 }
 
 .links {
     margin-top: 20px;
-    font-size: var(--font-smaller);
-}
-
-.mainnetLink {
-    color: var(--orange-dark);
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-light);
 }
 
 .newPasswordPage {
@@ -67,7 +65,7 @@
 }
 
 .termsPage h3 {
-    color: var(--orange-dark);
+    color: var(--warning);
     margin: 15px 0;
     line-height: 22px;
 }

@@ -1,6 +1,4 @@
 .button {
-    height: 45px;
-    line-height: 42px;
     padding: 0 20px;
     font-size: var(--font-small);
     display: inline-block;
@@ -8,13 +6,11 @@
     transition: all 250ms ease;
     box-sizing: border-box;
     cursor: pointer;
-    border-radius: 3px;
     outline: none;
-    color: var(--white) !important;
-    background: var(--slate-dark);
-    border: 1px solid var(--slate-dark);
+    color: var(--light);
     text-decoration: none;
     vertical-align: middle;
+    box-shadow: var(--shadow-dark);
 }
 
 .button:disabled, .button.disabled {
@@ -22,43 +18,49 @@
     cursor: not-allowed;
 }
 
-.button.info {
-    background-color: var(--blue-dark);
-    border-color: var(--blue-dark);
+.button.primary {
+    background: var(--primary);
+    border: 1px solid var(--dark);
 }
 
-.button.success {
-    background-color: var(--green-dark);
-    border-color: var(--green-dark);
+.button.secondary {
+    background-color: var(--light);
+    border-color: var(--dark);
+    color: var(--light);
+}
+
+.button.info {
+    background-color: var(--info);
+    border-color: var(--info);
 }
 
 .button.warning {
-    background-color: var(--yellow-dark);
-    border-color: var(--yellow-dark);
+    background-color: var(--warning);
+    border-color: var(--warning);
 }
 
 .button.danger {
-    background-color: var(--red-dark);
-    border-color: var(--red-dark);
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .button.danger {
-    background-color: var(--red-dark);
-    border-color: var(--red-dark);
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .button.contrast {
     background-color: transparent;
-    border-color: var(--white);
+    border-color: var(--light);
 }
 
 .button.inverse {
-    background-color: var(--white);
+    background-color: var(--light);
     color: var(--slate-dark) !important;
 }
 
 .button.inverse.info {
-    color: var(--blue-dark) !important;
+    color: var(--info) !important;
 }
 
 .button.inverse.success {
@@ -70,7 +72,7 @@
 }
 
 .button.inverse.danger {
-    color: var(--red-dark) !important;
+    color: var(--primary) !important;
 }
 
 .button.small {
@@ -94,17 +96,15 @@
     margin-left: 1%;
 }
 
-.button:hover,
+.button:is(.info, .primary, .warning):hover,
 .button:focus {
-    background-color: var(--slate);
-    border-color: var(--slate);
-    text-decoration: none;
+    box-shadow: var(--shadow-dark-inverted);
 }
 
 .button.info:hover,
 .button.info:focus  {
-    background-color: var(--blue);
-    border-color: var(--blue);
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .button.success:hover,
@@ -121,19 +121,19 @@
 
 .button.danger:hover,
 .button.danger:focus {
-    background-color: var(--red);
-    border-color: var(--red);
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .button.contrast:hover,
 .button.contrast:focus {
     background-color: rgba(255, 255, 255, 0.15);
-    border-color: var(--white);
+    border-color: var(--light);
 }
 
 .button.inverse:hover,
 .button.inverse:focus {
-    color: var(--white) !important;
+    color: var(--light) !important;
 }
 
 .button.icon-left {

@@ -82,13 +82,13 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.welcomePage}>
         <header className={style.logo}>
-          <Logo withoutName />
+          <Logo />
           <h1>Live by ADS</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <p className={style.about}>{config.about}</p>
-        <ButtonLink to="/register/password" icon="right" layout="info">
-          Start <FontAwesomeIcon icon={faChevronRight} />
+        <ButtonLink to="/register/password" layout="secondary">
+          Start
         </ButtonLink>
         <div className={style.links}>
           <Link to={'/restore'}>Restore the vault from a seed</Link><br />
@@ -137,11 +137,11 @@ export default class RegisterPage extends FormComponent {
             />
           </div>
           <div className={style.buttons}>
-            <ButtonLink to={'/register'} inverse icon="left" layout="info">
-              <FontAwesomeIcon icon={faChevronLeft} /> Back
+            <ButtonLink to={'/register'} layout="secondary">
+              Back
             </ButtonLink>
-            <Button type="subbmit" icon="right" layout="info">
-              Next <FontAwesomeIcon icon={faChevronRight} />
+            <Button type="subbmit" layout="primary">
+              Next
             </Button>
           </div>
         </Form>

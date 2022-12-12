@@ -1,5 +1,6 @@
 .button {
-    padding: 0 20px;
+    height: 3rem;
+    padding: 0 2em;
     font-size: var(--font-small);
     display: inline-block;
     text-align: center;
@@ -7,10 +8,14 @@
     box-sizing: border-box;
     cursor: pointer;
     outline: none;
-    color: var(--light);
-    text-decoration: none;
+    display: grid;
+    place-items: center;
     vertical-align: middle;
+    text-decoration: none;
     box-shadow: var(--shadow-dark);
+    width: fit-content;
+    color: var(--light);
+    margin-inline: auto;
 }
 
 .button:disabled, .button.disabled {
@@ -26,7 +31,7 @@
 .button.secondary {
     background-color: var(--light);
     border-color: var(--dark);
-    color: var(--light);
+    color: var(--dark);
 }
 
 .button.info {
@@ -37,6 +42,41 @@
 .button.warning {
     background-color: var(--warning);
     border-color: var(--warning);
+}
+
+.button:hover,
+.button:focus,
+.button:focus {
+    box-shadow: var(--shadow-dark-inverted);
+    opacity: 1;
+}
+
+.button.secondary:hover,
+.button.secondary:focus {
+    box-shadow: var(--shadow-primary-inverted);
+    border-color: var(--dark);
+}
+
+.button.secondary:active {
+    box-shadow: var(--shadow-primary-inverted);
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+.button.icon-left {
+    padding-left: 15px;
+}
+
+.button.icon-right {
+    padding-right: 15px;
+}
+
+.button.icon-left svg {
+    margin-right: 7px;
+}
+
+.button.icon-right svg {
+    margin-left: 7px;
 }
 
 .button.danger {
@@ -94,60 +134,4 @@
 .button.wide3 {
     width: 34%;
     margin-left: 1%;
-}
-
-.button:is(.info, .primary, .warning):hover,
-.button:focus {
-    box-shadow: var(--shadow-dark-inverted);
-}
-
-.button.info:hover,
-.button.info:focus  {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
-.button.success:hover,
-.button.success:focus  {
-    background-color: var(--green);
-    border-color: var(--green);
-}
-
-.button.warning:hover,
-.button.warning:focus {
-    background-color: var(--yellow);
-    border-color: var(--yellow);
-}
-
-.button.danger:hover,
-.button.danger:focus {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
-.button.contrast:hover,
-.button.contrast:focus {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: var(--light);
-}
-
-.button.inverse:hover,
-.button.inverse:focus {
-    color: var(--light) !important;
-}
-
-.button.icon-left {
-    padding-left: 15px;
-}
-
-.button.icon-right {
-    padding-right: 15px;
-}
-
-.button.icon-left svg {
-    margin-right: 7px;
-}
-
-.button.icon-right svg {
-    margin-left: 7px;
 }

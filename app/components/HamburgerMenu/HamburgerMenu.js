@@ -9,6 +9,10 @@ import {
   faToggleOn,
   faToggleOff,
   faHashtag,
+  // faArrowRightArrowLeft,
+  // faGear,
+  // faExpand,
+  // faCircleInfo
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import config from '../../config/config';
@@ -78,6 +82,7 @@ export default class HamburgerMenu extends PageComponent {
           <li>
             <Link to="/transactions" className={style.menuItem}>
               <FontAwesomeIcon icon={faHashtag} /> Transactions
+              {/*<FontAwesomeIcon icon={faArrowRightArrowLeft} /> Transactions*/}
             </Link>
           </li>
           <li>

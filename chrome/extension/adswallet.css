@@ -58,7 +58,7 @@
   --gray-dark: #8E9AA2;
   --slate: #6A7078;
   --slate-dark: #434A54;
-  --grayish-white: #F6F6F6;
+  --grayish-light: #F6F6F6;
 
   /* --------------- typography --------------- */
 
@@ -88,15 +88,15 @@
 
 body {
   overflow: hidden;
-  font: var(--font-normal) 'Gotham', Arial, sans-serif;
+  font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
   line-height: 1.4em;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
   -ms-font-smoothing: antialiased;
   font-smoothing: antialiased;
   font-weight: 400;
-  background: var(--white);
-  color: var(--black);
+  background: var(--light);
+  color: var(--dark);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -105,18 +105,18 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   text-decoration: none;
-  color: var(--black);
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid currentColor;
+  color: var(--dark);
+  /*padding-bottom: 0.5rem;*/
+  /*border-bottom: 1px solid currentColor;*/
 }
 
-a:hover {
-  border-bottom: 1px solid var(--red);
+a:not(.button):hover {
+  opacity: 0.7;
 }
 
 hr {
   border: 0;
-  border-top: 1px solid var(--black);
+  border-top: 1px solid var(--dark);
   background: none;
   height: 1px;
 }

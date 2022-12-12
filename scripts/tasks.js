@@ -28,6 +28,7 @@ const getContentSecurityPolicy = (isProd) => {
   if (!isProd) {
     directives.scriptSrc.push('https://localhost:3000', 'http://localhost:3000', "'unsafe-eval'");
     directives.connectSrc.push('https://localhost:3000', 'http://localhost:3000', 'https://127.0.0.1:5000', 'http://127.0.0.1:5000');
+    directives.fontSrc.push('https://localhost:3000', 'http://localhost:3000', "'unsafe-eval'");
   }
 
   return { directives };

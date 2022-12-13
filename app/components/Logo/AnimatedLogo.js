@@ -1,5 +1,6 @@
 import React from 'react';
 import anime from 'animejs';
+import animation from '../../assets/animated-logo.mp4';
 import style from './Logo.css';
 
 export default class AnimatedLogo extends React.Component {
@@ -17,7 +18,7 @@ export default class AnimatedLogo extends React.Component {
   render() {
     return (
       <video autoPlay muted>
-        <source src="animated-logo.mp4" type="video/mp4" />
+        <source src={animation} type="video/mp4" />
               Your browser does not support the video tag. </video>
     );
   }

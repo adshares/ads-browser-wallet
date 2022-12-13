@@ -8,7 +8,7 @@
 }
 
 .invalid input, .invalid textarea {
-    border-color: var(--red);
+    border-color: var(--primary);
 }
 
 .label {

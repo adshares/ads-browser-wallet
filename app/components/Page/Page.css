@@ -1,13 +1,17 @@
+body {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 400;
+}
+
 .header {
     height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: var(--shadow);
     padding: 0 15px;
     position: relative;
     z-index: 999;
-    background: var(--white);
 }
 
 .header > h1 {
@@ -58,8 +62,7 @@
     text-align: left;
     position: relative;
     z-index: 99;
-    margin: 15px;
-    margin-right: 5px;
+    margin: 15px 5px 15px 15px;
     padding-right: 10px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -73,8 +76,7 @@
 .footer {
     height: 30px;
     margin: 0px 15px;
-    background: var(--white);
-    border-top: 1px solid var(--gray);
+    border-top: 1px solid var(--dark);
     box-sizing: border-box;
 }
 

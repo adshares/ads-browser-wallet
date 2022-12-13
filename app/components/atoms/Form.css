@@ -1,26 +1,35 @@
 .form > div {
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .form input, .form textarea, .form select {
-    background-color: var(--white);
+    font-family: inherit;
+    background-color: var(--light);
     font-size: var(--font-small);
     transition: all 250ms ease;
-    border: 1px solid var(--gray-dark);
-    border-radius: 3px !important;
+    border: 1px solid var(--dark);
     box-sizing: border-box;
     display: inline-block;
     width: 100%;
     outline: 0;
+    box-shadow: var(--shadow-dark);
+    margin-block: 0.3rem;
 }
 
 .form input:focus, .form textarea:focus, .form select:focus {
-    border-color: var(--blue-dark);
+    border: 4px solid var(--info);
+}
+
+.form label {
+    padding: 0 0 1em 0.5em;
+    font-weight: var(--font-weight-light);
+    font-size: var(--font-small);
 }
 
 .form input {
-    line-height: 50px;
-    text-indent: 15px;
+    line-height: 2rem;
+    text-indent: 0.5em;
     height: 50px;
 }
 
@@ -35,5 +44,5 @@
 }
 
 form input[readonly], .form textarea[readonly], .form select[readonly] {
-    background-color: var(--grayish-white);
+    background-color: var(--light);
 }

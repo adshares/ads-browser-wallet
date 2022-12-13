@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faExclamation, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faExclamation } from '@fortawesome/free-solid-svg-icons';
 import * as KeyBox from '../../utils/keybox';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
@@ -108,39 +108,41 @@ export default class RegisterPage extends FormComponent {
           <h1>Setup password</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
-        <Box icon={faInfo} layout="info">
+        <Box icon={'i'} layout="info">
           Your password should be obscure and must be at
           least {config.passwordMinLength} characters long.
         </Box>
         <Form onSubmit={this.handlePasswordSubmit}>
-          <div>
-            <input
-              type="password"
-              autoFocus
-              required
-              placeholder="Password"
-              minLength={config.passwordMinLength}
-              name="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              required
-              placeholder="Confirm password"
-              minLength={config.passwordMinLength}
-              name="password2"
-              value={this.state.password2}
-              onChange={this.handlePasswordChange}
-            />
+          <div className={style.inputs}>
+            <label htmlFor="Password">
+              Password
+              <input
+                type="password"
+                autoFocus
+                required
+                minLength={config.passwordMinLength}
+                name="password"
+                value={this.state.password}
+                onChange={this.handlePasswordChange}
+              />
+            </label>
+            <label htmlFor="Confirm password">
+              Confirm password
+              <input
+                type="password"
+                required
+                minLength={config.passwordMinLength}
+                name="password2"
+                value={this.state.password2}
+                onChange={this.handlePasswordChange}
+              />
+            </label>
           </div>
           <div className={style.buttons}>
             <ButtonLink to={'/register'} layout="secondary">
               Back
             </ButtonLink>
-            <Button type="subbmit" layout="primary">
+            <Button type="submit" layout="primary">
               Next
             </Button>
           </div>

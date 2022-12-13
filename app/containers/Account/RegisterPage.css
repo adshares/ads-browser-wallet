@@ -1,29 +1,5 @@
-.welcomePage {
-    text-align: center;
-    padding: 15px;
-    font-weight: 400;
-}
-
 .welcomePage .about {
     white-space: pre-wrap;
-}
-
-.logo {
-    margin: 20px auto 29px auto;
-}
-
-.logo svg {
-    width: 200px;
-}
-
-.logo h1 {
-    margin-top: -25px;
-}
-
-.logo h3 {
-    color: var(--warning);
-    margin: 15px 0;
-    line-height: 22px;
 }
 
 .links {
@@ -32,13 +8,8 @@
     font-weight: var(--font-weight-light);
 }
 
-.newPasswordPage {
-    text-align: center;
-    padding: 15px;
-}
-
 .newPasswordPage header {
-    margin-bottom: 89px;
+    margin-bottom: 2rem;
 }
 
 .newPasswordPage h1 {
@@ -46,13 +17,17 @@
 }
 
 .newPasswordPage h3 {
-    color: var(--orange-dark);
+    color: var(--warning);
     margin: 15px 0;
     line-height: 22px;
 }
 
-.newPasswordPage form {
-    margin-top: 60px;
+.newPasswordPage .inputs {
+    margin-bottom: 3.5rem;
+}
+
+.newPasswordPage input {
+    margin-bottom: 1.5rem;
 }
 
 .termsPage {
@@ -115,12 +90,7 @@
 }
 
 .buttons {
-    margin-top: 20px;
-    margin-bottom: 10px !important;
-}
-
-.buttons > *:first-child {
-    margin-right: 50px;
+    display: flex;
 }
 
 .dangerContent input, .dangerContent textarea {

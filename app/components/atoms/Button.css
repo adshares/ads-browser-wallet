@@ -1,7 +1,8 @@
 .button {
-    height: 3rem;
+    height: 2.7rem;
     padding: 0 2em;
     font-size: var(--font-small);
+    font-weight: var(--font-weight-bold);
     display: inline-block;
     text-align: center;
     transition: all 250ms ease;
@@ -16,6 +17,7 @@
     width: fit-content;
     color: var(--light);
     margin-inline: auto;
+    border: 1px solid var(--dark);
 }
 
 .button:disabled, .button.disabled {
@@ -25,12 +27,10 @@
 
 .button.primary {
     background: var(--primary);
-    border: 1px solid var(--dark);
 }
 
 .button.secondary {
     background-color: var(--light);
-    border-color: var(--dark);
     color: var(--dark);
 }
 

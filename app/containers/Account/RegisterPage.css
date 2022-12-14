@@ -8,15 +8,18 @@
     font-weight: var(--font-weight-light);
 }
 
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
 .newPasswordPage header {
     margin-bottom: 2rem;
 }
 
-.newPasswordPage h1 {
-    margin: 20px 0;
-}
-
 .newPasswordPage .inputs {
+    margin-inline: 1rem;
     margin-bottom: 3.5rem;
 }
 
@@ -24,30 +27,66 @@
     margin-bottom: 1.5rem;
 }
 
-.newPasswordPage .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-}
-
-.termsPage {
-    text-align: center;
-    padding: 15px;
-}
-
 .termsPage h1 {
-    margin: 20px 0;
+    margin-bottom: 1em;
+}
+
+.termsPage .buttons {
+    margin-block: 2rem;
 }
 
 .terms {
-    width: 338px;
-    overflow: auto;
+    font-size: var(--font-small);
+    width: 23rem;
     height: 300px;
+    margin-inline: auto;
+    overflow-y: auto;
     text-align: justify;
-    border: 1px solid var(--gray);
-    padding: 10px 15px;
+    border: 1px solid var(--dark);
+    box-shadow: var(--shadow-dark);
+    padding: 0.5rem;
     margin-bottom: 20px;
     white-space: pre-line;
+}
+
+.terms::-webkit-scrollbar,
+.terms::-webkit-scrollbar-button:decrement,
+.terms::-webkit-scrollbar-button:increment {
+    border-color: rgba(0,0,0, 0.4);
+    border-width: 2px;
+}
+
+.terms::-webkit-scrollbar {
+    border-left-style: solid;
+    width: 1.2rem;
+}
+
+.terms::-webkit-scrollbar-thumb {
+    height: 2.5rem;
+    background-color: black;
+}
+
+.terms::-webkit-scrollbar-track {
+    padding-inline: 3px;
+}
+
+.terms::-webkit-scrollbar-button:decrement,
+.terms::-webkit-scrollbar-button:increment {
+    border-left: 1px solid rgba(0,0,0, 0.4);
+    height: 1.3rem;
+    background-repeat: no-repeat;
+    background-size: 100% 80%;
+    background-position: center;
+}
+
+.terms::-webkit-scrollbar-button:decrement {
+    border-bottom-style: solid;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z'/></svg>");
+}
+
+.terms::-webkit-scrollbar-button:increment {
+    border-top-style: solid;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/></svg>");
 }
 
 .seedPhrasePage {
@@ -57,10 +96,6 @@
 
 .seedPhrasePage header {
     margin-bottom: 29px;
-}
-
-.seedPhrasePage h1 {
-    margin: 20px 0;
 }
 
 .seedPhrasePage form {
@@ -73,11 +108,20 @@
 }
 
 .seedPhrasePage textarea {
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     height: 83px;
 }
 
-.dangerContent input, .dangerContent textarea {
-    border-color: var(--red-dark);
-    color: var(--red-dark);
+.seedPhrasePage textarea::-webkit-resizer {
+    background: black;
+    margin: 10px;
+    /*border-style: solid;*/
+    /*border-width: 200px;*/
+    /*border-top-color: white;*/
+    /*border-left-color: white;*/
+    /*border-right-color: black;*/
+    /*border-bottom-color: black;*/
+    outline-right-color: 5px solid white;
+
+    /*box-shadow: 0 0 10px white;*/
 }

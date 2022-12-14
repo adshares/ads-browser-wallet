@@ -98,11 +98,13 @@
 body {
   overflow: hidden;
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
+  /*-webkit-font-smoothing: antialiased;*/
+  /*-moz-font-smoothing: antialiased;*/
+  /*-ms-font-smoothing: antialiased;*/
+  /*font-smooth: antialiased;*/
   line-height: 1.4em;
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  -ms-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  padding-block: 1rem;
+  text-align: center;
   font-weight: 400;
   background: var(--light);
   color: var(--dark);
@@ -113,16 +115,23 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
+h1 {
+  font-size: 2rem;
+}
+
 header h3 {
   font-size: var(--font-smaller);
   font-weight: var(--font-weight-bolder);
 }
 
+header:not:has(h3) {
+  padding-top: 2rem;
+}
+
 a {
   text-decoration: none;
   color: var(--dark);
-  /*padding-bottom: 0.5rem;*/
-  /*border-bottom: 1px solid currentColor;*/
+  opacity: 1;
 }
 
 a:not:has(.button):hover {

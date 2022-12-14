@@ -2,8 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faExclamation } from '@fortawesome/free-solid-svg-icons';
 import * as KeyBox from '../../utils/keybox';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
@@ -87,9 +85,11 @@ export default class RegisterPage extends FormComponent {
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <p className={style.about}>{config.about}</p>
-        <ButtonLink to="/register/password" layout="primary">
-          Start
-        </ButtonLink>
+        <div className={style.buttons}>
+          <ButtonLink to="/register/password" layout="primary">
+            Start
+          </ButtonLink>
+        </div>
         <div className={style.links}>
           <Link to={'/restore'}>Restore the vault from a seed</Link><br />
           {config.testnet ?
@@ -161,11 +161,11 @@ export default class RegisterPage extends FormComponent {
         </header>
         <div className={style.terms}>{config.terms}</div>
         <div className={style.buttons}>
-          <ButtonLink to={'/register/password'} inverse icon="left" layout="info">
-            <FontAwesomeIcon icon={faChevronLeft} /> Back
+          <ButtonLink to={'/register/password'} layout="secondary">
+            Back
           </ButtonLink>
-          <ButtonLink to={'/register/seed'} icon="right" layout="info">
-            Accept <FontAwesomeIcon icon={faChevronRight} />
+          <ButtonLink to={'/register/seed'} layout="primary">
+            Accept
           </ButtonLink>
         </div>
       </div>
@@ -180,7 +180,7 @@ export default class RegisterPage extends FormComponent {
           <h1>Mnemonic seed phrase</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
-        <Box title="Warning" layout="warning" icon={faExclamation}>
+        <Box layout="warning" icon={'!'}>
           A seed phrase includes all the information needed to recover a wallet.
           Please write it down on paper and store safely.
         </Box>
@@ -194,7 +194,7 @@ export default class RegisterPage extends FormComponent {
               Regenerate phrase
             </Button>
           </div>
-          <div className={style.dangerContent}>
+          <div>
             <textarea
               value={this.state.seedPhrase}
               readOnly
@@ -203,20 +203,15 @@ export default class RegisterPage extends FormComponent {
           <div className={style.buttons}>
             <ButtonLink
               to={'/register/terms'}
-              inverse
-              icon="left"
-              layout="info"
+              layout="secondary"
               disabled={this.state.isSubmitted}
-            >
-              <FontAwesomeIcon icon={faChevronLeft} /> Back
+            >Back
             </ButtonLink>
             <Button
               type="submit"
-              icon="right"
-              layout="info"
+              layout="primary"
               disabled={this.state.isSubmitted}
-            >
-              Save <FontAwesomeIcon icon={faChevronRight} />
+            >Save
             </Button>
           </div>
         </Form>

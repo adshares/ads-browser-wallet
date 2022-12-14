@@ -1,13 +1,3 @@
-body {
-    padding: 1rem;
-    text-align: center;
-    font-weight: 400;
-}
-
-header:not:has(h3) {
-    padding-top: 2rem;
-}
-
 .header {
     height: 60px;
     display: flex;
@@ -19,7 +9,7 @@ header:not:has(h3) {
 }
 
 .header > h1 {
-    font-size: 1.3em;
+    font-size: 10rem;
     line-height: 1.25em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -43,6 +33,7 @@ header:not:has(h3) {
 .logo img {
     height: 40px;
 }
+
 .logo a {
     display: inline-block;
 }

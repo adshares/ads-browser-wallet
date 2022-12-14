@@ -30,6 +30,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Ultra_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Ultra_Web.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+
 :root {
   /* --------------- colors --------------- */
   --warning: #F3A838;
@@ -64,14 +72,15 @@
 
   --font-normal: 1.125rem;
   --font-small: 1rem;
+  --font-smaller: 0.75rem;
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
+  --font-weight-bolder: 900;
 
   /* ------------------------------------------- */
 
-  --font-smaller: 13px;
   --font-smallest: 11px;
   --font-big: 18px;
   --font-bigger: 20px;
@@ -102,6 +111,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
+}
+
+header h3 {
+  font-size: var(--font-smaller);
+  font-weight: var(--font-weight-bolder);
 }
 
 a {

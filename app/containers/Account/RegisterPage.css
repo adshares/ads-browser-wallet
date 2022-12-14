@@ -16,18 +16,18 @@
     margin: 20px 0;
 }
 
-.newPasswordPage h3 {
-    color: var(--warning);
-    margin: 15px 0;
-    line-height: 22px;
-}
-
 .newPasswordPage .inputs {
     margin-bottom: 3.5rem;
 }
 
 .newPasswordPage input {
     margin-bottom: 1.5rem;
+}
+
+.newPasswordPage .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
 }
 
 .termsPage {
@@ -37,12 +37,6 @@
 
 .termsPage h1 {
     margin: 20px 0;
-}
-
-.termsPage h3 {
-    color: var(--warning);
-    margin: 15px 0;
-    line-height: 22px;
 }
 
 .terms {
@@ -69,12 +63,6 @@
     margin: 20px 0;
 }
 
-.seedPhrasePage h3 {
-    color: var(--orange-dark);
-    margin: 15px 0;
-    line-height: 22px;
-}
-
 .seedPhrasePage form {
     margin-top: 30px;
 }
@@ -87,10 +75,6 @@
 .seedPhrasePage textarea {
     font-weight: 700;
     height: 83px;
-}
-
-.buttons {
-    display: flex;
 }
 
 .dangerContent input, .dangerContent textarea {

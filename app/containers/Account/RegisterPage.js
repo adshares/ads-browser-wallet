@@ -105,8 +105,9 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.newPasswordPage}>
         <header>
+          {/*{config.testnet ? <h3>TESTNET</h3> : ''}*/}
+          <h3>TESTNET</h3>
           <h1>Setup password</h1>
-          {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <Box icon={'i'} layout="info">
           Your password should be obscure and must be at

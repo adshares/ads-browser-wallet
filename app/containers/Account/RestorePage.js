@@ -2,7 +2,7 @@ import React from 'react';
 import bip39 from 'bip39';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
@@ -84,42 +84,48 @@ export default class RestorePage extends FormComponent {
           <h1>Restore the vault</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
-        <Box layout="warning" icon={faExclamation} title="Restoring your vault will overwrite all current data">
+        <Box layout="warning" icon={'!'} title="Restoring your vault will overwrite all current data">
           Your password should be obscure and must be at
           least {config.passwordMinLength} characters long.
         </Box>
         <Form onSubmit={this.handleRestoreSubmit}>
           <div>
-            <textarea
-              autoFocus
-              required
-              placeholder="Seed phrase"
-              name="seedPhrase"
-              value={this.state.seedPhrase}
-              onChange={this.handleSeedPhraseChange}
-            />
+            <label htmlFor="seedPhrase">
+              Seed phrase
+              <textarea
+                autoFocus
+                required
+                name="seedPhrase"
+                value={this.state.seedPhrase}
+                onChange={this.handleSeedPhraseChange}
+              />
+            </label>
           </div>
           <div>
-            <input
-              type="password"
-              required
-              placeholder="New password"
-              minLength={config.passwordMinLength}
-              name="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-            />
+            <label htmlFor="password">
+              Password
+              <input
+                type="password"
+                required
+                minLength={config.passwordMinLength}
+                name="password"
+                value={this.state.password}
+                onChange={this.handlePasswordChange}
+              />
+            </label>
           </div>
           <div>
-            <input
-              type="password"
-              required
-              placeholder="Confirm password"
-              minLength={config.passwordMinLength}
-              name="password2"
-              value={this.state.password2}
-              onChange={this.handlePasswordChange}
-            />
+            <label htmlFor="password2">
+              Confirm password
+              <input
+                type="password"
+                required
+                minLength={config.passwordMinLength}
+                name="password2"
+                value={this.state.password2}
+                onChange={this.handlePasswordChange}
+              />
+            </label>
           </div>
           <div className={style.buttons}>
             <ButtonLink

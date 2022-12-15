@@ -2,12 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 80%;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    max-width: 88%;
+    margin-bottom: 3rem;
     margin-inline: auto;
     font-weight: var(--font-weight-medium);
-    gap: 1.75rem;
+    line-height: 1.2;
+    gap: 1.3rem;
 }
 
 .box a {
@@ -109,7 +109,7 @@
 .box > .icon {
     --icon-size: 1.75rem;
 
-    height: var(--icon-size);
+    height: calc(var(--icon-size)*1.1);
     aspect-ratio: 1;
     background-color: currentColor;
     box-shadow: var(--shadow-dark);

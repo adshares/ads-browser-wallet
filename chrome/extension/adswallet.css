@@ -103,7 +103,7 @@ body {
   /*-ms-font-smoothing: antialiased;*/
   /*font-smooth: antialiased;*/
   line-height: 1.4em;
-  padding-block: 1rem;
+  padding: 1rem;
   text-align: center;
   font-weight: 400;
   background: var(--light);
@@ -122,10 +122,6 @@ h1 {
 header h3 {
   font-size: var(--font-smaller);
   font-weight: var(--font-weight-bolder);
-}
-
-header:not:has(h3) {
-  padding-top: 2rem;
 }
 
 a {
@@ -147,4 +143,12 @@ hr {
 
 code {
   overflow-wrap: anywhere;
+}
+
+input,
+textarea,
+select,
+checkbox,
+button {
+  font-family: inherit;
 }

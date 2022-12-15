@@ -13,10 +13,20 @@
     place-items: center;
     vertical-align: middle;
     text-decoration: none;
-    box-shadow: var(--shadow-dark);
     width: fit-content;
     color: var(--light);
     border: 1px solid var(--dark);
+    box-shadow: var(--shadow-dark);
+}
+
+.buttons {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
 }
 
 .button:disabled, .button.disabled {
@@ -31,6 +41,7 @@
 .button.secondary {
     background-color: var(--light);
     color: var(--dark);
+    box-shadow: var(--shadow-primary);
 }
 
 .button.info {
@@ -134,3 +145,5 @@
     width: 34%;
     margin-left: 1%;
 }
+
+

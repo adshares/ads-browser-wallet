@@ -115,7 +115,7 @@ export default class RegisterPage extends FormComponent {
         </Box>
         <Form onSubmit={this.handlePasswordSubmit}>
           <div className={style.inputs}>
-            <label htmlFor="Password">
+            <label htmlFor="password">
               Password
               <input
                 type="password"
@@ -127,7 +127,7 @@ export default class RegisterPage extends FormComponent {
                 onChange={this.handlePasswordChange}
               />
             </label>
-            <label htmlFor="Confirm password">
+            <label htmlFor="password2">
               Confirm password
               <input
                 type="password"
@@ -176,23 +176,24 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.seedPhrasePage}>
         {this.state.isSubmitted && <LoaderOverlay />}
-        <header>
-          <h1>Mnemonic seed phrase</h1>
-          {config.testnet ? <h3>TESTNET</h3> : ''}
-        </header>
-        <Box layout="warning" icon={'!'}>
-          A seed phrase includes all the information needed to recover a wallet.
-          Please write it down on paper and store safely.
-        </Box>
+        <div>
+          <header>
+            <h1>Mnemonic seed phrase</h1>
+            {config.testnet ? <h3>TESTNET</h3> : ''}
+          </header>
+          <Box layout="warning" icon={'!'}>
+            A seed phrase includes all the information needed to recover a wallet.
+            Please write it down on paper and store safely.
+          </Box>
+        </div>
         <Form onSubmit={this.handleSeedPhraseSubmit}>
           <div className={style.refresh}>
-            <Button
+            <button
               onClick={this.handleSeedPhraseRefresh}
-              size="small"
-              inverse
+              className={style.underlined}
             >
               Regenerate phrase
-            </Button>
+            </button>
           </div>
           <div>
             <textarea

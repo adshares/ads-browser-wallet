@@ -6,6 +6,7 @@ import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
@@ -127,20 +128,20 @@ export default class RestorePage extends FormComponent {
               />
             </label>
           </div>
-          <div className={style.buttons}>
+          <Buttons>
             <ButtonLink
-              className={style.cancel} to={'/'} inverse icon="left" layout="info"
+              className={style.cancel} to={'/'} layout="secondary"
               disabled={this.state.isSubmitted}
             >
               <FontAwesomeIcon icon={faTimes} /> Cancel
             </ButtonLink>
             <Button
-              type="submit" icon="right" layout="info"
+              type="submit" layout="primary"
               disabled={this.state.isSubmitted}
             >
               Restore <FontAwesomeIcon icon={faChevronRight} />
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </div>
     );

@@ -19,16 +19,6 @@
     box-shadow: var(--shadow-dark);
 }
 
-.buttons {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-}
-
 .button:disabled, .button.disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -47,11 +37,6 @@
 .button.info {
     background-color: var(--info);
     border-color: var(--info);
-}
-
-.button.warning {
-    background-color: var(--warning);
-    border-color: var(--warning);
 }
 
 .button:hover,

@@ -2,7 +2,7 @@ import React from 'react';
 import PageComponent from '../components/PageComponent';
 import Page from '../components/Page/Page';
 import Logo from '../components/Logo/Logo';
-import style from './App.css';
+import style from './About.css';
 import config from '../config/config';
 
 export default class AboutPage extends PageComponent {

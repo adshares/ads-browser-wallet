@@ -27,7 +27,7 @@ import SeedPhrasePage from './Settings/SeedPhrasePage';
 import KeysSettingsPage from './Settings/KeysSettingsPage';
 import KeyDetailsPage from './Settings/KeyDetailsPage';
 import * as vaultActions from '../actions/vaultActions';
-import style from './App.css';
+// import style from './About.css';
 import config from '../config/config';
 
 function NotFoundErrorPage(props) {
@@ -88,7 +88,8 @@ class Rooting extends Component {
     const { router, vault, actions } = this.props;
 
     return (
-      <div className={style.app}>
+      <div>
+        {/*<div className={style.app}>*/}
         <Switch router={router}>
           <Route
             exact

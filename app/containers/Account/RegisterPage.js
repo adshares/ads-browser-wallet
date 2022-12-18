@@ -6,6 +6,7 @@ import * as KeyBox from '../../utils/keybox';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
@@ -139,14 +140,14 @@ export default class RegisterPage extends FormComponent {
               />
             </label>
           </div>
-          <div className={style.buttons}>
+          <Buttons>
             <ButtonLink to={'/register'} layout="secondary">
               Back
             </ButtonLink>
             <Button type="submit" layout="primary">
               Next
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </div>
     );
@@ -160,14 +161,14 @@ export default class RegisterPage extends FormComponent {
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <div className={style.terms}>{config.terms}</div>
-        <div className={style.buttons}>
+        <Buttons>
           <ButtonLink to={'/register/password'} layout="secondary">
             Back
           </ButtonLink>
           <ButtonLink to={'/register/seed'} layout="primary">
             Accept
           </ButtonLink>
-        </div>
+        </Buttons>
       </div>
     );
   }
@@ -201,7 +202,7 @@ export default class RegisterPage extends FormComponent {
               readOnly
             />
           </div>
-          <div className={style.buttons}>
+          <Buttons>
             <ButtonLink
               to={'/register/terms'}
               layout="secondary"
@@ -214,7 +215,7 @@ export default class RegisterPage extends FormComponent {
               disabled={this.state.isSubmitted}
             >Save
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </div>
     );

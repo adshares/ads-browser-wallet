@@ -1,8 +1,6 @@
 import React from 'react';
 import bip39 from 'bip39';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
@@ -133,13 +131,13 @@ export default class RestorePage extends FormComponent {
               className={style.cancel} to={'/'} layout="secondary"
               disabled={this.state.isSubmitted}
             >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+              Back
             </ButtonLink>
             <Button
               type="submit" layout="primary"
               disabled={this.state.isSubmitted}
             >
-              Restore <FontAwesomeIcon icon={faChevronRight} />
+              Next
             </Button>
           </Buttons>
         </Form>

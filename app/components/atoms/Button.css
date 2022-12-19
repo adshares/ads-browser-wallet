@@ -3,8 +3,6 @@
     padding: 0 2em;
     font-size: var(--font-small);
     font-weight: var(--font-weight-bold);
-    display: inline-block;
-    text-align: center;
     transition: all 250ms ease;
     box-sizing: border-box;
     cursor: pointer;
@@ -17,6 +15,7 @@
     color: var(--light);
     border: 1px solid var(--dark);
     box-shadow: var(--shadow-dark);
+    margin-inline: auto;
 }
 
 .button:disabled, .button.disabled {

@@ -2,14 +2,18 @@
     white-space: pre-wrap;
 }
 
-.welcomePage .buttons {
-    position: relative;
+.welcomePage > * {
+    margin-inline: auto;
 }
 
 .welcomePage .links {
     margin-top: 20px;
     font-size: var(--font-small);
     font-weight: var(--font-weight-light);
+}
+
+.welcomePage .links a:hover {
+    opacity: 0.7;
 }
 
 header h1 {

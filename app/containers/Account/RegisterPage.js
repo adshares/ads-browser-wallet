@@ -86,11 +86,9 @@ export default class RegisterPage extends FormComponent {
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <p className={style.about}>{config.about}</p>
-        <div className={style.buttons}>
-          <ButtonLink to="/register/password" layout="primary">
-            Start
-          </ButtonLink>
-        </div>
+        <ButtonLink className={style.about} to="/register/password" layout="primary">
+          Start
+        </ButtonLink>
         <div className={style.links}>
           <Link to={'/restore'}>Restore the vault from a seed</Link><br />
           {config.testnet ?

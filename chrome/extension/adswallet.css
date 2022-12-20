@@ -43,7 +43,7 @@
   --warning: #F3A838;
   --info: #1DA5DF;
   --primary: rgb(255, 65, 77);
-;
+
   --light: #FFF;
   --dark: #000;
 
@@ -96,7 +96,8 @@
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
   /*-webkit-font-smoothing: antialiased;*/
   /*-moz-font-smoothing: antialiased;*/

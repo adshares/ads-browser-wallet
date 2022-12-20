@@ -6,13 +6,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faInfo,
-  faPlus,
   faPaperPlane,
   faCopy,
   faGlobe,
-  faSignature,
-  faStar,
   faExclamation,
   faRandom,
 } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +18,6 @@ import Page from '../../components/Page/Page';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
 import Box from '../../components/atoms/Box';
-import Logo from '../../components/Logo/Logo';
 import { formatAdsMoney, calculateToUsd } from '../../utils/ads';
 import style from './HomePage.css';
 import config from '../../config/config';
@@ -60,8 +55,10 @@ class HomePage extends React.PureComponent {
   renderShortcuts(accountData, gateways) {
     const detailsLink = `${config.operatorUrl}blockexplorer/accounts/${accountData.address}`;
     const amount = accountData.balance ? formatAdsMoney(accountData.balance, 4) : null;
-    const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
-    const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
+    // const amountInt = amount ? amount.substr(0, amount.indexOf('.')) : '---';
+    const amountInt = amount ? amount.slice(0, amount.indexOf('.')) : '---';
+    // const amountDec = amount ? amount.substr(amount.indexOf('.')) : '';
+    const amountDec = amount ? amount.slice(amount.indexOf('.')) : '';
     const hasGateways = gateways && gateways.length > 0;
     const usdRate = this.props.adsOperatorApi.currencyCourses.usdRate;
     const amountInUsd = calculateToUsd(accountData.balance, usdRate);
@@ -114,22 +111,20 @@ class HomePage extends React.PureComponent {
     } = this.props;
     return (
       <div className={style.configure}>
-        <Logo withoutLogo />
-        <Box icon={faInfo} inverse layout="warning">
+        <Box icon={'!'} layout="warning">
           You can use this plugin to sign ADS Operator&apos;s transactions.<br />
-          If You want to send transactions directly, You have to import an account first.
+          If you want to send transactions directly, you have to import an account first.
         </Box>
-        {errorMsg && <Box title="Error" layout="danger" icon={faExclamation}>
+        {errorMsg && <Box title="Error" layout="warning" icon={faExclamation}>
           {errorMsg}
         </Box>}
         <Button
           onClick={this.handleFreeAccountClick}
           size="wide"
-          icon="left"
-          layout="success"
+          layout="primary"
           disabled={isSubmitted}
         >
-          <FontAwesomeIcon icon={faStar} /> Get free account
+          Get free account
         </Button>
         <ButtonLink
           to={{
@@ -137,11 +132,10 @@ class HomePage extends React.PureComponent {
             state: { referrer: this.props.history.location }
           }}
           size="wide"
-          icon="left"
-          layout="info"
+          layout="secondary"
           disabled={isSubmitted}
         >
-          <FontAwesomeIcon icon={faPlus} /> Import account
+          Import account
         </ButtonLink>
       </div>
     );
@@ -163,8 +157,8 @@ class HomePage extends React.PureComponent {
         showLoader={mainPage.isSubmitted || settingsPage.isSubmitted}
       >
         {filteredQueue.length > 0 ?
-          <ButtonLink to="/transactions/pending" layout="success" size="wide" icon="left">
-            <FontAwesomeIcon icon={faSignature} /> Pending transactions ({filteredQueue.length})
+          <ButtonLink to="/transactions/pending" layout="success" size="wide">
+            Pending transactions ({filteredQueue.length})
           </ButtonLink> : ''}
         {accountData ? this.renderShortcuts(accountData, gateways) : this.renderConfigure()}
       </Page>

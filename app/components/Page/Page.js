@@ -14,7 +14,7 @@ import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vaultActions';
 import * as FormActions from '../../actions/formActions';
 import * as AuthDialogActions from '../../actions/authDialogActions';
-import logo from '../../assets/logo_blue.svg';
+import logo from '../../assets/logomark.svg';
 import config from '../../config/config';
 import style from './Page.css';
 import Box from '../atoms/Box';

@@ -19,7 +19,7 @@
 
 .iconButton:before,
 .iconButton:after {
-    background: var(--blue);
+    background: var(--dark);
     backface-visibility: hidden;
     content: "";
     height: 2px;
@@ -29,7 +29,7 @@
 }
 
 .iconButton:before {
-    box-shadow: var(--blue) 0 14px 0 0;
+    box-shadow: var(--dark) 0 14px 0 0;
     position: absolute;
     top: 3px;
 }
@@ -55,7 +55,7 @@
     display: block;
     margin: 13px auto;
     width: 30%;
-    background-color: var(--white);
+    background-color: var(--light);
     padding: 5px 15px;
     opacity: 0;
     transition: all ease-in 0.5s;
@@ -97,7 +97,7 @@
     width: 0;
     height: 2px;
     margin-top: 6px;
-    background: var(--blue);
+    background: var(--dark);
     transition: width .3s ease-out;
 }
 

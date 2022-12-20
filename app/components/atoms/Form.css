@@ -21,7 +21,7 @@
 }
 
 .form label {
-    padding: 0 0 .7em 1em;
+    padding: 0 0 .5em 1em;
     font-weight: var(--font-weight-light);
     font-size: var(--font-small);
 }

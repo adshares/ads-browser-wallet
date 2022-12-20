@@ -53,17 +53,6 @@
     margin-left: 8px;
 }
 
-.contentWrapper {
-    text-align: left;
-    position: relative;
-    z-index: 99;
-    margin: 15px 5px 15px 15px;
-    padding-right: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    max-height: 460px;
-}
-
 .withScroll {
     overflow-y: scroll;
 }

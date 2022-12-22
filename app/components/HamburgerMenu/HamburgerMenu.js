@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faExpandArrowsAlt,
+  faExpand,
   faCog,
-  faInfoCircle,
-  faSignOutAlt,
-  faToggleOn,
-  faToggleOff,
-  faHashtag,
-  // faArrowRightArrowLeft,
-  // faGear,
-  // faExpand,
-  // faCircleInfo
+  // faArrowsRotate,
+  // faCircleInfo,
+  // faArrowRightArrowLeft
+  faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
+// import {
+//   faToggleOn,
+// } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 import config from '../../config/config';
 import style from './HamburgerMenu.css';
@@ -61,19 +59,18 @@ export default class HamburgerMenu extends PageComponent {
           {showFullScreen &&
             <li>
               <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
-                <FontAwesomeIcon icon={faExpandArrowsAlt} /> Expand view
+                <FontAwesomeIcon icon={faExpand} /> Fullscreen
               </span>
             </li>
           }
           {config.testnet ?
             <Link to={'/mainnet'} className={style.menuItem}>
-              <FontAwesomeIcon icon={faToggleOff} /> Switch to the mainnet
+              <FontAwesomeIcon icon={faExpand} /> Switch to the mainnet
             </Link> :
             <Link to={'/testnet'} className={style.menuItem}>
-              <FontAwesomeIcon icon={faToggleOn} /> Switch to the testnet
+              <FontAwesomeIcon icon={faExpand} /> Switch to the testnet
             </Link>
           }
-          <hr />
           <li>
             <Link to="/settings" className={style.menuItem}>
               <FontAwesomeIcon icon={faCog} /> Settings
@@ -81,14 +78,18 @@ export default class HamburgerMenu extends PageComponent {
           </li>
           <li>
             <Link to="/transactions" className={style.menuItem}>
-              <FontAwesomeIcon icon={faHashtag} /> Transactions
-              {/*<FontAwesomeIcon icon={faArrowRightArrowLeft} /> Transactions*/}
+              <FontAwesomeIcon icon={faExpand} /> Transactions
             </Link>
           </li>
           <li>
             <Link to="/about" className={style.menuItem}>
-              <FontAwesomeIcon icon={faInfoCircle} /> About
+              <FontAwesomeIcon icon={faExpand} /> About
             </Link>
+          </li>
+          <li>
+            <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
+              <FontAwesomeIcon icon={faExpand} /> Switch to dark mode
+            </a>
           </li>
           <li>
             <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>

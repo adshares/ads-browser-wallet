@@ -9,6 +9,11 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@fortawesome/fontawesome-common-types@6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.2.1.tgz#411e02a820744d3f7e0d8d9df9d82b471beaa073"
+  integrity sha512-Sz07mnQrTekFWLz5BMjOzHl/+NooTdW8F8kDQxjWwbpOJcnoSg4vUDng8d/WR1wOxM0O+CY9Zw0nR054riNYtQ==
+
 "@fortawesome/fontawesome-common-types@^0.2.35":
   version "0.2.35"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.35.tgz#01dd3d054da07a00b764d78748df20daf2b317e9"
@@ -20,6 +25,13 @@
   integrity sha512-uLEXifXIL7hnh2sNZQrIJWNol7cTVIzwI+4qcBIq9QWaZqUblm0IDrtSqbNg+3SQf8SMGHkiSigD++rHmCHjBg==
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.35"
+
+"@fortawesome/free-regular-svg-icons@^6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-6.2.1.tgz#650e56d937755a8341f2eef258ecb6f95458820f"
+  integrity sha512-wiqcNDNom75x+pe88FclpKz7aOSqS2lOivZeicMV5KRwOAeypxEYWAK/0v+7r+LrEY30+qzh8r2XDaEHvoLsMA==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "6.2.1"
 
 "@fortawesome/free-solid-svg-icons@^5.5.0":
   version "5.15.3"

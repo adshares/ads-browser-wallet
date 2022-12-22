@@ -1,23 +1,23 @@
-@keyframes logo {
-    from {
-        fill: rgba(255, 65, 77, 0);
-    }
-    to {
-        fill: var(--primary);
-        stroke-width: 0;
-    }
-}
+/*@keyframes logo {*/
+/*    from {*/
+/*        fill: rgba(255, 65, 77, 0);*/
+/*    }*/
+/*    to {*/
+/*        fill: var(--primary);*/
+/*        stroke-width: 0;*/
+/*    }*/
+/*}*/
 
-.logo {
-    padding: 2px;
-}
+/*.logo {*/
+/*    padding: 2px;*/
+/*}*/
 
-.logo .cls1 {
-    fill: transparent;
-    stroke: var(--primary) !important;
-    animation-name: logo;
-    animation-duration: 0.7s;
-    animation-timing-function: linear;
-    animation-delay: 1.6s;
-    animation-fill-mode: forwards;
-}
+/*.logo .cls1 {*/
+/*    fill: transparent;*/
+/*    stroke: var(--primary) !important;*/
+/*    animation-name: logo;*/
+/*    animation-duration: 0.7s;*/
+/*    animation-timing-function: linear;*/
+/*    animation-delay: 1.6s;*/
+/*    animation-fill-mode: forwards;*/
+/*}*/

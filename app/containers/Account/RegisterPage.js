@@ -200,7 +200,7 @@ export default class RegisterPage extends FormComponent {
               readOnly
             />
           </div>
-          <Buttons>
+          <Buttons >
             <ButtonLink
               to={'/register/terms'}
               layout="secondary"

@@ -24,7 +24,7 @@ export default class HamburgerMenu extends PageComponent {
   };
 
   state = {
-    menuOpened: false,
+    menuOpened: true,
   };
 
   handleLogout = (event) => {
@@ -47,15 +47,18 @@ export default class HamburgerMenu extends PageComponent {
     const showFullScreen = !window.location.pathname.match('window');
 
     return (
-      <div className={style.hamburgerWrapper}>
-        <div
-          tabIndex="0"
-          role="button"
-          className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
-          onClick={() => this.toggleMenu(!this.state.menuOpened)}
-          onBlur={() => (this.blurTimeout = setTimeout(() => { this.toggleMenu(false); }, 200))}
-        />
+      <div className={`${style.menuWrapper} ${this.state.menuOpened && style.menuActive}`}>
+        <div className={style.hamburgerWrapper}>
+          <div
+            tabIndex="0"
+            role="button"
+            className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
+            // onClick={() => this.toggleMenu(!this.state.menuOpened)}
+            onBlur={() => (this.blurTimeout = setTimeout(() => { this.toggleMenu(false); }, 200))}
+          />
+        </div>
         <ul className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}>
+          {/*<ul className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}>*/}
           {showFullScreen &&
             <li>
               <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>

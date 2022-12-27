@@ -23,4 +23,3 @@ export default class AnimatedLogo extends React.Component {
     );
   }
 }
-

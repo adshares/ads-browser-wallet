@@ -39,6 +39,7 @@
 }
 
 :root {
+  box-sizing: border-box;
   /* --------------- colors --------------- */
   --warning: #F3A838;
   --info: #1DA5DF;
@@ -110,6 +111,7 @@ body {
   background: var(--light);
   color: var(--dark);
   box-sizing: border-box;
+  height: 600px;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -2,15 +2,18 @@
     margin-bottom: 10px;
 }
 
-.configure > svg {
-    width: 200px;
-    margin-top: -160px;
-    margin-bottom: 30px;
+/*.configure > svg {*/
+/*    width: 200px;*/
+/*    margin-top: -160px;*/
+/*    margin-bottom: 30px;*/
+/*}*/
+
+.configure > .box {
+    margin: 6rem 0 10rem;
 }
 
-.configure .box {
-    margin-top: 5rem;
-    margin-bottom: 1rem;
+.configure > .button:first-of-type {
+    margin-bottom: 1.5rem;
 }
 
 .helpLinks {

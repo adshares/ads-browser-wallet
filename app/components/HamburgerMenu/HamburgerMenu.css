@@ -1,21 +1,22 @@
 .menuWrapper {
     height: 445px;
     width: 285px;
-    box-shadow: -2px 2px 8px rgb(0,0,0,0.2);
     position: absolute;
     top: -1rem;
     right: -1rem;
-    background-color: var(--light);
     font-size: var(--font-small);
+    transition-delay: 250ms;
+}
+
+.menuWrapper.menuActive {
+    box-shadow: -2px 2px 8px rgb(0,0,0,0.2);
+    background-color: var(--light);
 }
 
 .hamburgerWrapper {
-    /*height: 25px;*/
-    /*aspectRatio: 1;*/
     position: absolute;
-    top: 1rem;
+    top: 1.5rem;
     right: 1rem;
-    /*z-index: 10000;*/
 }
 
 /* HAMBURGER BUTTON ANIMATION */
@@ -67,69 +68,35 @@
 /* MENU + MENU ANIMATION */
 
 .menu {
-/*    display: block;*/
-/*    right: -1rem;*/
-/*    margin: 13px auto;*/
-/*    background-color: var(--light);*/
-/*    padding: 5px 15px;*/
-/*    opacity: 0;*/
-/*    transition: all ease-in 0.5s;*/
-/*    transform: translateY(-200%);*/
-    min-width: 245px;
-    list-style: none;
     position: absolute;
-    top: 2rem;
+    bottom: .5rem;
     left: 1.2rem;
     width: 100%;
     padding: 0;
-
-/*    z-index: 999;*/
+    transition: all ease-in 0.5s;
+    transform: translateY(-200%);
+    min-width: 245px;
+    list-style: none;
 }
 
-/*.menuActive {*/
-/*    opacity: 1;*/
-/*    transition: all ease-in 0.5s;*/
-/*    transform: translateY(0%);*/
-/*}*/
+.menuActive {
+    opacity: 1;
+    transition: all ease-in 0.5s;
+    transform: translateY(0%);
+}
 
 .menuItem {
-/*    padding: 8px 8px 4px 8px;*/
     display: block;
     text-align: left;
     padding-top: 1.8rem;
-    /*    border-bottom: 1px solid transparent;*/
-/*    cursor: pointer;*/
-/*    vertical-align: middle;*/
+    cursor: pointer;
 }
 
 .menuItem svg {
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
 }
 
-/*.menuItem:after {*/
-/*    content: '';*/
-/*    display: block;*/
-/*    width: 0;*/
-/*    height: 2px;*/
-/*    margin-top: 6px;*/
-/*    background: var(--dark);*/
-/*    transition: width .3s ease-out;*/
-/*}*/
-
-/*.menuItem:hover,*/
-/*.menuItem:focus {*/
-/*    text-decoration: none;*/
-/*    outline: none;*/
-/*}*/
-
-/*.menuItem:hover:after,*/
-/*.menuItem:focus:after {*/
-/*    width: 100%;*/
-/*}*/
-
-/*.menuItem svg {*/
-/*    width: 20px !important;*/
-/*    margin-right: 3px;*/
-/*    vertical-align: middle;*/
-/*    text-align: center;*/
-/*}*/
+.menuItemLink:hover {
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--dark);
+}

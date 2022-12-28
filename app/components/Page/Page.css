@@ -30,22 +30,19 @@
     font-size: 1em;
 }
 
+.logo {
+    display: flex;
+    gap: 0.4rem;
+}
+
 .logo img {
     height: 40px;
 }
 
-.logo a {
-    display: inline-block;
-}
-
 .logo span {
-    display: block;
-    font-size: var(--font-smallest);
-    font-weight: 700;
-    color: var(--orange-dark);
-    position: absolute;
-    bottom: -2px;
-    left: 12px;
+    font-size: var(--font-smaller);
+    font-weight: var(--font-weight-bolder);
+    align-self: center;
 }
 
 .close {
@@ -58,10 +55,10 @@
 }
 
 .footer {
-    height: 30px;
-    margin: 0px 15px;
+    position: absolute;
+    inset: auto 0.5rem 0;
     border-top: 1px solid var(--dark);
-    box-sizing: border-box;
+    padding: 0.25rem;
 }
 
 .errorClass {

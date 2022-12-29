@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import {
-  faChevronRight,
-  faTimes,
   faCheck,
   faInfo,
   faSpinner,
@@ -16,6 +14,7 @@ import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
@@ -155,27 +154,21 @@ class AccountEditorPage extends FormComponent {
               {publicKeyErrorMsg}
             </Box> : ''
           }
-          <div className={style.buttons}>
+          <Buttons>
             <ButtonLink
               to={this.getReferrer()}
-              inverse
-              icon="left"
               disabled={isSubmitted}
-              layout="info"
+              layout="secondary"
               onClick={this.handleCancel}
-            >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+            >Cancel
             </ButtonLink>
             <Button
               name="button"
-              icon="right"
-              layout="info"
+              layout="primary"
               disabled={publicKeyLoading || publicKeyErrorMsg || isSubmitted}
-            >
-              {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight} />
+            >{this.state.account ? 'Save' : 'Import'}
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </React.Fragment>
     );

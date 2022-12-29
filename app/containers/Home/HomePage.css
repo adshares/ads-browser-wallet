@@ -37,51 +37,43 @@
 
 .balance {
     text-align: right;
-    font-size: 1.9em;
-    line-height: 1.5em;
-    margin-top: 10px;
+    font-size: 2rem;
+    font-weight: var(--font-weight-bolder);
+    margin-top: 1em;
 }
 
 .currency {
     text-align: right;
-    line-height: 1.5em;
+    font-size: var(--font-small);
+    line-height: 2;
 }
 
 .details {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    text-align: left;
-    height: 30px;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
 }
 
-.details span {
+.details > span {
     cursor: pointer;
     display: inline-block;
     line-height: 30px;
+    font-weight: var(--font-weight-bolder);
 }
 
 .details a {
-    font-size: var(--font-smaller);
-    height: 30px;
-    line-height: 28px;
-    padding: 0 10px;
+    color: inherit;
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-light);
     display: inline-block;
     transition: all 250ms ease;
-    box-sizing: border-box;
     cursor: pointer;
-    border-radius: 3px;
-    outline: none;
-    border: 1px solid var(--light);
-    vertical-align: middle;
-    position: absolute;
-    right: 0;
-    top: 0;
+    padding-bottom: 1px;
+    border-bottom: 1px solid var(--light);
 }
 
 .details a:hover, .details a:focus {
-    text-decoration: none;
-    background-color: rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--primary);
 }
 
 .shortcuts {
@@ -91,4 +83,30 @@
 .shortcuts > a {
     margin-top: 10px;
     font-size: var(--font-normal);
+}
+
+.darkCard {
+    color: var(--light);
+    background: url(../../assets/subway.svg),
+    var(--dark);
+    background-repeat: no-repeat;
+    border-radius: 1rem;
+    margin-inline: 0.5rem;
+    text-align: left;
+    padding: 1.8rem 1.5rem 1.5rem 4rem;
+}
+
+.darkCard h5 {
+    font-size: var(--font-small);
+    margin-block: 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons .secondary {
+    margin-inline: 0;
+    width: 11rem;
 }

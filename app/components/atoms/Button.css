@@ -7,15 +7,19 @@
     box-sizing: border-box;
     cursor: pointer;
     outline: none;
-    display: grid;
-    place-items: center;
-    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-decoration: none;
     width: fit-content;
     color: var(--light);
     border: 1px solid var(--dark);
     box-shadow: var(--shadow-dark);
     margin-inline: auto;
+}
+
+.button svg {
+    margin-right: 0.75rem;
 }
 
 .button:disabled, .button.disabled {

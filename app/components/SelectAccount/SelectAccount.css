@@ -1,13 +1,10 @@
 .select {
-    background: var(--light);
-    border-radius: 3px;
-    transition: width 0.5s, border 0.5s ease-out ;
-    will-change: width;
-    position: absolute;
-    left: 20%;
-    right: 20%;
-    top: 0;
-    border: 1px solid transparent;
+    margin-block: 1rem;
+}
+
+.optionName {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
 }
 
 .selectActive {
@@ -32,17 +29,15 @@
 }
 
 .option {
-    font-size: 16px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: var(--light);
-    border: 1px solid transparent;
     padding: 8px 0;
     list-style: none;
     text-transform: capitalize;
-    border-top: 1px dashed var(--gray);
+    border-top: 1px dashed var(--dark);
 }
 
 .option:focus,
@@ -58,41 +53,24 @@
 .optionActive {
     margin: 0;
     border: 0;
-    padding-bottom: 4px;
+    /*padding-bottom: 4px;*/
     display: flex;
     position: relative;
-    z-index: 11;
+    /*z-index: 11;*/
     justify-content: space-between;
     background: var(--light) !important;
 }
 
-.optionName {
-    color: var(--dark);
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: var(--font-big);
-}
-
-.optionAccount {
-    color: var(--dark);
-    font-size: var(--font-small);
-}
-
 .optionAccount svg {
-    margin-left: 5px;
-}
-
-.optionBalance {
-    color: var(--slate);
+    font-size: var(--font-small);
+    margin-left: 0.75rem;
 }
 
 .optionAdd {
     padding: 16px;
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid var(--info);
+    border-top: 1px solid var(--dark);
 }
 
 .optionLink {
@@ -105,8 +83,4 @@
 
 .optionLink:hover {
     text-decoration: none;
-}
-
-.optionIcon {
-    color: var(--info);
 }

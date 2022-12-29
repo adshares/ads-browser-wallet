@@ -39,7 +39,6 @@
 }
 
 :root {
-  box-sizing: border-box;
   /* --------------- colors --------------- */
   --warning: #F3A838;
   --info: #1DA5DF;

@@ -63,43 +63,41 @@ class HomePage extends React.PureComponent {
     const usdRate = this.props.adsOperatorApi.currencyCourses.usdRate;
     const amountInUsd = calculateToUsd(accountData.balance, usdRate);
     return (
-      <div>
-        <Box className={style.box} layout="info">
-          {/*<Box className={style.box} icon={faGlobe} layout="info">*/}
-          <small title="Account name">{accountData.name}&nbsp;</small>
-          <div className={style.balance} title="Account balance">
-            {amountInt}
-            <small>{amountDec}</small>
-            &nbsp;
-            <small>ADS</small>
-          </div>
-          <div className={style.currency}>
-            <small>{(accountData.balance && usdRate) ? amountInUsd : '$---'}</small>
-          </div>
-          {config.testnet && <small>
-            {/*{config.testnet && <small className={style.freeCoins}>*/}
-            <a href={config.freeCoinsUrl} target="_blank" rel="noopener noreferrer">
-              How to get test coins?
-            </a>
-          </small>}
-          <hr />
-          <div className={style.details}>
-            <span title="Copy account address" onClick={() => copyToClipboard(accountData.address)}>
-              {accountData.address}&nbsp;&nbsp;
-              <FontAwesomeIcon icon={faCopy} />
-            </span>
-            <a href={detailsLink} target="_blank" rel="noopener noreferrer">
-              Details
-            </a>
-          </div>
-          <ButtonLink to="/transactions/send_one" layout="contrast" size="wide7" icon="left">
+      <div className={style.darkCard}>
+        <h5 title="Account name">{accountData.name}&nbsp;</h5>
+        <div className={style.balance} title="Account balance">
+          {amountInt}
+          <span>{amountDec}</span>
+          &nbsp;
+          <small>ADS</small>
+        </div>
+        <div className={style.currency}>
+          <span>{(accountData.balance && usdRate) ? amountInUsd : '$---'}</span>
+        </div>
+        {config.testnet && <small>
+          {/*{config.testnet && <small className={style.freeCoins}>*/}
+          <a href={config.freeCoinsUrl} target="_blank" rel="noopener noreferrer">
+            How to get test coins?
+          </a>
+        </small>}
+        <hr />
+        <div className={style.details}>
+          <span title="Copy account address" onClick={() => copyToClipboard(accountData.address)}>
+            {accountData.address}&nbsp;&nbsp;
+            <FontAwesomeIcon icon={faCopy} />
+          </span>
+          <a href={detailsLink} target="_blank" rel="noopener noreferrer">
+            <span>Details</span>
+          </a>
+        </div>
+        <div className={style.buttons}>
+          <ButtonLink to="/transactions/send_one" layout="secondary">
             <FontAwesomeIcon icon={faPaperPlane} /> Send ADS
           </ButtonLink>
-          <ButtonLink to="/transactions/gateways" layout="contrast" size="wide3" icon="left" disabled={!hasGateways}>
+          <ButtonLink to="/transactions/gateways" layout="secondary" disabled={!hasGateways}>
             <FontAwesomeIcon icon={faRandom} /> Wrap
           </ButtonLink>
-
-        </Box>
+        </div>
       </div>
     );
   }

@@ -40,16 +40,16 @@ export default class LoginPage extends FormComponent {
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </div>
         <Form onSubmit={this.handleLogin}>
-          <div>
+          <label htmlFor="password">
+            Password
             <input
               type="password"
               autoFocus
-              placeholder="Password"
               name="password"
               value={this.state.password}
               onChange={this.handlePasswordChange}
             />
-          </div>
+          </label>
           <Button type="submit" layout="primary">
             Login
           </Button>

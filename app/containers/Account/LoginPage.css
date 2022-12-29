@@ -11,12 +11,13 @@
 }
 
 .logo h3 {
-    color: var(--orange-dark);
-    margin: 15px 0;
+    font-size: var(--font-smaller);
+    font-weight: var(--font-weight-bolder);
 }
 
 .links {
     margin-top: 30px;
-    font-size: var(--font-smaller);
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-light);
 }
 

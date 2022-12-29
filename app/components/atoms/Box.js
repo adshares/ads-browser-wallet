@@ -7,7 +7,7 @@ export default class Box extends React.Component {
     const {
       layout,
       title,
-      icon,
+      // icon,
       inverse,
       className,
       children,
@@ -35,9 +35,9 @@ export default class Box extends React.Component {
 
     return (
       <div className={styleClassName} {...rest}>
-        {icon ? <div className={style.icon}>
-          <span>{icon}</span>
-        </div> : ''}
+        {/*{icon ? <div className={style.icon}>*/}
+        {/*  <span>{icon}</span>*/}
+        {/*</div> : ''}*/}
         <div className={style.content}>{children}</div>
       </div>
     );

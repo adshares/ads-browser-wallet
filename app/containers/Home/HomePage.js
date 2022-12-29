@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPaperPlane,
   faCopy,
-  faGlobe,
+  // faGlobe,
   faExclamation,
   faRandom,
 } from '@fortawesome/free-solid-svg-icons';
@@ -64,7 +64,8 @@ class HomePage extends React.PureComponent {
     const amountInUsd = calculateToUsd(accountData.balance, usdRate);
     return (
       <div>
-        <Box className={style.box} icon={faGlobe} layout="info">
+        <Box className={style.box} layout="info">
+          {/*<Box className={style.box} icon={faGlobe} layout="info">*/}
           <small title="Account name">{accountData.name}&nbsp;</small>
           <div className={style.balance} title="Account balance">
             {amountInt}
@@ -75,7 +76,8 @@ class HomePage extends React.PureComponent {
           <div className={style.currency}>
             <small>{(accountData.balance && usdRate) ? amountInUsd : '$---'}</small>
           </div>
-          {config.testnet && <small className={style.frreCoins}>
+          {config.testnet && <small>
+            {/*{config.testnet && <small className={style.freeCoins}>*/}
             <a href={config.freeCoinsUrl} target="_blank" rel="noopener noreferrer">
               How to get test coins?
             </a>
@@ -111,7 +113,7 @@ class HomePage extends React.PureComponent {
     } = this.props;
     return (
       <div className={style.configure}>
-        <Box icon={'!'} layout="warning">
+        <Box icon={'!'} layout="warning" className={style.boxConfigure}>
           You can use this plugin to sign ADS Operator&apos;s transactions.<br />
           If you want to send transactions directly, you have to import an account first.
         </Box>
@@ -123,6 +125,7 @@ class HomePage extends React.PureComponent {
           size="wide"
           layout="primary"
           disabled={isSubmitted}
+          className={style.btnFreeAccoountconfigure}
         >
           Get free account
         </Button>

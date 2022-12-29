@@ -8,11 +8,11 @@
 /*    margin-bottom: 30px;*/
 /*}*/
 
-.configure > .box {
-    margin: 6rem 0 10rem;
+.boxConfigure {
+    margin: 4rem auto 9rem;
 }
 
-.configure > .button:first-of-type {
+.btnFreeAccoountconfigure {
     margin-bottom: 1.5rem;
 }
 

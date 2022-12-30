@@ -21,8 +21,8 @@ const CheckboxControl = ({ name, checked, label, handleChange, readOnly = false 
         disabled={readOnly}
       />
       <span className={style.checked}>
-        <svg viewBox={[0, 0, 50, 50].join()} className={style.checkedSvg}>
-          <path d="M5 30 L 20 45 L 45 5" />
+        <svg width="18" height="18" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 4.60188L7.41667 10.2393L15.3333 2" stroke="white" stroke-width="2" stroke-linecap="square"/>
         </svg>
       </span>
       <label htmlFor={label} className={style.label}>{label}</label>

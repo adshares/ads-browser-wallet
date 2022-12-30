@@ -1,6 +1,5 @@
 .form,
 .form > div {
-    margin-bottom: 15px;
     text-align: left;
 }
 
@@ -11,10 +10,10 @@
     border: 1px solid var(--dark);
     box-sizing: border-box;
     display: inline-block;
-    width: 100%;
+    width: 98%;
     outline: 0;
     box-shadow: var(--shadow-dark);
-    margin-block: 0.3rem;
+    margin: 0.3rem auto;
 }
 
 .form input:focus, .form textarea:focus, .form select:focus {
@@ -22,16 +21,20 @@
 }
 
 .form label {
-    padding: 0 0 .5em 1em;
+    display: block;
+    padding-left: 1rem;
     font-weight: var(--font-weight-light);
     font-size: var(--font-small);
 }
 
 .form input {
-    line-height: 2rem;
-    text-indent: 1rem;
     height: 4rem;
-    margin-bottom: 2rem;
+}
+
+.form input,
+.form textarea {
+    text-indent: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .form textarea {

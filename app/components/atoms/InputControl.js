@@ -31,7 +31,7 @@ const InputControl = ({
 
   return (
     <div className={classes.join(' ')}>
-      <label htmlFor={`${label}`} className={style.label}>
+      <label htmlFor={`${label}`}>
         {label}
       </label>
       {isInput ? (

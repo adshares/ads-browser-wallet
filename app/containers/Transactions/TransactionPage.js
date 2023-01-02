@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck,
-  faChevronRight,
   faExclamation,
   faExternalLinkAlt,
   faTimes,
@@ -18,6 +17,7 @@ import Box from '../../components/atoms/Box';
 import Form from '../../components/atoms/Form';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import SignForm from './SignForm';
 import { typeLabels } from './labels';
 import style from './style.css';
@@ -193,25 +193,21 @@ export default class TransactionPage extends PageComponent {
 
   renderButtons(isDisabled = false) {
     return (
-      <div className={style.buttons}>
+      <Buttons>
         <ButtonLink
           to={this.getReferrer()}
           onClick={this.handleCloseForm}
-          inverse
-          icon="left"
-          layout="info"
+          layout="secondary"
           disabled={this.props.isSubmitted}
-        >
-          <FontAwesomeIcon icon={faTimes} /> Cancel
+        >Cancel
         </ButtonLink>
         <Button
           type="submit"
-          icon="right"
-          layout="info"
+          layout="primary"
           disabled={isDisabled || this.props.isSubmitted}
-        >Next <FontAwesomeIcon icon={faChevronRight} />
+        >Next
         </Button>
-      </div>
+      </Buttons>
     );
   }
 

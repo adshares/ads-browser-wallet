@@ -44,30 +44,31 @@
 
 .messageCheckbox {
     font-size: var(--font-small);
+    display: flex;
+    justify-content: flex-end;
 }
 
-.buttons {
-    margin-top: 30px;
-    text-align: center;
-}
+/*.buttons {*/
+/*    margin-top: 30px;*/
+/*    text-align: center;*/
+/*}*/
 
-.buttons > *:first-child {
-    margin-right: 50px;
-}
+/*.buttons > *:first-child {*/
+/*    margin-right: 50px;*/
+/*}*/
 
-.feeInfoBox > div {
-    margin-top: -15px;
-}
+/*.feeInfoBox > div {*/
+/*    margin-top: -15px;*/
+/*}*/
 
 .feeInfo {
-    text-align: center;
-    background: var(--yellow-dark);
-    color: var(--white);
-    padding: 10px;
-    margin: -15px 0 !important;
-    border-radius: 3px;
+    text-align: center !important;
+    background: var(--warning);
+    padding: .5rem;
+    color: var(--light);
     font-size: var(--font-big);
-    position: relative;
+    font-weight: var(--font-weight-bold);
+    /*position: relative;*/
 }
 
 .transactionSuccess a {

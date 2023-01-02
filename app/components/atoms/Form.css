@@ -3,12 +3,13 @@
     text-align: left;
 }
 
-.form input, .form textarea, .form select {
-    background-color: var(--light);
+.form input,
+.form textarea,
+.form select {
+    /*background-color: var(--light);*/
     font-size: var(--font-small);
     transition: all 250ms ease;
     border: 1px solid var(--dark);
-    box-sizing: border-box;
     display: inline-block;
     width: 98%;
     outline: 0;
@@ -37,9 +38,9 @@
     margin-bottom: 1.5rem;
 }
 
-.form textarea {
-    padding: 0.8rem 0.6rem;
-}
+/*.form textarea {*/
+/*    padding: 0.8rem 0.6rem;*/
+/*}*/
 
 .form select {
     line-height: 30px;
@@ -49,4 +50,27 @@
 
 form input[readonly], .form textarea[readonly], .form select[readonly] {
     background-color: var(--light);
+}
+
+form textarea {
+    font-weight: var(--font-weight-bold);
+    height: 7rem;
+    line-height: 1.5;
+}
+
+form textarea::-webkit-resizer {
+    background: red;
+    margin: 10px;
+    border-style: solid;
+    border-width: 200px;
+    border-top-color: white;
+    border-left-color: white;
+    border-right-color: black;
+    border-bottom-color: black;
+    outline-right-color: 5px solid white;
+    bottom: 20px;
+    right: 20px;
+    width: 5rem;
+    height: 5rem;
+    box-shadow: 1px 1px white;
 }

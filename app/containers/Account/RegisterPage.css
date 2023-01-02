@@ -96,28 +96,28 @@ header h1 {
     margin-bottom: 10px;
 }
 
-.seedPhrasePage textarea {
-    font-weight: var(--font-weight-bold);
-    height: 7rem;
-    line-height: 1.5;
-}
+/*.seedPhrasePage textarea {*/
+/*    font-weight: var(--font-weight-bold);*/
+/*    height: 7rem;*/
+/*    line-height: 1.5;*/
+/*}*/
 
-.seedPhrasePage textarea::-webkit-resizer {
-    background: red;
-    margin: 10px;
-    border-style: solid;
-    border-width: 200px;
-    border-top-color: white;
-    border-left-color: white;
-    border-right-color: black;
-    border-bottom-color: black;
-    outline-right-color: 5px solid white;
-    bottom: 20px;
-    right: 20px;
-    width: 5rem;
-    height: 5rem;
-    box-shadow: 1px 1px white;
-}
+/*.seedPhrasePage textarea::-webkit-resizer {*/
+/*    background: red;*/
+/*    margin: 10px;*/
+/*    border-style: solid;*/
+/*    border-width: 200px;*/
+/*    border-top-color: white;*/
+/*    border-left-color: white;*/
+/*    border-right-color: black;*/
+/*    border-bottom-color: black;*/
+/*    outline-right-color: 5px solid white;*/
+/*    bottom: 20px;*/
+/*    right: 20px;*/
+/*    width: 5rem;*/
+/*    height: 5rem;*/
+/*    box-shadow: 1px 1px white;*/
+/*}*/
 
 .seedPhrasePage .underlined {
     background-color: transparent;

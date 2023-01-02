@@ -43,7 +43,7 @@ export default class HamburgerMenu extends PageComponent {
     const showFullScreen = !window.location.pathname.match('window');
 
     return (
-      <div className={`${style.menuWrapper} ${this.state.menuOpened && style.menuActive}`}>
+      <React.Fragment>
         <div className={style.hamburgerWrapper}>
           <div
             tabIndex="0"
@@ -53,57 +53,59 @@ export default class HamburgerMenu extends PageComponent {
             onBlur={() => (this.blurTimeout = setTimeout(() => { this.toggleMenu(false); }, 200))}
           />
         </div>
-        <ul className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}>
-          {showFullScreen &&
-            <li>
-              <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
+        <div className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}>
+          <ul>
+            {showFullScreen &&
+              <li>
+                <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
+                  <FontAwesomeIcon icon={faExpand} />
+                  <span className={style.menuItemLink}>Fullscreen</span>
+                </span>
+              </li>
+            }
+            {config.testnet ?
+              <Link to={'/mainnet'} className={style.menuItem}>
                 <FontAwesomeIcon icon={faExpand} />
-                <span className={style.menuItemLink}>Fullscreen</span>
-              </span>
+                <span className={style.menuItemLink}>Switch to the mainnet</span>
+              </Link> :
+              <Link to={'/testnet'} className={style.menuItem}>
+                <FontAwesomeIcon icon={faServer} />
+                <span className={style.menuItemLink}>Switch to the testnet</span>
+              </Link>
+            }
+            <li>
+              <Link to="/settings" className={style.menuItem}>
+                <FontAwesomeIcon icon={faCog} />
+                <span className={style.menuItemLink}>Settings</span>
+              </Link>
             </li>
-          }
-          {config.testnet ?
-            <Link to={'/mainnet'} className={style.menuItem}>
-              <FontAwesomeIcon icon={faExpand} />
-              <span className={style.menuItemLink}>Switch to the mainnet</span>
-            </Link> :
-            <Link to={'/testnet'} className={style.menuItem}>
-              <FontAwesomeIcon icon={faServer} />
-              <span className={style.menuItemLink}>Switch to the testnet</span>
-            </Link>
-          }
-          <li>
-            <Link to="/settings" className={style.menuItem}>
-              <FontAwesomeIcon icon={faCog} />
-              <span className={style.menuItemLink}>Settings</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/transactions" className={style.menuItem}>
-              <FontAwesomeIcon icon={faMoneyBill} />
-              <span className={style.menuItemLink}>Transactions</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className={style.menuItem}>
-              <FontAwesomeIcon icon={faInfoCircle} />
-              <span className={style.menuItemLink}>About</span>
-            </Link>
-          </li>
-          <li>
-            <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
-              <FontAwesomeIcon icon={faToggleOn} />
-              <span className={style.menuItemLink}>Switch to dark mode</span>
-            </a>
-          </li>
-          <li>
-            <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
-              <FontAwesomeIcon icon={faSignOutAlt} />
-              <span className={style.menuItemLink}>Log out</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+            <li>
+              <Link to="/transactions" className={style.menuItem}>
+                <FontAwesomeIcon icon={faMoneyBill} />
+                <span className={style.menuItemLink}>Transactions</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className={style.menuItem}>
+                <FontAwesomeIcon icon={faInfoCircle} />
+                <span className={style.menuItemLink}>About</span>
+              </Link>
+            </li>
+            <li>
+              <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
+                <FontAwesomeIcon icon={faToggleOn} />
+                <span className={style.menuItemLink}>Switch to dark mode</span>
+              </a>
+            </li>
+            <li>
+              <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
+                <FontAwesomeIcon icon={faSignOutAlt} />
+                <span className={style.menuItemLink}>Log out</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </React.Fragment>
     );
   }
 }

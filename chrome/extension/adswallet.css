@@ -73,17 +73,14 @@
   --font-normal: 1.125rem;
   --font-small: 1rem;
   --font-smaller: 0.75rem;
+  --font-smallest: .625rem;
+  --font-big: 1.5rem;
+  --font-bigger: 2rem;
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
   --font-weight-bolder: 900;
-
-  /* ------------------------------------------- */
-
-  --font-smallest: 11px;
-  --font-big: 18px;
-  --font-bigger: 20px;
 
   /* --------------- shadows ------------------- */
 
@@ -111,6 +108,9 @@ body {
   color: var(--dark);
   box-sizing: border-box;
   height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 h1, h2, h3, h4, h5, h6 {

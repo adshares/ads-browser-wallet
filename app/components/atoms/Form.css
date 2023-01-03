@@ -7,7 +7,7 @@
 .form textarea,
 .form select {
     /*background-color: var(--light);*/
-    font-size: var(--font-small);
+    font-size: inherit;
     transition: all 250ms ease;
     border: 1px solid var(--dark);
     display: inline-block;
@@ -23,18 +23,18 @@
 
 .form label {
     display: block;
-    padding-left: 1rem;
+    padding-left: 0.75rem;
     font-weight: var(--font-weight-light);
     font-size: var(--font-small);
 }
 
 .form input {
-    height: 4rem;
+    height: 3rem;
 }
 
 .form input,
 .form textarea {
-    text-indent: 1rem;
+    text-indent: 0.5rem;
     margin-bottom: 1.5rem;
 }
 

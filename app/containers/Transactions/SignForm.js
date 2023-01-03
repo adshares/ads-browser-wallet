@@ -2,12 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons/index';
+import { faLink } from '@fortawesome/free-solid-svg-icons/index';
 import { TransactionDataError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 import ADS from '../../utils/ads';
 import { formatDate } from '../../utils/utils';
@@ -171,7 +172,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {address}<FontAwesomeIcon icon={faExternalLinkAlt} />
+          {address}<FontAwesomeIcon icon={faLink} />
         </a></td>
       </tr>
     );
@@ -201,7 +202,7 @@ export default class SignForm extends FormComponent {
         <td>
           {link ?
             <a href={link} target="_blank" rel="noopener noreferrer">
-              <code>{prefix}{address}</code><FontAwesomeIcon icon={faExternalLinkAlt} />
+              <code>{prefix}{address}</code><FontAwesomeIcon icon={faLink} />
             </a> :
             <code>{prefix}{address}</code>
           }
@@ -216,7 +217,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {nodeId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+          {nodeId}<FontAwesomeIcon icon={faLink} />
         </a></td>
       </tr>
     );
@@ -231,7 +232,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {blockId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+          {blockId}<FontAwesomeIcon icon={faLink} />
         </a></td>
       </tr>
     );
@@ -243,7 +244,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+          {transactionId}<FontAwesomeIcon icon={faLink} />
         </a></td>
       </tr>
     );
@@ -266,7 +267,7 @@ export default class SignForm extends FormComponent {
     return (
       <React.Fragment>
         {this.renderGatewayAddress(fields.message, this.props.extra.gateway, fieldLabels.recipient)}
-        <tr>
+        <tr className={style.transferAdsAmount}>
           <td>{fieldLabels.amount}</td>
           <td>{ADS.formatClickMoney(fields.amount, 11, true)} ADS</td>
         </tr>
@@ -318,7 +319,7 @@ export default class SignForm extends FormComponent {
                   <td>{index + 1}</td>
                   <td>
                     <a href={`${addressLink}${recipient.address}`} target="_blank" rel="noopener noreferrer">
-                      {recipient.address}<FontAwesomeIcon icon={faExternalLinkAlt} />
+                      {recipient.address}<FontAwesomeIcon icon={faLink} />
                     </a>
                   </td>
                   <td>{ADS.formatClickMoney(recipient.amount, 11, true)} ADS</td>
@@ -391,7 +392,7 @@ export default class SignForm extends FormComponent {
           <td>
             {typeLabels[type]}{this.props.showDoc ? <React.Fragment><br />
               <a href={docLink} target="_blank" rel="noopener noreferrer"><small>
-                {type}<FontAwesomeIcon icon={faExternalLinkAlt} />
+                {type}<FontAwesomeIcon icon={faLink} />
               </small></a></React.Fragment> : ''}
           </td>
         </tr>
@@ -441,7 +442,8 @@ export default class SignForm extends FormComponent {
             <tr className={style.showAdvanced}>
               <td colSpan="2">
                 <CheckboxControl
-                  checked={this.state.showAdvanced}
+                  checked={false}
+                  // checked={this.state.showAdvanced}
                   label="Show advanced data"
                   handleChange={this.toggleAdvanced}
                 />
@@ -450,14 +452,14 @@ export default class SignForm extends FormComponent {
             {this.renderAdvanced(command, transaction, key)}
           </tbody>
         </table>
-        <div className={style.buttons}>
-          <Button type="reset" layout="danger" onClick={this.handleReject}>
-            <FontAwesomeIcon icon={faTimes} /> Reject
+        <Buttons>
+          <Button type="reset" layout="secondary" onClick={this.handleReject}>
+            Cancel
           </Button>
-          <Button type="submit" layout="success" onClick={this.handleAccept}>
-            <FontAwesomeIcon icon={faCheck} /> Accept
+          <Button type="submit" layout="primary" onClick={this.handleAccept}>
+            Accept
           </Button>
-        </div>
+        </Buttons>
       </Form>
     );
   }

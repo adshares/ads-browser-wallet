@@ -94,7 +94,7 @@
 
 body {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
   /*-webkit-font-smoothing: antialiased;*/
   /*-moz-font-smoothing: antialiased;*/
@@ -107,7 +107,8 @@ body {
   background: var(--light);
   color: var(--dark);
   box-sizing: border-box;
-  height: 600px;
+  height: fit-content;
+  max-height: 860px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

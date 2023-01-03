@@ -12,30 +12,26 @@
 }
 
 .transferBalance {
-    text-align: center;
-    vertical-align: middle;
+    margin: 0 0 1rem .25rem;
 }
 
 .transferBalance span {
-    font-weight: var(--font-weight-bolder);
-    font-size: 1.75rem;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-big);
 }
 
 .amount {
-    width: 60%;
-    display: flex;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 10rem 1fr 1fr;
+    gap: 1rem;
     align-items: center;
 }
 
 .amount span {
     display: inline-block;
     font-size: 2rem;
-    margin-left: 1.25rem;
     font-weight: var(--font-weight-bolder);
-}
-
-.amount > div > small {
-    margin-left: 20px;
 }
 
 .message {

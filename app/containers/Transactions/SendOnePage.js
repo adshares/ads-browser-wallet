@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import {
-    cleanForm,
-    initMessageForm,
-    inputChanged,
-    transactionAccepted,
-    transactionRejected,
-    validateForm,
-    validateInput,
+  cleanForm,
+  initMessageForm,
+  inputChanged,
+  transactionAccepted,
+  transactionRejected,
+  validateForm,
+  validateInput,
 } from '../../actions/transactionActions';
 import TransactionPage from './TransactionPage';
 import InputControl from '../../components/atoms/InputControl';
 import CheckboxControl from '../../components/atoms/CheckboxControl';
 import ADS from '../../utils/ads';
-import {fieldLabels} from './labels';
+import { fieldLabels } from './labels';
 import style from './style.css';
 
 
@@ -49,9 +49,6 @@ class SendOnePage extends TransactionPage {
     const amountInUsd = ADS.calculateToUsd(amount.value, usdRate);
     return (
       <React.Fragment>
-        <p className={style.transferBalance}>Balance:
-          <span> {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
-        </p>
         <InputControl
           name="address"
           label={fieldLabels.recipient}
@@ -76,8 +73,11 @@ class SendOnePage extends TransactionPage {
             readOnly={readOnly}
           />
           <span>ADS</span>
-          {/*<small>{amountInUsd}</small>*/}
+          <small>{amountInUsd}</small>
         </div>
+        <p className={style.transferBalance}>Balance:
+          <span> {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
+        </p>
         <div className={style.messageCheckbox}>
           <CheckboxControl
             name="rawMessage"

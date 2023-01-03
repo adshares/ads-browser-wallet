@@ -32,7 +32,7 @@ const name = ({ pageName, value, vault, editedId }) => {
 
 const publicKey = ({ value, inputs, vault, pageName }) => {
   if (!ADS.validateKey(value)) {
-    return 'Please provide an valid public key';
+    return 'Please provide a valid public key';
   }
   const keys = vault.keys;
 
@@ -53,7 +53,7 @@ const publicKey = ({ value, inputs, vault, pageName }) => {
 
 const secretKey = ({ value, vault }) => {
   if (!ADS.validateKey(value)) {
-    return 'Please provide an valid secret key';
+    return 'Please provide a valid secret key';
   }
   if (vault.keys.find(key => key.secretKey === value)) {
     return 'Given secret key already exists in data base';
@@ -90,7 +90,7 @@ const repeatedPassword = ({ value, inputs }) => {
 
 const address = ({ value, vault, editedId }) => {
   if (!value || !ADS.validateAddress(value)) {
-    return 'Please provide an valid account address';
+    return 'Please provide a valid account address';
   }
   if (vault.accounts.find(a =>
     a.address !== editedId && ADS.compareAddresses(a.address, value)

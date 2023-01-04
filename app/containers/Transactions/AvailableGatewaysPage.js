@@ -32,7 +32,7 @@ class AvailableGatewaysPage extends PageComponent {
           <ButtonLink
             key={gateway.code}
             icon="left"
-            layout="info"
+            layout="secondary"
             inverse
             to={{
               pathname: `/transactions/gateways/${gateway.code}`,
@@ -46,7 +46,7 @@ class AvailableGatewaysPage extends PageComponent {
         <ButtonLink
           className={style.unwrap}
           icon="left"
-          layout="info"
+          layout="primary"
           external
           target="_blank"
           rel="noopener noreferrer"

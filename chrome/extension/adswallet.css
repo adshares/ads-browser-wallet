@@ -94,6 +94,7 @@
 
 body {
   overflow-x: hidden;
+  /*height: 995px;*/
   overflow-y: scroll;
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
   /*-webkit-font-smoothing: antialiased;*/
@@ -107,7 +108,6 @@ body {
   background: var(--light);
   color: var(--dark);
   box-sizing: border-box;
-  height: fit-content;
   max-height: 860px;
   display: flex;
   flex-direction: column;
@@ -155,3 +155,34 @@ checkbox,
 button {
   font-family: inherit;
 }
+
+/deep/ .darkCard {
+  color: var(--light);
+  background-repeat: no-repeat;
+  border-radius: 1rem;
+  margin-inline: 0.5rem;
+  margin-bottom: 3rem;
+  text-align: left;
+}
+
+.darkCard.subwayHorizontal {
+  background: url(../../app/assets/subway-horizontal.svg),
+  var(--dark);
+  padding: 1.8rem 1.5rem 1.5rem 4rem;
+}
+
+.darkCard.subwayVertical {
+  background: url(../../app/assets/subway-horizontal.svg),
+  var(--dark);
+  padding: 1.8rem 1.5rem 1.5rem 4rem;
+}
+
+/*div[myMultiClasses="pinkish"] {*/
+/*  color: var(--light);*/
+/*  background-repeat: no-repeat;*/
+/*  border-radius: 1rem;*/
+/*  margin-inline: 0.5rem;*/
+/*  margin-bottom: 3rem;*/
+/*  text-align: left;*/
+/*}*/
+

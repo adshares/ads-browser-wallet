@@ -442,8 +442,7 @@ export default class SignForm extends FormComponent {
             <tr className={style.showAdvanced}>
               <td colSpan="2">
                 <CheckboxControl
-                  checked={false}
-                  // checked={this.state.showAdvanced}
+                  checked={this.state.showAdvanced}
                   label="Show advanced data"
                   handleChange={this.toggleAdvanced}
                 />

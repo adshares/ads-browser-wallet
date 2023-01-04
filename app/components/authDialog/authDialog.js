@@ -5,6 +5,7 @@ import { faLock, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Form from '../../components/atoms/Form';
 import style from './authDialog.css';
 import Button from '../atoms/Button';
+import Buttons from '../atoms/Buttons';
 import InputControl from '../atoms/InputControl';
 import PageComponent from '../PageComponent';
 
@@ -90,10 +91,10 @@ export default class AuthDialog extends PageComponent {
             errorMessage={this.props.errorMsg}
             autoFocus
           />
-          <div className={style.buttonsContainer}>
+          <Buttons>
             <Button
               type="reset"
-              layout="info"
+              layout="secondary"
               inverse
               icon="left"
               onClick={this.handleCancelClick}
@@ -102,12 +103,12 @@ export default class AuthDialog extends PageComponent {
             </Button>
             <Button
               type="submit"
-              layout="info"
+              layout="primary"
               icon="right"
             >
               Confirm <FontAwesomeIcon icon={faCheck} />
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </div>
     );

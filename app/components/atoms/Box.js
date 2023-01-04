@@ -37,6 +37,7 @@ export default class Box extends React.Component {
       <div className={styleClassName} {...rest}>
         {/*{icon ? <div className={style.icon}>*/}
         {/*  <span>{icon}</span>*/}
+        <span>{''}</span>
         {/*</div> : ''}*/}
         <div className={style.content}>{children}</div>
       </div>

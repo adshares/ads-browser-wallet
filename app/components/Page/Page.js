@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 // import { Link, withRouter } from 'react-router-dom';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamation } from '@fortawesome/free-solid-svg-icons';
+// import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 // import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
 // import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
@@ -126,7 +126,7 @@ class Page extends React.Component {
           />
         )}
         <div className={wrapperClass}>
-          {errorMsg && <Box title="Server error" layout="warning" icon={faExclamation} className={style.errorClass}>
+          {errorMsg && <Box title="Server error" icon={'i'} layout="warning" className={style.errorClass}>
             {errorMsg}
           </Box>}
           {children}

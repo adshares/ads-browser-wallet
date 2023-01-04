@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck,
   faExclamation,
-  faExternalLinkAlt,
+  faLink,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import ADS from '../../utils/ads';
@@ -147,12 +147,12 @@ export default class TransactionPage extends PageComponent {
             external
             href={`${addressLink}${transactionId}`}
             icon="right"
-            layout="contrast"
+            layout="secondary"
             size="wide"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
+            {transactionId}<FontAwesomeIcon icon={faLink} />
           </ButtonLink>
           <small>Transaction fee:
             <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
@@ -162,7 +162,7 @@ export default class TransactionPage extends PageComponent {
           to={this.getReferrer()}
           onClick={this.handleCloseForm}
           icon="left"
-          layout="info"
+          layout="primary"
           size="wide"
         >
           <FontAwesomeIcon icon={faTimes} /> Close

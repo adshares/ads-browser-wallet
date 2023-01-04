@@ -9,7 +9,7 @@ import {
   faPaperPlane,
   faCopy,
   // faGlobe,
-  faExclamation,
+  // faExclamation,
   faRandom,
 } from '@fortawesome/free-solid-svg-icons';
 import { CREATE_FREE_ACCOUNT, SETTINGS, createFreeAccount } from '../../actions/settingsActions';
@@ -63,7 +63,7 @@ class HomePage extends React.PureComponent {
     const usdRate = this.props.adsOperatorApi.currencyCourses.usdRate;
     const amountInUsd = calculateToUsd(accountData.balance, usdRate);
     return (
-      <div className={style.darkCard}>
+      <div>
         <h5 title="Account name">{accountData.name}&nbsp;</h5>
         <div className={style.balance} title="Account balance">
           {amountInt}
@@ -115,7 +115,7 @@ class HomePage extends React.PureComponent {
           You can use this plugin to sign ADS Operator&apos;s transactions.<br />
           If you want to send transactions directly, you have to import an account first.
         </Box>
-        {errorMsg && <Box title="Error" layout="warning" icon={faExclamation}>
+        {errorMsg && <Box title="Error" layout="warning" icon={'!'}>
           {errorMsg}
         </Box>}
         <Button

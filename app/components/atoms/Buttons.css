@@ -1,7 +1,8 @@
 .buttons {
     display: flex;
-    margin-top: 2rem;
-    margin-bottom: 3rem;
+    margin-block: 3rem;
+    /*margin-top: 2rem;*/
+    /*margin-bottom: 3rem;*/
 }
 
 .buttons > *:first-child {

@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faInfo,
-  faChevronLeft,
   faPaperPlane,
   faBullhorn,
   faKey, faRandom,
@@ -32,7 +31,8 @@ class AvailableTransactionsPage extends PageComponent {
     return (
       <div className={style.availableLinks}>
         <ButtonLink
-          icon="left" layout="info" inverse
+          icon="left" layout="primary"
+          size="wide"
           to={{
             pathname: '/transactions/send_one',
             state: { referrer: this.props.history.location }
@@ -41,7 +41,7 @@ class AvailableTransactionsPage extends PageComponent {
           <FontAwesomeIcon icon={faPaperPlane} /> {typeLabels.send_one}
         </ButtonLink>
         <ButtonLink
-          icon="left" layout="info" inverse
+          icon="left" size="wide" layout="secondary"
           to={{
             pathname: '/transactions/broadcast',
             state: { referrer: this.props.history.location }
@@ -50,7 +50,7 @@ class AvailableTransactionsPage extends PageComponent {
           <FontAwesomeIcon icon={faBullhorn} /> {typeLabels.broadcast}
         </ButtonLink>
         <ButtonLink
-          icon="left" layout="info" inverse
+          icon="left" size="wide" layout="secondary"
           to={{
             pathname: '/transactions/gateways',
             state: { referrer: this.props.history.location }
@@ -77,7 +77,7 @@ class AvailableTransactionsPage extends PageComponent {
           <FontAwesomeIcon icon={faPlusSquare} /> {typeLabels.create_node}
         </ButtonLink>*/}
         <ButtonLink
-          icon="left" layout="warning" inverse
+          icon="left" size="wide" layout="outline"
           to={{
             pathname: '/transactions/change_account_key',
             state: { referrer: this.props.history.location }
@@ -114,8 +114,8 @@ class AvailableTransactionsPage extends PageComponent {
         cancelLink={this.getReferrer()}
       >
         {this.props.vault.accounts.length > 0 ? this.renderLinks() : this.renderInfo() }
-        <ButtonLink to={this.getReferrer()} size="wide" icon="left" layout="info">
-          <FontAwesomeIcon icon={faChevronLeft} /> Back
+        <ButtonLink className={style.availableLinkCancel} to={this.getReferrer()} layout="secondary">
+            Back
         </ButtonLink>
       </Page>
     );

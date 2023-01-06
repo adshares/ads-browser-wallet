@@ -76,7 +76,7 @@
 }
 
 .button.icon-left svg {
-    margin-right: 7px;
+    margin-right: .5rem;
 }
 
 .button.icon-right svg {
@@ -127,7 +127,7 @@
 }
 
 .button.wide {
-    width: 100%;
+    width: 98%;
 }
 
 .button.wide7 {

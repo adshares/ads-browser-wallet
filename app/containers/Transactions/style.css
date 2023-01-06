@@ -113,24 +113,22 @@
 }
 
 .availableLinks {
-    margin-bottom: 20px;
+    margin-bottom: 2.5rem;
 }
 
-.availableLinks > * {
-    width: 100%;
-    margin-bottom: 10px;
+.availableLinks svg[class*=fa-paper-plane] {
+    rotate: 45deg;
+    padding-right: .25rem;
 }
 
-.availableLinks > *:nth-child(odd) {
-
+.availableLinks svg[class*=fa-key] {
+    rotate: -140deg;
 }
 
-.availableLinks hr {
-    margin-bottom: 18px;
-    border-color: var(--blue-dark);
-    border-style: dashed;
+.availableLinkCancel {
+    margin-bottom: 3.5rem;
 }
 
-.unwrap svg {
-    transform: rotatey(180deg);
-}
+/*.unwrap svg {*/
+/*    transform: rotatey(180deg);*/
+/*}*/

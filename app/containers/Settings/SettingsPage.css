@@ -1,84 +1,49 @@
-.page {
-    /*height: 580px;*/
+.page > div {
+    margin-bottom: 2.5rem;
 }
 
-/*.page > div {*/
-    /*height: 460px;*/
-/*}*/
-.pageContainer {
-    max-height: 100%;
-    /*height: 480px;*/
-}
-.section h3 {
-    margin-top: 20px;
-}
-
-.section:first-of-type h3 {
-    margin-top: 0px;
-}
-
-.infoBox {
-    margin-top: 10px;
-    margin-bottom: 40px;
-}
-
-.dangerContent {
-    color: var(--red-dark);
-}
-
-.dangerContent input, .dangerContent textarea {
-    border-color: var(--red-dark);
-    color: var(--red-dark);
+h3 {
+    text-align: left;
 }
 
 .accounts {
     list-style-type: none;
-    margin: 0;
-    margin-bottom: 20px;
     padding: 0;
 }
 
 .accounts li {
-    border-bottom: 1px dashed var(--gray);
+    display: grid;
+    grid-template-columns: 70% 1fr;
+    align-items: end;
 }
 
 .accountLabel {
-    display: inline-block;
-    vertical-align: bottom;
-}
-
-.accountLabel * {
-    display: block;
+    text-align: left;
+    border-bottom: 1px solid var(--dark);
 }
 
 .accountLabel small {
-    color: var(--blue-dark);
+    display: block;
 }
 
 .accountActions {
-    display: inline-block;
-    vertical-align: bottom;
+    padding-bottom: .25rem;
 }
 
 .accountActions > * {
-    margin-top: 5px;
-    margin-left: 5px;
-    margin-bottom: 5px;
+    margin-inline: .75rem;
 }
 
-.buttons {
-    margin-top: 30px;
-    text-align: center;
+.accountActions a:nth-of-type(2) {
+    color: var(--warning);
 }
 
-.buttons > *:first-child {
-    margin-right: 50px;
+.accountActions a:nth-of-type(3) {
+    color: var(--primary);
 }
 
-.list {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+a[class*="wide"] {
+    margin-block: 1.25rem;
 }
 
 @keyframes rotate {

@@ -1,15 +1,8 @@
 .timer {
-    position: relative;
-    height: 30px;
-    overflow: hidden;
-    color: var(--dark);
+    display: flex;
+    justify-content: space-between;
     font-size: var(--font-small);
-}
-
-.blockTimer {
-    position: absolute;
-    left: 0;
-    bottom: 5px;
+    font-weight: var(--font-weight-light);
 }
 
 .blockTimer > div {
@@ -24,16 +17,16 @@
 }
 
 .blockTimer > div:nth-last-of-type(4n) {
-    margin-left: 5px;
+    margin-left: .25rem;
 }
 
 .blockTimer .activeBit {
     background-color: var(--dark);
 }
 
-.blockTimer svg {
-    margin-left: 10px;
-}
+/*.blockTimer svg {*/
+/*    margin-left: 10px;*/
+/*}*/
 
 .dividend {
     color: var(--dark);
@@ -49,8 +42,5 @@
 }
 
 .nextBlockTimer {
-    position: absolute;
-    right: 0;
-    bottom: 5px;
     text-align: right;
 }

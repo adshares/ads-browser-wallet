@@ -37,6 +37,12 @@
     box-shadow: var(--shadow-primary);
 }
 
+.button.outline {
+    background-color: var(--light);
+    color: var(--dark);
+    box-shadow: var(--shadow-dark);
+}
+
 .button.info {
     background-color: var(--info);
     border-color: var(--info);

@@ -21,3 +21,11 @@
 /*    animation-delay: 1.6s;*/
 /*    animation-fill-mode: forwards;*/
 /*}*/
+
+.logoMark {
+    fill: var(--primary);
+}
+
+.logoType {
+    fill: var(--dark);
+}

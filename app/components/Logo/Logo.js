@@ -39,7 +39,7 @@ export default class Logo extends React.Component {
           strokeWidth="1"
         >
           { withoutLogo ? '' : (
-            <g id="Group_723" data-name="Group 723" transform="translate(37.31 0.868)">
+            <g className={style.logoMark} data-name="Group 723" transform="translate(37.31 0.868)">
               <g id="Group_721" data-name="Group 721" transform="translate(48.879 69.415)">
                 <path
                   id="Path_2082"
@@ -60,7 +60,7 @@ export default class Logo extends React.Component {
             </g>
           )}
           { withoutName ? '' : (
-            <g>
+            <g className={style.logoType} >
               <g id="Group_724" data-name="Group 724" transform="translate(0.578)">
                 <path
                   id="Path_2084"

@@ -97,12 +97,8 @@ body {
   /*height: 995px;*/
   overflow-y: scroll;
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
-  /*-webkit-font-smoothing: antialiased;*/
-  /*-moz-font-smoothing: antialiased;*/
-  /*-ms-font-smoothing: antialiased;*/
-  /*font-smooth: antialiased;*/
   line-height: 1.4em;
-  padding: 1rem;
+  padding: 1rem 1rem .25rem;
   text-align: center;
   font-weight: 400;
   background: var(--light);
@@ -156,33 +152,25 @@ button {
   font-family: inherit;
 }
 
-/deep/ .darkCard {
+div[cardClass] {
   color: var(--light);
-  background-repeat: no-repeat;
   border-radius: 1rem;
   margin-inline: 0.5rem;
   margin-bottom: 3rem;
   text-align: left;
 }
 
-.darkCard.subwayHorizontal {
+div[cardClass="lineHorizontal"] {
   background: url(../../app/assets/subway-horizontal.svg),
   var(--dark);
+  background-repeat: no-repeat;
   padding: 1.8rem 1.5rem 1.5rem 4rem;
 }
 
-.darkCard.subwayVertical {
+div[cardClass="lineVertical"] {
   background: url(../../app/assets/subway-horizontal.svg),
   var(--dark);
+  background-repeat: no-repeat;
   padding: 1.8rem 1.5rem 1.5rem 4rem;
 }
-
-/*div[myMultiClasses="pinkish"] {*/
-/*  color: var(--light);*/
-/*  background-repeat: no-repeat;*/
-/*  border-radius: 1rem;*/
-/*  margin-inline: 0.5rem;*/
-/*  margin-bottom: 3rem;*/
-/*  text-align: left;*/
-/*}*/
 

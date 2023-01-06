@@ -1,31 +1,41 @@
+section {
+    font-size: inherit;
+}
+
+h1 {
+    margin-block: 1rem;
+}
+
 .aboutLogo {
     text-align: center;
-    margin: 20px 0;
+    margin: 1.25rem 0;
 }
 
 .aboutLogo svg {
-    width: 100px;
+    width: 10rem;
     text-align: center;
 }
 
 .aboutDescription {
-    font-size: var(--font-big);
-    font-style: italic;
-    text-align: center;
+    margin: 2rem auto 3.5rem;
 }
 
 .aboutLinks {
-    text-align: center;
-    margin-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 1.25rem;
 }
 
-.aboutLinks a {
-    display: inline-block;
-    width: 30%;
+.aboutLinks a:hover,
+.aboutLinks a:focus {
+    opacity: 1;
+    border-bottom: 1px solid var(--dark);
+    padding: 0.05rem;
 }
 
 .aboutVersion {
     text-align: right;
+    margin-bottom: 3rem;
 }
 
 .aboutText {

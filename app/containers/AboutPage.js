@@ -13,13 +13,13 @@ export default class AboutPage extends PageComponent {
     return (
       <Page cancelLink={this.getReferrer()} title={manifest.name}>
         <section className={style.aboutVersion}>
-          <b>Version</b>: {manifest.version}{isBeta ? ' (beta)' : ''}
+         Version: {manifest.version}{isBeta ? ' (beta)' : ''}
         </section>
         <section className={style.aboutLogo}>
           <Logo />
         </section>
         <section>
-          <h3 className={style.aboutDescription}>{manifest.description}</h3>
+          <p className={style.aboutDescription}>{manifest.description}</p>
           <div className={style.aboutLinks}>
             <a href={config.helpUrl} target="_blank" rel="noopener noreferrer">Help</a>
             <a href={config.supportUrl} target="_blank" rel="noopener noreferrer">Support</a>

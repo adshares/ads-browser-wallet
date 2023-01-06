@@ -63,7 +63,7 @@ class HomePage extends React.PureComponent {
     const usdRate = this.props.adsOperatorApi.currencyCourses.usdRate;
     const amountInUsd = calculateToUsd(accountData.balance, usdRate);
     return (
-      <div>
+      <div cardClass={'lineHorizontal'}>
         <h5 title="Account name">{accountData.name}&nbsp;</h5>
         <div className={style.balance} title="Account balance">
           {amountInt}

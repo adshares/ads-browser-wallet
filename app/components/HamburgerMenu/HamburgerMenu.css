@@ -50,6 +50,7 @@
     position: absolute;
     top: -1rem;
     right: -1rem;
+    margin-left: auto;
     box-shadow: -2px 2px 8px rgb(0,0,0,0.2);
     background-color: var(--light);
     z-index: 1;

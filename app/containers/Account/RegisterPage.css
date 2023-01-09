@@ -16,7 +16,10 @@
     opacity: 0.7;
 }
 
-header h1 {
+.welcomePage header h1,
+.newPasswordPage header h1,
+.termsPage header h1,
+.seedPhrasePage header h1 {
     margin: 3.2rem 0 2.5rem;
 }
 
@@ -96,11 +99,11 @@ header h1 {
     margin-bottom: 10px;
 }
 
-/*.seedPhrasePage textarea {*/
-/*    font-weight: var(--font-weight-bold);*/
-/*    height: 7rem;*/
-/*    line-height: 1.5;*/
-/*}*/
+.seedPhrasePage textarea {
+    font-weight: var(--font-weight-bold);
+    height: 7rem;
+    line-height: 1.5;
+}
 
 /*.seedPhrasePage textarea::-webkit-resizer {*/
 /*    background: red;*/

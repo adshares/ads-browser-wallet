@@ -125,7 +125,6 @@ class GatewayPage extends TransactionPage {
           {this.props.gatewayFee.isSubmitted ? <LoaderOverlay /> : ''}
           <small>You will be charged:</small><br />
           {ADS.formatClickMoney(this.chargedAmount, 11, true)} ADS
-          <hr />
           <small>You will receive approximately:</small><br />
           {this.externalFee === null ? '---' : ADS.formatClickMoney(this.receivedAmount, 11, true)} ADS
         </div>

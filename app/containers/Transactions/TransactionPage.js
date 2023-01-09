@@ -279,10 +279,8 @@ export default class TransactionPage extends PageComponent {
         onCancelClick={this.handleCloseForm}
         showLoader={isSubmitted}
         history={history}
+        title={this.getTitle()}
       >
-        <h2>
-          {this.getTitle()}
-        </h2>
         {this.getDescription() ?
           <p className={style.description}><small>{this.getDescription()}</small></p> : ''}
         {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>

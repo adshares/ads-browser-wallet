@@ -1,18 +1,19 @@
-.checkboxWrapper {
+.container {
     display: flex;
     align-items: center;
+    font-weight: var(--font-weight-normal);
 }
 
 .checkbox {
-    position: absolute;
-    opacity: 0;
-    width: auto !important;
-    height: 20px !important;
+    /*position: absolute;*/
+    /*opacity: 0;*/
+    /*width: auto !important;*/
+    /*height: 20px !important;*/
 }
 
-.checkbox label {
-    padding-left: 0.25rem;
-}
+/*.checkbox label {*/
+/*    padding-left: 0;*/
+/*}*/
 
 .checkbox:checked + .checked svg path {
     stroke-dashoffset: 0;
@@ -26,7 +27,7 @@
     transform: scale(1.03);
 }
 
-.checkbox + .checked {
+.checkbox +.checked {
     display: block;
     border: 1px solid var(--dark);
     background-color: var(--dark);
@@ -53,4 +54,12 @@
     stroke-dasharray: 100;
     stroke-dashoffset: 101;
     transition: all 350ms cubic-bezier(1, 0, .37, .91);
+}
+
+input[type="checkbox" i] {
+    height: 1rem;
+    aspect-ratio: 1;
+    margin-right: .75rem;
+    border-radius: 0;
+    box-shadow: inset 1px -1px, inset -1px 1px;
 }

@@ -14,6 +14,7 @@ export default class Header extends React.Component {
     cancelLink: PropTypes.any,
     onCancelClick: PropTypes.func,
     noLinks: PropTypes.bool,
+    title: PropTypes.string
   };
 
   render() {
@@ -22,6 +23,7 @@ export default class Header extends React.Component {
       cancelLink,
       onCancelClick,
       noLinks,
+      title
     } = this.props;
 
 
@@ -50,6 +52,7 @@ export default class Header extends React.Component {
           <img src={logo} alt="Adshares wallet" />
           {config.testnet ? <span>TESTNET</span> : ''}
         </div>
+        {title && <h1 className={style.title}>{title}</h1>}
         {menu}
       </header>
     );

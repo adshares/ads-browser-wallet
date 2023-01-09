@@ -43,7 +43,7 @@ h3 {
 }
 
 a[class*="wide"] {
-    margin-block: 1.25rem;
+    margin-bottom: 1.25rem;
 }
 
 @keyframes rotate {

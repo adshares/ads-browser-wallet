@@ -9,24 +9,24 @@ const CheckboxControl = ({ name, checked, label, handleChange, readOnly = false 
   };
 
   return (
-    <div className={style.checkboxWrapper}>
+    <label className={style.container} htmlFor={label} >
       <input
         name={name}
         tabIndex="0"
-        className={`${style.checkbox} ${style.checkboxChecked}`}
+        className={`${style.checkbox} ${style.checked}`}
         type="checkbox"
         id={label}
         checked={checked}
         onChange={handleChanges}
         disabled={readOnly}
       />
+      {label}
       <span className={style.checked}>
         <svg width="18" height="18" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2 4.60188L7.41667 10.2393L15.3333 2" stroke="white" strokeWidth="2" strokeLinecap="square" />
         </svg>
       </span>
-      <label htmlFor={label} className={style.label}>{label}</label>
-    </div>
+    </label>
   );
 };
 

@@ -28,7 +28,7 @@ class Page extends React.Component {
     vault: PropTypes.object,
     actions: PropTypes.object,
     title: PropTypes.string,
-    subTitle: PropTypes.string,
+    // subTitle: PropTypes.string,
     // cancelLink: PropTypes.any,
     // onCancelClick: PropTypes.func,
     // noLinks: PropTypes.bool,
@@ -38,6 +38,7 @@ class Page extends React.Component {
     showLoader: PropTypes.bool,
     authDialog: PropTypes.object,
     errorMsg: PropTypes.string,
+    hideSelectAccount: PropTypes.any
   };
 
   render() {
@@ -45,7 +46,7 @@ class Page extends React.Component {
       vault,
       actions,
       title,
-      subTitle,
+      // subTitle,
       // cancelLink,
       // onCancelClick,
       // noLinks,
@@ -57,6 +58,7 @@ class Page extends React.Component {
       showLoader,
       authDialog,
       errorMsg,
+      hideSelectAccount
     } = this.props;
 
     let classes = [];
@@ -101,7 +103,7 @@ class Page extends React.Component {
           closeAction={actions.authDialog.closeDialog}
           confirmAction={actions.authDialog.confirmPassword}
         />
-        <Header logoutAction={actions.vault.seal} />
+        <Header logoutAction={actions.vault.seal} title={title} />
         {/*<header className={headerClass}>*/}
         {/*  <div className={style.logo}>*/}
         {/*    {noLinks || homeLink === false ? (*/}
@@ -115,16 +117,20 @@ class Page extends React.Component {
         {/*  </div>*/}
         {/*  {menu}*/}
         {/*</header>*/}
-        {title ? (
-          <h1>
-            {title} {subTitle && subTitle !== title ? <small>{subTitle}</small> : ''}
-          </h1>
-        ) : (
-          <SelectAccount
-            options={vault.accounts} selectedAccount={vault.selectedAccount}
-            selectAccount={actions.vault.selectActiveAccount}
-          />
-        )}
+        {/*{title ? (*/}
+        {/*  <h1>*/}
+        {/*    {title} {subTitle && subTitle !== title ? <small>{subTitle}</small> : ''}*/}
+        {/*  </h1>*/}
+        {/*) : (*/}
+        {/*  <SelectAccount*/}
+        {/*    options={vault.accounts} selectedAccount={vault.selectedAccount}*/}
+        {/*    selectAccount={actions.vault.selectActiveAccount}*/}
+        {/*  />*/}
+        {/*)}*/}
+        {!hideSelectAccount && <SelectAccount
+          options={vault.accounts} selectedAccount={vault.selectedAccount}
+          selectAccount={actions.vault.selectActiveAccount}
+        />}
         <div className={wrapperClass}>
           {errorMsg && <Box title="Server error" icon={'i'} layout="warning" className={style.errorClass}>
             {errorMsg}

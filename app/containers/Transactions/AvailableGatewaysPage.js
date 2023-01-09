@@ -34,6 +34,7 @@ class AvailableGatewaysPage extends PageComponent {
             icon="left"
             layout="secondary"
             inverse
+            size="wide"
             to={{
               pathname: `/transactions/gateways/${gateway.code}`,
               state: { referrer: this.props.history.location }
@@ -42,12 +43,12 @@ class AvailableGatewaysPage extends PageComponent {
             <FontAwesomeIcon icon={faRandom} /> {gateway.name}
           </ButtonLink>
         )}
-        <hr className="dashed" />
         <ButtonLink
           className={style.unwrap}
           icon="left"
           layout="primary"
           external
+          size="wide"
           target="_blank"
           rel="noopener noreferrer"
           href={config.unwrapUrl}
@@ -67,6 +68,7 @@ class AvailableGatewaysPage extends PageComponent {
         title="Wrapped ADS gateways"
         cancelLink={this.getReferrer()}
         onCancelClick={this.handleCloseForm}
+        hideSelectAccount
       >
         {this.renderGateways(vault.gateways || [])}
       </Page>

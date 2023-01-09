@@ -1,6 +1,13 @@
 .header {
     position: relative;
+    /*height: 3.125rem;*/
+    display: grid;
+    grid-template-columns: 5rem 1fr 5rem;
+    justify-content: space-between;
     padding: 0 1rem;
+}
+
+.header h1 {
 }
 
 .logo {
@@ -16,6 +23,12 @@
     font-weight: var(--font-weight-bolder);
     display: block;
     margin-top: -0.25rem;
+}
+
+.title {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    line-height: 1.05;
 }
 
 .close {

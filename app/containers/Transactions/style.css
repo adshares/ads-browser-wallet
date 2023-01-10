@@ -132,3 +132,8 @@
 .unwrap svg {
     transform: rotatey(180deg);
 }
+
+.changeAccountKeyPage title {
+    margin: 0 0 1rem;
+    font-size: 1.75rem;
+}

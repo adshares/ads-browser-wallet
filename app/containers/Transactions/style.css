@@ -112,15 +112,6 @@
     margin-bottom: 2.5rem;
 }
 
-.availableLinks svg[class*=fa-paper-plane] {
-    rotate: 45deg;
-    padding-right: .25rem;
-}
-
-.availableLinks svg[class*=fa-key] {
-    rotate: -140deg;
-}
-
 .availableLinkCancel {
     margin-bottom: 3.5rem;
 }

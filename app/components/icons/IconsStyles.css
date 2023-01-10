@@ -1,0 +1,19 @@
+.dark {
+    fill: var(--dark);
+}
+
+.light {
+    fill: white;
+}
+
+.primary {
+    fill: var(--primary);
+}
+
+.warning {
+    fill: var(--warning);
+}
+
+.info {
+    fill: var(--info);
+}

@@ -3,12 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faInfo,
-  faPaperPlane,
-  faBullhorn,
-  faKey, faRandom,
+  // faPaperPlane,
+  // faBullhorn,
+  // faKey,
+  // faRandom,
   // faUserPlus,
   // faPlusSquare,
   // faRetweet,
@@ -17,6 +18,10 @@ import PageComponent from '../../components/PageComponent';
 import Page from '../../components/Page/Page';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
+import Broadcast from '../../components/icons/Broadcast';
+import Key from '../../components/icons/Key';
+import PaperPlane from '../../components/icons/PaperPlane';
+import Wrap from '../../components/icons/Wrap';
 import { typeLabels } from './labels';
 import style from './style.css';
 
@@ -38,7 +43,7 @@ class AvailableTransactionsPage extends PageComponent {
             state: { referrer: this.props.history.location }
           }}
         >
-          <FontAwesomeIcon icon={faPaperPlane} /> {typeLabels.send_one}
+          <PaperPlane /> {typeLabels.send_one}
         </ButtonLink>
         <ButtonLink
           icon="left" size="wide" layout="secondary"
@@ -47,7 +52,7 @@ class AvailableTransactionsPage extends PageComponent {
             state: { referrer: this.props.history.location }
           }}
         >
-          <FontAwesomeIcon icon={faBullhorn} /> {typeLabels.broadcast}
+          <Broadcast /> {typeLabels.broadcast}
         </ButtonLink>
         <ButtonLink
           icon="left" size="wide" layout="secondary"
@@ -56,7 +61,7 @@ class AvailableTransactionsPage extends PageComponent {
             state: { referrer: this.props.history.location }
           }}
         >
-          <FontAwesomeIcon icon={faRandom} /> Wrap ADS
+          <Wrap /> Wrap ADS
         </ButtonLink>
         {/*<ButtonLink
           icon="left" inverse
@@ -83,7 +88,7 @@ class AvailableTransactionsPage extends PageComponent {
             state: { referrer: this.props.history.location }
           }}
         >
-          <FontAwesomeIcon icon={faKey} /> {typeLabels.change_account_key}
+          <Key className="style.primary" /> {typeLabels.change_account_key}
         </ButtonLink>
         {/*<ButtonLink
           icon="left" layout="danger" inverse

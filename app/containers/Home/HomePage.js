@@ -4,17 +4,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPaperPlane,
-  faCopy,
-  // faGlobe,
-  // faExclamation,
-  faRandom,
-} from '@fortawesome/free-solid-svg-icons';
 import { CREATE_FREE_ACCOUNT, SETTINGS, createFreeAccount } from '../../actions/settingsActions';
 import { cleanForm } from '../../actions/formActions';
 import Page from '../../components/Page/Page';
+import { CopyIcon, PaperPlaneIcon, WrapIcon } from '../../components/icons/Icons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
 import Box from '../../components/atoms/Box';
@@ -64,7 +57,7 @@ class HomePage extends React.PureComponent {
     const amountInUsd = calculateToUsd(accountData.balance, usdRate);
     return (
       <div cardClass={'lineHorizontal'}>
-        <h5 title="Account name">{accountData.name}&nbsp;</h5>
+        <p title="Account name">{accountData.name}&nbsp;</p>
         <div className={style.balance} title="Account balance">
           {amountInt}
           <span>{amountDec}</span>
@@ -80,11 +73,10 @@ class HomePage extends React.PureComponent {
             How to get test coins?
           </a>
         </small>}
-        <hr />
         <div className={style.details}>
           <span title="Copy account address" onClick={() => copyToClipboard(accountData.address)}>
             {accountData.address}&nbsp;&nbsp;
-            <FontAwesomeIcon icon={faCopy} />
+            <CopyIcon fill="light" />
           </span>
           <a href={detailsLink} target="_blank" rel="noopener noreferrer">
             <span>Details</span>
@@ -92,10 +84,10 @@ class HomePage extends React.PureComponent {
         </div>
         <div className={style.buttons}>
           <ButtonLink to="/transactions/send_one" layout="secondary">
-            <FontAwesomeIcon icon={faPaperPlane} /> Send ADS
+            <PaperPlaneIcon /> Send ADS
           </ButtonLink>
           <ButtonLink to="/transactions/gateways" layout="secondary" disabled={!hasGateways}>
-            <FontAwesomeIcon icon={faRandom} /> Wrap
+            <WrapIcon /> Wrap
           </ButtonLink>
         </div>
       </div>

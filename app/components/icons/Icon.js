@@ -5,8 +5,8 @@ import style from './IconsStyles.css';
 export default class Icon extends React.Component {
   render() {
     const {
-      width = 18,
-      height = 18,
+      width = 20,
+      height = 20,
       viewBox = '0 0 22 18',
       fill = 'dark',
       rotate,

@@ -51,48 +51,49 @@ export default class HamburgerMenu extends PageComponent {
             {showFullScreen &&
               <li>
                 <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
-                  <ExpandIcon />
+                  <ExpandIcon width={20} height={20} viewBox="0 0 20 16" />
                   <span className={style.menuItemLink}>Fullscreen</span>
                 </span>
               </li>
             }
             {config.testnet ?
               <Link to={'/mainnet'} className={style.menuItem}>
-                <ExpandIcon />
+                <ExpandIcon width={20} height={20} viewBox="0 0 20 16" />
                 <span className={style.menuItemLink}>Switch to the mainnet</span>
               </Link> :
               <Link to={'/testnet'} className={style.menuItem}>
-                <RecycleIcon />
+                <RecycleIcon width={20} height={20} />
                 <span className={style.menuItemLink}>Switch to the testnet</span>
               </Link>
             }
             <li>
               <Link to="/settings" className={style.menuItem}>
-                <SettingsIcon />
+                <SettingsIcon width={20} height={26} viewBox="0 0 22 24" />
                 <span className={style.menuItemLink}>Settings</span>
               </Link>
             </li>
             <li>
               <Link to="/transactions" className={style.menuItem}>
-                <TransactionsIcon />
+                <TransactionsIcon width={22} />
                 <span className={style.menuItemLink}>Transactions</span>
               </Link>
             </li>
             <li>
               <Link to="/about" className={style.menuItem}>
-                <InfoCircleIcon />
+                <InfoCircleIcon width={20} height={24} viewBox="0 0 22 22" />
                 <span className={style.menuItemLink}>About</span>
               </Link>
             </li>
             <li>
               <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
-                <SwitchIcon />
+                <SwitchIcon width={22} height={16} viewBox="0 0 22 14" />
+                {/*<SwitchIcon width={22} height={20} viewBox="0 0 22 14" />*/}
                 <span className={style.menuItemLink}>Switch to dark mode</span>
               </a>
             </li>
             <li>
               <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
-                <LogOutIcon />
+                <LogOutIcon width={20} height={20} />
                 <span className={style.menuItemLink}>Log out</span>
               </a>
             </li>

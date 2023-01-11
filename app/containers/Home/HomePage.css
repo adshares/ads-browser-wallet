@@ -39,13 +39,14 @@
     text-align: right;
     font-size: 2rem;
     font-weight: var(--font-weight-bolder);
-    margin-top: 1em;
+    margin-top: 2.4rem;
 }
 
 .currency {
     text-align: right;
     font-size: var(--font-small);
     line-height: 2;
+    margin-bottom: 3rem;
 }
 
 .details {
@@ -72,6 +73,10 @@
     border-bottom: 1px solid var(--light);
 }
 
+.details svg {
+    margin-left: 1rem;
+}
+
 .details a:hover, .details a:focus {
     border-bottom: 1px solid var(--primary);
 }
@@ -85,14 +90,19 @@
     font-size: var(--font-normal);
 }
 
-.darkCard h5 {
+.darkCard p[title] {
     font-size: var(--font-small);
-    margin-block: 0;
+    margin-top: 0;
+    margin-bottom: 2.2rem;
 }
 
 .buttons {
     display: flex;
     justify-content: space-between;
+}
+
+.buttons .button {
+    margin-inline: 0;
 }
 
 .buttons .secondary {

@@ -3,21 +3,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faShieldAlt,
-  faTrashAlt,
-  faPlus,
-  faPencilAlt,
-  faKey,
-  faSearch,
-} from '@fortawesome/free-solid-svg-icons';
 import {
   removeAccount,
   eraseStorage,
   findAllAccounts,
   SETTINGS
 } from '../../actions/settingsActions';
+import { BinIcon, FindIcon, InfoShieldIcon, KeyIcon, PencilIcon, PlusIcon } from '../../components/icons/Icons';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
 import Button from '../../components/atoms/Button';
@@ -72,7 +64,7 @@ class SettingsPage extends FormComponent {
           title="Manage Keys"
           layout="primary"
           icon="left"
-        ><FontAwesomeIcon icon={faPencilAlt} /> Manage keys</ButtonLink>
+        ><PencilIcon fill="light" /> Manage keys</ButtonLink>
       </div>
     );
   }
@@ -91,7 +83,7 @@ class SettingsPage extends FormComponent {
               state: { referrer: this.props.history.location }
             }}
             title="Edit account"
-          ><FontAwesomeIcon icon={faPencilAlt} /></a>
+          ><PencilIcon /></a>
           <a
             to={{
               pathname: `/settings/keys/${account.publicKey}`,
@@ -99,11 +91,11 @@ class SettingsPage extends FormComponent {
             }}
             title={account.publicKey ? 'Show account keys' : 'Cannot find keys. The account may not have been registered yet.'}
             disabled={!account.publicKey}
-          ><FontAwesomeIcon icon={faKey} /></a>
+          ><KeyIcon fill="warning" /></a>
           <a
             onClick={() => this.removeAccountAction(account.address)}
             title="Delete account"
-          ><FontAwesomeIcon icon={faTrashAlt} /></a>
+          ><BinIcon fill="primary" /></a>
         </div>
       </React.Fragment>
     );
@@ -138,7 +130,7 @@ class SettingsPage extends FormComponent {
           icon="left"
           disabled={isSubmitted}
         >
-          <FontAwesomeIcon icon={faPlus} /> Add account
+          <PlusIcon fill="light" width={22} />Add account
         </ButtonLink>
         <Button
           onClick={this.handleFindAllAccountsClick}
@@ -148,7 +140,7 @@ class SettingsPage extends FormComponent {
           icon="left"
           disabled={isSubmitted}
         >
-          <FontAwesomeIcon icon={faSearch} /> Find accounts
+          <FindIcon width={22} /> Find accounts
           { isAccountsImported && <small> (<b>{accountsCount}</b> accounts found)</small> }
         </Button>
       </div>
@@ -169,7 +161,7 @@ class SettingsPage extends FormComponent {
           layout="primary"
           icon="left"
         >
-          <FontAwesomeIcon icon={faKey} /> Change password
+          <KeyIcon fill="light" /> Change password
         </ButtonLink>
         <ButtonLink
           to={{
@@ -181,7 +173,7 @@ class SettingsPage extends FormComponent {
           layout="secondary"
           icon="left"
         >
-          <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
+          <InfoShieldIcon /> Reveal seed phrase
         </ButtonLink>
         <Button
           onClick={() => this.eraseStorageAction()}
@@ -190,7 +182,7 @@ class SettingsPage extends FormComponent {
           layout="outline"
           icon="left"
         >
-          <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
+          <BinIcon /> Erase storage
         </Button>
       </div>
     );

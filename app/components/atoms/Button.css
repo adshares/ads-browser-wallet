@@ -15,6 +15,9 @@
     color: var(--light);
     border: 1px solid var(--dark);
     box-shadow: var(--shadow-dark);
+}
+
+.button:not(.button ~ .button):not(:first-child:nth-last-child(n+1)):not(.wide) {
     margin-inline: auto;
 }
 

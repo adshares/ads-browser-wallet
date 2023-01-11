@@ -7,10 +7,7 @@ import PageComponent from '../../components/PageComponent';
 import Page from '../../components/Page/Page';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
-import Broadcast from '../../components/icons/Broadcast';
-import Key from '../../components/icons/Key';
-import PaperPlaneIcon from '../../components/icons/PaperPlaneIcon';
-import Wrap from '../../components/icons/Wrap';
+import { BroadcastIcon, KeyIcon, PaperPlaneIcon, WrapIcon } from '../../components/icons/Icons';
 import { typeLabels } from './labels';
 import style from './style.css';
 
@@ -40,7 +37,7 @@ class AvailableTransactionsPage extends PageComponent {
             state: { referrer: this.props.history.location }
           }}
         >
-          <Broadcast /> {typeLabels.broadcast}
+          <BroadcastIcon /> {typeLabels.broadcast}
         </ButtonLink>
         <ButtonLink
           icon="left" size="wide" layout="secondary"
@@ -49,7 +46,7 @@ class AvailableTransactionsPage extends PageComponent {
             state: { referrer: this.props.history.location }
           }}
         >
-          <Wrap /> Wrap ADS
+          <WrapIcon /> Wrap ADS
         </ButtonLink>
         <ButtonLink
           icon="left" size="wide" layout="outline"
@@ -58,7 +55,7 @@ class AvailableTransactionsPage extends PageComponent {
             state: { referrer: this.props.history.location }
           }}
         >
-          <Key className="style.primary" /> {typeLabels.change_account_key}
+          <KeyIcon /> {typeLabels.change_account_key}
         </ButtonLink>
       </div>
     );

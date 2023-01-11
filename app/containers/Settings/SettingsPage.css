@@ -31,7 +31,7 @@ h3 {
 }
 
 .accountActions > * {
-    margin-inline: .75rem;
+    margin-inline: .5rem;
 }
 
 .accountActions a:nth-of-type(2) {

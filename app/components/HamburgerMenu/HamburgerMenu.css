@@ -78,9 +78,10 @@
 }
 
 .menuItem {
-    display: block;
+    display: flex;
+    align-items: center;
+    height: 3.5rem;
     text-align: left;
-    padding-top: 1.8rem;
     cursor: pointer;
 }
 

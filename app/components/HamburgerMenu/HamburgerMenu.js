@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faExpand,
-  faCog,
-  faInfoCircle,
-  faSignOutAlt,
-  faToggleOn, faServer, faMoneyBill,
-} from '@fortawesome/free-solid-svg-icons';
+import { ExpandIcon, RecycleIcon, SettingsIcon, TransactionsIcon, InfoCircleIcon, SwitchIcon, LogOutIcon } from '../icons/Icons';
 import { Link } from 'react-router-dom';
 import config from '../../config/config';
 import style from './HamburgerMenu.css';
@@ -58,48 +51,48 @@ export default class HamburgerMenu extends PageComponent {
             {showFullScreen &&
               <li>
                 <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
-                  <FontAwesomeIcon icon={faExpand} />
+                  <ExpandIcon />
                   <span className={style.menuItemLink}>Fullscreen</span>
                 </span>
               </li>
             }
             {config.testnet ?
               <Link to={'/mainnet'} className={style.menuItem}>
-                <FontAwesomeIcon icon={faExpand} />
+                <ExpandIcon />
                 <span className={style.menuItemLink}>Switch to the mainnet</span>
               </Link> :
               <Link to={'/testnet'} className={style.menuItem}>
-                <FontAwesomeIcon icon={faServer} />
+                <RecycleIcon />
                 <span className={style.menuItemLink}>Switch to the testnet</span>
               </Link>
             }
             <li>
               <Link to="/settings" className={style.menuItem}>
-                <FontAwesomeIcon icon={faCog} />
+                <SettingsIcon />
                 <span className={style.menuItemLink}>Settings</span>
               </Link>
             </li>
             <li>
               <Link to="/transactions" className={style.menuItem}>
-                <FontAwesomeIcon icon={faMoneyBill} />
+                <TransactionsIcon />
                 <span className={style.menuItemLink}>Transactions</span>
               </Link>
             </li>
             <li>
               <Link to="/about" className={style.menuItem}>
-                <FontAwesomeIcon icon={faInfoCircle} />
+                <InfoCircleIcon />
                 <span className={style.menuItemLink}>About</span>
               </Link>
             </li>
             <li>
               <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
-                <FontAwesomeIcon icon={faToggleOn} />
+                <SwitchIcon />
                 <span className={style.menuItemLink}>Switch to dark mode</span>
               </a>
             </li>
             <li>
               <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
-                <FontAwesomeIcon icon={faSignOutAlt} />
+                <LogOutIcon />
                 <span className={style.menuItemLink}>Log out</span>
               </a>
             </li>

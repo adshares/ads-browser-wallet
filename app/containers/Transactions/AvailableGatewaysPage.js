@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { faExclamation, faRandom } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './style.css';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import PageComponent from '../../components/PageComponent';
+import WrapIcon from '../../components/icons/WrapIcon';
 import config from '../../config/config';
 
 class AvailableGatewaysPage extends PageComponent {
@@ -20,7 +19,7 @@ class AvailableGatewaysPage extends PageComponent {
   renderGateways(gateways) {
     if (gateways.length === 0) {
       return (
-        <Box title="Server error" layout="warning" icon={faExclamation}>
+        <Box title="Server error" layout="warning" icon={'i'}>
           No gateways found
         </Box>
       );
@@ -40,7 +39,7 @@ class AvailableGatewaysPage extends PageComponent {
               state: { referrer: this.props.history.location }
             }}
           >
-            <FontAwesomeIcon icon={faRandom} /> {gateway.name}
+            <WrapIcon /> {gateway.name}
           </ButtonLink>
         )}
         <ButtonLink
@@ -53,7 +52,7 @@ class AvailableGatewaysPage extends PageComponent {
           rel="noopener noreferrer"
           href={config.unwrapUrl}
         >
-          <FontAwesomeIcon icon={faRandom} /> Unwrap
+          <WrapIcon rotate /> Unwrap
         </ButtonLink>
       </div>
     );

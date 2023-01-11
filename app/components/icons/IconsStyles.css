@@ -17,3 +17,7 @@
 .info {
     fill: var(--info);
 }
+
+.rotate {
+    rotate: 180deg;
+}

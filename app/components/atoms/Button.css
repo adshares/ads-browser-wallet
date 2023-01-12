@@ -133,6 +133,10 @@
     width: 98%;
 }
 
+.button.wide + .button.wide {
+    margin-block: 1.5rem;
+}
+
 .button.wide7 {
     width: 64%;
     margin-right: 1%;

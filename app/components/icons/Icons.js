@@ -23,23 +23,34 @@ export class BroadcastIcon extends Icon {
   }
 }
 
-export class CopyIcon extends Icon {
-  render() {
-    const { fill, width, height = 22, viewBox = '0 0 19 22' } = this.props;
-    return (
-      <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
-        <path d="M14 0H2C0.9 0 0 0.9 0 2V16H2V2H14V0ZM17 4H6C4.9 4 4 4.9 4 6V20C4 21.1 4.9 22 6 22H17C18.1 22 19 21.1 19 20V6C19 4.9 18.1 4 17 4ZM17 20H6V6H17V20Z" fill="white" />
-      </Icon>
-    );
-  }
-}
-
 export class CheckIcon extends Icon {
   render() {
     const { fill, width, height = 22, viewBox = '0 0 19 22' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
         <path d="M2.3335 4.60188L7.75016 10.2393L15.6668 2" strokeWidth="2" strokeLinecap="square" />
+      </Icon>
+    );
+  }
+}
+
+export class ChevronDownIcon extends Icon {
+  render() {
+    const { fill, width, height = 22, viewBox = '0 0 19 22' } = this.props;
+    return (
+      <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
+        <path d="M10.59 0.590027L6 5.17003L1.41 0.590027L0 2.00003L6 8.00003L12 2.00003L10.59 0.590027Z" fill="black" />
+      </Icon>
+    );
+  }
+}
+
+export class CopyIcon extends Icon {
+  render() {
+    const { fill, width, height = 22, viewBox = '0 0 19 22' } = this.props;
+    return (
+      <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
+        <path d="M14 0H2C0.9 0 0 0.9 0 2V16H2V2H14V0ZM17 4H6C4.9 4 4 4.9 4 6V20C4 21.1 4.9 22 6 22H17C18.1 22 19 21.1 19 20V6C19 4.9 18.1 4 17 4ZM17 20H6V6H17V20Z" fill="white" />
       </Icon>
     );
   }
@@ -189,6 +200,17 @@ export class SwitchIcon extends Icon {
   }
 }
 
+export class TimesIcon extends Icon {
+  render() {
+    const { fill, width = 30, height = 32, viewBox = '0 0 30 32' } = this.props;
+    return (
+      <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
+        <path d="M15.0186 16.0953L29.0727 1.64783" strokeWidth="2" />
+        <path d="M1.25 2.00006L29.25 30.0001" strokeWidth="2" />
+        <path d="M1.42676 30.3522L15.0187 16.0953" strokeWidth="2" />        </Icon>
+    );
+  }
+}
 
 export class TransactionsIcon extends Icon {
   render() {

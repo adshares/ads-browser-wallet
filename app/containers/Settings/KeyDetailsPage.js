@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamation, faChevronLeft } from '@fortawesome/free-solid-svg-icons/index';
 import { secretDataAccess } from '../../actions/settingsActions';
 import ADS from '../../utils/ads';
 import Form from '../../components/atoms/Form';
@@ -52,11 +50,11 @@ class KeyDetailsPage extends PageComponent {
       >
         <Form>
           {secretKey ?
-            <Box layout="warning" icon={faExclamation}>
+            <Box layout="warning" icon={'!'}>
               Store the secret keys safely. Only the public key and signatures can be revealed.
               The secret key must not be transferred to anyone.
             </Box> :
-            <Box layout="warning" icon={faExclamation}>
+            <Box layout="warning" icon={'!'}>
               Cannot find key in the storage. Please import a secret key first.
             </Box>
           }
@@ -84,11 +82,9 @@ class KeyDetailsPage extends PageComponent {
           }
           <ButtonLink
             to={this.getReferrer()}
-            icon="left"
-            layout="info"
+            layout="primary"
             size="wide"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} /> Back
+          >Back
           </ButtonLink>
         </Form>
       </Page>

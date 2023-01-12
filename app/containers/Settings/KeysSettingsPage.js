@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faKey, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { generateKeys, removeKey, SETTINGS } from '../../actions/settingsActions';
 import Page from '../../components/Page/Page';
+import { KeyIcon, BinIcon, PlusIcon } from '../../components/icons/Icons';
 import PageComponent from '../../components/PageComponent';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
@@ -40,31 +39,28 @@ class KeysSettingsPage extends PageComponent {
       <ul className={style.accounts}>
         {keys.map((key, index) =>
           <li key={index} className={style.list}>
-            <span className={style.accountLabel}>
+            <div className={style.accountLabel}>
               <small>{key.name}</small>
               <span>
                 {key.publicKey.substr(0, 8)}…{key.publicKey.substr(key.publicKey.length - 8)}
               </span>
-            </span>
-            <span className={style.accountActions}>
-              <ButtonLink
+            </div>
+            <div className={style.accountActions}>
+              <a
                 to={{
                   pathname: `/settings/keys/${key.publicKey}`,
                   state: { referrer: this.props.history.location }
                 }}
-                size="small"
-                layout="warning"
                 title="Show keys"
-              ><FontAwesomeIcon icon={faKey} /></ButtonLink>
+              ><KeyIcon fill="warning" /></a>
               {removable && (
-                <Button
+                <span
+                  role="button"
                   onClick={() => this.removeKeyAction(key.publicKey)}
-                  size="small"
-                  layout="danger"
                   title="Delete key"
-                ><FontAwesomeIcon icon={faTrashAlt} /></Button>
+                ><BinIcon fill="primary" /></span>
               )}
-            </span>
+            </div>
           </li>
         )}
       </ul>
@@ -84,8 +80,9 @@ class KeysSettingsPage extends PageComponent {
         cancelLink={this.getReferrer()} scroll
         showLoader={page.isSubmitted}
         errorMsg={page.errorMsg}
+        hideSelectAccount
       >
-        <div className={style.section}>
+        <div className={style.settingsSection}>
           <h3>Imported</h3>
           {this.renderKeys(importedKeys, true)}
           <ButtonLink
@@ -95,23 +92,23 @@ class KeysSettingsPage extends PageComponent {
             }}
             icon="left"
             size="wide"
-            layout="info"
+            layout="primary"
             disabled={page.isSubmitted}
           >
-            <FontAwesomeIcon icon={faPlus} /> Import new key
+            <PlusIcon fill="light" /> Import new key
           </ButtonLink>
         </div>
-        <div className={style.section}>
+        <div className={style.settingsSection}>
           <h3>Generated</h3>
           {this.renderKeys(generatedKeys)}
           <Button
             onClick={() => this.generateKeysAction()}
             icon="left"
             size="wide"
-            layout="info"
+            layout="primary"
             disabled={page.isSubmitted}
           >
-            <FontAwesomeIcon icon={faPlus} /> Generate more keys
+            <PlusIcon fill="light" /> Generate more keys
           </Button>
         </div>
       </Page>

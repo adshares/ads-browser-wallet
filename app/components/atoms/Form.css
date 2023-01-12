@@ -36,7 +36,7 @@
 
 .form input:not(input[type='checkbox']) {
     height: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .form input:not(input[type='checkbox']),

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamation, faChevronLeft } from '@fortawesome/free-solid-svg-icons/index';
 import { secretDataAccess } from '../../actions/settingsActions';
 import Form from '../../components/atoms/Form';
 import Box from '../../components/atoms/Box';
@@ -37,7 +35,7 @@ class SeedPhrasePage extends PageComponent {
         cancelLink={this.getReferrer('/settings')}
       >
         <Form>
-          <Box layout="warning" icon={faExclamation}>
+          <Box layout="warning" icon={'!'}>
             Store the seed phrase safely. The seed phrase must not be transferred to anyone.
           </Box>
           <InputControl
@@ -51,8 +49,7 @@ class SeedPhrasePage extends PageComponent {
             icon="left"
             layout="info"
             size="wide"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} /> Back
+          >Back
           </ButtonLink>
         </Form>
       </Page>

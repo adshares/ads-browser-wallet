@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Form from '../../components/atoms/Form';
 import style from './authDialog.css';
 import Button from '../atoms/Button';
@@ -76,13 +74,10 @@ export default class AuthDialog extends PageComponent {
           className={formClasses.join(' ')}
           onSubmit={this.handleSubmit}
         >
-          <h2>
-            <FontAwesomeIcon icon={faLock} className={style.dialogHeaderIcon} />
-            Please authenticate yourself
-          </h2>
+          <h1>Please authenticate yourself</h1>
           <InputControl
             isInput
-            label="password"
+            label="Password"
             type="password"
             name="password"
             value={this.state.password}
@@ -95,19 +90,12 @@ export default class AuthDialog extends PageComponent {
             <Button
               type="reset"
               layout="secondary"
-              inverse
-              icon="left"
               onClick={this.handleCancelClick}
-            >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
-            </Button>
+            >Cancel</Button>
             <Button
               type="submit"
               layout="primary"
-              icon="right"
-            >
-              Confirm <FontAwesomeIcon icon={faCheck} />
-            </Button>
+            >Confirm</Button>
           </Buttons>
         </Form>
       </div>

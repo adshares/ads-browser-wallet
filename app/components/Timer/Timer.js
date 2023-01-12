@@ -1,8 +1,7 @@
 /* eslint-disable no-plusplus */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
+import { WrapIcon } from '../icons/Icons';
 import config from '../../config/config';
 import style from './Timer.css';
 
@@ -64,7 +63,7 @@ export default class Timer extends React.Component {
     return (
       <div className={className} title={this.state.dividend ? 'Dividend block' : 'Current block id'}>
         {bits} #{this.state.block.toString(16).toUpperCase()}
-        {this.state.dividend ? <FontAwesomeIcon icon={faHandHoldingUsd} /> : ''}
+        {this.state.dividend ? <WrapIcon /> : ''}
       </div>
     );
   }

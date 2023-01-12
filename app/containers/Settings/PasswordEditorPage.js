@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons';
 import Page from '../../components/Page/Page';
 import PageComponent from '../../components/PageComponent';
 import InputControl from '../../components/atoms/InputControl';
-import { CheckIcon } from '../../components/icons/Icons';
+import { CheckIcon, TimesIcon } from '../../components/icons/Icons';
 import Form from '../../components/atoms/Form';
 import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -81,7 +79,7 @@ class PasswordEditorPage extends PageComponent {
               layout="info"
               size="wide"
             >
-              <FontAwesomeIcon icon={faTimes} /> Close
+              <TimesIcon /> Close
             </ButtonLink>
           </React.Fragment> :
           <React.Fragment>

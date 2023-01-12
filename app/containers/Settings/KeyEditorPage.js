@@ -3,17 +3,11 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronRight,
-  faExclamation,
-  faInfo,
-  faTimes,
-  faCheck
-} from '@fortawesome/free-solid-svg-icons';
 import FormComponent from '../../components/FormComponent';
+import { CheckIcon } from '../../components/icons/Icons';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import Page from '../../components/Page/Page';
@@ -86,19 +80,19 @@ class KeyEditorPage extends FormComponent {
       >
         {limitWarning ? (
           <div>
-            <Box layout="warning" icon={faInfo}>
+            <Box layout="warning" icon={'i'}>
               Maximum keys limit has been reached. Please remove unused keys.
             </Box>
             <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
-              <FontAwesomeIcon icon={faCheck} /> OK
+              <CheckIcon fill="info" /> OK
             </ButtonLink>
           </div>
         ) : (
           <React.Fragment>
-            {errorMsg ? <Box title="Error" layout="danger" icon={faExclamation}>
+            {errorMsg ? <Box title="Error" layout="danger" icon={'!'}>
               {errorMsg}
             </Box> : ''}
-            <Box icon={faInfo} layout="warning">
+            <Box icon={'!'} layout="warning">
               This key will NOT be recovered after storage erase.
             </Box>
             <Form onSubmit={this.handleSubmit}>
@@ -133,26 +127,21 @@ class KeyEditorPage extends FormComponent {
                   handleChange={this.handleInputChange}
                 />
               }
-              <div className={style.buttons}>
+              <Buttons>
                 <ButtonLink
                   className={style.cancel}
                   to={this.getReferrer()}
-                  inverse
-                  icon="left"
-                  layout="info"
+                  layout="secondary"
                   disabled={isSubmitted}
-                >
-                  <FontAwesomeIcon icon={faTimes} /> Cancel
+                >Cancel
                 </ButtonLink>
                 <Button
                   type="submit"
-                  icon="right"
-                  layout="info"
+                  layout="primary"
                   disabled={isSubmitted}
-                >
-                  Import <FontAwesomeIcon icon={faChevronRight} />
+                >Import
                 </Button>
-              </div>
+              </Buttons>
             </Form>
           </React.Fragment>
         )}

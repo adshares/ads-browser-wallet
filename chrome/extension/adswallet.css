@@ -97,7 +97,7 @@ body {
   /*height: 995px;*/
   overflow-y: scroll;
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
-  line-height: 1.4em;
+  line-height: 1.4;
   padding: 1rem 1rem .25rem;
   text-align: center;
   font-weight: 400;

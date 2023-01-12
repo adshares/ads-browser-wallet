@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { TimesIcon } from '../icons/Icons';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import logo from '../../assets/logomark.svg';
 import config from '../../config/config';
@@ -39,7 +38,7 @@ export default class Header extends React.Component {
           size="small"
           inverse
         >
-          <FontAwesomeIcon icon={faTimes} />
+          <TimesIcon />
         </ButtonLink>
       );
     } else {

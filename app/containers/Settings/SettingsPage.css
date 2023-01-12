@@ -12,22 +12,33 @@
 }
 
 .accounts li {
-    display: grid;
-    grid-template-columns: 70% 1fr;
-    align-items: end;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 0.65rem;
 }
+
+
+/*.accounts li {*/
+/*    display: grid;*/
+/*    grid-template-columns: 70% 1fr;*/
+/*    align-items: end;*/
+/*}*/
 
 .accountLabel {
     text-align: left;
     border-bottom: 1px solid var(--dark);
+    flex-grow: 1;
 }
 
 .accountLabel small {
     display: block;
+    font-size: var(--font-smaller);
+    line-height: 1.4;
 }
 
 .accountActions {
     padding-bottom: .25rem;
+    min-width: 3.5rem;
 }
 
 .accountActions > * {
@@ -82,4 +93,8 @@ a[class*="wide"] {
 
 #ChangePassword .title {
     font-size: 1.75rem;
+}
+
+.list {
+    display: flex;
 }

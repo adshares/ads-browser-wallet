@@ -7,7 +7,7 @@ import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import PageComponent from '../../components/PageComponent';
-import WrapIcon from '../../components/icons/WrapIcon';
+import { WrapIcon } from '../../components/icons/Icons';
 import config from '../../config/config';
 
 class AvailableGatewaysPage extends PageComponent {

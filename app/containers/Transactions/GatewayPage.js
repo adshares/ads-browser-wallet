@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 import config from '../../config/config';
 import {
   cleanForm,
@@ -101,10 +100,9 @@ class GatewayPage extends TransactionPage {
             isInput
             handleChange={this.handleAmountChange}
             errorMessage={amount.errorMsg}
-          >
-            <span>ADS</span>
-            <small>= {amountInUsd}</small>
-          </InputControl>
+          />
+          <span>ADS</span>
+          <small>= {amountInUsd}</small>
         </div>
         <p>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</p>
       </React.Fragment>
@@ -118,7 +116,7 @@ class GatewayPage extends TransactionPage {
   renderFee() {
     return (
       <div className={style.feeInfoBox}>
-        { this.feeShare > config.feeThreshold ? <Box title="" layout="danger" icon={faExclamation}>
+        { this.feeShare > config.feeThreshold ? <Box title="" layout="danger" icon={'!'}>
           The fee exceeded {ADS.formatPercent(config.feeThreshold, 0)}
         </Box> : ''}
         <div className={style.feeInfo}>

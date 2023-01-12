@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList, faCheck, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faList, faCheck } from '@fortawesome/free-solid-svg-icons';
 import PageComponent from '../../components/PageComponent';
 import Page from '../../components/Page/Page';
 import ErrorPage from '../ErrorPage';
@@ -95,8 +95,7 @@ class PendingTransactionsPage extends PageComponent {
               There are no pending transactions
             </Box>
             <ButtonLink to={this.getReferrer()} size="wide" icon="left" layout="info">
-              <FontAwesomeIcon icon={faChevronLeft} /> Back
-            </ButtonLink>
+              Back</ButtonLink>
           </React.Fragment> :
           <React.Fragment>
             {queue.map(item => this.renderItem(item))}

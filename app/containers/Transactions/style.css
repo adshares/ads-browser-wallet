@@ -52,14 +52,20 @@
 /*    margin-top: -15px;*/
 /*}*/
 
-.feeInfo {
+.feeInfoBox {
     text-align: center !important;
     background: var(--warning);
-    padding: .5rem;
+    padding-block: 1.25rem;
     color: var(--light);
     font-size: var(--font-big);
     font-weight: var(--font-weight-bold);
-    /*position: relative;*/
+    margin-block: 1.25rem;
+}
+
+.feeInfo p {
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-normal);
+    margin-bottom: 0;
 }
 
 .transactionSuccess a {
@@ -86,7 +92,7 @@
  }
 
 .pendingPage > div:not(:first-of-type) {
-    border-top: 1px solid var(--dark);
+    border-top: 1             px solid var(--dark);
     margin: 10px 0;
     padding: 10px 0;
 }

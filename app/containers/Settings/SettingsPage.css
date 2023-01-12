@@ -2,7 +2,7 @@
     margin-bottom: 2.5rem;
 }
 
-h3 {
+.settingsSection h3 {
     text-align: left;
 }
 
@@ -32,6 +32,12 @@ h3 {
 
 .accountActions > * {
     margin-inline: .5rem;
+    cursor: pointer;
+}
+
+.accountActions > *:hover,
+.accountActions > *:focus {
+    opacity: 0.7;
 }
 
 .accountActions a:nth-of-type(2) {
@@ -72,4 +78,8 @@ a[class*="wide"] {
     min-width: 30px;
     animation: rotate 1.25s linear infinite;
     color: var(--gray-dark);
+}
+
+#ChangePassword .title {
+    font-size: 1.75rem;
 }

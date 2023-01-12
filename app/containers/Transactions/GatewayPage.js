@@ -80,6 +80,17 @@ class GatewayPage extends TransactionPage {
     const amountInUsd = ADS.calculateToUsd(amount.value, usdRate);
     return (
       <React.Fragment>
+        <div>
+          <InputControl
+            name="address"
+            label={`${fieldLabels.address} (${this.gateway.name})`}
+            value={address.value}
+            isValid={address.isValid}
+            rows={2}
+            handleChange={this.handleAddressChange}
+            errorMessage={address.errorMsg}
+          />
+        </div>
         <div className={style.amount}>
           <InputControl
             name="amount"
@@ -92,21 +103,10 @@ class GatewayPage extends TransactionPage {
             errorMessage={amount.errorMsg}
           >
             <span>ADS</span>
-            <small>{amountInUsd}</small>
+            <small>= {amountInUsd}</small>
           </InputControl>
-          <span>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
         </div>
-        <div>
-          <InputControl
-            name="address"
-            label={`${fieldLabels.address} (${this.gateway.name})`}
-            value={address.value}
-            isValid={address.isValid}
-            rows={2}
-            handleChange={this.handleAddressChange}
-            errorMessage={address.errorMsg}
-          />
-        </div>
+        <p>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</p>
       </React.Fragment>
     );
   }
@@ -123,9 +123,9 @@ class GatewayPage extends TransactionPage {
         </Box> : ''}
         <div className={style.feeInfo}>
           {this.props.gatewayFee.isSubmitted ? <LoaderOverlay /> : ''}
-          <small>You will be charged:</small><br />
+          <span>Fee: </span>
           {ADS.formatClickMoney(this.chargedAmount, 11, true)} ADS
-          <small>You will receive approximately:</small><br />
+          <p>You will receive approximately:</p>
           {this.externalFee === null ? '---' : ADS.formatClickMoney(this.receivedAmount, 11, true)} ADS
         </div>
       </div>

@@ -37,7 +37,7 @@ export default class LoginPage extends FormComponent {
         <div className={style.logo}>
           <AnimatedLogo />
           <h1>Live by ADS</h1>
-          {config.testnet ? <h3>TESTNET</h3> : ''}
+          {config.testnet ? <h2>TESTNET</h2> : ''}
         </div>
         <Form onSubmit={this.handleLogin}>
           <label htmlFor="password">

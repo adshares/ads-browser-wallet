@@ -34,6 +34,17 @@ export class CopyIcon extends Icon {
   }
 }
 
+export class CheckIcon extends Icon {
+  render() {
+    const { fill, width, height = 22, viewBox = '0 0 19 22' } = this.props;
+    return (
+      <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
+        <path d="M2.3335 4.60188L7.75016 10.2393L15.6668 2" strokeWidth="2" strokeLinecap="square" />
+      </Icon>
+    );
+  }
+}
+
 export class ExpandIcon extends Icon {
   render() {
     const { fill, width, height, viewBox } = this.props;
@@ -113,7 +124,7 @@ export class LogOutIcon extends Icon {
 
 export class PaperPlaneIcon extends Icon {
   render() {
-    const { fill, width, height, viewBox } = this.props;
+    const { fill } = this.props;
     return (
       <Icon fill={fill} >
         <path d="M2.51 3.53L10.02 6.75L2.5 5.75L2.51 3.53ZM10.01 12.25L2.5 15.47V13.25L10.01 12.25ZM0.51 0.5L0.5 7.5L15.5 9.5L0.5 11.5L0.51 18.5L21.5 9.5L0.51 0.5Z" />      </Icon>
@@ -123,7 +134,7 @@ export class PaperPlaneIcon extends Icon {
 
 export class PencilIcon extends Icon {
   render() {
-    const { fill, width, height, viewBox } = this.props;
+    const { fill } = this.props;
     return (
       <Icon fill={fill} >
         <path d="M11.06 6.02L11.98 6.94L2.92 16H2V15.08L11.06 6.02ZM14.66 0C14.41 0 14.15 0.1 13.96 0.29L12.13 2.12L15.88 5.87L17.71 4.04C18.1 3.65 18.1 3.02 17.71 2.63L15.37 0.29C15.17 0.09 14.92 0 14.66 0ZM11.06 3.19L0 14.25V18H3.75L14.81 6.94L11.06 3.19Z" />
@@ -134,7 +145,7 @@ export class PencilIcon extends Icon {
 
 export class PlusIcon extends Icon {
   render() {
-    const { fill, width, height, viewBox } = this.props;
+    const { fill } = this.props;
     return (
       <Icon fill={fill} >
         <path d="M14.5 8.5H8.5V14.5H6.5V8.5H0.5V6.5H6.5V0.5H8.5V6.5H14.5V8.5Z" />

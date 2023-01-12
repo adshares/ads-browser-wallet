@@ -53,7 +53,7 @@ class SettingsPage extends FormComponent {
 
   renderKeysSettings() {
     return (
-      <div className={style.section}>
+      <div className={style.settingsSection}>
         <h3>Keys</h3>
         <ButtonLink
           to={{
@@ -110,7 +110,7 @@ class SettingsPage extends FormComponent {
       }
     } = this.props;
     return (
-      <div className={style.section}>
+      <div className={style.settingsSection}>
         <h3>Accounts</h3>
         {this.props.vault.accounts.length > 0 &&
           <ul className={style.accounts}>
@@ -149,7 +149,7 @@ class SettingsPage extends FormComponent {
 
   renderWalletSettings() {
     return (
-      <div className={style.walletSettings}>
+      <div className={style.settingsSection}>
         <h3>Wallet settings</h3>
         <ButtonLink
           to={{

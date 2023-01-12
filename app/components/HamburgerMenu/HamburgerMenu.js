@@ -58,7 +58,7 @@ export default class HamburgerMenu extends PageComponent {
             }
             {config.testnet ?
               <Link to={'/mainnet'} className={style.menuItem}>
-                <ExpandIcon width={20} height={20} viewBox="0 0 20 16" />
+                <RecycleIcon width={20} height={20} />
                 <span className={style.menuItemLink}>Switch to the mainnet</span>
               </Link> :
               <Link to={'/testnet'} className={style.menuItem}>

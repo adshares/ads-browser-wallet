@@ -30,19 +30,19 @@
     font-size: var(--font-small);
 }
 
+.form textarea {
+    margin-bottom: .5rem;
+}
+
 .form input:not(input[type='checkbox']) {
-    height: 3rem;
+    height: 2rem;
+    margin-bottom: 1rem;
 }
 
 .form input:not(input[type='checkbox']),
 .form textarea {
     padding: 0.5rem;
-    margin-bottom: 1.5rem;
 }
-
-/*.form textarea {*/
-/*    padding: 0.8rem 0.6rem;*/
-/*}*/
 
 .form select {
     line-height: 30px;

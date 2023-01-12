@@ -2,17 +2,5 @@
     display: flex;
     margin-block: 3rem;
     justify-content: center;
-    gap: 1rem;
-    /*margin-top: 2rem;*/
-    /*margin-bottom: 3rem;*/
+    gap: 2.5rem;
 }
-
-/*.buttons > *:first-child {*/
-/*    margin-left: auto;*/
-/*    margin-right: 1rem;*/
-/*}*/
-
-/*.buttons > *:last-child {*/
-/*    margin-left: 1rem;*/
-/*    margin-right: auto;*/
-/*}*/

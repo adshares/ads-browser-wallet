@@ -3,23 +3,16 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import { Link, withRouter } from 'react-router-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faExclamation } from '@fortawesome/free-solid-svg-icons';
-// import ButtonLink from '../atoms/ButtonLink';
 import SelectAccount from '../SelectAccount/SelectAccount';
-// import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import AuthDialog from '../authDialog/authDialog';
 import LoaderOverlay from '../atoms/LoaderOverlay';
 import Timer from '../Timer/Timer';
 import * as VaultActions from '../../actions/vaultActions';
 import * as FormActions from '../../actions/formActions';
 import * as AuthDialogActions from '../../actions/authDialogActions';
-// import logo from '../../assets/logomark.svg';
-// import config from '../../config/config';
-import style from './Page.css';
 import Header from '../atoms/Header';
 import Box from '../atoms/Box';
+import style from './Page.css';
 
 class Page extends React.Component {
   static propTypes = {
@@ -64,8 +57,10 @@ class Page extends React.Component {
     let sectionId;
 
     if (title) {
+      console.log(title.length);
       sectionId = title.split(/\s+/).map(i => i.charAt(0).toUpperCase() + i.slice(1)).join('');
     }
+
 
     let classes = [];
     // classes.push(style.header);

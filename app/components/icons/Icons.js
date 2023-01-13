@@ -36,7 +36,7 @@ export class CheckIcon extends Icon {
 
 export class ChevronDownIcon extends Icon {
   render() {
-    const { fill, width, height = 22, viewBox = '0 0 19 22' } = this.props;
+    const { fill, width, height = 18, viewBox = '0 0 19 6' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
         <path d="M10.59 0.590027L6 5.17003L1.41 0.590027L0 2.00003L6 8.00003L12 2.00003L10.59 0.590027Z" fill="black" />

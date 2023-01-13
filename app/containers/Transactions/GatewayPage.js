@@ -102,7 +102,7 @@ class GatewayPage extends TransactionPage {
             errorMessage={amount.errorMsg}
           />
           <span>ADS</span>
-          <small>= {amountInUsd}</small>
+          <small>{amountInUsd}</small>
         </div>
         <p>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</p>
       </React.Fragment>

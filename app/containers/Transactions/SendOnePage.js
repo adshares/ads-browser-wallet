@@ -76,8 +76,7 @@ class SendOnePage extends TransactionPage {
           <small>{amountInUsd}</small>
         </div>
         <p className={style.transferBalance}>Balance:
-          <span> {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
-        </p>
+          <span> {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span></p>
         <div className={style.messageCheckbox}>
           <CheckboxControl
             name="rawMessage"

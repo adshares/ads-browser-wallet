@@ -42,18 +42,20 @@ class AvailableGatewaysPage extends PageComponent {
             <WrapIcon /> {gateway.name}
           </ButtonLink>
         )}
-        <ButtonLink
-          className={style.unwrap}
-          icon="left"
-          layout="primary"
-          external
-          size="wide"
-          target="_blank"
-          rel="noopener noreferrer"
-          href={config.unwrapUrl}
-        >
-          <WrapIcon rotate /> Unwrap
-        </ButtonLink>
+        <div className={style.unwrap}>
+          <ButtonLink
+            className={style.unwrap}
+            icon="left"
+            layout="primary"
+            external
+            size="wide"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={config.unwrapUrl}
+          >
+            <WrapIcon rotate /> Unwrap
+          </ButtonLink>
+        </div>
       </div>
     );
   }

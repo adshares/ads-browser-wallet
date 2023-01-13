@@ -92,7 +92,7 @@
  }
 
 .pendingPage > div:not(:first-of-type) {
-    border-top: 1             px solid var(--dark);
+    border-top: 1px solid var(--dark);
     margin: 10px 0;
     padding: 10px 0;
 }
@@ -118,19 +118,15 @@
     margin-bottom: 2.5rem;
 }
 
-.availableLinkCancel {
-    margin-bottom: 3.5rem;
-}
+/*.availableLinkCancel {*/
+/*    margin-bottom: 3.5rem;*/
+/*}*/
 
 .unwrap {
     margin-top: 3rem;
 }
 
-.unwrap svg {
-    transform: rotatey(180deg);
-}
-
-.changeAccountKeyPage title {
-    margin: 0 0 1rem;
-    font-size: 1.75rem;
-}
+/*.changeAccountKeyPage title {*/
+/*    margin: 0 0 1rem;*/
+/*    font-size: 1.75rem;*/
+/*}*/

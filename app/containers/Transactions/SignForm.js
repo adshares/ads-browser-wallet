@@ -6,6 +6,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons/index';
 import { TransactionDataError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
+import { LinkIcon } from '../../components/icons/Icons';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
 import Buttons from '../../components/atoms/Buttons';
@@ -217,7 +218,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {nodeId}<FontAwesomeIcon icon={faLink} />
+          {nodeId}<LinkIcon />
         </a></td>
       </tr>
     );
@@ -232,7 +233,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {blockId}<FontAwesomeIcon icon={faLink} />
+          {blockId}<LinkIcon />
         </a></td>
       </tr>
     );
@@ -244,7 +245,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {transactionId}<FontAwesomeIcon icon={faLink} />
+          {transactionId}<LinkIcon />
         </a></td>
       </tr>
     );

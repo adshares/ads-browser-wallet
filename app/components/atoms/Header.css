@@ -24,7 +24,7 @@
 .title {
     margin: 0;
     font-size: 1.75rem;
-    line-height: 1.05;
+    /*line-height: 1.05;*/
     max-width: 18rem;
 }
 

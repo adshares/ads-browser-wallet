@@ -14,11 +14,11 @@
     width: 96%;
     outline: 0;
     box-shadow: var(--shadow-dark);
-    margin: 0.3rem auto;
+    margin: 0.3rem auto 1rem;
 }
 
 .form input:focus, .form textarea:focus, .form select:focus {
-    border: 4px solid var(--info);
+    border: 4px solid var(--success);
 }
 
 .form label:not:has(input[type='checkbox']) {

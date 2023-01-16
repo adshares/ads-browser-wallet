@@ -11,9 +11,11 @@ export default class AboutPage extends PageComponent {
     const isBeta = parseInt(manifest.version.split('.')[0], 10) < 1;
 
     return (
-      <Page cancelLink={this.getReferrer()} title={manifest.name}>
+      <Page cancelLink={this.getReferrer()} hideSelectAccount >
+        {/*<Page cancelLink={this.getReferrer()} title={manifest.name} hideSelectAccount >*/}
         <section className={style.aboutVersion}>
-         Version: {manifest.version}{isBeta ? ' (beta)' : ''}
+          <h1>{manifest.name}</h1>
+          <span>Version: {manifest.version}{isBeta ? ' (beta)' : ''} </span>
         </section>
         <section className={style.aboutLogo}>
           <Logo />

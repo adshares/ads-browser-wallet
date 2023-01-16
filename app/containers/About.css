@@ -35,7 +35,12 @@ h1 {
 
 .aboutVersion {
     text-align: right;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
+}
+
+.aboutVersion h1 {
+    text-align: center;
+    margin-bottom: 0;
 }
 
 .aboutText {

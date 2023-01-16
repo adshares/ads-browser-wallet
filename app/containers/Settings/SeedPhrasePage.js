@@ -33,6 +33,7 @@ class SeedPhrasePage extends PageComponent {
         className={style.page}
         title="Seed phrase"
         cancelLink={this.getReferrer('/settings')}
+        hideSelectAccount
       >
         <Form>
           <Box layout="warning" icon={'!'}>
@@ -46,11 +47,8 @@ class SeedPhrasePage extends PageComponent {
           />
           <ButtonLink
             to={this.getReferrer()}
-            icon="left"
-            layout="info"
-            size="wide"
-          >Back
-          </ButtonLink>
+            layout="secondary"
+          >Back</ButtonLink>
         </Form>
       </Page>
     );

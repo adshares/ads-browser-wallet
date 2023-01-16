@@ -18,7 +18,7 @@
 }
 
 .button:not(.button ~ .button):not(:first-child:nth-last-child(n+1)):not(.wide) {
-    margin-inline: auto;
+    margin: 1rem auto 2rem;
 }
 
 .button svg {

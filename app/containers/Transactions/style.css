@@ -52,14 +52,19 @@
 /*    margin-top: -15px;*/
 /*}*/
 
-.feeInfoBox {
+.feeInfoBox,
+.feeInfo {
     text-align: center !important;
     background: var(--warning);
-    padding-block: 1.25rem;
     color: var(--light);
     font-size: var(--font-big);
     font-weight: var(--font-weight-bold);
     margin-block: 1.25rem;
+    padding-block: .25rem;
+}
+
+.feeInfoBox {
+    padding-block: 1.25rem;
 }
 
 .feeInfo p {

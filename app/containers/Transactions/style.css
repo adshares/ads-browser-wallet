@@ -135,3 +135,33 @@
 /*    margin: 0 0 1rem;*/
 /*    font-size: 1.75rem;*/
 /*}*/
+
+.transactionSummary *:is(a, small, .boldBlock){
+    text-align: right;
+}
+
+.transactionSummary h1 {
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: var(--font-weight-bolder);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.transactionSummary [cardClass="lineVertical"] a {
+    color: var(--light);
+}
+
+.transactionSummary [cardClass="lineVertical"] a svg {
+    color: var(--light);
+}
+
+.blockBold {
+    font-weight: var(--font-weight-bolder);
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.blockBold svg {
+    margin-bottom: -0.25rem;
+}

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
-import AnimatedLogo from '../../components/Logo/AnimatedLogo';
+import Logo from '../../components/Logo/Logo';
 import config from '../../config/config';
 import style from './LoginPage.css';
 
@@ -35,7 +35,7 @@ export default class LoginPage extends FormComponent {
     return (
       <div>
         <div className={style.logo}>
-          <AnimatedLogo />
+          <Logo />
           <h1>Live by ADS</h1>
           {config.testnet ? <h2>TESTNET</h2> : ''}
         </div>

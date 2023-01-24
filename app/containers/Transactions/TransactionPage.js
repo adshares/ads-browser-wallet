@@ -3,11 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCheck,
   faExclamation,
   faLink,
-  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
+import { LinkIcon } from '../../components/icons/Icons';
 import ADS from '../../utils/ads';
 import config from '../../config/config';
 import { prepareCommand } from '../../epics/transactionEpics';
@@ -140,34 +139,33 @@ export default class TransactionPage extends PageComponent {
     const addressLink = `${config.operatorUrl}blockexplorer/transactions/`;
 
     return (
-      <React.Fragment>
-        <Box title="Success" layout="success" icon={faCheck} className={style.transactionSuccess}>
-          Transaction id:
-          <ButtonLink
-            external
-            href={`${addressLink}${transactionId}`}
-            icon="right"
-            layout="secondary"
-            size="wide"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {transactionId}<FontAwesomeIcon icon={faLink} />
-          </ButtonLink>
-          <small>Transaction fee:
-            <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
-          </small>
-        </Box>
+      <div className={style.transactionSummary}>
+        <div cardClass="lineVertical" >
+          <h1>Success</h1>
+          <div>
+            <small>Transaction id:</small>
+            <a
+              className={style.blockBold}
+              external
+              href={`${addressLink}${transactionId}`}
+              icon="right"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {transactionId}<LinkIcon fill={'primary'} />
+            </a>
+            <small>Transaction fee:</small>
+            <span className={style.blockBold}>
+              {ADS.formatAdsMoney(transactionFee, 11, true)} ADS</span>
+          </div>
+        </div>
         <ButtonLink
           to={this.getReferrer()}
           onClick={this.handleCloseForm}
-          icon="left"
-          layout="primary"
-          size="wide"
-        >
-          <FontAwesomeIcon icon={faTimes} /> Close
+          layout="secondary"
+        > Back
         </ButtonLink>
-      </React.Fragment>
+      </div>
     );
   }
 

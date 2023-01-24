@@ -171,10 +171,15 @@ div[cardClass="lineHorizontal"] {
 }
 
 div[cardClass="lineVertical"] {
-  background: url(../../app/assets/subway-horizontal.svg),
+  background: url(../../app/assets/subway-vertical.svg),
   var(--dark);
   background-repeat: no-repeat;
-  padding: 1.8rem 1.5rem 1.5rem 4rem;
+  background-position: left -20% top 100%;
+  padding: 1.5rem;
+}
+
+div[cardClass="lineVertical"] > div {
+  padding-left: 4rem;
 }
 
 /*svg:not:has(.logoMark) {*/

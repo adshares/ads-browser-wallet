@@ -155,7 +155,7 @@ button {
   font-family: inherit;
 }
 
-div[cardClass] {
+div[cardclass] {
   color: var(--light);
   border-radius: 1rem;
   margin-inline: 0.5rem;
@@ -163,14 +163,14 @@ div[cardClass] {
   text-align: left;
 }
 
-div[cardClass="lineHorizontal"] {
+div[cardclass="lineHorizontal"] {
   background: url(../../app/assets/subway-horizontal.svg),
   var(--dark);
   background-repeat: no-repeat;
   padding: 1rem 1.5rem 1.5rem 5rem;
 }
 
-div[cardClass="lineVertical"] {
+div[cardclass="lineVertical"] {
   background: url(../../app/assets/subway-vertical.svg),
   var(--dark);
   background-repeat: no-repeat;
@@ -178,7 +178,7 @@ div[cardClass="lineVertical"] {
   padding: 1.5rem;
 }
 
-div[cardClass="lineVertical"] > div {
+div[cardclass="lineVertical"] > div {
   padding-left: 4rem;
 }
 

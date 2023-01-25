@@ -1,11 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faExclamation,
-  faLink,
-} from '@fortawesome/free-solid-svg-icons';
 import { LinkIcon } from '../../components/icons/Icons';
 import ADS from '../../utils/ads';
 import config from '../../config/config';
@@ -140,7 +135,7 @@ export default class TransactionPage extends PageComponent {
 
     return (
       <div className={style.transactionSummary}>
-        <div cardClass="lineVertical" >
+        <div cardclass="lineVertical" >
           <h1>Success</h1>
           <div>
             <small>Transaction id:</small>
@@ -281,7 +276,7 @@ export default class TransactionPage extends PageComponent {
       >
         {this.getDescription() ?
           <p className={style.description}><small>{this.getDescription()}</small></p> : ''}
-        {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
+        {errorMsg ? <Box title="Error" layout="warning" icon={'!'}>
           {errorMsg}
         </Box> : ''}
         {isTransactionSent ? this.renderSuccessInfo() : this.renderForm()}

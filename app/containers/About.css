@@ -26,6 +26,11 @@ h1 {
     margin-bottom: 1.25rem;
 }
 
+.aboutLinks a {
+    border-bottom: 1px solid transparent;
+    padding: 0.05rem;
+}
+
 .aboutLinks a:hover,
 .aboutLinks a:focus {
     opacity: 1;

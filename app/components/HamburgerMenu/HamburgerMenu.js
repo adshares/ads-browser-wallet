@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ExpandIcon, RecycleIcon, SettingsIcon, TransactionsIcon, InfoCircleIcon, SwitchIcon, LogOutIcon } from '../icons/Icons';
-import { Link } from 'react-router-dom';
 import config from '../../config/config';
 import style from './HamburgerMenu.css';
 import PageComponent from '../PageComponent';
@@ -30,6 +30,19 @@ export default class HamburgerMenu extends PageComponent {
     this.setState({
       menuOpened: status
     });
+  }
+
+  toggleMode(status) {
+    this.setState({
+      lightMode: status
+    });
+    const root = document.querySelector(':root');
+    const rootStyle = getComputedStyle(root);
+    if (!this.state.lightMode) {
+      root.style.setProperty('--dark', '#fff');
+      root.style.setProperty('--light', '#000');
+      console.log(rootStyle.getPropertyValue('--dark'));
+    }
   }
 
   render() {
@@ -85,11 +98,13 @@ export default class HamburgerMenu extends PageComponent {
               </Link>
             </li>
             <li>
-              <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
+              <span href="/logout" className={style.menuItem} onClick={() => this.toggleMode(!this.state.lightMode)}>
                 <SwitchIcon width={22} height={16} viewBox="0 0 22 14" />
-                {/*<SwitchIcon width={22} height={20} viewBox="0 0 22 14" />*/}
-                <span className={style.menuItemLink}>Switch to dark mode</span>
-              </a>
+                {this.state.lightMode ?
+                  <span className={style.menuItemLink}>Switch to dark mode</span>
+                  : <span className={style.menuItemLink}>Switch to light mode</span>
+                }
+              </span>
             </li>
             <li>
               <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>

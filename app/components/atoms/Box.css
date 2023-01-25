@@ -2,12 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 88%;
-    margin-bottom: 3rem;
-    margin-inline: auto;
+    max-width: 88% !important;
+    margin: 2rem auto 3rem;
     font-weight: var(--font-weight-medium);
     line-height: 1.2;
     gap: 1.3rem;
+    text-align: center !important;
 }
 
 .box a {

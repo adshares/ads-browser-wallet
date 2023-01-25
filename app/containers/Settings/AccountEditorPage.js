@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import {
-  faCheck,
-  faInfo,
-  faSpinner,
-  faExclamation
-} from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
@@ -86,12 +81,10 @@ class AccountEditorPage extends FormComponent {
   renderLimitWarning() {
     return (
       <React.Fragment>
-        <Box layout="warning" icon={faInfo}>
+        <Box layout="warning" icon={'i'}>
           Maximum account limit has been reached. Please remove unused accounts.
         </Box>
-        <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
-          <FontAwesomeIcon icon={faCheck} /> OK
-        </ButtonLink>
+        <ButtonLink to={this.getReferrer()} layout="primary">OK</ButtonLink>
       </React.Fragment>
     );
   }
@@ -110,7 +103,7 @@ class AccountEditorPage extends FormComponent {
 
     return (
       <React.Fragment>
-        {errorMsg && <Box title="Error" layout="danger" icon={faExclamation}>
+        {errorMsg && <Box title="Error" layout="danger" icon={'!'}>
           {errorMsg}
         </Box>}
         <Form onSubmit={this.handleSubmit}>
@@ -150,7 +143,7 @@ class AccountEditorPage extends FormComponent {
             </InputControl>
             : '' }
           {publicKeyErrorMsg ?
-            <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
+            <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={'!'}>
               {publicKeyErrorMsg}
             </Box> : ''
           }

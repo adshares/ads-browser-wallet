@@ -148,11 +148,11 @@
     margin-bottom: 2rem;
 }
 
-.transactionSummary [cardClass="lineVertical"] a {
+.transactionSummary [cardclass="lineVertical"] a {
     color: var(--light);
 }
 
-.transactionSummary [cardClass="lineVertical"] > div {
+.transactionSummary [cardclass="lineVertical"] > div {
     text-align: right;
 }
 

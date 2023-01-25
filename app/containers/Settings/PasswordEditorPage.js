@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import Page from '../../components/Page/Page';
 import PageComponent from '../../components/PageComponent';
 import InputControl from '../../components/atoms/InputControl';
-import { CheckIcon, TimesIcon } from '../../components/icons/Icons';
 import Form from '../../components/atoms/Form';
 import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
@@ -70,16 +69,13 @@ class PasswordEditorPage extends PageComponent {
         </Box> : ''}
         {isPasswordChanged ?
           <React.Fragment>
-            <Box title="Success" layout="success" icon={'!'}>
+            <Box title="Success" layout="warning" icon={'!'}>
               Password has been changed
             </Box>
             <ButtonLink
               to={this.getReferrer()}
-              icon="left"
-              layout="info"
-              size="wide"
-            >
-              <TimesIcon /> Close
+              layout="secondary"
+            >Back
             </ButtonLink>
           </React.Fragment> :
           <React.Fragment>

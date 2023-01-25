@@ -54,14 +54,6 @@ class Page extends React.Component {
       hideSelectAccount
     } = this.props;
 
-    let sectionId;
-
-    if (title) {
-      console.log(title.length);
-      sectionId = title.split(/\s+/).map(i => i.charAt(0).toUpperCase() + i.slice(1)).join('');
-    }
-
-
     let classes = [];
     // classes.push(style.header);
     // if (smallTitle) {
@@ -97,7 +89,7 @@ class Page extends React.Component {
     //   menu = <HamburgerMenu logoutAction={actions.vault.seal} />;
     // }
     return (
-      <section id={sectionId}>
+      <section>
         {showLoader && <LoaderOverlay />}
         <AuthDialog
           {...authDialog}

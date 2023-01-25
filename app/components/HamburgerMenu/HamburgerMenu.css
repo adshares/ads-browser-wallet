@@ -54,7 +54,7 @@
     box-shadow: -2px 2px 8px rgb(0,0,0,0.2);
     background-color: var(--light);
     z-index: 1;
-    padding: 2.5rem 4rem 1rem 1.5rem;
+    padding: 4rem 4rem 1rem 1.5rem;
     font-size: var(--font-small);
     transform: translateY(-150%);
     transition: all 500ms ease-in;
@@ -85,9 +85,14 @@
 
 .menuItem svg {
     margin-right: 0.75rem;
+    padding-bottom: 0.25rem;
+}
+
+.menuItemLink {
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid transparent;
 }
 
 .menuItemLink:hover {
-    padding-bottom: 0.25rem;
     border-bottom: 1px solid var(--dark);
 }

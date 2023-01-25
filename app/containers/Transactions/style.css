@@ -152,16 +152,18 @@
     color: var(--light);
 }
 
-.transactionSummary [cardClass="lineVertical"] a svg {
-    color: var(--light);
+.transactionSummary [cardClass="lineVertical"] > div {
+    text-align: right;
 }
 
 .blockBold {
     font-weight: var(--font-weight-bolder);
     display: block;
+    margin-top: .5rem;
     margin-bottom: 2rem;
 }
 
 .blockBold svg {
-    margin-bottom: -0.25rem;
+    margin-bottom: -0.4rem;
+    margin-left: 1rem;
 }

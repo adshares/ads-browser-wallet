@@ -34,14 +34,15 @@ export default class HamburgerMenu extends PageComponent {
 
   toggleMode(status) {
     this.setState({
-      lightMode: status
+      darkMode: status
     });
     const root = document.querySelector(':root');
-    const rootStyle = getComputedStyle(root);
-    if (!this.state.lightMode) {
+    if (!this.state.darkMode) {
       root.style.setProperty('--dark', '#fff');
       root.style.setProperty('--light', '#000');
-      console.log(rootStyle.getPropertyValue('--dark'));
+    } else {
+      root.style.setProperty('--light', '#fff');
+      root.style.setProperty('--dark', '#000');
     }
   }
 
@@ -98,11 +99,11 @@ export default class HamburgerMenu extends PageComponent {
               </Link>
             </li>
             <li>
-              <span href="/logout" className={style.menuItem} onClick={() => this.toggleMode(!this.state.lightMode)}>
+              <span href="/logout" className={style.menuItem} onClick={() => this.toggleMode(!this.state.darkMode)}>
                 <SwitchIcon width={22} height={16} viewBox="0 0 22 14" />
-                {this.state.lightMode ?
-                  <span className={style.menuItemLink}>Switch to dark mode</span>
-                  : <span className={style.menuItemLink}>Switch to light mode</span>
+                {this.state.darkMode ?
+                  <span className={style.menuItemLink}>Switch to light mode</span>
+                  : <span className={style.menuItemLink}>Switch to dark mode</span>
                 }
               </span>
             </li>

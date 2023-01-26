@@ -96,21 +96,21 @@
 }
 
 body {
-  overflow-x: hidden;
-  /*height: 995px;*/
-  overflow-y: scroll;
-  font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
-  line-height: 1.4;
-  padding: 1rem 1rem .25rem;
-  text-align: center;
-  font-weight: 400;
-  background: var(--light);
-  color: var(--dark);
   box-sizing: border-box;
-  max-height: 860px;
+  /*height: 995px;*/
+  /*max-height: 860px;*/
+  /*overflow-y: scroll;*/
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
+  font-weight: 400;
+  text-align: center;
+  color: var(--dark);
+  line-height: 1.4;
+  padding: .75rem 1rem .25rem;
+  background: var(--light);
 }
 
 h1, h2, h3, h4, h5, h6 {

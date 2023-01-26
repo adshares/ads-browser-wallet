@@ -39,13 +39,6 @@ class Page extends React.Component {
       vault,
       actions,
       title,
-      // subTitle,
-      // cancelLink,
-      // onCancelClick,
-      // noLinks,
-      // homeLink,
-      // scroll,
-      // smallTitle,
       children,
       className,
       showLoader,
@@ -55,12 +48,7 @@ class Page extends React.Component {
     } = this.props;
 
     let classes = [];
-    // classes.push(style.header);
-    // if (smallTitle) {
-    //   classes.push(style.smallHeader);
-    // }
-    // const headerClass = classes.join(' ');
-    //
+
     classes = [];
     classes.push(style.contentWrapper);
     if (className) {
@@ -70,24 +58,7 @@ class Page extends React.Component {
       classes.push(style.withScroll);
     }
     const wrapperClass = classes.join(' ');
-    // let menu;
-    // if (noLinks) {
-    //   menu = <div />;
-    // } else if (cancelLink) {
-    //   menu = (
-    //     <ButtonLink
-    //       to={cancelLink}
-    //       onClick={onCancelClick}
-    //       className={style.close}
-    //       size="small"
-    //       inverse
-    //     >
-    //       <FontAwesomeIcon icon={faTimes} />
-    //     </ButtonLink>
-    //   );
-    // } else {
-    //   menu = <HamburgerMenu logoutAction={actions.vault.seal} />;
-    // }
+
     return (
       <section>
         {showLoader && <LoaderOverlay />}

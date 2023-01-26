@@ -55,7 +55,7 @@ export default class LoginPage extends FormComponent {
           </Button>
         </Form>
         <div className={style.links}>
-          <Link to={'/restore'}>Restore the vault from a seed</Link><br />
+          <Link to={'/restore'}>Restore the vault from a seed</Link>
           {config.testnet ?
             <Link to={'/mainnet'}>Switch to the mainnet</Link> :
             <Link to={'/testnet'}>Switch to the testnet</Link>

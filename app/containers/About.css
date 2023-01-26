@@ -2,13 +2,13 @@ section {
     font-size: inherit;
 }
 
-h1 {
+.aboutVersion h1 {
     margin-block: 0;
 }
 
 .aboutLogo {
     text-align: center;
-    margin: 1.25rem 0;
+    margin: 1rem 0;
 }
 
 .aboutLogo svg {

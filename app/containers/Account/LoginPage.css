@@ -1,14 +1,14 @@
-.logo {
-    margin: 20px auto 30px auto;
-}
+/*.logo {*/
+/*    margin: 20px auto 30px auto;*/
+/*}*/
 
 .logo svg {
     width: 140px;
 }
 
-.logo h1 {
-    margin-top: -20px;
-}
+/*.logo h1 {*/
+/*    margin-top: -20px;*/
+/*}*/
 
 .logo h2 {
     font-size: var(--font-smaller);
@@ -16,8 +16,13 @@
 }
 
 .links {
-    margin-top: 30px;
+    margin-block: 1rem;
     font-size: var(--font-small);
     font-weight: var(--font-weight-light);
+}
+
+.links a {
+    display: block;
+    margin-bottom: .35rem;
 }
 

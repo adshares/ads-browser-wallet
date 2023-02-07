@@ -14,10 +14,17 @@ export class BinIcon extends Icon {
 
 export class BroadcastIcon extends Icon {
   render() {
-    const { fill, width, height, viewBox } = this.props;
+    const { fill, width = 25, height = 25, viewBox = '0 0 25 25' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
-        <path d="M11 6V16H3V6H11ZM9.5 0H4.5L3.5 1H0V3H14V1H10.5L9.5 0ZM13 4H1V16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4Z" />
+        <g clipPath="url(#clip0_255_325)">
+          <path d="M6.5 3.5H3.5V6.5C5.16 6.5 6.5 5.16 6.5 3.5ZM14.5 3.5H12.5C12.5 8.47 8.47 12.5 3.5 12.5V14.5C9.58 14.5 14.5 9.57 14.5 3.5ZM10.5 3.5H8.5C8.5 6.26 6.26 8.5 3.5 8.5V10.5C7.37 10.5 10.5 7.37 10.5 3.5ZM10.5 21.5H12.5C12.5 16.53 16.53 12.5 21.5 12.5V10.5C15.43 10.5 10.5 15.43 10.5 21.5ZM18.5 21.5H21.5V18.5C19.84 18.5 18.5 19.84 18.5 21.5ZM14.5 21.5H16.5C16.5 18.74 18.74 16.5 21.5 16.5V14.5C17.63 14.5 14.5 17.63 14.5 21.5Z" />
+        </g>
+        <defs>
+          <clipPath id="clip0_255_325">
+            <rect width="25" height="25" transform="translate(0.5 0.5)" />
+          </clipPath>
+        </defs>
       </Icon>
     );
   }
@@ -39,7 +46,7 @@ export class ChevronDownIcon extends Icon {
     const { fill, width, height = 18, viewBox = '0 0 19 6' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
-        <path d="M10.59 0.590027L6 5.17003L1.41 0.590027L0 2.00003L6 8.00003L12 2.00003L10.59 0.590027Z" fill="black" />
+        <path d="M10.59 0.590027L6 5.17003L1.41 0.590027L0 2.00003L6 8.00003L12 2.00003L10.59 0.590027Z" />
       </Icon>
     );
   }
@@ -50,7 +57,7 @@ export class CopyIcon extends Icon {
     const { fill, width, height = 22, viewBox = '0 0 19 22' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
-        <path d="M14 0H2C0.9 0 0 0.9 0 2V16H2V2H14V0ZM17 4H6C4.9 4 4 4.9 4 6V20C4 21.1 4.9 22 6 22H17C18.1 22 19 21.1 19 20V6C19 4.9 18.1 4 17 4ZM17 20H6V6H17V20Z" fill="white" />
+        <path d="M14 0H2C0.9 0 0 0.9 0 2V16H2V2H14V0ZM17 4H6C4.9 4 4 4.9 4 6V20C4 21.1 4.9 22 6 22H17C18.1 22 19 21.1 19 20V6C19 4.9 18.1 4 17 4ZM17 20H6V6H17V20Z" />
       </Icon>
     );
   }
@@ -228,7 +235,8 @@ export class WrapIcon extends Icon {
     const { fill, rotate } = this.props;
     return (
       <Icon fill={fill} rotate={rotate} >
-        <path d="M6.59 5.67L1.41 0.5L0 1.91L5.17 7.08L6.59 5.67ZM10.5 0.5L12.54 2.54L0 15.09L1.41 16.5L13.96 3.96L16 6V0.5H10.5ZM10.83 9.91L9.42 11.32L12.55 14.45L10.5 16.5H16V11L13.96 13.04L10.83 9.91Z" fill="black" />      </Icon>
+        <path d="M6.59 5.67L1.41 0.5L0 1.91L5.17 7.08L6.59 5.67ZM10.5 0.5L12.54 2.54L0 15.09L1.41 16.5L13.96 3.96L16 6V0.5H10.5ZM10.83 9.91L9.42 11.32L12.55 14.45L10.5 16.5H16V11L13.96 13.04L10.83 9.91Z" />
+      </Icon>
     );
   }
 }

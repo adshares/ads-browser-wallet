@@ -1,21 +1,26 @@
 .dark {
     fill: var(--dark);
+    stroke: var(--dark);
 }
 
 .light {
     fill: white;
+    stroke: white;
 }
 
 .primary {
     fill: var(--primary);
+    stroke: var(--primary);
 }
 
 .warning {
     fill: var(--warning);
+    stroke: var(--warning);
 }
 
 .info {
     fill: var(--info);
+    stroke: var(--info);
 }
 
 .rotate {

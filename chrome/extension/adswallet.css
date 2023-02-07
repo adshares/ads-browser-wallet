@@ -97,10 +97,10 @@
 
 body {
   box-sizing: border-box;
-  /*height: 995px;*/
+  height: 995px;
   /*max-height: 860px;*/
   /*overflow-y: scroll;*/
-  overflow-x: hidden;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -111,6 +111,10 @@ body {
   line-height: 1.4;
   padding: .75rem 1rem .25rem;
   background: var(--light);
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 h1, h2, h3, h4, h5, h6 {

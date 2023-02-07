@@ -15,6 +15,12 @@
     outline: 0;
     box-shadow: var(--shadow-dark);
     margin: 0.3rem auto 1rem;
+    background-color: white;
+    color: black;
+}
+
+.form input:focus {
+    background-color: white;
 }
 
 .form input:focus, .form textarea:focus, .form select:focus {

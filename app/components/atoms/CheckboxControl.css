@@ -57,12 +57,13 @@
 /*}*/
 
 input[type="checkbox" i] {
+    position: relative;
     height: 1rem;
     aspect-ratio: 1;
     margin-right: .75rem;
     border-radius: 0;
     box-shadow: inset 1px -1px, inset 1px 1px;
-    position: relative;
+    cursor: pointer;
 }
 
 input[type="checkbox" i]:checked:after {

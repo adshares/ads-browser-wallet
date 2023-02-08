@@ -24,18 +24,16 @@
     color: black;
 }
 
-.form input:focus {
-    background-color: white;
-}
-
 .darkMode .form input {
     background-color: pink;
     color: green;
     border: 1px solid red;
 }
-
-.form input:focus, .form textarea:focus, .form select:focus {
+.form input:not(input[type='checkbox']):focus,
+.form textarea:focus,
+.form select:focus {
     border: 2px solid var(--success);
+    background-color: white;
 }
 
 .form label:not:has(input[type='checkbox']) {
@@ -53,7 +51,6 @@
 
 .form input:not(input[type='checkbox']) {
     height: 2rem;
-    margin-bottom: 1.5rem;
 }
 
 .form select {
@@ -62,7 +59,9 @@
     height: 30px;
 }
 
-form input[readonly], .form textarea[readonly], .form select[readonly] {
+form input[readonly],
+.form textarea[readonly],
+.form select[readonly] {
     background-color: white;
 }
 

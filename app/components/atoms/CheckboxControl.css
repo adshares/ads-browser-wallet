@@ -61,7 +61,7 @@ input[type="checkbox" i] {
     aspect-ratio: 1;
     margin-right: .75rem;
     border-radius: 0;
-    box-shadow: inset 1px -1px, inset -1px 1px;
+    box-shadow: inset 1px -1px, inset 1px 1px;
     position: relative;
 }
 
@@ -71,6 +71,11 @@ input[type="checkbox" i]:checked:after {
     content: '';
     display: block;
     background: url("data:image/svg+xml,<svg width='18' height='18' viewBox='0 0 18 14' stroke='white' strokeWidth='2' strokeLinecap='square' xmlns='http://www.w3.org/2000/svg'><path d='M2 4.60188L7.41667 10.2393L15.3333 2'/></svg>"),
+    var(--dark);
+}
+
+.darkMode input[type="checkbox" i]:checked:after {
+    background: url("data:image/svg+xml,<svg width='18' height='18' viewBox='0 0 18 14' stroke='black' strokeWidth='2' strokeLinecap='square' xmlns='http://www.w3.org/2000/svg'><path d='M2 4.60188L7.41667 10.2393L15.3333 2'/></svg>"),
     var(--dark);
 }
 

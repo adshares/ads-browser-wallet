@@ -37,6 +37,10 @@ export default class HamburgerMenu extends PageComponent {
       darkMode: status
     });
     const root = document.querySelector(':root');
+    const rootContainer = document.querySelector('#root');
+    const body = document.querySelector('body');
+    body.classList.toggle('darkMode');
+    rootContainer.classList.toggle('darkMode');
     if (!this.state.darkMode) {
       root.style.setProperty('--dark', '#fff');
       root.style.setProperty('--light', '#000');

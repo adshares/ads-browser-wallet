@@ -1,5 +1,5 @@
 .select {
-    margin-block: 1rem;
+    margin: 1.5rem auto 1.625rem;
 }
 
 .optionName {
@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: var(--light);
+    /*background-color: var(--light);*/
     padding: 8px 0;
     list-style: none;
     text-transform: capitalize;
@@ -44,11 +44,11 @@
 .option:focus,
 .optionLink:focus {
     outline: none;
-    background: var(--light);
+    /*background: var(--light);*/
 }
 
 .option:not(.optionActive):hover {
-    background: var(--light);
+    /*background: var(--light);*/
 }
 
 .optionActive {
@@ -58,7 +58,7 @@
     display: flex;
     position: relative;
     justify-content: space-between;
-    background: var(--light) !important;
+    /*background: var(--light) !important;*/
 }
 
 .optionAccount svg {

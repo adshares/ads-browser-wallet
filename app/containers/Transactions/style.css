@@ -29,9 +29,14 @@
     font-weight: var(--font-weight-bolder);
 }
 
-.message {
-    margin-top: 40px;
+.amount span,
+.amount small {
+    padding-top: .75rem;
 }
+
+/*.message {*/
+/*    margin-top: 40px;*/
+/*}*/
 
 .messageCheckbox {
     font-size: var(--font-small);
@@ -56,11 +61,11 @@
 .feeInfo {
     text-align: center !important;
     background: var(--warning);
-    color: var(--light);
+    color: white;
     font-size: var(--font-big);
     font-weight: var(--font-weight-bold);
-    margin-block: 1.25rem;
-    padding-block: .25rem;
+    margin-block: 1rem;
+    padding-block: .125rem;
 }
 
 .feeInfoBox {
@@ -120,7 +125,7 @@
 
 .availableLinks {
     margin-top: 3rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3.5rem;
 }
 
 /*.availableLinkCancel {*/

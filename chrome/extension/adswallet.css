@@ -42,13 +42,19 @@
   /* --------------- colors --------------- */
   --warning: #F3A838;
   --info: #1DA5DF;
-  --primary: rgb(255, 65, 77);
+  --primary: #FF414D;
   --success: #7987ff;
-
-
 
   --light: #FFF;
   --dark: #000;
+
+  /*--warning-rgb: 243,168,56;*/
+  /*--info-rgb: 29,165,223;*/
+  /*--primary-rgb: 255, 65, 77;*/
+  /*--success-rgb: 121,135,255;*/
+
+  /*--light-rgb: 255,255,255;*/
+  /*--dark-rgb: 0,0,0;*/
 
   /* -------------------------------------- */
   
@@ -97,10 +103,8 @@
 
 body {
   box-sizing: border-box;
-  height: 995px;
   /*max-height: 860px;*/
-  /*overflow-y: scroll;*/
-  overflow: hidden;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -110,11 +114,15 @@ body {
   color: var(--dark);
   line-height: 1.4;
   padding: .75rem 1rem .25rem;
-  background: var(--light);
+  background-color: var(--light);
 }
 
-body::-webkit-scrollbar {
-  display: none;
+/*body::-webkit-scrollbar {*/
+/*  display: none;*/
+/*}*/
+
+body.darkMode {
+  background-color: #1e1e1e;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -160,7 +168,7 @@ button {
 }
 
 div[cardclass] {
-  color: var(--light);
+  color: white;
   border-radius: 1rem;
   margin-inline: 0.5rem;
   margin-bottom: 2rem;
@@ -169,14 +177,14 @@ div[cardclass] {
 
 div[cardclass="lineHorizontal"] {
   background: url(../../app/assets/subway-horizontal.svg),
-  var(--dark);
+  black;
   background-repeat: no-repeat;
   padding: 1rem 1.5rem 1.5rem 5rem;
 }
 
 div[cardclass="lineVertical"] {
   background: url(../../app/assets/subway-vertical.svg),
-  var(--dark);
+  black;
   background-repeat: no-repeat;
   background-position: left -20% top 100%;
   padding: 1.5rem;

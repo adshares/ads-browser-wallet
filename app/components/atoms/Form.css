@@ -4,16 +4,21 @@
     max-width: 99%;
 }
 
+.form {
+    margin-inline: auto;
+}
+
 .form input:not(input[type='checkbox']),
 .form textarea,
 .form select {
-    font-size: inherit;
+    font-size: 1rem;
     transition: all 250ms ease;
-    border: 1px solid var(--dark);
+    border: 1px solid black;
     display: inline-block;
     width: 96%;
     outline: 0;
     box-shadow: var(--shadow-dark);
+    padding: .5rem;
     margin: 0.3rem auto 1rem;
     background-color: white;
     color: black;
@@ -23,8 +28,14 @@
     background-color: white;
 }
 
+.darkMode .form input {
+    background-color: pink;
+    color: green;
+    border: 1px solid red;
+}
+
 .form input:focus, .form textarea:focus, .form select:focus {
-    border: 4px solid var(--success);
+    border: 2px solid var(--success);
 }
 
 .form label:not:has(input[type='checkbox']) {
@@ -45,11 +56,6 @@
     margin-bottom: 1.5rem;
 }
 
-.form input:not(input[type='checkbox']),
-.form textarea {
-    padding: 0.5rem;
-}
-
 .form select {
     line-height: 30px;
     text-indent: 5px;
@@ -57,7 +63,7 @@
 }
 
 form input[readonly], .form textarea[readonly], .form select[readonly] {
-    background-color: var(--light);
+    background-color: white;
 }
 
 form textarea::-webkit-resizer {

@@ -12,7 +12,8 @@
     align-items: center;
     text-decoration: none;
     width: fit-content;
-    color: var(--light);
+    color: white;
+    /*color: var(--light);*/
     border: 1px solid var(--dark);
     box-shadow: var(--shadow-dark);
 }
@@ -35,15 +36,23 @@
 }
 
 .button.secondary {
-    background-color: var(--light);
-    color: var(--dark);
+    /*background-color: var(--light);*/
+    background-color: white;
+    /*color: var(--dark);*/
+    color: black;
     box-shadow: var(--shadow-primary);
 }
 
 .button.outline {
-    background-color: var(--light);
-    color: var(--dark);
+    background-color: white;
+    color: black;
     box-shadow: var(--shadow-dark);
+}
+
+.button.outline svg,
+.button.secondary svg {
+    stroke: black;
+    fill: black;
 }
 
 .button.info {

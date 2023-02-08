@@ -2,15 +2,10 @@
 .form > div {
     text-align: left;
     max-width: 99%;
-}
-
-.form {
     margin-inline: auto;
 }
 
-.form input:not(input[type='checkbox']),
-.form textarea,
-.form select {
+.form :is(input:not(input[type='checkbox']), textarea, select) {
     font-size: 1rem;
     transition: all 250ms ease;
     border: 1px solid black;
@@ -19,7 +14,7 @@
     outline: 0;
     box-shadow: var(--shadow-dark);
     padding: .5rem;
-    margin: 0.3rem auto 1rem;
+    margin-bottom: 1rem;
     background-color: white;
     color: black;
 }
@@ -29,17 +24,15 @@
     color: green;
     border: 1px solid red;
 }
-.form input:not(input[type='checkbox']):focus,
-.form textarea:focus,
-.form select:focus {
+.form :is(input:not(input[type='checkbox']), textarea, select):focus {
     border: 2px solid var(--success);
-    background-color: white;
 }
 
 .form label:not:has(input[type='checkbox']) {
     display: block;
 }
 .form label {
+    line-height: 1.75;
     padding-left: 0.75rem;
     font-weight: var(--font-weight-light);
     font-size: var(--font-small);
@@ -59,9 +52,7 @@
     height: 30px;
 }
 
-form input[readonly],
-.form textarea[readonly],
-.form select[readonly] {
+.form :is(input[readonly], textarea[readonly], select[readonly]) {
     background-color: white;
 }
 

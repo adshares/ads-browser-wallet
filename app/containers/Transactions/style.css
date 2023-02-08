@@ -16,9 +16,8 @@
 }
 
 .amount {
-    width: 80%;
     display: grid;
-    grid-template-columns: 10rem 1fr 1fr;
+    grid-template-columns: 10rem 1fr 2fr;
     gap: 1.5rem;
     align-items: center;
 }
@@ -29,9 +28,8 @@
     font-weight: var(--font-weight-bolder);
 }
 
-.amount span,
-.amount small {
-    padding-top: .75rem;
+.amount :is(span, small) {
+    padding-top: 1rem;
 }
 
 /*.message {*/

@@ -49,8 +49,7 @@
     box-shadow: var(--shadow-dark);
 }
 
-.button.outline svg,
-.button.secondary svg {
+:is(.button.outline, .button.secondary) svg {
     stroke: black;
     fill: black;
 }
@@ -60,15 +59,12 @@
     border-color: var(--info);
 }
 
-.button:hover,
-.button:focus,
-.button:focus {
+.button :is(:hover, :focus) {
     box-shadow: var(--shadow-dark-inverted);
     opacity: 1;
 }
 
-.button.secondary:hover,
-.button.secondary:focus {
+.button.secondary :is(:hover, :focus) {
     box-shadow: var(--shadow-primary-inverted);
     border-color: var(--dark);
 }

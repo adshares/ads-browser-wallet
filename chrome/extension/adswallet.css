@@ -103,7 +103,7 @@
 
 body {
   box-sizing: border-box;
-  /*max-height: 860px;*/
+  /*max-height: 754px;*/
   overflow-y: scroll;
   display: flex;
   flex-direction: column;

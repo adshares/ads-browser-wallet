@@ -37,7 +37,7 @@
 
 .balance {
     text-align: right;
-    font-size: 2rem;
+    font-size: var(--font-bigger);
     font-weight: var(--font-weight-bolder);
     margin-top: 2.4rem;
 }
@@ -52,6 +52,7 @@
 .details {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5rem;
 }
 
@@ -70,7 +71,7 @@
     transition: all 250ms ease;
     cursor: pointer;
     padding-bottom: 1px;
-    border-bottom: 1px solid var(--light);
+    border-bottom: 1px solid rgb(var(--light));
 }
 
 .details svg {

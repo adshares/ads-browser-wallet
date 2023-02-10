@@ -24,7 +24,7 @@
 
 .amount span {
     display: inline-block;
-    font-size: 2rem;
+    font-size: var(--font-bigger);
     font-weight: var(--font-weight-bolder);
 }
 
@@ -95,12 +95,12 @@
     vertical-align: middle;
     box-sizing: border-box;
     border-radius: 3px;
-    border: 1px solid var(--light);
+    border: 1px solid rgb(var(--light));
     font-weight: normal;
  }
 
 .pendingPage > div:not(:first-of-type) {
-    border-top: 1px solid var(--dark);
+    border-top: 1px solid rgb(var(--dark));
     margin: 10px 0;
     padding: 10px 0;
 }
@@ -139,7 +139,7 @@
 /*    font-size: 1.75rem;*/
 /*}*/
 
-.transactionSummary *:is(a, small, .boldBlock){
+.transactionSummary :is(a, small, .boldBlock){
     text-align: right;
 }
 
@@ -149,10 +149,6 @@
     font-weight: var(--font-weight-bolder);
     text-align: center;
     margin-bottom: 2rem;
-}
-
-.transactionSummary [cardclass="lineVertical"] a {
-    color: var(--light);
 }
 
 .transactionSummary [cardclass="lineVertical"] > div {

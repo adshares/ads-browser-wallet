@@ -57,7 +57,7 @@ class HomePage extends React.PureComponent {
     const amountInUsd = calculateToUsd(accountData.balance, usdRate);
     return (
       <div cardclass={'lineHorizontal'}>
-        <p title="Account name">{accountData.name}&nbsp;</p>
+        <h2 title="Account name">{accountData.name}&nbsp;</h2>
         <div className={style.balance} title="Account balance">
           {amountInt}
           <span>{amountDec}</span>
@@ -79,7 +79,7 @@ class HomePage extends React.PureComponent {
             <CopyIcon fill="light" />
           </span>
           <a href={detailsLink} target="_blank" rel="noopener noreferrer">
-            <span>Details</span>
+            Details
           </a>
         </div>
         <div className={style.buttons}>

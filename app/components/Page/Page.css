@@ -1,5 +1,5 @@
 .header > h1 {
-    font-size: 10rem;
+    font-size: calc(var(--font-big)*6);
     line-height: 1.25em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -8,17 +8,17 @@
     text-align: center;
 }
 
-.header > h1 small {
-    display: block;
-    font-size: 0.65em;
-    line-height: 1.2em;
-    font-style: italic;
-    font-weight: 700;
-}
+/*.header > h1 small {*/
+/*    display: block;*/
+/*    font-size: 0.65em;*/
+/*    line-height: 1.2em;*/
+/*    font-style: italic;*/
+/*    font-weight: 700;*/
+/*}*/
 
-.smallHeader > h1 {
-    font-size: 1em;
-}
+/*.smallHeader > h1 {*/
+/*    font-size: 1em;*/
+/*}*/
 
 /*.logo img {*/
 /*    height: 40px;*/
@@ -44,7 +44,7 @@
 .footer {
     margin-top: 1rem;
     inset: auto 0.5rem 0;
-    border-top: 1px solid var(--dark);
+    border-top: 1px solid rgb(var(--dark));
     padding: 0.25rem;
 }
 

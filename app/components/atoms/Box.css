@@ -11,11 +11,11 @@
 }
 
 .box a {
-    color: var(--light)
+    color: rgb(var(--light))
 }
 
 .box hr {
-    border-color: var(--light);
+    border-color: rgb(var(--light));
 }
 
 .box.info {
@@ -32,13 +32,13 @@
 
 .box.danger {
     background-color: var(--primary);
-    color: var(--light);
+    color: rgb(var(--light));
 }
 
 .box.inverse {
     border: 1px solid var(--slate-dark);
     color: var(--slate-dark);
-    background-color: var(--light);
+    background-color: rgb(var(--light));
 }
 
 .box.inverse a {
@@ -100,7 +100,7 @@
  }
 
 .box > h2 {
-    font-size: 16px;
+    font-size: var(--font-normal);
     font-weight: 700;
     text-transform: uppercase;
     margin: 0 0 5px 0;
@@ -121,6 +121,6 @@
 .box > .icon span {
     text-align: center;
     font-size: var(--icon-size);
-    color: var(--light);
+    color: rgb(var(--light));
     font-weight: var(--font-weight-bold);
 }

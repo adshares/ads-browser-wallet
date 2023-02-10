@@ -28,8 +28,8 @@
 
 /*.checkbox +.checked {*/
 /*    display: block;*/
-/*    border: 1px solid var(--dark);*/
-/*    background-color: var(--dark);*/
+/*    border: 1px solid rgb(var(--dark));*/
+/*    background-color: rgb(var(--dark));*/
 /*    width: 18px;*/
 /*    height: 18px;*/
 /*    cursor: pointer;*/
@@ -46,7 +46,7 @@
 
 /*.checkedSvg path {*/
 /*    fill: none;*/
-/*    stroke: var(--light);*/
+/*    stroke: rgb(var(--light));*/
 /*    stroke-width: 8px;*/
 /*    stroke-linecap: round;*/
 /*    stroke-linejoin: round;*/
@@ -71,14 +71,14 @@ input[type="checkbox"]:checked:after {
     content: '';
     display: block;
     background: url("data:image/svg+xml,<svg width='18' height='18' viewBox='0 0 18 14' stroke='white' strokeWidth='2' strokeLinecap='square' xmlns='http://www.w3.org/2000/svg'><path d='M2 4.60188L7.41667 10.2393L15.3333 2'/></svg>"),
-    var(--dark);
+    rgb(var(--dark));
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .darkMode input[type="checkbox"]:checked:after {
     background: url("data:image/svg+xml,<svg width='18' height='18' viewBox='0 0 18 14' stroke='black' strokeWidth='2' strokeLinecap='square' xmlns='http://www.w3.org/2000/svg'><path d='M2 4.60188L7.41667 10.2393L15.3333 2'/></svg>"),
-    var(--dark);
+    rgb(var(--dark));
 }
 
 

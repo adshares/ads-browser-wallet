@@ -6,7 +6,7 @@
 }
 
 .form :is(input:not(input[type='checkbox']), textarea, select) {
-    font-size: 1rem;
+    font-size: var(--font-normal);
     transition: all 250ms ease;
     border: 1px solid black;
     display: inline-block;

@@ -1,6 +1,6 @@
 .dark {
-    fill: var(--dark);
-    stroke: var(--dark);
+    fill: rgb(var(--dark));
+    stroke: rgb(var(--dark));
 }
 
 .light {

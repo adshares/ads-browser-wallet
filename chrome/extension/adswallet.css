@@ -45,14 +45,13 @@
   --primary: #FF414D;
   --success: #7987ff;
 
+  --light: 255,255,255;
+  --dark: 0,0,0;
 
   /*--warning-rgb: 243,168,56;*/
   /*--info-rgb: 29,165,223;*/
   /*--primary-rgb: 255, 65, 77;*/
   /*--success-rgb: 121,135,255;*/
-
-  --light-rgb: 255,255,255;
-  --dark-rgb: 0,0,0;
 
   /* -------------------------------------- */
   
@@ -77,12 +76,13 @@
 
   /* --------------- typography --------------- */
 
-  --font-normal: 1.125rem;
-  --font-small: 1rem;
+  --font-normal: 1rem;
+  --font-small: .875rem;
   --font-smaller: 0.75rem;
   --font-smallest: .625rem;
-  --font-big: 1.5rem;
-  --font-bigger: 2rem;
+  --font-big: 1.25rem;
+  --font-bigger: 1.5rem;
+
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -91,8 +91,8 @@
 
   /* --------------- shadows ------------------- */
 
-  --shadow-dark: 4px 4px 0 var(--dark);
-  --shadow-dark-inverted: -4px -4px 0 var(--dark);
+  --shadow-dark: 4px 4px 0 rgb(var(--dark));
+  --shadow-dark-inverted: -4px -4px 0 rgb(var(--dark));
   --shadow-primary: 4px 4px 0 var(--primary);
   --shadow-primary-inverted: -4px -4px 0 var(--primary);
 
@@ -100,9 +100,6 @@
 }
 
 body {
-  --light: #FFF;
-  --dark: #000;
-
   box-sizing: border-box;
   /*max-height: 754px;*/
   overflow-y: scroll;
@@ -112,19 +109,22 @@ body {
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
   font-weight: 400;
   text-align: center;
-  color: var(--dark);
+  color: rgb(var(--dark));
   line-height: 1.4;
   padding: .75rem 1rem .25rem;
-  background-color: var(--light);
+  background-color: rgb(var(--light));
 }
 
 /*body::-webkit-scrollbar {*/
 /*  display: none;*/
 /*}*/
 
-body[data-dark-mode] {
-  --light: #000;
-  --dark: #FFF;
+:root[data-dark-mode] {
+  --light: 0,0,0;
+  --dark: 255,255,255;
+}
+
+:root[data-dark-mode] body {
   background-color: #1E1E1E;
 }
 
@@ -132,8 +132,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
+small {
+  font-size: var(--font-small);
+}
+
 h1 {
-  font-size: 2rem;
+  font-size: calc(var(--font-bigger)*1.4);
 }
 
 header h3 {
@@ -143,7 +147,7 @@ header h3 {
 
 a {
   text-decoration: none;
-  color: var(--dark);
+  color: rgb(var(--dark));
   opacity: 1;
 }
 
@@ -153,7 +157,7 @@ a:not:has(.button):hover {
 
 hr {
   border: 0;
-  border-top: 1px solid var(--dark);
+  border-top: 1px solid rgb(var(--dark));
   background: none;
   height: 1px;
 }
@@ -171,11 +175,19 @@ button {
 }
 
 div[cardclass] {
-  color: white;
   border-radius: 1rem;
   margin-inline: 0.5rem;
   margin-bottom: 2rem;
   text-align: left;
+}
+
+div[cardclass] * {
+  color: white;
+}
+
+div[cardclass] h2 {
+  font-size: var(--font-normal);
+  margin-top: 1.5rem;
 }
 
 div[cardclass="lineHorizontal"] {
@@ -189,15 +201,11 @@ div[cardclass="lineVertical"] {
   background: url(../../app/assets/subway-vertical.svg),
   black;
   background-repeat: no-repeat;
-  background-position: left -20% top 100%;
-  padding: 1.5rem;
+  background-position: left -20% top 105%;
+  padding: 1rem 1.5rem;
 }
 
 div[cardclass="lineVertical"] > div {
   padding-left: 4rem;
 }
-
-/*svg:not:has(.logoMark) {*/
-/*  width: 18px;*/
-/*}*/
 

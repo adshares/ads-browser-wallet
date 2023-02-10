@@ -3,12 +3,12 @@
 }
 
 .optionName {
-    font-size: 1.375rem;
+    font-size: var(--font-big);
     margin-bottom: .1em;
 }
 
 .selectActive {
-    box-shadow: var(--dark);
+    box-shadow: rgb(var(--dark));
 }
 
 .scrollableList {
@@ -33,22 +33,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*background-color: var(--light);*/
+    /*background-color: rgb(var(--light));*/
     padding: 8px 0;
     list-style: none;
     text-transform: capitalize;
-    border-top: 1px dashed var(--dark);
+    border-top: 1px dashed rgb(var(--dark));
     line-height: 1.2;
 }
 
 .option:focus,
 .optionLink:focus {
     outline: none;
-    /*background: var(--light);*/
+    /*background: rgb(var(--light));*/
 }
 
 .option:not(.optionActive):hover {
-    /*background: var(--light);*/
+    /*background: rgb(var(--light));*/
 }
 
 .optionActive {
@@ -58,7 +58,7 @@
     display: flex;
     position: relative;
     justify-content: space-between;
-    /*background: var(--light) !important;*/
+    /*background: rgb(var(--light)) !important;*/
 }
 
 .optionAccount svg {
@@ -70,7 +70,7 @@
     padding: 16px;
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid var(--dark);
+    border-top: 1px solid rgb(var(--dark));
 }
 
 .optionLink {

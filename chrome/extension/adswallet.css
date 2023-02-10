@@ -45,16 +45,14 @@
   --primary: #FF414D;
   --success: #7987ff;
 
-  --light: #FFF;
-  --dark: #000;
 
   /*--warning-rgb: 243,168,56;*/
   /*--info-rgb: 29,165,223;*/
   /*--primary-rgb: 255, 65, 77;*/
   /*--success-rgb: 121,135,255;*/
 
-  /*--light-rgb: 255,255,255;*/
-  /*--dark-rgb: 0,0,0;*/
+  --light-rgb: 255,255,255;
+  --dark-rgb: 0,0,0;
 
   /* -------------------------------------- */
   
@@ -102,6 +100,9 @@
 }
 
 body {
+  --light: #FFF;
+  --dark: #000;
+
   box-sizing: border-box;
   /*max-height: 754px;*/
   overflow-y: scroll;
@@ -121,8 +122,10 @@ body {
 /*  display: none;*/
 /*}*/
 
-body.darkMode {
-  background-color: #1e1e1e;
+body[data-dark-mode] {
+  --light: #000;
+  --dark: #FFF;
+  background-color: #1E1E1E;
 }
 
 h1, h2, h3, h4, h5, h6 {

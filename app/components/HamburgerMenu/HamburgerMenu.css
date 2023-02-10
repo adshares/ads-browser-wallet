@@ -58,7 +58,11 @@
     font-size: var(--font-small);
     transform: translateY(-150%);
     transition: all 500ms ease-in;
+}
 
+:root[data-dark-mode] .menu {
+    background-color: rgb(var(--slate));
+    box-shadow: -2px 2px 2px rgb(var(--gray),0.2);
 }
 
 .menu.menuActive {

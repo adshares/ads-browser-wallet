@@ -68,9 +68,9 @@
   --pink-dark: #FB3365;
   --brown: #AA8E69;
   --brown-dark: #816135;
-  --gray: #BDC3C7;
+  --gray: 189, 195, 199;
   --gray-dark: #8E9AA2;
-  --slate: #6A7078;
+  --slate: 48,48,48;
   --slate-dark: #434A54;
   --grayish-light: #F6F6F6;
 
@@ -125,7 +125,7 @@ body {
 }
 
 :root[data-dark-mode] body {
-  background-color: #1E1E1E;
+  background-color: rgb(var(--slate));
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -191,17 +191,14 @@ div[cardclass] h2 {
 }
 
 div[cardclass="lineHorizontal"] {
-  background: url(../../app/assets/subway-horizontal.svg),
+  background: url(../../app/assets/subway-horizontal.svg) no-repeat,
   black;
-  background-repeat: no-repeat;
   padding: 1rem 1.5rem 1.5rem 5rem;
 }
 
 div[cardclass="lineVertical"] {
-  background: url(../../app/assets/subway-vertical.svg),
+  background: url(../../app/assets/subway-vertical.svg) no-repeat left -20% top 105%,
   black;
-  background-repeat: no-repeat;
-  background-position: left -20% top 105%;
   padding: 1rem 1.5rem;
 }
 

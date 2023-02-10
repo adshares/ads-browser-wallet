@@ -7,7 +7,7 @@
 }
 
 .transferBalance {
-    margin: 0 0 1rem .25rem;
+    margin: 0 0 .5rem .25rem;
 }
 
 .transferBalance span {
@@ -122,8 +122,8 @@
 }
 
 .availableLinks {
-    margin-top: 3rem;
-    margin-bottom: 3.5rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
 }
 
 /*.availableLinkCancel {*/

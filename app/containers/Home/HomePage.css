@@ -71,7 +71,7 @@
     transition: all 250ms ease;
     cursor: pointer;
     padding-bottom: 1px;
-    border-bottom: 1px solid rgb(var(--light));
+    border-bottom: 1px solid white;
 }
 
 .details svg {

@@ -3,6 +3,11 @@
     stroke: rgb(var(--dark));
 }
 
+:root[data-dark-mode] .button.secondary .dark {
+    fill: black;
+    stroke: black;
+}
+
 .light {
     fill: white;
     stroke: white;

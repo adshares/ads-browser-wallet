@@ -32,7 +32,6 @@ class AvailableGatewaysPage extends PageComponent {
             key={gateway.code}
             icon="left"
             layout="secondary"
-            inverse
             size="wide"
             to={{
               pathname: `/transactions/gateways/${gateway.code}`,

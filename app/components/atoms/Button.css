@@ -14,7 +14,7 @@
     width: fit-content;
     color: white;
     /*color: rgb(var(--light));*/
-    border: 1px solid rgb(var(--dark));
+    border: 1px solid black;
     box-shadow: var(--shadow-dark);
 }
 
@@ -41,11 +41,6 @@
     /*color: rgb(var(--dark));*/
     color: black;
     box-shadow: var(--shadow-primary);
-}
-
-:is(.button.secondary, .button.outline) svg {
-    fill: black;
-    stroke: black;
 }
 
 .button.outline {

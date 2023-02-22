@@ -82,14 +82,15 @@
 .menuItem {
     display: flex;
     align-items: center;
+    gap: 1rem;
     height: 3.5rem;
     text-align: left;
     cursor: pointer;
 }
 
 .menuItem svg {
-    margin-right: 0.75rem;
     padding-bottom: 0.25rem;
+    height: 1.25rem;
 }
 
 .menuItemLink {

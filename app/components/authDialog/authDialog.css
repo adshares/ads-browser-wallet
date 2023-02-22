@@ -45,3 +45,12 @@
 .dialogFormOpen {
     transform: translateY(0);
 }
+
+:root[data-dark-mode] .dialogForm {
+    background-color: rgb(var(--slate));
+    box-shadow: none;
+}
+
+:root[data-dark-mode] .dialogForm input {
+    box-shadow: 4px 4px 0 rgb(0,0,0);
+}

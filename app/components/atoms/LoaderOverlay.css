@@ -1,20 +1,10 @@
-/*@keyframes rotate {*/
-/*    to {*/
-/*        transform: rotate(360deg);*/
-/*    }*/
-/*}*/
-
 .loader {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
+    display: grid;
+    place-items: center;
     opacity: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
     z-index: 100000;
-    justify-content: center;
-    align-items: center;
     pointer-events: all;
     background-color: rgba(255, 255, 255, 0.7);
     animation: fade-in 0.1s linear;
@@ -22,15 +12,12 @@
 }
 
 .spinner {
-    height: 5rem;
-    width: 5rem;
-    /*animation: rotate 1.25s linear infinite;*/
-    /*color: var(--gray-dark);*/
+    width: 4rem;
 }
 
 .spinnerOuterCircle {
     stroke-dasharray: 188.19;
-    stroke-dashoffset: 200;
+    stroke-dashoffset: 188.19;
     animation: draw 2000ms ease-in-out infinite;
 }
 

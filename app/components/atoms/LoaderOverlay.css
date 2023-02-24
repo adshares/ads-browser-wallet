@@ -1,15 +1,9 @@
-@keyframes rotate {
-    to {
-        transform: rotate(360deg);
-    }
-}
+/*@keyframes rotate {*/
+/*    to {*/
+/*        transform: rotate(360deg);*/
+/*    }*/
+/*}*/
 
-@keyframes fade-in {
-    to {
-        opacity: 1;
-    }
-
-}
 .loader {
     position: absolute;
     top: 0;
@@ -28,8 +22,44 @@
 }
 
 .spinner {
-    min-height: 60px;
-    min-width: 60px;
-    animation: rotate 1.25s linear infinite;
-    color: var(--gray-dark);
+    height: 5rem;
+    width: 5rem;
+    /*animation: rotate 1.25s linear infinite;*/
+    /*color: var(--gray-dark);*/
+}
+
+.spinnerOuterCircle {
+    stroke-dasharray: 188.19;
+    stroke-dashoffset: 200;
+    animation: draw 2000ms ease-in-out infinite;
+}
+
+.spinnerInnerCircle {
+    stroke-dasharray: 137.34;
+    stroke-dashoffset: 137.34;
+    animation: draw 1400ms normal infinite;
+}
+
+.spinnerMiddle {
+    r: 0;
+    transition: r 1200ms ease-in;
+    animation: grow 1200ms normal infinite;
+}
+
+@keyframes draw  {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes grow {
+    to {
+        r: 13;
+    }
+}
+
+@keyframes fade-in {
+    to {
+        opacity: 1;
+    }
 }

@@ -96,7 +96,12 @@
   --shadow-primary: 4px 4px 0 var(--primary);
   --shadow-primary-inverted: -4px -4px 0 var(--primary);
 
+  /* --------------- spacing ------------------- */
+
+  --spacer: .5rem;
+
   /* ------------------------------------------- */
+
 }
 
 body {
@@ -130,6 +135,13 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacer);
 }
 
 small {

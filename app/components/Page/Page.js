@@ -41,7 +41,7 @@ class Page extends React.Component {
       title,
       children,
       className,
-      showLoader,
+      // showLoader,
       authDialog,
       errorMsg,
       hideSelectAccount
@@ -61,7 +61,8 @@ class Page extends React.Component {
 
     return (
       <section>
-        {showLoader && <LoaderOverlay />}
+        <LoaderOverlay />
+        {/*{showLoader && <LoaderOverlay />}*/}
         <AuthDialog
           {...authDialog}
           closeAction={actions.authDialog.closeDialog}

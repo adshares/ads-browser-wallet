@@ -5,6 +5,7 @@
 .optionName {
     font-size: var(--font-big);
     margin-bottom: .1em;
+    display: block;
 }
 
 .selectActive {
@@ -55,9 +56,9 @@
     margin: 0;
     border: 0;
     /*padding-bottom: 4px;*/
-    display: flex;
+    /*display: flex;*/
     position: relative;
-    justify-content: center;
+    /*justify-content: center;*/
     /*background: var(--light) !important;*/
 }
 

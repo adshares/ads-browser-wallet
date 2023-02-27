@@ -99,6 +99,8 @@
 
 }
 
+/* ---------------------------------------- general ---------------------------------------- */
+
 body {
   box-sizing: border-box;
   /*max-height: 754px;*/
@@ -113,20 +115,7 @@ body {
   line-height: 1.4;
   padding: .75rem 1rem .25rem;
   background-color: var(--light);
-  scrollbar-color: black white;
-}
-
-/*body::-webkit-scrollbar {*/
-/*  display: none;*/
-/*}*/
-
-:root[data-dark-mode] {
-  --light: 0,0,0;
-  --dark: 255,255,255;
-}
-
-:root[data-dark-mode] body {
-  background-color: rgb(var(--slate));
+  scrollbar-color: var(--dark) var(--light);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -227,7 +216,7 @@ div[cardclass="lineVertical"] > div {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: black;
+  background-color: var(--dark);
 }
 
 ::-webkit-scrollbar-button:single-button:decrement,
@@ -264,5 +253,20 @@ div[cardclass="lineVertical"] > div {
     width: 5rem;
     height: 5rem;
     box-shadow: 1px 1px white;
+}
+
+/* ---------------------------------------- dark-mode ---------------------------------------- */
+
+:root[data-dark-mode] {
+  --light: 0,0,0;
+  --dark: 255,255,255;
+}
+
+:root[data-dark-mode] body {
+  background-color: rgb(var(--slate));
+}
+
+:root[data-dark-mode] ::-webkit-scrollbar-track-piece {
+  background-color: var(--light);
 }
 

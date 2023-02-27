@@ -41,6 +41,9 @@ export default class HamburgerMenu extends PageComponent {
     if (!this.state.darkMode) {
       root.style.setProperty('--dark', '#fff');
       root.style.setProperty('--light', '#000');
+    } else {
+      root.style.setProperty('--dark', '#000');
+      root.style.setProperty('--light', '#fff');
     }
   }
 

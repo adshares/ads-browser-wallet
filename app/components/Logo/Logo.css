@@ -32,9 +32,9 @@
 }
 
 .logoType {
-    fill: rgb(var(--dark));
+    fill: var(--dark);
 }
 
 .logoType .cls1 {
-    fill: rgb(var(--dark));
+    fill: var(--dark);
 }

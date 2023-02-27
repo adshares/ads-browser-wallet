@@ -38,6 +38,10 @@ export default class HamburgerMenu extends PageComponent {
     });
     const root = document.querySelector(':root');
     root.toggleAttribute('data-dark-mode');
+    if (!this.state.darkMode) {
+      root.style.setProperty('--dark', '#fff');
+      root.style.setProperty('--light', '#000');
+    }
   }
 
   // toggleMode(status) {

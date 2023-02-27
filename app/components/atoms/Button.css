@@ -13,7 +13,7 @@
     text-decoration: none;
     width: fit-content;
     color: white;
-    /*color: rgb(var(--light));*/
+    /*color: var(--light);*/
     border: 1px solid black;
     box-shadow: var(--shadow-dark);
 }
@@ -36,9 +36,9 @@
 }
 
 .button.secondary {
-    /*background-color: rgb(var(--light));*/
+    /*background-color: var(--light);*/
     background-color: white;
-    /*color: rgb(var(--dark));*/
+    /*color: var(--dark);*/
     color: black;
     box-shadow: var(--shadow-primary);
 }
@@ -66,13 +66,13 @@
 
 .button.secondary:is(:hover, :focus) {
     box-shadow: var(--shadow-primary-inverted);
-    border-color: rgb(var(--dark));
+    border-color: var(--dark);
 }
 
 .button.secondary:active {
     box-shadow: var(--shadow-primary-inverted);
-    background-color: rgb(var(--dark));
-    color: rgb(var(--light));
+    background-color: var(--dark);
+    color: var(--light);
 }
 
 .button.icon-left {
@@ -103,11 +103,11 @@
 
 .button.contrast {
     background-color: transparent;
-    border-color: rgb(var(--light));
+    border-color: var(--light);
 }
 
 .button.inverse {
-    background-color: rgb(var(--light));
+    background-color: var(--light);
     color: var(--slate-dark) !important;
 }
 

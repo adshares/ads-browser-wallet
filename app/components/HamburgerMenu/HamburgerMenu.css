@@ -14,7 +14,7 @@
 
 .iconButton:before,
 .iconButton:after {
-    background: rgb(var(--dark));
+    background: var(--dark);
     backface-visibility: hidden;
     content: "";
     height: 2px;
@@ -24,7 +24,7 @@
 }
 
 .iconButton:before {
-    box-shadow: rgb(var(--dark)) 0 14px 0 0;
+    box-shadow: var(--dark) 0 14px 0 0;
     position: absolute;
     top: 3px;
 }
@@ -52,7 +52,7 @@
     right: -1rem;
     margin-left: auto;
     box-shadow: -2px 2px 8px rgb(var(--dark),0.2);
-    background-color: rgb(var(--light));
+    background-color: var(--light);
     z-index: 1;
     padding: 4rem 4rem 1rem 1.5rem;
     font-size: var(--font-small);
@@ -62,7 +62,7 @@
 
 :root[data-dark-mode] .menu {
     background-color: rgb(var(--slate));
-    box-shadow: -2px 2px 2px rgb(var(--gray),0.2);
+    box-shadow: -2px 2px 2px rgb(0,0,0,0.2);
 }
 
 .menu.menuActive {
@@ -93,11 +93,16 @@
     height: 1.25rem;
 }
 
+:root[data-dark-mode] .menuItem svg {
+    fill: #fff;
+    stroke: #fff;
+}
+
 .menuItemLink {
     padding-bottom: 0.25rem;
     border-bottom: 1px solid transparent;
 }
 
 .menuItemLink:hover {
-    border-bottom: 1px solid rgb(var(--dark));
+    border-bottom: 1px solid var(--dark);
 }

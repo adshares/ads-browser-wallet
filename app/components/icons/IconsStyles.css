@@ -1,6 +1,6 @@
 .dark {
-    fill: rgb(var(--dark));
-    stroke: rgb(var(--dark));
+    fill: #000;
+    stroke: #000;
 }
 
 :root[data-dark-mode] .button.secondary .dark {
@@ -9,8 +9,8 @@
 }
 
 .light {
-    fill: white;
-    stroke: white;
+    fill: #fff;
+    stroke: #fff;
 }
 
 .primary {

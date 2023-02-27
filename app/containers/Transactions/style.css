@@ -95,12 +95,12 @@
     vertical-align: middle;
     box-sizing: border-box;
     border-radius: 3px;
-    border: 1px solid rgb(var(--light));
+    border: 1px solid var(--light);
     font-weight: normal;
  }
 
 .pendingPage > div:not(:first-of-type) {
-    border-top: 1px solid rgb(var(--dark));
+    border-top: 1px solid var(--dark);
     margin: 10px 0;
     padding: 10px 0;
 }

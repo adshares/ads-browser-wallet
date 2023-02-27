@@ -26,7 +26,7 @@
 
 .accountLabel {
     text-align: left;
-    border-bottom: 1px solid rgb(var(--dark));
+    border-bottom: 1px solid var(--dark);
     flex-grow: 1;
 }
 
@@ -57,6 +57,11 @@
 
 .accountActions a:nth-of-type(3) {
     color: var(--primary);
+}
+
+:root[data-dark-mode] a[title="Edit account"] svg {
+    stroke: #fff;
+    fill: #fff;
 }
 
 a[class*="wide"] {

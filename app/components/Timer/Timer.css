@@ -6,8 +6,8 @@
 }
 
 .blockTimer > div {
-    border: 1px solid rgb(var(--dark));
-    background: rgb(var(--light));
+    border: 1px solid var(--dark);
+    background: var(--light);
     height: 10px;
     width: 10px;
     transition: all 250ms ease;
@@ -21,7 +21,7 @@
 }
 
 .blockTimer .activeBit {
-    background-color: rgb(var(--dark));
+    background-color: var(--dark);
 }
 
 /*.blockTimer svg {*/
@@ -29,16 +29,16 @@
 /*}*/
 
 .dividend {
-    color: rgb(var(--dark));
+    color: var(--dark);
     cursor: help;
 }
 
 .dividend > div {
-    border-color: rgb(var(--dark));
+    border-color: var(--dark);
 }
 
 .dividend .activeBit {
-    background-color: rgb(var(--dark));
+    background-color: var(--dark);
 }
 
 .nextBlockTimer {

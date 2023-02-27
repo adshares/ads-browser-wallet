@@ -28,8 +28,8 @@
 
 /*.checkbox +.checked {*/
 /*    display: block;*/
-/*    border: 1px solid rgb(var(--dark));*/
-/*    background-color: rgb(var(--dark));*/
+/*    border: 1px solid var(--dark);*/
+/*    background-color: var(--dark);*/
 /*    width: 18px;*/
 /*    height: 18px;*/
 /*    cursor: pointer;*/
@@ -46,7 +46,7 @@
 
 /*.checkedSvg path {*/
 /*    fill: none;*/
-/*    stroke: rgb(var(--light));*/
+/*    stroke: var(--light);*/
 /*    stroke-width: 8px;*/
 /*    stroke-linecap: round;*/
 /*    stroke-linejoin: round;*/

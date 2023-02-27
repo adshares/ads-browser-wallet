@@ -45,13 +45,8 @@
   --primary: #FF414D;
   --success: #7987ff;
 
-  --light: 255,255,255;
-  --dark: 0,0,0;
-
-  /*--warning-rgb: 243,168,56;*/
-  /*--info-rgb: 29,165,223;*/
-  /*--primary-rgb: 255, 65, 77;*/
-  /*--success-rgb: 121,135,255;*/
+  --light: #fff;
+  --dark: #000;
 
   /* -------------------------------------- */
   
@@ -91,8 +86,8 @@
 
   /* --------------- shadows ------------------- */
 
-  --shadow-dark: 4px 4px 0 rgb(var(--dark));
-  --shadow-dark-inverted: -4px -4px 0 rgb(var(--dark));
+  --shadow-dark: 4px 4px 0 var(--dark);
+  --shadow-dark-inverted: -4px -4px 0 var(--dark);
   --shadow-primary: 4px 4px 0 var(--primary);
   --shadow-primary-inverted: -4px -4px 0 var(--primary);
 
@@ -114,10 +109,10 @@ body {
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
   font-weight: 400;
   text-align: center;
-  color: rgb(var(--dark));
+  color: var(--dark);
   line-height: 1.4;
   padding: .75rem 1rem .25rem;
-  background-color: rgb(var(--light));
+  background-color: var(--light);
 }
 
 /*body::-webkit-scrollbar {*/
@@ -159,7 +154,7 @@ header h3 {
 
 a {
   text-decoration: none;
-  color: rgb(var(--dark));
+  color: var(--dark);
   opacity: 1;
 }
 
@@ -169,7 +164,7 @@ a:not:has(.button):hover {
 
 hr {
   border: 0;
-  border-top: 1px solid rgb(var(--dark));
+  border-top: 1px solid var(--dark);
   background: none;
   height: 1px;
 }

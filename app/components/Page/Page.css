@@ -44,7 +44,7 @@
 .footer {
     margin-top: 1rem;
     inset: auto 0.5rem 0;
-    border-top: 1px solid rgb(var(--dark));
+    border-top: 1px solid var(--dark);
     padding: 0.25rem;
 }
 

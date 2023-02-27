@@ -8,7 +8,7 @@
 }
 
 .selectActive {
-    box-shadow: rgb(var(--dark));
+    box-shadow: var(--dark);
 }
 
 .scrollableList {
@@ -33,22 +33,22 @@
     /*display: flex;*/
     /*flex-direction: column;*/
     /*align-items: center;*/
-    /*background-color: rgb(var(--light));*/
+    /*background-color: var(--light);*/
     padding: 8px 0;
     list-style: none;
     text-transform: capitalize;
-    border-top: 1px dashed rgb(var(--dark));
+    border-top: 1px dashed var(--dark);
     line-height: 1.2;
 }
 
 .option:focus,
 .optionLink:focus {
     outline: none;
-    /*background: rgb(var(--light));*/
+    /*background: var(--light);*/
 }
 
 .option:not(.optionActive):hover {
-    /*background: rgb(var(--light));*/
+    /*background: var(--light);*/
 }
 
 .optionActive {
@@ -58,7 +58,7 @@
     display: flex;
     position: relative;
     justify-content: center;
-    /*background: rgb(var(--light)) !important;*/
+    /*background: var(--light) !important;*/
 }
 
 .optionAccount svg {
@@ -66,11 +66,17 @@
     margin-left: 0.75rem;
 }
 
+:root[data-dark-mode] .optionAccount svg,
+:root[data-dark-mode] .optionList svg {
+    stroke: #fff;
+    fill: #fff;
+}
+
 .optionAdd {
     padding: 16px;
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid rgb(var(--dark));
+    border-top: 1px solid var(--dark);
 }
 
 .optionLink {

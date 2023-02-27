@@ -47,26 +47,6 @@ export default class HamburgerMenu extends PageComponent {
     }
   }
 
-  // toggleMode(status) {
-  //   this.setState({
-  //     darkMode: status
-  //   });
-  //   const root = document.querySelector(':root');
-  //   const body = document.querySelector('body');
-  //   body.dataset.darkMode = 'true';
-  //   if (!this.state.darkMode) {
-  //     root.style.setProperty('--dark', '#fff');
-  //     root.style.setProperty('--light', '#000');
-  //     root.style.setProperty('--light-rgb', '0,0,0');
-  //     root.style.setProperty('--dark-rgb', '255,255,255');
-  //   } else {
-  //     root.style.setProperty('--light', '#fff');
-  //     root.style.setProperty('--dark', '#000');
-  //     root.style.setProperty('--dark-rgb', '0,0,0');
-  //     root.style.setProperty('--light-rgb', '255,255,255');
-  //   }
-  // }
-
   render() {
     const showFullScreen = !window.location.pathname.match('window');
 

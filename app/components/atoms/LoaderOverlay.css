@@ -1,6 +1,7 @@
 .loader {
     position: absolute;
     inset: 0;
+    height: 100%;
     display: grid;
     place-items: center;
     opacity: 0;

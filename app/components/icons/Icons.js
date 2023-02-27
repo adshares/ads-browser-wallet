@@ -76,7 +76,7 @@ export class ExpandIcon extends Icon {
 
 export class FindIcon extends Icon {
   render() {
-    const { fill, width, height, viewBox } = this.props;
+    const { fill, width, height, viewBox = '0 0 17 18' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
         <path d="M12.5 11.5H11.71L11.43 11.23C12.41 10.09 13 8.61 13 7C13 3.41 10.09 0.5 6.5 0.5C2.91 0.5 0 3.41 0 7C0 10.59 2.91 13.5 6.5 13.5C8.11 13.5 9.59 12.91 10.73 11.93L11 12.21V13L16 17.99L17.49 16.5L12.5 11.5ZM6.5 11.5C4.01 11.5 2 9.49 2 7C2 4.51 4.01 2.5 6.5 2.5C8.99 2.5 11 4.51 11 7C11 9.49 8.99 11.5 6.5 11.5Z" />
@@ -98,7 +98,7 @@ export class InfoCircleIcon extends Icon {
 
 export class InfoShieldIcon extends Icon {
   render() {
-    const { fill, width, height = 22, viewBox = '0 0 18 22' } = this.props;
+    const { fill, width, height = 22, viewBox = '0 0 18 25' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
         <path d="M9 2.69L16 5.8V10.5C16 15.02 13.02 19.19 9 20.43C4.98 19.19 2 15.02 2 10.5V5.8L9 2.69ZM9 0.5L0 4.5V10.5C0 16.05 3.84 21.24 9 22.5C14.16 21.24 18 16.05 18 10.5V4.5L9 0.5ZM8 6.5H10V8.5H8V6.5ZM8 10.5H10V16.5H8V10.5Z" />

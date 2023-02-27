@@ -3,17 +3,18 @@ section {
 }
 
 .aboutVersion h1 {
+    text-align: center;
     margin-block: 0;
 }
 
-.aboutLogo {
-    text-align: center;
-    margin: 1rem 0;
+.aboutVersion {
+    text-align: right;
 }
 
 .aboutLogo svg {
-    width: 10rem;
-    text-align: center;
+    width: 9rem;
+    margin-block: 1rem;
+    align-self: center;
 }
 
 .aboutDescription {
@@ -23,11 +24,7 @@ section {
 .aboutLinks {
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: .75rem;
-}
-
-.aboutLinks:nth-of-type(2) {
-    margin-bottom: 2rem;
+    margin-bottom: .5rem;
 }
 
 .aboutLinks a {
@@ -40,16 +37,6 @@ section {
     opacity: 1;
     border-bottom: 1px solid var(--dark);
     padding: 0.05rem;
-}
-
-.aboutVersion {
-    text-align: right;
-    margin-bottom: 2rem;
-}
-
-.aboutVersion h1 {
-    text-align: center;
-    margin-bottom: 0;
 }
 
 .aboutText {

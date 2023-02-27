@@ -50,46 +50,6 @@
     white-space: pre-line;
 }
 
-.terms::-webkit-scrollbar,
-.terms::-webkit-scrollbar-button:decrement,
-.terms::-webkit-scrollbar-button:increment {
-    border-color: rgba(0,0,0, 0.4);
-    border-width: 2px;
-}
-
-.terms::-webkit-scrollbar {
-    border-left-style: solid;
-    width: 1.2rem;
-}
-
-.terms::-webkit-scrollbar-thumb {
-    height: 2.5rem;
-    background-color: black;
-}
-
-.terms::-webkit-scrollbar-track {
-    padding-inline: 3px;
-}
-
-.terms::-webkit-scrollbar-button:decrement,
-.terms::-webkit-scrollbar-button:increment {
-    border-left: 1px solid rgba(0,0,0, 0.4);
-    height: 1.3rem;
-    background-repeat: no-repeat;
-    background-size: 100% 80%;
-    background-position: center;
-}
-
-.terms::-webkit-scrollbar-button:decrement {
-    border-bottom-style: solid;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z'/></svg>");
-}
-
-.terms::-webkit-scrollbar-button:increment {
-    border-top-style: solid;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/></svg>");
-}
-
 .seedPhrasePage form {
     padding-top: 4rem;
 }
@@ -104,23 +64,6 @@
     height: 7rem;
     line-height: 1.5;
 }
-
-/*.seedPhrasePage textarea::-webkit-resizer {*/
-/*    background: red;*/
-/*    margin: 10px;*/
-/*    border-style: solid;*/
-/*    border-width: 200px;*/
-/*    border-top-color: white;*/
-/*    border-left-color: white;*/
-/*    border-right-color: black;*/
-/*    border-bottom-color: black;*/
-/*    outline-right-color: 5px solid white;*/
-/*    bottom: 20px;*/
-/*    right: 20px;*/
-/*    width: 5rem;*/
-/*    height: 5rem;*/
-/*    box-shadow: 1px 1px white;*/
-/*}*/
 
 .seedPhrasePage .underlined {
     background-color: transparent;

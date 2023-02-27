@@ -113,6 +113,7 @@ body {
   line-height: 1.4;
   padding: .75rem 1rem .25rem;
   background-color: var(--light);
+  scrollbar-color: black white;
 }
 
 /*body::-webkit-scrollbar {*/
@@ -211,5 +212,57 @@ div[cardclass="lineVertical"] {
 
 div[cardclass="lineVertical"] > div {
   padding-left: 4rem;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-button:single-button:decrement,
+::-webkit-scrollbar-button:single-button:increment {
+  border-color: rgba(0,0,0, 0.4);
+  border-width: 2px;
+}
+
+::-webkit-scrollbar {
+  border-left-style: solid;
+  width: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+}
+
+::-webkit-scrollbar-button:single-button:decrement,
+::-webkit-scrollbar-button:single-button:increment {
+  border-left: 1px solid rgba(0,0,0, 0.4);
+  height: 1.3rem;
+  background-repeat: no-repeat;
+  background-size: 100% 80%;
+  background-position: center;
+}
+
+::-webkit-scrollbar-button:single-button:decrement {
+  border-bottom-style: solid;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:increment {
+  border-top-style: solid;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/></svg>");
+}
+
+.seedPhrasePage textarea::-webkit-resizer {
+    background: red;
+    margin: 10px;
+    border-style: solid;
+    border-width: 200px;
+    border-top-color: white;
+    border-left-color: white;
+    border-right-color: black;
+    border-bottom-color: black;
+    outline-right-color: 5px solid white;
+    bottom: 20px;
+    right: 20px;
+    width: 5rem;
+    height: 5rem;
+    box-shadow: 1px 1px white;
 }
 

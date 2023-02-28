@@ -35,11 +35,12 @@
     /*flex-direction: column;*/
     /*align-items: center;*/
     /*background-color: var(--light);*/
-    padding: 8px 0;
+    padding: .5rem 0;
     list-style: none;
     text-transform: capitalize;
     border-top: 1px dashed var(--dark);
     line-height: 1.2;
+
 }
 
 .option:focus,
@@ -56,9 +57,9 @@
     margin: 0;
     border: 0;
     /*padding-bottom: 4px;*/
-    /*display: flex;*/
+    display: flex;
     position: relative;
-    /*justify-content: center;*/
+    justify-content: center;
     /*background: var(--light) !important;*/
 }
 
@@ -74,10 +75,12 @@
 }
 
 .optionAdd {
-    padding: 16px;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     border-top: 1px solid var(--dark);
+    width: 60%;
+    margin-inline: auto;
 }
 
 .optionLink {

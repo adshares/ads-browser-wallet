@@ -7,7 +7,7 @@
     opacity: 0;
     z-index: 100000;
     pointer-events: all;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.9);
     animation: fade-in 0.1s linear;
     animation-fill-mode: forwards;
 }

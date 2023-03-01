@@ -7,7 +7,7 @@
 }
 
 .transferBalance {
-    margin: 0 0 .5rem .25rem;
+    margin: 0 0 0 .25rem;
 }
 
 .transferBalance span {
@@ -32,9 +32,9 @@
     padding-top: 1rem;
 }
 
-/*.message {*/
-/*    margin-top: 40px;*/
-/*}*/
+.message {
+    margin-top: 2rem;
+}
 
 .messageCheckbox {
     font-size: var(--font-small);
@@ -62,18 +62,17 @@
     color: white;
     font-size: var(--font-big);
     font-weight: var(--font-weight-bold);
-    margin-block: 1rem;
     padding-block: .125rem;
 }
 
 .feeInfoBox {
-    padding-block: 1.25rem;
+    padding-block: .65rem;
 }
 
 .feeInfo p {
     font-size: var(--font-small);
     font-weight: var(--font-weight-normal);
-    margin-bottom: 0;
+    margin: .75rem 0 0;
 }
 
 .transactionSuccess a {

@@ -54,13 +54,10 @@ class Page extends React.Component {
     if (className) {
       classes.push(className);
     }
-    if (scroll) {
-      classes.push(style.withScroll);
-    }
     const wrapperClass = classes.join(' ');
 
     return (
-      <section>
+      <div className={showLoader && style.hideScroll}>
         {showLoader && <LoaderOverlay />}
         <AuthDialog
           {...authDialog}
@@ -68,29 +65,6 @@ class Page extends React.Component {
           confirmAction={actions.authDialog.confirmPassword}
         />
         <Header logoutAction={actions.vault.seal} title={title} />
-        {/*<header className={headerClass}>*/}
-        {/*  <div className={style.logo}>*/}
-        {/*    {noLinks || homeLink === false ? (*/}
-        {/*      <img src={logo} alt="Adshares wallet" />*/}
-        {/*    ) : (*/}
-        {/*      <Link to="/">*/}
-        {/*        <img src={logo} alt="Adshares wallet" />*/}
-        {/*      </Link>*/}
-        {/*    )}*/}
-        {/*    {config.testnet ? <span>TESTNET</span> : ''}*/}
-        {/*  </div>*/}
-        {/*  {menu}*/}
-        {/*</header>*/}
-        {/*{title ? (*/}
-        {/*  <h1>*/}
-        {/*    {title} {subTitle && subTitle !== title ? <small>{subTitle}</small> : ''}*/}
-        {/*  </h1>*/}
-        {/*) : (*/}
-        {/*  <SelectAccount*/}
-        {/*    options={vault.accounts} selectedAccount={vault.selectedAccount}*/}
-        {/*    selectAccount={actions.vault.selectActiveAccount}*/}
-        {/*  />*/}
-        {/*)}*/}
         {!hideSelectAccount && <SelectAccount
           options={vault.accounts} selectedAccount={vault.selectedAccount}
           selectAccount={actions.vault.selectActiveAccount}
@@ -104,7 +78,7 @@ class Page extends React.Component {
         <footer className={style.footer}>
           <Timer />
         </footer>
-      </section>
+      </div>
     );
   }
 }

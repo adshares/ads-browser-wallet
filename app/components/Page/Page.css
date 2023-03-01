@@ -53,3 +53,11 @@
     top: 0;
 }
 
+.hideScroll {
+    max-height: 580px;
+    overflow: hidden;
+}
+
+
+
+

@@ -63,7 +63,7 @@ export default class SelectAccount extends React.Component {
           onClick={() => this.toggleShowOptions(!showOptions)}
           onKeyDown={() => this.toggleShowOptions(true)}
         >
-          <span className={style.optionName}>
+          <span className={`${style.optionName} ${activeOption.name && style.displayBlock}`}>
             {activeOption.name ? activeOption.name : activeOption.address}
           </span>
           <span className={style.optionAccount}>

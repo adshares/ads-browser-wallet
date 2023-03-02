@@ -3,11 +3,6 @@
     height: 15rem;
 }
 
-.logo h2 {
-    font-size: var(--font-smaller);
-    font-weight: var(--font-weight-bolder);
-}
-
 .links {
     margin-block: 1rem;
     font-size: var(--font-small);
@@ -17,5 +12,9 @@
 .links a {
     display: block;
     margin-bottom: .35rem;
+}
+
+.invisible {
+    visibility: hidden;
 }
 

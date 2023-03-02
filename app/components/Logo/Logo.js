@@ -1,20 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import anime from 'animejs';
 import style from './Logo.css';
 
 export default class Logo extends React.Component {
-  componentDidMount() {
-    anime({
-      targets: `.${style.cls1}`,
-      strokeDashoffset: [anime.setDashoffset, 0],
-      easing: 'easeInOutSine',
-      duration: 1500,
-      delay: 100,
-      loop: false
-    });
-  }
-
   render() {
     const {
       className,

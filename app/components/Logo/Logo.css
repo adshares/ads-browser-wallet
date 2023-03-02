@@ -15,7 +15,7 @@
     }
 
     100% {
-        transform: translateY(-3%);
+        transform: translateY(-1%);
     }
 
 }
@@ -26,7 +26,7 @@
 
 .logoMark {
     fill: var(--primary);
-    animation: logoMark 500ms ease-in-out 190ms;
+    animation: logoMark 500ms ease-in-out;
     transform-origin: center;
     scale: 0.9;
 }
@@ -36,3 +36,4 @@
     animation: logoType 800ms ease;
     transform-origin: bottom center;
 }
+

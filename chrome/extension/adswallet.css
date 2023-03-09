@@ -174,8 +174,7 @@ button {
 
 div[cardclass] {
   border-radius: 1rem;
-  margin-inline: 0.5rem;
-  margin-bottom: 2rem;
+  margin: 1rem .5rem 2rem;
   text-align: left;
 }
 
@@ -191,11 +190,12 @@ div[cardclass] h2 {
 div[cardclass="lineHorizontal"] {
   background: url(../../app/assets/subway-horizontal.svg) no-repeat,
   black;
-  padding: 1rem 1.5rem 1.5rem 5rem;
+  background-size: 95%, cover;
+  padding: 1rem 1.5rem 1.5rem 4rem;
 }
 
 div[cardclass="lineVertical"] {
-  background: url(../../app/assets/subway-vertical.svg) no-repeat left -20% top 105%,
+  background: url(../../app/assets/subway-vertical.svg) no-repeat left -20% top 120%,
   black;
   padding: 1rem 1.5rem;
 }

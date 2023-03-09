@@ -10,7 +10,7 @@ import Buttons from '../../components/atoms/Buttons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
-import AnimatedLogo from '../../components/Logo/AnimatedLogo';
+import Logo from '../../components/Logo/Logo';
 import config from '../../config/config';
 import style from './RegisterPage.css';
 
@@ -81,8 +81,7 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.welcomePage}>
         <header className={style.logo}>
-          <AnimatedLogo />
-          <h1>Live by ADS</h1>
+          <Logo />
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <p className={style.about}>{config.about}</p>

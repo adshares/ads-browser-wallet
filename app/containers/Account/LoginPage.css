@@ -1,17 +1,22 @@
 .logo svg {
-    width: 15rem;
-    height: 15rem;
+    width: 13rem;
+    height: 13rem;
+}
+
+h2 {
+    margin-block: 1rem;
 }
 
 .links {
-    margin-block: 1rem;
+    margin-block: 1.5rem;
     font-size: var(--font-small);
     font-weight: var(--font-weight-light);
 }
 
 .links a {
     display: block;
-    margin-bottom: .35rem;
+    margin-bottom: .5rem;
+    text-decoration: underline;
 }
 
 .invisible {

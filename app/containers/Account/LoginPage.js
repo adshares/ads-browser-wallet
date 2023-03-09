@@ -36,7 +36,6 @@ export default class LoginPage extends FormComponent {
       <div>
         <div className={style.logo}>
           <Logo />
-          <h1>Live by ADS</h1>
           {config.testnet ? <h2>TESTNET</h2> : ''}
         </div>
         <Form onSubmit={this.handleLogin}>

@@ -256,6 +256,14 @@ div[cardclass="lineVertical"] > div {
     box-shadow: 1px 1px white;
 }
 
+/* ---------------------------------------- read-only-inputs ------------------------------------ */
+
+input[readonly],
+textarea[readonly] {
+  font-family: monospace;
+  line-height: 1.5;
+}
+
 /* ---------------------------------------- dark-mode ---------------------------------------- */
 
 :root[data-dark-mode] {

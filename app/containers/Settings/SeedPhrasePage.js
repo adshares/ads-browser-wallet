@@ -41,7 +41,7 @@ class SeedPhrasePage extends PageComponent {
           </Box>
           <InputControl
             value={seedPhrase}
-            rows={3}
+            rows={2}
             readOnly
             label="Seed Phrase"
           />

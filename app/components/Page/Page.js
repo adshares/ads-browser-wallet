@@ -51,13 +51,14 @@ class Page extends React.Component {
 
     classes = [];
     classes.push(style.contentWrapper);
+    classes.push(style.pageL);
     if (className) {
       classes.push(className);
     }
     const wrapperClass = classes.join(' ');
 
     return (
-      <div className={showLoader && style.hideScroll}>
+      <div className={`${style.page} ${showLoader && style.hideScroll}`}>
         {showLoader && <LoaderOverlay />}
         <AuthDialog
           {...authDialog}

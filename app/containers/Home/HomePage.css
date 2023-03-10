@@ -1,13 +1,3 @@
-.page > a {
-    margin-bottom: 10px;
-}
-
-/*.configure > svg {*/
-/*    width: 200px;*/
-/*    margin-top: -160px;*/
-/*    margin-bottom: 30px;*/
-/*}*/
-
 .boxConfigure {
     margin: 4rem auto 9rem;
 }
@@ -39,7 +29,7 @@
     text-align: right;
     font-size: var(--font-bigger);
     font-weight: var(--font-weight-bolder);
-    margin-top: 2.4rem;
+    margin-top: .5rem;
 }
 
 .currency {

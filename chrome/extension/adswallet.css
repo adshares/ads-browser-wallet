@@ -106,9 +106,6 @@
 body {
   box-sizing: border-box;
   overflow-y: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
   font-weight: 400;
   text-align: center;
@@ -117,28 +114,11 @@ body {
   padding: .5rem 1rem .25rem;
   background-color: var(--light);
   scrollbar-color: var(--dark) var(--light);
-  background-color: green;
-
-}
-
-body > * {
-  flex: 1;
-  background-color: white;
 }
 
 body > * > * {
   height: 500px;
-  background-color: pink;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
 }
-
-/*body > * > * > * {*/
-/*  background-color: #BD1F2E;*/
-/*  flex: 1;*/
-/*}*/
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;

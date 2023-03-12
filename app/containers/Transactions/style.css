@@ -42,19 +42,6 @@
     justify-content: flex-end;
 }
 
-/*.buttons {*/
-/*    margin-top: 30px;*/
-/*    text-align: center;*/
-/*}*/
-
-/*.buttons > *:first-child {*/
-/*    margin-right: 50px;*/
-/*}*/
-
-/*.feeInfoBox > div {*/
-/*    margin-top: -15px;*/
-/*}*/
-
 .feeInfoBox,
 .feeInfo {
     text-align: center !important;
@@ -121,22 +108,13 @@
 }
 
 .availableLinks {
-    margin-top: 3rem;
+    margin-top: 5rem;
     margin-bottom: 3rem;
 }
-
-/*.availableLinkCancel {*/
-/*    margin-bottom: 3.5rem;*/
-/*}*/
 
 .unwrap {
     margin-top: 3rem;
 }
-
-/*.changeAccountKeyPage title {*/
-/*    margin: 0 0 1rem;*/
-/*    font-size: 1.75rem;*/
-/*}*/
 
 .transactionSummary :is(a, small, .boldBlock){
     text-align: right;

@@ -1,11 +1,12 @@
 .page {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
 }
 
-.page > * {
+.page > *:not(header, footer) {
     flex: 1 1 auto;
 }
 
@@ -13,52 +14,7 @@
     margin-bottom: 10px;
 }
 
-.header > h1 {
-    font-size: calc(var(--font-big)*6);
-    line-height: 1.25em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 275px;
-    text-align: center;
-}
-
-/*.header > h1 small {*/
-/*    display: block;*/
-/*    font-size: 0.65em;*/
-/*    line-height: 1.2em;*/
-/*    font-style: italic;*/
-/*    font-weight: 700;*/
-/*}*/
-
-/*.smallHeader > h1 {*/
-/*    font-size: 1em;*/
-/*}*/
-
-/*.logo img {*/
-/*    height: 40px;*/
-/*}*/
-
-/*.logo span {*/
-/*    font-size: var(--font-smaller);*/
-/*    font-weight: var(--font-weight-bolder);*/
-/*    display: inline-block;*/
-/*    vertical-align: bottom;*/
-/*    padding: 0 0 0.5rem 0.5rem;*/
-/*}*/
-
-/*.close {*/
-/*    width: 32px;*/
-/*    margin-left: 8px;*/
-/*}*/
-
-/*.withScroll {*/
-/*    overflow-y: scroll;*/
-/*}*/
-
 .footer {
-    margin-top: 1rem;
-    inset: auto 0.5rem 0;
     border-top: 1px solid var(--dark);
     padding: 0.25rem;
 }

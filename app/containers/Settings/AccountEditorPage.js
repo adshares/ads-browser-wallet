@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
@@ -18,6 +16,7 @@ import { inputChange, cleanForm } from '../../actions/formActions';
 import { SAVE_ACCOUNT, saveAccount } from '../../actions/settingsActions';
 import config from '../../config/config';
 import style from './SettingsPage.css';
+import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 
 class AccountEditorPage extends FormComponent {
   static propTypes = {
@@ -132,13 +131,7 @@ class AccountEditorPage extends FormComponent {
               value={publicKey}
             >
               {publicKeyLoading ?
-                <div className={style.inputLoader}>
-                  <FontAwesomeIcon
-                    className={style.inputSpinner}
-                    icon={faSpinner}
-                    title="loading"
-                  />
-                </div>
+                <LoaderOverlay />
                 : '' }
             </InputControl>
             : '' }

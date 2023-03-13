@@ -66,14 +66,19 @@ class Page extends React.Component {
           confirmAction={actions.authDialog.confirmPassword}
         />
         <Header logoutAction={actions.vault.seal} title={title} />
-        {!hideSelectAccount && <SelectAccount
-          options={vault.accounts} selectedAccount={vault.selectedAccount}
-          selectAccount={actions.vault.selectActiveAccount}
-        />}
+        {!hideSelectAccount && (
+          <SelectAccount
+            options={vault.accounts}
+            selectedAccount={vault.selectedAccount}
+            selectAccount={actions.vault.selectActiveAccount}
+          />
+        )}
         <div className={wrapperClass}>
-          {errorMsg && <Box title="Server error" icon={'i'} layout="warning" className={style.errorClass}>
-            {errorMsg}
-          </Box>}
+          {errorMsg && (
+            <Box title="Server error" icon="i" layout="warning" className={style.errorClass}>
+              {errorMsg}
+            </Box>
+          )}
           {children}
         </div>
         <footer className={style.footer}>

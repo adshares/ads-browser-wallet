@@ -1,8 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons/index';
 import { TransactionDataError } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
@@ -173,7 +171,7 @@ export default class SignForm extends FormComponent {
       <tr>
         <td>{label}</td>
         <td><a href={link} target="_blank" rel="noopener noreferrer">
-          {address}<FontAwesomeIcon icon={faLink} />
+          {address}<LinkIcon />
         </a></td>
       </tr>
     );
@@ -203,7 +201,7 @@ export default class SignForm extends FormComponent {
         <td>
           {link ?
             <a href={link} target="_blank" rel="noopener noreferrer">
-              <code>{prefix}{address}</code><FontAwesomeIcon icon={faLink} />
+              <code>{prefix}{address}</code><LinkIcon />
             </a> :
             <code>{prefix}{address}</code>
           }
@@ -320,7 +318,7 @@ export default class SignForm extends FormComponent {
                   <td>{index + 1}</td>
                   <td>
                     <a href={`${addressLink}${recipient.address}`} target="_blank" rel="noopener noreferrer">
-                      {recipient.address}<FontAwesomeIcon icon={faLink} />
+                      {recipient.address}<LinkIcon />
                     </a>
                   </td>
                   <td>{ADS.formatClickMoney(recipient.amount, 11, true)} ADS</td>
@@ -393,7 +391,7 @@ export default class SignForm extends FormComponent {
           <td>
             {typeLabels[type]}{this.props.showDoc ? <React.Fragment><br />
               <a href={docLink} target="_blank" rel="noopener noreferrer"><small>
-                {type}<FontAwesomeIcon icon={faLink} />
+                {type}<LinkIcon />
               </small></a></React.Fragment> : ''}
           </td>
         </tr>

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ErrorPage from './ErrorPage';
 import AboutPage from './AboutPage';
 import HomePage from './Home/HomePage';
@@ -29,6 +27,7 @@ import KeyDetailsPage from './Settings/KeyDetailsPage';
 import * as vaultActions from '../actions/vaultActions';
 // import style from './About.css';
 import config from '../config/config';
+import LoaderOverlay from '../components/atoms/LoaderOverlay';
 
 function NotFoundErrorPage(props) {
   return (
@@ -71,7 +70,7 @@ function SwitchNetwork({ ...params }) {
     }, () => {
       window.location.reload();
     });
-    return <FontAwesomeIcon icon={faSpinner} className="window-spinner" />;
+    return <LoaderOverlay />;
   }
 
   return <Redirect to={url} />;

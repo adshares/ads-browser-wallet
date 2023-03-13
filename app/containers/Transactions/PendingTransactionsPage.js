@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList, faCheck } from '@fortawesome/free-solid-svg-icons';
 import PageComponent from '../../components/PageComponent';
 import Page from '../../components/Page/Page';
 import ErrorPage from '../ErrorPage';
@@ -67,7 +65,8 @@ class PendingTransactionsPage extends PageComponent {
             pathname: `/transactions/${item.sourceId}/${item.id}/sign`,
             state: { referrer: this.props.history.location }
           }}
-        ><FontAwesomeIcon icon={faList} /> Details</ButtonLink>
+        >Details</ButtonLink>
+        {/*><FontAwesomeIcon icon={faList} /> Details</ButtonLink>*/}
       </div>
     );
   }
@@ -90,7 +89,7 @@ class PendingTransactionsPage extends PageComponent {
             <Box
               layout="success"
               title="All right!"
-              icon={faCheck}
+              // icon={faCheck}
             >
               There are no pending transactions
             </Box>

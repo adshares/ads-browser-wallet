@@ -1,27 +1,22 @@
 .page {
     text-align: center;
-    padding: 0 15px;
+    padding: 0 1rem;
 }
 
 .page header {
-    margin-bottom: 31px;
+    margin-bottom: 1rem;
 }
 
 .page h1 {
-    margin: 20px 0;
+    margin: 1rem 0;
 }
 
 .page h3 {
     color: var(--orange-dark);
-    margin: 15px 0;
 }
 
 .page > div {
     margin-bottom: 25px;
-}
-
-.page textarea {
-    height: 83px;
 }
 
 .page .buttons {

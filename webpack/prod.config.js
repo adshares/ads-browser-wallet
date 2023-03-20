@@ -2,8 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 
-const host = 'localhost';
-const port = 3000;
 const customPath = path.join(__dirname, './customPublicPath');
 
 module.exports = {

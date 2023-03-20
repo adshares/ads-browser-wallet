@@ -95,6 +95,7 @@ export default class RestorePage extends FormComponent {
                 autoFocus
                 required
                 name="seedPhrase"
+                rows="3"
                 value={this.state.seedPhrase}
                 onChange={this.handleSeedPhraseChange}
               />

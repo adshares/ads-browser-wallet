@@ -1,31 +1,25 @@
 .dark {
     fill: #000;
-    stroke: #000;
 }
 
 :root[data-dark-mode] .button.secondary .dark {
     fill: black;
-    stroke: black;
 }
 
 .light {
     fill: #fff;
-    stroke: #fff;
 }
 
 .primary {
     fill: var(--primary);
-    stroke: var(--primary);
 }
 
 .warning {
     fill: var(--warning);
-    stroke: var(--warning);
 }
 
 .info {
     fill: var(--info);
-    stroke: var(--info);
 }
 
 .rotate {

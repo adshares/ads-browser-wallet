@@ -2,13 +2,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 88% !important;
+    max-width: 91% !important;
     padding: 1rem;
-    margin: 1rem auto 2rem;
-    font-weight: var(--font-weight-medium);
+    margin: 0 auto 2rem;
     line-height: 1.2;
     gap: 1.3rem;
     text-align: center !important;
+    outline: 1px solid var(--dark);
 }
 
 .box a {
@@ -21,29 +21,29 @@
 
 .box.info {
     color: var(--info);
-    outline: 2px solid var(--info);
+    outline-color: var(--info);
 }
 
 .box.success {
     background-color: var(--green-dark);
-    outline: 2px solid var(--green-dark);
+    outline-color: var(--green-dark);
 }
 
 .box.warning {
     color: var(--warning);
-    outline: 2px solid var(--warning);
+    outline-color: var(--warning);
 }
 
 .box.danger {
     background-color: var(--primary);
     color: var(--light);
-    outline: 2px solid var(--primary);
+    outline-color: var(--primary);
 }
 
 .box.inverse {
     border: 2px solid var(--slate-dark);
     color: var(--slate-dark);
-    background-color: var(--light);
+    outline-color: var(--light);
 }
 
 .box.inverse a {
@@ -98,7 +98,6 @@
     margin: 0;
     line-height: 24px;
     overflow-wrap: break-word;
-    font-weight: var(--font-weight-bold);
 }
 
 .box.large > .content {

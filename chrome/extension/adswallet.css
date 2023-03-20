@@ -49,7 +49,7 @@
   --dark: #000;
 
   /* -------------------------------------- */
-  
+
   --green: #8FBF5B;
   --green-dark: #5D9421;
   --blue-dark: #2A87C4;
@@ -105,20 +105,21 @@
 
 body {
   box-sizing: border-box;
-  overflow-y: hidden;
-  font: var(--font-normal) 'HCo Gotham', Arial, sans-serif;
-  font-weight: 400;
+  overflow: hidden;
+  font-family: 'HCo Gotham', Arial, sans-serif;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-normal);
   text-align: center;
   color: var(--dark);
   line-height: 1.4;
-  padding: .5rem 1rem .25rem;
+  padding: 0 1rem 0;
   background-color: var(--light);
   scrollbar-color: var(--dark) var(--light);
 }
 
-body > * > * {
-  height: 500px;
-}
+/*body > * > * {*/
+/*  height: 500px;*/
+/*}*/
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
@@ -175,7 +176,7 @@ button {
 
 div[cardclass] {
   border-radius: 1rem;
-  margin: 1rem .5rem 2rem;
+  margin: 1rem 0 2rem;
   text-align: left;
 }
 

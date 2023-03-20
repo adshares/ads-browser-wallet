@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
+    padding-top: 0.75rem;
 }
 
 .page > *:not(header, footer) {

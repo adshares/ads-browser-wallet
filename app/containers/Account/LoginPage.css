@@ -7,6 +7,10 @@ h2 {
     margin-block: 1rem;
 }
 
+.warning {
+    color: var(--orange-dark);
+}
+
 .links {
     margin-block: 1.5rem;
     font-size: var(--font-small);
@@ -23,3 +27,10 @@ h2 {
     visibility: hidden;
 }
 
+.page {
+    padding: 0 1rem;
+}
+.page form {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}

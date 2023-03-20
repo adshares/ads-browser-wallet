@@ -33,10 +33,10 @@ export default class LoginPage extends FormComponent {
 
   render() {
     return (
-      <div>
+      <div className={style.page}>
         <div className={style.logo}>
           <Logo />
-          {config.testnet ? <h2>TESTNET</h2> : ''}
+          {config.testnet ? <h2 className={style.warning}>TESTNET</h2> : ''}
         </div>
         <Form onSubmit={this.handleLogin}>
           <label htmlFor="password">
@@ -56,7 +56,7 @@ export default class LoginPage extends FormComponent {
         <div className={style.links}>
           <Link to={'/restore'}>Restore the vault from a seed</Link>
           {config.testnet ?
-            <Link to={'/mainnet'}>Switch to the mainnet</Link> :
+            <Link to={'/mainnet'} className={style.warning}>Switch to the mainnet</Link> :
             <Link to={'/testnet'}>Switch to the testnet</Link>
           }
         </div>

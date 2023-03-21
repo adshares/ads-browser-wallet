@@ -47,6 +47,7 @@ class KeyDetailsPage extends PageComponent {
         className={style.page}
         title={title}
         cancelLink={this.getReferrer('/settings')}
+        scroll
       >
         <Form>
           {secretKey ?

@@ -192,11 +192,12 @@ class SettingsPage extends FormComponent {
     const { page } = this.props;
     return (
       <Page
-        className={style.page} title="Settings" scroll
+        className={style.page} title="Settings"
         cancelLink={this.getReferrer()}
         showLoader={page.isSubmitted}
         errorMsg={page.errorMsg}
         hideSelectAccount
+        scroll
       >
         {this.renderAccountsSettings()}
         {this.renderKeysSettings()}

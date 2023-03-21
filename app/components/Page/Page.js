@@ -45,6 +45,7 @@ class Page extends React.Component {
       authDialog,
       errorMsg,
       hideSelectAccount,
+      // scroll
       // cancelLink,
       // onCancelClick
     } = this.props;
@@ -56,6 +57,9 @@ class Page extends React.Component {
     if (className) {
       classes.push(className);
     }
+    // if (document.body.scrollHeight - document.body.clientHeight > 100) {
+    //   classes.push(style.scroll);
+    // }
     const wrapperClass = classes.join(' ');
 
     return (

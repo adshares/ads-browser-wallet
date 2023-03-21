@@ -77,6 +77,7 @@ class KeyEditorPage extends FormComponent {
         cancelLink={this.getReferrer()}
         showLoader={isSubmitted}
         history={history}
+        scroll
       >
         {limitWarning ? (
           <div>

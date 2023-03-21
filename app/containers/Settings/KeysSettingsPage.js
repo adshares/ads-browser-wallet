@@ -77,10 +77,11 @@ class KeysSettingsPage extends PageComponent {
     return (
       <Page
         className={style.page} title="Keys Settings"
-        cancelLink={this.getReferrer()} scroll
+        cancelLink={this.getReferrer()}
         showLoader={page.isSubmitted}
         errorMsg={page.errorMsg}
         hideSelectAccount
+        scroll
       >
         <div className={style.settingsSection}>
           <h3>Imported</h3>

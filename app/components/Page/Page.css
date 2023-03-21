@@ -15,9 +15,10 @@
     margin-bottom: 10px;
 }
 
-/*.contentWrapper {*/
-/*    overflow-y: scroll;*/
-/*}*/
+.scroll {
+    overflow-y: scroll;
+    margin-right: -1rem;
+}
 
 .footer {
     border-top: 1px solid var(--dark);

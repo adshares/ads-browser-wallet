@@ -269,8 +269,8 @@ textarea[readonly] {
 /* ---------------------------------------- dark-mode ---------------------------------------- */
 
 :root[data-dark-mode] {
-  --light: 0,0,0;
-  --dark: 255,255,255;
+  --light: #000;
+  --dark: #fff;
 }
 
 :root[data-dark-mode] body {
@@ -283,8 +283,8 @@ textarea[readonly] {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --light: 0,0,0;
-    --dark: 255,255,255;
+    --light: #000;
+    --dark: #fff;
   }
 
   body {

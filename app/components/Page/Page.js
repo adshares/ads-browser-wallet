@@ -66,13 +66,13 @@ class Page extends React.Component {
           confirmAction={actions.authDialog.confirmPassword}
         />
         <Header logoutAction={actions.vault.seal} title={title} />
-        {!hideSelectAccount && (
+        {!hideSelectAccount ?
           <SelectAccount
             options={vault.accounts}
             selectedAccount={vault.selectedAccount}
             selectAccount={actions.vault.selectActiveAccount}
           />
-        )}
+          : <div className={style.spacingDiv} /> }
         <div className={wrapperClass}>
           {errorMsg && (
             <Box title="Server error" icon="i" layout="warning" className={style.errorClass}>

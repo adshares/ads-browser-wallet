@@ -63,6 +63,7 @@ class PasswordEditorPage extends PageComponent {
         cancelLink={this.getReferrer()}
         showLoader={isSubmitted}
         history={history}
+        hideSelectAccount
       >
         {errorMsg ? <Box title="Error" layout="danger" icon={'!'}>
           {errorMsg}

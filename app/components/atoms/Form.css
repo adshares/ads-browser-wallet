@@ -1,8 +1,8 @@
 .form,
-.form > div {
+.form > * {
     text-align: left;
     max-width: 99%;
-    margin-inline: auto;
+    margin: 0 auto 1.5rem;
 }
 
 .form :is(input:not(input[type='checkbox']), textarea, select) {
@@ -14,7 +14,6 @@
     outline: 0;
     box-shadow: var(--shadow-dark);
     padding: .5rem;
-    margin-bottom: .5rem;
     background-color: white;
     color: black;
 }

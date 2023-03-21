@@ -75,6 +75,7 @@ class AvailableTransactionsPage extends PageComponent {
       <Page
         title="Transactions"
         cancelLink={this.getReferrer()}
+        hideSelectAccount
       >
         {this.props.vault.accounts.length > 0 ? this.renderLinks() : this.renderInfo() }
         <ButtonLink className={style.availableLinkCancel} to={this.getReferrer()} layout="secondary">

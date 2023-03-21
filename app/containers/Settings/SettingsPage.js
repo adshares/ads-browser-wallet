@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import {
   removeAccount,
   eraseStorage,
@@ -77,21 +77,21 @@ class SettingsPage extends FormComponent {
           <span>{account.address}</span>
         </div>
         <div className={style.accountActions}>
-          <a
+          <Link
             to={{
               pathname: `/settings/accounts/${account.address}/edit`,
               state: { referrer: this.props.history.location }
             }}
             title="Edit account"
-          ><PencilIcon /></a>
-          <a
+          ><PencilIcon /></Link>
+          <Link
             to={{
               pathname: `/settings/keys/${account.publicKey}`,
               state: { referrer: this.props.history.location }
             }}
             title={account.publicKey ? 'Show account keys' : 'Cannot find keys. The account may not have been registered yet.'}
             disabled={!account.publicKey}
-          ><KeyIcon fill="warning" /></a>
+          ><KeyIcon fill="warning" /></Link>
           <a
             onClick={() => this.removeAccountAction(account.address)}
             title="Delete account"
@@ -196,6 +196,7 @@ class SettingsPage extends FormComponent {
         cancelLink={this.getReferrer()}
         showLoader={page.isSubmitted}
         errorMsg={page.errorMsg}
+        hideSelectAccount
       >
         {this.renderAccountsSettings()}
         {this.renderKeysSettings()}

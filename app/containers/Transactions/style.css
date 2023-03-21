@@ -29,7 +29,7 @@
 }
 
 .amount :is(span, small) {
-    padding-top: 1rem;
+    padding-top: 1.5rem;
 }
 
 .message {
@@ -40,6 +40,10 @@
     font-size: var(--font-small);
     display: flex;
     justify-content: flex-end;
+}
+
+.transferBalance + .messageCheckbox {
+    margin-bottom: 0;
 }
 
 .feeInfoBox,

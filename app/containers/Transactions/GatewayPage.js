@@ -104,7 +104,7 @@ class GatewayPage extends TransactionPage {
           <span>ADS</span>
           <small>{amountInUsd}</small>
         </div>
-        <p>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</p>
+        <div>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</div>
       </React.Fragment>
     );
   }

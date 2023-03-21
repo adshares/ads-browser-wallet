@@ -52,8 +52,7 @@ class Page extends React.Component {
     let classes = [];
 
     classes = [];
-    // classes.push(style.contentWrapper);
-    // classes.push(style.pageL);
+    classes.push(style.contentWrapper);
     if (className) {
       classes.push(className);
     }
@@ -72,20 +71,22 @@ class Page extends React.Component {
           title={title}
           cancelLink={this.props.cancelLink}
         />
-        {!hideSelectAccount ?
-          <SelectAccount
-            options={vault.accounts}
-            selectedAccount={vault.selectedAccount}
-            selectAccount={actions.vault.selectActiveAccount}
-          />
-          : <div className={style.spacingDiv} /> }
-        <div className={wrapperClass}>
-          {errorMsg && (
-            <Box title="Server error" icon="i" layout="warning" className={style.errorClass}>
-              {errorMsg}
-            </Box>
-          )}
-          {children}
+        <div className={wrapperClass} >
+          {!hideSelectAccount ?
+            <SelectAccount
+              options={vault.accounts}
+              selectedAccount={vault.selectedAccount}
+              selectAccount={actions.vault.selectActiveAccount}
+            />
+            : <div className={style.spacingDiv} /> }
+          <div>
+            {errorMsg && (
+              <Box title="Server error" icon="i" layout="warning" className={style.errorClass}>
+                {errorMsg}
+              </Box>
+            )}
+            {children}
+          </div>
         </div>
         <footer className={style.footer}>
           <Timer />

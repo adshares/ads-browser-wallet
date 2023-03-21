@@ -12,15 +12,14 @@ export default class AboutPage extends PageComponent {
 
     return (
       <Page cancelLink={this.getReferrer()} hideSelectAccount >
-        {/*<Page cancelLink={this.getReferrer()} title={manifest.name} hideSelectAccount >*/}
-        <section className={style.aboutVersion}>
+        <div className={style.aboutVersion}>
           <h1>{manifest.name}</h1>
           <span>Version: {manifest.version}{isBeta ? ' (beta)' : ''} </span>
-        </section>
-        <section className={style.aboutLogo}>
+        </div>
+        <div className={style.aboutLogo} >
           <Logo />
-        </section>
-        <section>
+        </div>
+        <div>
           <p className={style.aboutDescription}>{manifest.description}</p>
           <div className={style.aboutLinks}>
             <a href={config.helpUrl} target="_blank" rel="noopener noreferrer">Help</a>
@@ -32,7 +31,7 @@ export default class AboutPage extends PageComponent {
             <a href={config.privacyUrl} target="_blank" rel="noopener noreferrer">Privacy policy</a>
             <a href={config.attributionsUrl} target="_blank" rel="noopener noreferrer">Attributions</a>
           </div>
-        </section>
+        </div>
       </Page>
     );
   }

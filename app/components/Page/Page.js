@@ -22,7 +22,7 @@ class Page extends React.Component {
     actions: PropTypes.object,
     title: PropTypes.string,
     // subTitle: PropTypes.string,
-    // cancelLink: PropTypes.any,
+    cancelLink: PropTypes.any,
     // onCancelClick: PropTypes.func,
     // noLinks: PropTypes.bool,
     // homeLink: PropTypes.bool,
@@ -44,14 +44,16 @@ class Page extends React.Component {
       showLoader,
       authDialog,
       errorMsg,
-      hideSelectAccount
+      hideSelectAccount,
+      // cancelLink,
+      // onCancelClick
     } = this.props;
 
     let classes = [];
 
     classes = [];
-    classes.push(style.contentWrapper);
-    classes.push(style.pageL);
+    // classes.push(style.contentWrapper);
+    // classes.push(style.pageL);
     if (className) {
       classes.push(className);
     }
@@ -65,7 +67,11 @@ class Page extends React.Component {
           closeAction={actions.authDialog.closeDialog}
           confirmAction={actions.authDialog.confirmPassword}
         />
-        <Header logoutAction={actions.vault.seal} title={title} />
+        <Header
+          logoutAction={actions.vault.seal}
+          title={title}
+          cancelLink={this.props.cancelLink}
+        />
         {!hideSelectAccount ?
           <SelectAccount
             options={vault.accounts}

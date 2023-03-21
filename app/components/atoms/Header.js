@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { TimesIcon } from '../icons/Icons';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import logo from '../../assets/logomark.svg';
 import config from '../../config/config';
 import style from './Header.css';
-import ButtonLink from './ButtonLink';
 
 export default class Header extends React.Component {
   static propTypes = {
@@ -25,21 +25,18 @@ export default class Header extends React.Component {
       title
     } = this.props;
 
-
     let menu;
     if (noLinks) {
       menu = <div />;
     } else if (cancelLink) {
       menu = (
-        <ButtonLink
+        <Link
           to={cancelLink}
           onClick={onCancelClick}
           className={style.close}
-          size="small"
-          inverse
         >
           <TimesIcon />
-        </ButtonLink>
+        </Link>
       );
     } else {
       menu = <HamburgerMenu logoutAction={logoutAction} />;
@@ -47,10 +44,11 @@ export default class Header extends React.Component {
 
     return (
       <header className={style.header}>
-        <div className={style.logo}>
+        <Link to="/" className={style.logo}>
           <img src={logo} alt="Adshares wallet" />
-          {config.testnet ? <span>TESTNET</span> : ''}
-        </div>
+          {config.testnet && <span>TESTNET</span>}
+          {/*{config.testnet ? <span>TESTNET</span> : ''}*/}
+        </Link>
         {title && <h1 className={style.title}>{title}</h1>}
         {menu}
       </header>

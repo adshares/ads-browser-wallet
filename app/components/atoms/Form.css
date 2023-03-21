@@ -1,5 +1,5 @@
 .form,
-.form > * {
+.form > div {
     text-align: left;
     max-width: 99%;
     margin: 0 auto 1.5rem;

@@ -149,6 +149,7 @@ a {
   text-decoration: none;
   color: var(--dark);
   opacity: 1;
+  cursor: pointer;
 }
 
 a:not:has(.button):hover {

@@ -209,12 +209,13 @@ export class SwitchIcon extends Icon {
 
 export class TimesIcon extends Icon {
   render() {
-    const { fill, width = 30, height = 32, viewBox = '0 0 30 32' } = this.props;
+    const { fill, width = 24, height = 24, viewBox = '0 0 30 32' } = this.props;
     return (
       <Icon fill={fill} width={width} height={height} viewBox={viewBox} >
-        <path d="M15.0186 16.0953L29.0727 1.64783" strokeWidth="2" />
-        <path d="M1.25 2.00006L29.25 30.0001" strokeWidth="2" />
-        <path d="M1.42676 30.3522L15.0187 16.0953" strokeWidth="2" />        </Icon>
+        <path d="M15.0186 16.0953L29.0727 1.64783" stroke="black" strokeWidth="2" />
+        <path d="M1.25 2.00006L29.25 30.0001" stroke="black" strokeWidth="2" />
+        <path d="M1.42676 30.3522L15.0187 16.0953" stroke="black" strokeWidth="2" />
+      </Icon>
     );
   }
 }

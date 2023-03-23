@@ -57,9 +57,9 @@ class Page extends React.Component {
     if (className) {
       classes.push(className);
     }
-    // if (document.body.scrollHeight - document.body.clientHeight > 100) {
-    //   classes.push(style.scroll);
-    // }
+    if (document.body.clientHeight + 50 < document.body.scrollHeight) {
+      classes.push(style.scroll);
+    }
     const wrapperClass = classes.join(' ');
 
     return (

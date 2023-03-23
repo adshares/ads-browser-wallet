@@ -503,7 +503,7 @@ export default class SignForm extends FormComponent {
 
     return (
       <Page
-        className={`${style.page} ${this.state.showAdvanced && scroll}`}
+        className={style.page}
         title={this.getTitle(command)}
         subTitle={this.getSubTitle(command)}
         cancelLink={this.props.cancelLink}

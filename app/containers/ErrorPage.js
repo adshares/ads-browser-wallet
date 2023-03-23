@@ -19,8 +19,12 @@ export default class ErrorPage extends PageComponent {
           {message}
         </Box>
         {this.props.children}
-        <ButtonLink to={cancelLink} onClick={onCancelClick} size="wide" layout="info" icon="left">
-          Back</ButtonLink>
+        <ButtonLink
+          to={cancelLink}
+          onClick={onCancelClick}
+          layout="secondary"
+        > Back
+        </ButtonLink>
       </Page>
     );
   }

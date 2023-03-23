@@ -2,7 +2,7 @@ import React from 'react';
 import PageComponent from '../components/PageComponent';
 import Page from '../components/Page/Page';
 import Logo from '../components/Logo/Logo';
-import style from './App.css';
+import style from './About.css';
 import config from '../config/config';
 
 export default class AboutPage extends PageComponent {
@@ -11,15 +11,16 @@ export default class AboutPage extends PageComponent {
     const isBeta = parseInt(manifest.version.split('.')[0], 10) < 1;
 
     return (
-      <Page cancelLink={this.getReferrer()} title={manifest.name}>
-        <section className={style.aboutVersion}>
-          <b>Version</b>: {manifest.version}{isBeta ? ' (beta)' : ''}
-        </section>
-        <section className={style.aboutLogo}>
+      <Page cancelLink={this.getReferrer()} hideSelectAccount >
+        <div className={style.aboutVersion}>
+          <h1>{manifest.name}</h1>
+          <span>Version: {manifest.version}{isBeta ? ' (beta)' : ''} </span>
+        </div>
+        <div className={style.aboutLogo} >
           <Logo />
-        </section>
-        <section>
-          <h3 className={style.aboutDescription}>{manifest.description}</h3>
+        </div>
+        <div>
+          <p className={style.aboutDescription}>{manifest.description}</p>
           <div className={style.aboutLinks}>
             <a href={config.helpUrl} target="_blank" rel="noopener noreferrer">Help</a>
             <a href={config.supportUrl} target="_blank" rel="noopener noreferrer">Support</a>
@@ -30,7 +31,7 @@ export default class AboutPage extends PageComponent {
             <a href={config.privacyUrl} target="_blank" rel="noopener noreferrer">Privacy policy</a>
             <a href={config.attributionsUrl} target="_blank" rel="noopener noreferrer">Attributions</a>
           </div>
-        </section>
+        </div>
       </Page>
     );
   }

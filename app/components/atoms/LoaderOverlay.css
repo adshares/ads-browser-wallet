@@ -1,6 +1,48 @@
-@keyframes rotate {
+.loader {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    z-index: 100000;
+    pointer-events: all;
+    background-color: rgba(255, 255, 255, 0.9);
+    animation: fade-in 0.1s linear;
+    animation-fill-mode: forwards;
+}
+
+.spinner {
+    width: 4rem;
+}
+
+.spinnerOuterCircle {
+    stroke-dasharray: 188.19;
+    stroke-dashoffset: 188.19;
+    animation: draw 2000ms ease-in-out infinite;
+}
+
+.spinnerInnerCircle {
+    stroke-dasharray: 137.34;
+    stroke-dashoffset: 137.34;
+    animation: draw 1400ms normal infinite;
+}
+
+.spinnerMiddle {
+    r: 0;
+    transition: r 1200ms ease-in;
+    animation: grow 1200ms normal infinite;
+}
+
+@keyframes draw  {
     to {
-        transform: rotate(360deg);
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes grow {
+    to {
+        r: 13;
     }
 }
 
@@ -8,28 +50,4 @@
     to {
         opacity: 1;
     }
-}
-
-.loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    z-index: 100000;
-    justify-content: center;
-    align-items: center;
-    pointer-events: all;
-    background-color: rgba(255, 255, 255, 0.7);
-    animation: fade-in 0.1s linear;
-    animation-fill-mode: forwards;
-}
-
-.spinner {
-    min-height: 60px;
-    min-width: 60px;
-    animation: rotate 1.25s linear infinite;
-    color: var(--gray-dark);
 }

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTimes, faExclamation, faCheck, faInfo } from '@fortawesome/free-solid-svg-icons';
 import Page from '../../components/Page/Page';
 import PageComponent from '../../components/PageComponent';
 import InputControl from '../../components/atoms/InputControl';
@@ -12,6 +10,7 @@ import Form from '../../components/atoms/Form';
 import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import { inputChange, cleanForm } from '../../actions/formActions';
 import { CHANGE_PASSWORD, changePassword } from '../../actions/settingsActions';
 import config from '../../config/config';
@@ -64,26 +63,24 @@ class PasswordEditorPage extends PageComponent {
         cancelLink={this.getReferrer()}
         showLoader={isSubmitted}
         history={history}
+        hideSelectAccount
       >
-        {errorMsg ? <Box title="Error" layout="danger" icon={faExclamation}>
+        {errorMsg ? <Box title="Error" layout="danger" icon={'!'}>
           {errorMsg}
         </Box> : ''}
         {isPasswordChanged ?
           <React.Fragment>
-            <Box title="Success" layout="success" icon={faCheck}>
-              Password has been change
+            <Box title="Success" layout="warning" icon={'!'}>
+              Password has been changed
             </Box>
             <ButtonLink
               to={this.getReferrer()}
-              icon="left"
-              layout="info"
-              size="wide"
-            >
-              <FontAwesomeIcon icon={faTimes} /> Close
+              layout="secondary"
+            >Back
             </ButtonLink>
           </React.Fragment> :
           <React.Fragment>
-            <Box icon={faInfo} layout="info">
+            <Box icon={'i'} layout="info">
               Your password should be obscure and must be at
               least {config.passwordMinLength} characters long.
             </Box>
@@ -107,26 +104,20 @@ class PasswordEditorPage extends PageComponent {
                 value={repeatedPassword.value}
                 errorMessage={repeatedPassword.errorMsg}
               />
-              <div className={style.buttons}>
+              <Buttons>
                 <ButtonLink
-                  className={style.cancel}
                   to={this.getReferrer()}
-                  inverse
-                  icon="left"
-                  layout="info"
+                  layout="secondary"
                   disabled={isSubmitted}
-                >
-                  <FontAwesomeIcon icon={faTimes} /> Cancel
+                >Cancel
                 </ButtonLink>
                 <Button
                   type="submit"
-                  icon="right"
-                  layout="info"
+                  layout="primary"
                   disabled={isSubmitted}
-                >
-                  Save <FontAwesomeIcon icon={faChevronRight} />
+                >Save
                 </Button>
-              </div>
+              </Buttons>
             </Form>
           </React.Fragment>
         }

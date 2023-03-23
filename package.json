@@ -1,6 +1,6 @@
 {
   "name": "@adshares/ads-browser-wallet",
-  "version": "0.4.10",
+  "version": "1.0.0",
   "display-name": "ADS Wallet",
   "description": "Secure identity vault for Adshares network.",
   "private": true,
@@ -75,9 +75,6 @@
     "webpack-httpolyglot-server": "^0.3.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.8",
-    "@fortawesome/free-solid-svg-icons": "^5.5.0",
-    "@fortawesome/react-fontawesome": "^0.1.3",
     "animejs": "^2.2.0",
     "autoprefixer": "^7.2.5",
     "bignumber.js": "^8.0.2",

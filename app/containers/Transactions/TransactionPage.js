@@ -1,14 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCheck,
-  faChevronRight,
-  faExclamation,
-  faExternalLinkAlt,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
+import { LinkIcon } from '../../components/icons/Icons';
 import ADS from '../../utils/ads';
 import config from '../../config/config';
 import { prepareCommand } from '../../epics/transactionEpics';
@@ -18,6 +11,7 @@ import Box from '../../components/atoms/Box';
 import Form from '../../components/atoms/Form';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import SignForm from './SignForm';
 import { typeLabels } from './labels';
 import style from './style.css';
@@ -140,34 +134,33 @@ export default class TransactionPage extends PageComponent {
     const addressLink = `${config.operatorUrl}blockexplorer/transactions/`;
 
     return (
-      <React.Fragment>
-        <Box title="Success" layout="success" icon={faCheck} className={style.transactionSuccess}>
-          Transaction id:
-          <ButtonLink
-            external
-            href={`${addressLink}${transactionId}`}
-            icon="right"
-            layout="contrast"
-            size="wide"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {transactionId}<FontAwesomeIcon icon={faExternalLinkAlt} />
-          </ButtonLink>
-          <small>Transaction fee:
-            <b>{ADS.formatAdsMoney(transactionFee, 11, true)} ADS</b>
-          </small>
-        </Box>
+      <div className={style.transactionSummary}>
+        <div cardclass="lineVertical" >
+          <h1>Success</h1>
+          <div>
+            <small>Transaction id:</small>
+            <a
+              className={style.blockBold}
+              external
+              href={`${addressLink}${transactionId}`}
+              icon="right"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {transactionId}<LinkIcon fill={'primary'} />
+            </a>
+            <small>Transaction fee:</small>
+            <span className={style.blockBold}>
+              {ADS.formatAdsMoney(transactionFee, 11, true)} ADS</span>
+          </div>
+        </div>
         <ButtonLink
           to={this.getReferrer()}
           onClick={this.handleCloseForm}
-          icon="left"
-          layout="info"
-          size="wide"
-        >
-          <FontAwesomeIcon icon={faTimes} /> Close
+          layout="secondary"
+        > Back
         </ButtonLink>
-      </React.Fragment>
+      </div>
     );
   }
 
@@ -193,25 +186,21 @@ export default class TransactionPage extends PageComponent {
 
   renderButtons(isDisabled = false) {
     return (
-      <div className={style.buttons}>
+      <Buttons>
         <ButtonLink
           to={this.getReferrer()}
           onClick={this.handleCloseForm}
-          inverse
-          icon="left"
-          layout="info"
+          layout="secondary"
           disabled={this.props.isSubmitted}
-        >
-          <FontAwesomeIcon icon={faTimes} /> Cancel
+        >Cancel
         </ButtonLink>
         <Button
           type="submit"
-          icon="right"
-          layout="info"
+          layout="primary"
           disabled={isDisabled || this.props.isSubmitted}
-        >Next <FontAwesomeIcon icon={faChevronRight} />
+        >Next
         </Button>
-      </div>
+      </Buttons>
     );
   }
 
@@ -283,13 +272,11 @@ export default class TransactionPage extends PageComponent {
         onCancelClick={this.handleCloseForm}
         showLoader={isSubmitted}
         history={history}
+        title={this.getTitle()}
       >
-        <h2>
-          {this.getTitle()}
-        </h2>
         {this.getDescription() ?
           <p className={style.description}><small>{this.getDescription()}</small></p> : ''}
-        {errorMsg ? <Box title="Error" layout="warning" icon={faExclamation}>
+        {errorMsg ? <Box title="Error" layout="warning" icon={'!'}>
           {errorMsg}
         </Box> : ''}
         {isTransactionSent ? this.renderSuccessInfo() : this.renderForm()}

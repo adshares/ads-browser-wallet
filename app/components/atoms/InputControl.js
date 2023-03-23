@@ -31,6 +31,9 @@ const InputControl = ({
 
   return (
     <div className={classes.join(' ')}>
+      <label htmlFor={`${label}`}>
+        {label}
+      </label>
       {isInput ? (
         <input
           type={type}
@@ -61,9 +64,6 @@ const InputControl = ({
           placeholder=" "
         />
       )}
-      <label htmlFor={`${label}`} className={style.label}>
-        {label}
-      </label>
       {children}
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </div>

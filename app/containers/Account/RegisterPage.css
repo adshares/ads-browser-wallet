@@ -1,109 +1,57 @@
-.welcomePage {
-    text-align: center;
-    padding: 15px;
-}
-
 .welcomePage .about {
     white-space: pre-wrap;
 }
 
-.logo {
-    margin: 20px auto 29px auto;
+.welcomePage > * {
+    margin-inline: auto;
 }
 
-.logo svg {
-    width: 200px;
-}
-
-.logo h1 {
-    margin-top: -25px;
-}
-
-.logo h3 {
-    color: var(--orange-dark);
-    margin: 15px 0;
-    line-height: 22px;
-}
-
-.links {
+.welcomePage .links {
     margin-top: 20px;
-    font-size: var(--font-smaller);
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-light);
 }
 
-.mainnetLink {
-    color: var(--orange-dark);
+.welcomePage .links a:hover {
+    opacity: 0.7;
 }
 
-.newPasswordPage {
-    text-align: center;
-    padding: 15px;
+.welcomePage header h1,
+.newPasswordPage header h1,
+.termsPage header h1,
+.seedPhrasePage header h1 {
+    margin: 3.2rem 0 2.5rem;
 }
 
-.newPasswordPage header {
-    margin-bottom: 89px;
+.newPasswordPage .inputs {
+    margin-inline: 1rem;
+    margin-bottom: 3.5rem;
 }
 
-.newPasswordPage h1 {
-    margin: 20px 0;
-}
-
-.newPasswordPage h3 {
-    color: var(--orange-dark);
-    margin: 15px 0;
-    line-height: 22px;
-}
-
-.newPasswordPage form {
-    margin-top: 60px;
-}
-
-.termsPage {
-    text-align: center;
-    padding: 15px;
+.newPasswordPage input {
+    margin-bottom: 1.5rem;
 }
 
 .termsPage h1 {
-    margin: 20px 0;
-}
-
-.termsPage h3 {
-    color: var(--orange-dark);
-    margin: 15px 0;
-    line-height: 22px;
+    margin-bottom: 1em;
 }
 
 .terms {
-    width: 338px;
-    overflow: auto;
-    height: 300px;
+    font-size: var(--font-small);
+    width: 90%;
+    height: 350px;
+    margin-inline: auto;
+    overflow-y: auto;
     text-align: justify;
-    border: 1px solid var(--gray);
-    padding: 10px 15px;
+    border: 1px solid var(--dark);
+    box-shadow: var(--shadow-dark);
+    padding: 0.5rem;
     margin-bottom: 20px;
     white-space: pre-line;
 }
 
-.seedPhrasePage {
-    text-align: center;
-    padding: 15px;
-}
-
-.seedPhrasePage header {
-    margin-bottom: 29px;
-}
-
-.seedPhrasePage h1 {
-    margin: 20px 0;
-}
-
-.seedPhrasePage h3 {
-    color: var(--orange-dark);
-    margin: 15px 0;
-    line-height: 22px;
-}
-
 .seedPhrasePage form {
-    margin-top: 30px;
+    padding-top: 4rem;
 }
 
 .seedPhrasePage .refresh {
@@ -112,20 +60,22 @@
 }
 
 .seedPhrasePage textarea {
-    font-weight: 700;
-    height: 83px;
+    font-weight: var(--font-weight-bold);
+    height: 7rem;
+    line-height: 1.5;
 }
 
-.buttons {
-    margin-top: 20px;
-    margin-bottom: 10px !important;
+.seedPhrasePage .underlined {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    padding-inline: 0;
+    margin-right: 0.25em;
+    font-size: var(--font-small);
+    cursor: pointer;
 }
 
-.buttons > *:first-child {
-    margin-right: 50px;
-}
-
-.dangerContent input, .dangerContent textarea {
-    border-color: var(--red-dark);
-    color: var(--red-dark);
+.seedPhrasePage .underlined:hover {
+    opacity: 0.7;
 }

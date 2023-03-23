@@ -21,13 +21,14 @@ const getContentSecurityPolicy = (isProd) => {
     scriptSrc: ["'self'"],
     connectSrc: ["'self'", 'https://rpc.adshares.net', 'https://rpc.e11.click', 'https://ads-operator.adshares.net', 'https://ads-operator.e11.click', 'data:'],
     styleSrc: ['*', 'blob:', "'unsafe-inline'"],
-    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    fontSrc: ["'self'"],
     imgSrc: ["'self'", 'data:'],
   };
 
   if (!isProd) {
     directives.scriptSrc.push('https://localhost:3000', 'http://localhost:3000', "'unsafe-eval'");
-    directives.connectSrc.push('https://localhost:3000', 'http://localhost:3000', 'https://127.0.0.1:5000', 'http://127.0.0.1:5000');
+    directives.connectSrc.push('https://localhost:3000', 'http://localhost:3000', "'unsafe-eval'");
+    directives.fontSrc.push('https://localhost:3000', 'http://localhost:3000', "'unsafe-eval'");
   }
 
   return { directives };

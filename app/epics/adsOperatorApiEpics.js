@@ -10,6 +10,7 @@ import { RpcError } from '../actions/errors';
 
 const api = new AdsOperatorApi();
 
+// eslint-disable-next-line import/prefer-default-export
 export const getCurrencyExchangeCourseEpics = action$ => action$.pipe(
   ofType(GET_CURRENCY_EXCHANGE_COURSE),
   switchMap(() => from(api.getCurrencyExchangeCourse())

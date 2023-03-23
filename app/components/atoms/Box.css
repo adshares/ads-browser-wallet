@@ -1,40 +1,49 @@
 .box {
-    color: var(--white);
-    padding: 17px;
-    margin: 0 0 30px;
-    border-radius: 12px;
-    background: var(--slate-dark);
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 91% !important;
+    padding: 1rem;
+    margin: 0 auto 2rem;
+    line-height: 1.2;
+    gap: 1.3rem;
+    text-align: center !important;
+    outline: 1px solid var(--dark);
 }
 
 .box a {
-    color: var(--white)
+    color: var(--light)
 }
 
 .box hr {
-    border-color: var(--white);
+    border-color: var(--light);
 }
 
 .box.info {
-    background-color: var(--blue-dark);
+    color: var(--info);
+    outline-color: var(--info);
 }
 
 .box.success {
     background-color: var(--green-dark);
+    outline-color: var(--green-dark);
 }
 
 .box.warning {
-    background-color: var(--yellow-dark);
+    color: var(--warning);
+    outline-color: var(--warning);
 }
 
 .box.danger {
-    background-color: var(--red-dark);
+    background-color: var(--primary);
+    color: var(--light);
+    outline-color: var(--primary);
 }
 
 .box.inverse {
-    border: 1px solid var(--slate-dark);
+    border: 2px solid var(--slate-dark);
     color: var(--slate-dark);
-    background-color: var(--white);
+    outline-color: var(--light);
 }
 
 .box.inverse a {
@@ -96,34 +105,27 @@
  }
 
 .box > h2 {
-    font-size: 16px;
+    font-size: var(--font-normal);
     font-weight: 700;
     text-transform: uppercase;
     margin: 0 0 5px 0;
     line-height: 24px;
 }
 
-.box.hasIcon {
-    padding-left: 80px;
-}
-
 .box > .icon {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    background-color: rgba(0,0,0,.05);
+    --icon-size: 1.75rem;
+
+    height: calc(var(--icon-size)*1.1);
+    aspect-ratio: 1;
+    background-color: currentColor;
+    box-shadow: var(--shadow-dark);
+    display: grid;
+    place-items: center;
 }
 
-.box > .icon svg {
-    position: absolute;
-    width: 60px;
-    height: 50px;
-    top: 50%;
-    left: 0;
-    margin-top: -25px;
-    line-height: 50px;
+.box > .icon span {
     text-align: center;
-    font-size: 24px;
+    font-size: var(--icon-size);
+    color: var(--light);
+    font-weight: var(--font-weight-bold);
 }

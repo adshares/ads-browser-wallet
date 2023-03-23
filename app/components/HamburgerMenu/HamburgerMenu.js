@@ -1,16 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faExpandArrowsAlt,
-  faCog,
-  faInfoCircle,
-  faSignOutAlt,
-  faToggleOn,
-  faToggleOff,
-  faHashtag,
-} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { ExpandIcon, RecycleIcon, SettingsIcon, TransactionsIcon, InfoCircleIcon, SwitchIcon, LogOutIcon } from '../icons/Icons';
 import config from '../../config/config';
 import style from './HamburgerMenu.css';
 import PageComponent from '../PageComponent';
@@ -41,57 +32,93 @@ export default class HamburgerMenu extends PageComponent {
     });
   }
 
+  toggleMode(status) {
+    this.setState({
+      darkMode: status
+    });
+    const root = document.querySelector(':root');
+    root.toggleAttribute('data-dark-mode');
+    if (!this.state.darkMode) {
+      root.style.setProperty('--dark', '#fff');
+      root.style.setProperty('--light', '#000');
+    } else {
+      root.style.setProperty('--dark', '#000');
+      root.style.setProperty('--light', '#fff');
+    }
+  }
+
   render() {
     const showFullScreen = !window.location.pathname.match('window');
 
     return (
-      <div className={style.hamburgerWrapper}>
-        <div
-          tabIndex="0"
-          role="button"
-          className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
-          onClick={() => this.toggleMenu(!this.state.menuOpened)}
-          onBlur={() => (this.blurTimeout = setTimeout(() => { this.toggleMenu(false); }, 200))}
-        />
-        <ul className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}>
-          {showFullScreen &&
+      <React.Fragment>
+        <div className={style.hamburgerWrapper}>
+          <div
+            tabIndex="0"
+            role="button"
+            className={`${style.iconButton} ${this.state.menuOpened && style.iconButtonActive}`}
+            onClick={() => this.toggleMenu(!this.state.menuOpened)}
+            onBlur={() => (this.blurTimeout = setTimeout(() => { this.toggleMenu(false); }, 200))}
+          />
+        </div>
+        <div className={`${style.menu} ${this.state.menuOpened && style.menuActive}`}>
+          <ul>
+            {showFullScreen &&
+              <li>
+                <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
+                  <ExpandIcon width={20} height={20} viewBox="0 0 20 16" />
+                  <span className={style.menuItemLink}>Fullscreen</span>
+                </span>
+              </li>
+            }
+            {config.testnet ?
+              <Link to={'/mainnet'} className={style.menuItem}>
+                <RecycleIcon width={20} height={20} />
+                <span className={style.menuItemLink}>Switch to the mainnet</span>
+              </Link> :
+              <Link to={'/testnet'} className={style.menuItem}>
+                <RecycleIcon width={20} height={20} />
+                <span className={style.menuItemLink}>Switch to the testnet</span>
+              </Link>
+            }
             <li>
-              <span role="button" onClick={() => openInTheNewTab('window.html#/')} className={style.menuItem}>
-                <FontAwesomeIcon icon={faExpandArrowsAlt} /> Expand view
+              <Link to="/settings" className={style.menuItem}>
+                <SettingsIcon width={20} height={26} viewBox="0 0 22 24" />
+                <span className={style.menuItemLink}>Settings</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/transactions" className={style.menuItem}>
+                <TransactionsIcon width={22} />
+                <span className={style.menuItemLink}>Transactions</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className={style.menuItem}>
+                <InfoCircleIcon width={20} height={24} viewBox="0 0 22 22" />
+                <span className={style.menuItemLink}>About</span>
+              </Link>
+            </li>
+            <li>
+              <span
+                className={style.menuItem} onClick={() => this.toggleMode(!this.state.darkMode)}
+              >
+                <SwitchIcon width={22} height={16} viewBox="0 0 22 14" />
+                {this.state.darkMode ?
+                  <span className={style.menuItemLink}>Switch to light mode</span>
+                  : <span className={style.menuItemLink}>Switch to dark mode</span>
+                }
               </span>
             </li>
-          }
-          {config.testnet ?
-            <Link to={'/mainnet'} className={style.menuItem}>
-              <FontAwesomeIcon icon={faToggleOff} /> Switch to the mainnet
-            </Link> :
-            <Link to={'/testnet'} className={style.menuItem}>
-              <FontAwesomeIcon icon={faToggleOn} /> Switch to the testnet
-            </Link>
-          }
-          <hr />
-          <li>
-            <Link to="/settings" className={style.menuItem}>
-              <FontAwesomeIcon icon={faCog} /> Settings
-            </Link>
-          </li>
-          <li>
-            <Link to="/transactions" className={style.menuItem}>
-              <FontAwesomeIcon icon={faHashtag} /> Transactions
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className={style.menuItem}>
-              <FontAwesomeIcon icon={faInfoCircle} /> About
-            </Link>
-          </li>
-          <li>
-            <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
-              <FontAwesomeIcon icon={faSignOutAlt} /> Log out
-            </a>
-          </li>
-        </ul>
-      </div>
+            <li>
+              <a href="/logout" className={style.menuItem} onClick={this.handleLogout}>
+                <LogOutIcon width={20} height={20} />
+                <span className={style.menuItemLink}>Log out</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -1,23 +1,44 @@
-@keyframes logo {
-    from {
-        fill: rgba(95, 178, 249, 0);
+@keyframes logoMark {
+    0% {
+        opacity: 0;
+        scale: 0.7;
     }
-    to {
-        fill: rgba(95, 178, 249, 1);
-        stroke-width: 0;
+    100% {
+        scale: 1;
     }
+}
+
+@keyframes logoType {
+    0% {
+        opacity: 0;
+        transform: translateY(20%);
+    }
+
+    50% {
+        opacity: 0;
+        transform: translateY(20%);
+    }
+
+    100% {
+        transform: translateY(-3%);
+    }
+
 }
 
 .logo {
-    padding: 2px;
+    padding-block: 1rem;
 }
 
-.logo .cls1 {
-    fill: transparent;
-    stroke: #5FB2F9 !important;
-    animation-name: logo;
-    animation-duration: 0.7s;
-    animation-timing-function: linear;
-    animation-delay: 1.6s;
-    animation-fill-mode: forwards;
+.logoMark {
+    fill: var(--primary);
+    animation: logoMark 500ms ease-in-out;
+    transform-origin: center;
+    scale: 0.9;
 }
+
+.logoType {
+    fill: var(--dark);
+    animation: logoType 800ms ease;
+    transform-origin: bottom center;
+}
+

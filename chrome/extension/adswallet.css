@@ -1,70 +1,164 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700');
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Light_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Light_Web.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Book_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Book_Web.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Medium_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Medium_Web.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Bold_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Bold_Web.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HCo Gotham';
+  src:url('../assets/fonts/woff2/Gotham-Ultra_Web.woff2') format('woff2'),
+  url('../assets/fonts/woff/Gotham-Ultra_Web.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
 
 :root {
+  /* --------------- colors --------------- */
+  --warning: #F3A838;
+  --info: #1DA5DF;
+  --primary: #FF414D;
+  --success: #7987ff;
+
+  --light: #fff;
+  --dark: #000;
+
+  /* -------------------------------------- */
+
   --green: #8FBF5B;
   --green-dark: #5D9421;
-  --blue: #4B9CD0;
   --blue-dark: #2A87C4;
   --purple: #A796D0;
   --purple-dark: #6A50A7;
   --yellow: #FFD683;
   --yellow-dark: #F6BB42;
-  --orange: #FF9483;
   --orange-dark: #E9573F;
-  --red: #E05967;
   --red-dark: #BD1F2E;
   --pink: #FC7798;
   --pink-dark: #FB3365;
   --brown: #AA8E69;
   --brown-dark: #816135;
-  --gray: #BDC3C7;
+  --gray: 189, 195, 199;
   --gray-dark: #8E9AA2;
-  --slate: #6A7078;
+  --slate: 48,48,48;
   --slate-dark: #434A54;
-  --grayish-white: #F6F6F6;
-  --white: #FFF;
-  --black: #000;
+  --grayish-light: #F6F6F6;
 
-  --font-normal: 16px;
-  --font-small: 14px;
-  --font-smaller: 13px;
-  --font-smallest: 11px;
-  --font-big: 18px;
-  --font-bigger: 20px;
+  /* --------------- typography --------------- */
 
-  --shadow: 0 0 27px 0 rgba(0,0,0,.05), 0 0 14px 0 rgba(0,0,0,.05);
-  --shadow-dark: 0 3px 6px rgba(126,126,126,.16), 0 3px 6px rgba(126,126,126,.23);
+  --font-normal: 1rem;
+  --font-small: .875rem;
+  --font-smaller: 0.75rem;
+  --font-smallest: .625rem;
+  --font-big: 1.25rem;
+  --font-bigger: 1.5rem;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-bolder: 900;
+
+  /* --------------- shadows ------------------- */
+
+  --shadow-dark: 4px 4px 0 var(--dark);
+  --shadow-dark-inverted: -4px -4px 0 var(--dark);
+  --shadow-primary: 4px 4px 0 var(--primary);
+  --shadow-primary-inverted: -4px -4px 0 var(--primary);
+
+  /* --------------- size & spacing ------------ */
+
+  --spacer: .5rem;
+  --max-height: 600px;
+  --max-width: 800px;
+
+  /* ------------------------------------------- */
+
 }
 
+/* ---------------------------------------- general ---------------------------------------- */
+
 body {
+  box-sizing: border-box;
   overflow: hidden;
-  font: var(--font-normal) 'Lato', Arial, sans-serif;
-  line-height: 1.4em;
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  -ms-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  font-weight: 400;
-  background: var(--white);
-  color: var(--slate-dark);
+  font-family: 'HCo Gotham', Arial, sans-serif;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-normal);
+  text-align: center;
+  color: var(--dark);
+  line-height: 1.4;
+  padding: 0 1rem 0;
+  background-color: var(--light);
+  scrollbar-color: var(--dark) var(--light);
+}
+
+body > * > * {
+  height: 500px;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
-a {
-  text-decoration: none;
-  color: var(--slate-dark);
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacer);
 }
 
-a:hover {
-  text-decoration: underline;
+small {
+  font-size: var(--font-small);
+}
+
+h1 {
+  font-size: calc(var(--font-bigger)*1.4);
+}
+
+header h3 {
+  font-size: var(--font-smaller);
+  font-weight: var(--font-weight-bolder);
+}
+
+a {
+  text-decoration: none;
+  color: var(--dark);
+  opacity: 1;
+  cursor: pointer;
+}
+
+a:not:has(.button):hover {
+  opacity: 0.7;
 }
 
 hr {
   border: 0;
-  border-top: 1px solid var(--gray-dark);
+  border-top: 1px solid var(--dark);
   background: none;
   height: 1px;
 }
@@ -72,3 +166,132 @@ hr {
 code {
   overflow-wrap: anywhere;
 }
+
+input,
+textarea,
+select,
+checkbox,
+button {
+  font-family: inherit;
+}
+
+div[cardclass] {
+  border-radius: 1rem;
+  margin: 1rem 0 2rem;
+  text-align: left;
+}
+
+div[cardclass] * {
+  color: white;
+}
+
+div[cardclass] h2 {
+  font-size: var(--font-normal);
+  margin-top: 1.5rem;
+}
+
+div[cardclass="lineHorizontal"] {
+  background: url(../../app/assets/subway-horizontal.svg) no-repeat,
+  black;
+  background-size: 95%, cover;
+  padding: 1rem 1.5rem 1.5rem 4rem;
+}
+
+div[cardclass="lineVertical"] {
+  background: url(../../app/assets/subway-vertical.svg) no-repeat left -20% top 120%,
+  black;
+  padding: 1rem 1.5rem;
+}
+
+div[cardclass="lineVertical"] > div {
+  padding-left: 4rem;
+}
+
+/* ------------------------------------- custom scrollbar --------------------------------------- */
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-button:single-button:decrement,
+::-webkit-scrollbar-button:single-button:increment {
+  border: 1px solid rgba(0,0,0, 0.4);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark);
+}
+
+::-webkit-scrollbar-button:single-button:decrement,
+::-webkit-scrollbar-button:single-button:increment {
+  height: 1.3rem;
+  background-repeat: no-repeat;
+  background-size: 100% 80%;
+  background-position: center;
+}
+
+::-webkit-scrollbar-button:single-button:decrement {
+  border-bottom-style: solid;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:increment {
+  border-top-style: solid;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/></svg>");
+}
+
+/* ------------------------------------- textarea resizer --------------------------------------- */
+
+.seedPhrasePage textarea::-webkit-resizer {
+    background: red;
+    margin: 10px;
+    border-style: solid;
+    border-width: 200px;
+    border-top-color: white;
+    border-left-color: white;
+    border-right-color: black;
+    border-bottom-color: black;
+    outline-right-color: 5px solid white;
+    bottom: 20px;
+    right: 20px;
+    width: 5rem;
+    height: 5rem;
+    box-shadow: 1px 1px white;
+}
+
+/* ---------------------------------------- read-only-inputs ------------------------------------ */
+
+input[readonly],
+textarea[readonly] {
+  font-family: monospace;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------- dark-mode ---------------------------------------- */
+
+:root[data-dark-mode] {
+  --light: #000;
+  --dark: #fff;
+}
+
+:root[data-dark-mode] body {
+  background-color: rgb(var(--slate));
+}
+
+:root[data-dark-mode] ::-webkit-scrollbar-track-piece {
+  background-color: var(--light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --light: #000;
+    --dark: #fff;
+  }
+
+  body {
+    background-color: rgb(var(--slate));
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    background-color: var(--light);
+  }
+}
+
+

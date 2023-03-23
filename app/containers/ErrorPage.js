@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamation, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import Page from '../components/Page/Page';
 import PageComponent from '../components/PageComponent';
 import Box from '../components/atoms/Box';
@@ -17,12 +15,15 @@ export default class ErrorPage extends PageComponent {
 
     return (
       <Page cancelLink={cancelLink} onCancelClick={onCancelClick} title={title}>
-        <Box title={`Error ${code}`} layout="warning" icon={faExclamation}>
+        <Box title={`Error ${code}`} layout="warning" icon={'!'}>
           {message}
         </Box>
         {this.props.children}
-        <ButtonLink to={cancelLink} onClick={onCancelClick} size="wide" layout="info" icon="left">
-          <FontAwesomeIcon icon={faChevronLeft} /> Back
+        <ButtonLink
+          to={cancelLink}
+          onClick={onCancelClick}
+          layout="secondary"
+        > Back
         </ButtonLink>
       </Page>
     );

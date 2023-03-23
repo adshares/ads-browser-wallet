@@ -1,31 +1,44 @@
+.form,
 .form > div {
-    margin-bottom: 15px;
+    text-align: left;
+    max-width: 99%;
+    margin: 0 auto 1rem;
 }
 
-.form input, .form textarea, .form select {
-    background-color: var(--white);
-    font-size: var(--font-small);
+.form :is(input:not(input[type='checkbox']), textarea, select) {
+    font-size: var(--font-normal);
     transition: all 250ms ease;
-    border: 1px solid var(--gray-dark);
-    border-radius: 3px !important;
-    box-sizing: border-box;
+    border: 1px solid black;
     display: inline-block;
-    width: 100%;
+    width: 96%;
     outline: 0;
+    box-shadow: var(--shadow-dark);
+    padding: .45rem;
+    background-color: white;
+    color: black;
 }
 
-.form input:focus, .form textarea:focus, .form select:focus {
-    border-color: var(--blue-dark);
+.darkMode .form input {
+    background-color: pink;
+    color: green;
+    border: 1px solid red;
+}
+.form :is(input:not(input[type='checkbox']), textarea, select):focus {
+    border: 1px solid var(--success);
 }
 
-.form input {
-    line-height: 50px;
-    text-indent: 15px;
-    height: 50px;
+.form label:not:has(input[type='checkbox']) {
+    display: block;
+}
+.form label {
+    line-height: 1.65;
+    padding-left: 0.5rem;
+    font-weight: var(--font-weight-light);
+    font-size: var(--font-small);
 }
 
-.form textarea {
-    padding: 15px;
+.form input:not(input[type='checkbox']) {
+    height: 1.45rem;
 }
 
 .form select {
@@ -34,6 +47,23 @@
     height: 30px;
 }
 
-form input[readonly], .form textarea[readonly], .form select[readonly] {
-    background-color: var(--grayish-white);
+.form :is(input[readonly], textarea[readonly], select[readonly]) {
+    background-color: white;
+}
+
+form textarea::-webkit-resizer {
+    background: red;
+    margin: 10px;
+    border-style: solid;
+    border-width: 200px;
+    border-top-color: white;
+    border-left-color: white;
+    border-right-color: black;
+    border-bottom-color: black;
+    outline-right-color: 5px solid white;
+    bottom: 20px;
+    right: 20px;
+    width: 5rem;
+    height: 5rem;
+    box-shadow: 1px 1px white;
 }

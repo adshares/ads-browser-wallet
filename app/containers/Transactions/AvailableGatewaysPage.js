@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { faExclamation, faRandom } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './style.css';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import PageComponent from '../../components/PageComponent';
+import { WrapIcon } from '../../components/icons/Icons';
 import config from '../../config/config';
 
 class AvailableGatewaysPage extends PageComponent {
@@ -20,7 +19,7 @@ class AvailableGatewaysPage extends PageComponent {
   renderGateways(gateways) {
     if (gateways.length === 0) {
       return (
-        <Box title="Server error" layout="warning" icon={faExclamation}>
+        <Box title="Server error" layout="warning" icon={'i'}>
           No gateways found
         </Box>
       );
@@ -32,28 +31,30 @@ class AvailableGatewaysPage extends PageComponent {
           <ButtonLink
             key={gateway.code}
             icon="left"
-            layout="info"
-            inverse
+            layout="secondary"
+            size="wide"
             to={{
               pathname: `/transactions/gateways/${gateway.code}`,
               state: { referrer: this.props.history.location }
             }}
           >
-            <FontAwesomeIcon icon={faRandom} /> {gateway.name}
+            <WrapIcon /> {gateway.name}
           </ButtonLink>
         )}
-        <hr className="dashed" />
-        <ButtonLink
-          className={style.unwrap}
-          icon="left"
-          layout="info"
-          external
-          target="_blank"
-          rel="noopener noreferrer"
-          href={config.unwrapUrl}
-        >
-          <FontAwesomeIcon icon={faRandom} /> Unwrap
-        </ButtonLink>
+        <div className={style.unwrap}>
+          <ButtonLink
+            className={style.unwrap}
+            icon="left"
+            layout="primary"
+            external
+            size="wide"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={config.unwrapUrl}
+          >
+            <WrapIcon rotate /> Unwrap
+          </ButtonLink>
+        </div>
       </div>
     );
   }
@@ -67,6 +68,7 @@ class AvailableGatewaysPage extends PageComponent {
         title="Wrapped ADS gateways"
         cancelLink={this.getReferrer()}
         onCancelClick={this.handleCloseForm}
+        hideSelectAccount
       >
         {this.renderGateways(vault.gateways || [])}
       </Page>

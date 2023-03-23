@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 import config from '../../config/config';
 import {
   cleanForm,
@@ -80,22 +79,6 @@ class GatewayPage extends TransactionPage {
     const amountInUsd = ADS.calculateToUsd(amount.value, usdRate);
     return (
       <React.Fragment>
-        <div className={style.amount}>
-          <InputControl
-            name="amount"
-            label={fieldLabels.amount}
-            value={amount.value}
-            isValid={amount.isValid}
-            required
-            isInput
-            handleChange={this.handleAmountChange}
-            errorMessage={amount.errorMsg}
-          >
-            <span>ADS</span>
-            <small>{amountInUsd}</small>
-          </InputControl>
-          <span>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</span>
-        </div>
         <div>
           <InputControl
             name="address"
@@ -107,6 +90,21 @@ class GatewayPage extends TransactionPage {
             errorMessage={address.errorMsg}
           />
         </div>
+        <div className={style.amount}>
+          <InputControl
+            name="amount"
+            label={fieldLabels.amount}
+            value={amount.value}
+            isValid={amount.isValid}
+            required
+            isInput
+            handleChange={this.handleAmountChange}
+            errorMessage={amount.errorMsg}
+          />
+          <span>ADS</span>
+          <small>{amountInUsd}</small>
+        </div>
+        <div>Balance: {ADS.formatAdsMoney(account.balance, 11, true)} ADS</div>
       </React.Fragment>
     );
   }
@@ -118,15 +116,14 @@ class GatewayPage extends TransactionPage {
   renderFee() {
     return (
       <div className={style.feeInfoBox}>
-        { this.feeShare > config.feeThreshold ? <Box title="" layout="danger" icon={faExclamation}>
+        { this.feeShare > config.feeThreshold ? <Box title="" layout="danger" icon={'!'}>
           The fee exceeded {ADS.formatPercent(config.feeThreshold, 0)}
         </Box> : ''}
         <div className={style.feeInfo}>
           {this.props.gatewayFee.isSubmitted ? <LoaderOverlay /> : ''}
-          <small>You will be charged:</small><br />
+          <span>Fee: </span>
           {ADS.formatClickMoney(this.chargedAmount, 11, true)} ADS
-          <hr />
-          <small>You will receive approximately:</small><br />
+          <p>You will receive approximately:</p>
           {this.externalFee === null ? '---' : ADS.formatClickMoney(this.receivedAmount, 11, true)} ADS
         </div>
       </div>

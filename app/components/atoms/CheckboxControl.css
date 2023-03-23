@@ -1,59 +1,84 @@
-.checkboxWrapper {
+.container {
     display: flex;
     align-items: center;
 }
 
 .checkbox {
-    position: absolute;
-    opacity: 0;
-    width: auto !important;
-    height: 20px !important;
+    /*position: absolute;*/
+    /*opacity: 0;*/
+    /*width: auto !important;*/
+    /*height: 20px !important;*/
 }
 
-.checkbox:checked + .checked svg path {
-    stroke-dashoffset: 0;
-}
+/*.checkbox label {*/
+/*    padding-left: 0;*/
+/*}*/
 
-.checkbox:focus + .checked {
-    border-width: 1px;
-}
+/*.checkbox:checked + .checked svg path {*/
+/*    stroke-dashoffset: 0;*/
+/*}*/
 
-.checkbox:checked + .checked svg path:focus + .checked {
-    transform: scale(1.03);
-}
+/*.checkbox:focus + .checked {*/
+/*    border-width: 1px;*/
+/*}*/
 
-.checkbox + .checked {
-    display: block;
-    border: 1px solid var(--slate);
-    width: 18px;
-    height: 18px;
-    border-radius: 3px;
+/*.checkbox:checked + .checked svg path:focus + .checked {*/
+/*    transform: scale(1.03);*/
+/*}*/
+
+/*.checkbox +.checked {*/
+/*    display: block;*/
+/*    border: 1px solid var(--dark);*/
+/*    background-color: var(--dark);*/
+/*    width: 18px;*/
+/*    height: 18px;*/
+/*    cursor: pointer;*/
+/*    transition: all .2s ease;*/
+/*}*/
+
+/*.checkbox + .checked:active {*/
+/*    transform: scale(1.05);*/
+/*}*/
+
+/*.checkedSvg {*/
+/*    pointer-events: none;*/
+/*}*/
+
+/*.checkedSvg path {*/
+/*    fill: none;*/
+/*    stroke: var(--light);*/
+/*    stroke-width: 8px;*/
+/*    stroke-linecap: round;*/
+/*    stroke-linejoin: round;*/
+/*    stroke-dasharray: 100;*/
+/*    stroke-dashoffset: 101;*/
+/*    transition: all 350ms cubic-bezier(1, 0, .37, .91);*/
+/*}*/
+
+input[type="checkbox"] {
+    position: relative;
+    height: 1.15rem;
+    aspect-ratio: 1;
+    margin-right: .75rem;
+    border-radius: 0;
+    box-shadow: inset 1px -1px, inset 1px 1px;
     cursor: pointer;
-    transition: all .2s ease;
 }
 
-.checkbox + .checked:active {
-    transform: scale(1.05);
-    border-radius: 10px;
+input[type="checkbox"]:checked:after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    display: block;
+    background: url("data:image/svg+xml,<svg width='18' height='18' viewBox='0 0 18 14' stroke='white' strokeWidth='3' strokeLinecap='square' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M2 4.60188L7.41667 10.2393L15.3333 2'/></svg>"),
+    black;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.checkedSvg {
-    pointer-events: none;
+:root[data-dark-mode] input[type="checkbox"]:checked:after {
+    background: url("data:image/svg+xml,<svg width='18' height='18' viewBox='0 0 18 12' stroke='black' strokeWidth='3' strokeLinecap='square' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M2 4.60188L7.41667 10.2393L15.3333 2'/></svg>"),
+    white;
 }
 
-.checkedSvg path {
-    fill: none;
-    stroke: var(--green);
-    stroke-width: 8px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 100;
-    stroke-dashoffset: 101;
-    transition: all 350ms cubic-bezier(1, 0, .37, .91);
-}
 
-.label {
-    width: auto;
-    margin-left: 10px;
-    color: var(--slate-dark);
-}

@@ -4,10 +4,10 @@ import config from '../config/config';
 export const address = ({ value, gateway }) => {
   if (gateway && gateway.format.toLowerCase() === 'eth') {
     if (!value || !ADS.validateEthAddress(value)) {
-      return 'Please provide an valid ETH account address';
+      return 'Please provide a valid ETH account address';
     }
   } else if (!value || !ADS.validateAddress(value)) {
-    return 'Please provide an valid ADS account address';
+    return 'Please provide a valid ADS account address';
   }
   return null;
 };
@@ -15,7 +15,7 @@ export const address = ({ value, gateway }) => {
 export const amount = ({ value }) => {
   const val = ADS.strToClicks(value);
   if (val === null) {
-    return 'Please provide an valid amount';
+    return 'Please provide a valid amount';
   }
   if (val.isGreaterThan(config.totalSupply)) {
     return 'Amount is too big';
@@ -45,7 +45,7 @@ export const message = ({ value, transactionType, inputs }) => {
 
 export const publicKey = ({ value }) => {
   if (!value || !ADS.validateKey(value)) {
-    return 'Please provide an valid public key';
+    return 'Please provide a valid public key';
   }
   return null;
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { ChevronDownIcon, PlusIcon } from '../icons/Icons';
 import { formatAdsMoney } from '../../utils/ads';
 import style from './SelectAccount.css';
 
@@ -64,12 +63,12 @@ export default class SelectAccount extends React.Component {
           onClick={() => this.toggleShowOptions(!showOptions)}
           onKeyDown={() => this.toggleShowOptions(true)}
         >
-          <span className={style.optionName}>
+          <span className={`${style.optionName} ${activeOption.name && style.displayBlock}`}>
             {activeOption.name ? activeOption.name : activeOption.address}
           </span>
           <span className={style.optionAccount}>
             {activeOption.name ? activeOption.address : ''}
-            <FontAwesomeIcon icon={showOptions ? faChevronUp : faChevronDown} />
+            {showOptions ? <ChevronDownIcon /> : <ChevronDownIcon />}
           </span>
         </div>)}
 
@@ -85,7 +84,7 @@ export default class SelectAccount extends React.Component {
                 to="/settings/accounts/import"
               >
                 Add account
-                <FontAwesomeIcon icon={faPlus} className={style.optionIcon} />
+                <PlusIcon />
               </Link>
             </li>)}
         </ul>

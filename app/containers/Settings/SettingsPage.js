@@ -1,23 +1,15 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faShieldAlt,
-  faTrashAlt,
-  faPlus,
-  faPencilAlt,
-  faKey,
-  faSearch,
-} from '@fortawesome/free-solid-svg-icons';
 import {
   removeAccount,
   eraseStorage,
   findAllAccounts,
   SETTINGS
 } from '../../actions/settingsActions';
+import { BinIcon, FindIcon, InfoShieldIcon, KeyIcon, PencilIcon, PlusIcon } from '../../components/icons/Icons';
 import FormComponent from '../../components/FormComponent';
 import Page from '../../components/Page/Page';
 import Button from '../../components/atoms/Button';
@@ -61,7 +53,7 @@ class SettingsPage extends FormComponent {
 
   renderKeysSettings() {
     return (
-      <div className={style.section}>
+      <div className={style.settingsSection}>
         <h3>Keys</h3>
         <ButtonLink
           to={{
@@ -70,9 +62,9 @@ class SettingsPage extends FormComponent {
           }}
           size="wide"
           title="Manage Keys"
-          layout="info"
+          layout="primary"
           icon="left"
-        ><FontAwesomeIcon icon={faPencilAlt} /> Manage keys</ButtonLink>
+        ><PencilIcon fill="light" /> Manage keys</ButtonLink>
       </div>
     );
   }
@@ -80,37 +72,31 @@ class SettingsPage extends FormComponent {
   renderAccountRow(account) {
     return (
       <React.Fragment>
-        <span className={style.accountLabel}>
+        <div className={style.accountLabel}>
           <small>{account.name}</small>
           <span>{account.address}</span>
-        </span>
-        <span className={style.accountActions}>
-          <ButtonLink
+        </div>
+        <div className={style.accountActions}>
+          <Link
             to={{
               pathname: `/settings/accounts/${account.address}/edit`,
               state: { referrer: this.props.history.location }
             }}
-            size="small"
             title="Edit account"
-            layout="info"
-          ><FontAwesomeIcon icon={faPencilAlt} /></ButtonLink>
-          <ButtonLink
+          ><PencilIcon /></Link>
+          <Link
             to={{
               pathname: `/settings/keys/${account.publicKey}`,
               state: { referrer: this.props.history.location }
             }}
-            size="small"
             title={account.publicKey ? 'Show account keys' : 'Cannot find keys. The account may not have been registered yet.'}
-            layout="warning"
             disabled={!account.publicKey}
-          ><FontAwesomeIcon icon={faKey} /></ButtonLink>
-          <Button
+          ><KeyIcon fill="warning" /></Link>
+          <a
             onClick={() => this.removeAccountAction(account.address)}
-            size="small"
             title="Delete account"
-            layout="danger"
-          ><FontAwesomeIcon icon={faTrashAlt} /></Button>
-        </span>
+          ><BinIcon fill="primary" /></a>
+        </div>
       </React.Fragment>
     );
   }
@@ -124,12 +110,12 @@ class SettingsPage extends FormComponent {
       }
     } = this.props;
     return (
-      <div className={style.section}>
+      <div className={style.settingsSection}>
         <h3>Accounts</h3>
         {this.props.vault.accounts.length > 0 &&
           <ul className={style.accounts}>
             {this.props.vault.accounts.map((account, index) =>
-              <li className={style.list} key={index}>{this.renderAccountRow(account)}</li>
+              <li key={index}>{this.renderAccountRow(account)}</li>
             )}
           </ul>
         }
@@ -140,72 +126,64 @@ class SettingsPage extends FormComponent {
           }}
           size="wide"
           title="Add account"
-          layout="info"
+          layout="primary"
           icon="left"
           disabled={isSubmitted}
         >
-          <FontAwesomeIcon icon={faPlus} /> Add account
+          <PlusIcon fill="light" width={22} />Add account
         </ButtonLink>
-        <p>
-          <Button
-            onClick={this.handleFindAllAccountsClick}
-            size="wide"
-            title="Find accounts"
-            layout="success"
-            icon="left"
-            disabled={isSubmitted}
-          >
-            <FontAwesomeIcon icon={faSearch} /> Find accounts
-            { isAccountsImported && <small> (<b>{accountsCount}</b> accounts found)</small> }
-          </Button>
-        </p>
+        <Button
+          onClick={this.handleFindAllAccountsClick}
+          size="wide"
+          title="Find accounts"
+          layout="secondary"
+          icon="left"
+          disabled={isSubmitted}
+        >
+          <FindIcon width={22} /> Find accounts
+          { isAccountsImported && <small> (<b>{accountsCount}</b> accounts found)</small> }
+        </Button>
       </div>
     );
   }
 
   renderWalletSettings() {
     return (
-      <div className={style.section}>
+      <div className={style.settingsSection}>
         <h3>Wallet settings</h3>
-        <p>
-          <ButtonLink
-            to={{
-              pathname: '/settings/change_password',
-              state: { referrer: this.props.history.location }
-            }}
-            size="wide"
-            title="Change password"
-            layout="info"
-            icon="left"
-          >
-            <FontAwesomeIcon icon={faKey} /> Change password
-          </ButtonLink>
-        </p>
-        <p>
-          <ButtonLink
-            to={{
-              pathname: '/settings/seedPhrase',
-              state: { referrer: this.props.history.location }
-            }}
-            size="wide"
-            title="Reveal seed phrase"
-            layout="warning"
-            icon="left"
-          >
-            <FontAwesomeIcon icon={faShieldAlt} /> Reveal seed phrase
-          </ButtonLink>
-        </p>
-        <p>
-          <Button
-            onClick={() => this.eraseStorageAction()}
-            size="wide"
-            title="Erase storage"
-            layout="danger"
-            icon="left"
-          >
-            <FontAwesomeIcon icon={faTrashAlt} /> Erase storage
-          </Button>
-        </p>
+        <ButtonLink
+          to={{
+            pathname: '/settings/change_password',
+            state: { referrer: this.props.history.location }
+          }}
+          size="wide"
+          title="Change password"
+          layout="primary"
+          icon="left"
+        >
+          <KeyIcon fill="light" /> Change password
+        </ButtonLink>
+        <ButtonLink
+          to={{
+            pathname: '/settings/seedPhrase',
+            state: { referrer: this.props.history.location }
+          }}
+          size="wide"
+          title="Reveal seed phrase"
+          layout="secondary"
+          icon="left"
+        >
+          <InfoShieldIcon /> Reveal seed phrase
+        </ButtonLink>
+        <Button
+          onClick={() => this.eraseStorageAction()}
+          size="wide"
+          title="Erase storage"
+          layout="outline"
+          icon="left"
+        >
+          <BinIcon /> Erase storage
+        </Button>
       </div>
     );
   }
@@ -214,10 +192,12 @@ class SettingsPage extends FormComponent {
     const { page } = this.props;
     return (
       <Page
-        className={style.page} title="Settings" scroll
+        className={style.page} title="Settings"
         cancelLink={this.getReferrer()}
         showLoader={page.isSubmitted}
         errorMsg={page.errorMsg}
+        hideSelectAccount
+        scroll
       >
         {this.renderAccountsSettings()}
         {this.renderKeysSettings()}

@@ -3,19 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import {
-  faChevronRight,
-  faTimes,
-  faCheck,
-  faInfo,
-  faSpinner,
-  faExclamation
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ItemNotFound } from '../../actions/errors';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Page from '../../components/Page/Page';
 import Box from '../../components/atoms/Box';
@@ -24,6 +16,7 @@ import { inputChange, cleanForm } from '../../actions/formActions';
 import { SAVE_ACCOUNT, saveAccount } from '../../actions/settingsActions';
 import config from '../../config/config';
 import style from './SettingsPage.css';
+import LoaderOverlay from '../../components/atoms/LoaderOverlay';
 
 class AccountEditorPage extends FormComponent {
   static propTypes = {
@@ -87,12 +80,10 @@ class AccountEditorPage extends FormComponent {
   renderLimitWarning() {
     return (
       <React.Fragment>
-        <Box layout="warning" icon={faInfo}>
+        <Box layout="warning" icon={'i'}>
           Maximum account limit has been reached. Please remove unused accounts.
         </Box>
-        <ButtonLink to={this.getReferrer()} icon="left" size="wide" layout="info">
-          <FontAwesomeIcon icon={faCheck} /> OK
-        </ButtonLink>
+        <ButtonLink to={this.getReferrer()} layout="primary">OK</ButtonLink>
       </React.Fragment>
     );
   }
@@ -111,7 +102,7 @@ class AccountEditorPage extends FormComponent {
 
     return (
       <React.Fragment>
-        {errorMsg && <Box title="Error" layout="danger" icon={faExclamation}>
+        {errorMsg && <Box title="Error" layout="danger" icon={'!'}>
           {errorMsg}
         </Box>}
         <Form onSubmit={this.handleSubmit}>
@@ -140,42 +131,30 @@ class AccountEditorPage extends FormComponent {
               value={publicKey}
             >
               {publicKeyLoading ?
-                <div className={style.inputLoader}>
-                  <FontAwesomeIcon
-                    className={style.inputSpinner}
-                    icon={faSpinner}
-                    title="loading"
-                  />
-                </div>
+                <LoaderOverlay />
                 : '' }
             </InputControl>
             : '' }
           {publicKeyErrorMsg ?
-            <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={faExclamation}>
+            <Box title={publicKey ? 'Cannot find private key' : 'Cannot find public key'} layout="warning" icon={'!'}>
               {publicKeyErrorMsg}
             </Box> : ''
           }
-          <div className={style.buttons}>
+          <Buttons>
             <ButtonLink
               to={this.getReferrer()}
-              inverse
-              icon="left"
               disabled={isSubmitted}
-              layout="info"
+              layout="secondary"
               onClick={this.handleCancel}
-            >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
+            >Cancel
             </ButtonLink>
             <Button
               name="button"
-              icon="right"
-              layout="info"
+              layout="primary"
               disabled={publicKeyLoading || publicKeyErrorMsg || isSubmitted}
-            >
-              {this.state.account ? 'Save' : 'Import'}
-              <FontAwesomeIcon icon={faChevronRight} />
+            >{this.state.account ? 'Save' : 'Import'}
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </React.Fragment>
     );

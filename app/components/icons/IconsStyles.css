@@ -1,0 +1,27 @@
+.dark {
+    fill: #000;
+}
+
+:root[data-dark-mode] .button.secondary .dark {
+    fill: black;
+}
+
+.light {
+    fill: #fff;
+}
+
+.primary {
+    fill: var(--primary);
+}
+
+.warning {
+    fill: var(--warning);
+}
+
+.info {
+    fill: var(--info);
+}
+
+.rotate {
+    rotate: 180deg;
+}

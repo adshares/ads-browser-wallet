@@ -2,12 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faExclamation, faInfo } from '@fortawesome/free-solid-svg-icons';
 import * as KeyBox from '../../utils/keybox';
 import FormComponent from '../../components/FormComponent';
 import Form from '../../components/atoms/Form';
 import Button from '../../components/atoms/Button';
+import Buttons from '../../components/atoms/Buttons';
 import ButtonLink from '../../components/atoms/ButtonLink';
 import Box from '../../components/atoms/Box';
 import LoaderOverlay from '../../components/atoms/LoaderOverlay';
@@ -82,13 +81,12 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.welcomePage}>
         <header className={style.logo}>
-          <Logo withoutName />
-          <h1>Live by ADS</h1>
+          <Logo />
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <p className={style.about}>{config.about}</p>
-        <ButtonLink to="/register/password" icon="right" layout="info">
-          Start <FontAwesomeIcon icon={faChevronRight} />
+        <ButtonLink className={style.about} to="/register/password" layout="primary">
+          Start
         </ButtonLink>
         <div className={style.links}>
           <Link to={'/restore'}>Restore the vault from a seed</Link><br />
@@ -105,45 +103,47 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.newPasswordPage}>
         <header>
-          <h1>Setup password</h1>
           {config.testnet ? <h3>TESTNET</h3> : ''}
+          <h1>Setup password</h1>
         </header>
-        <Box icon={faInfo} layout="info">
+        <Box icon={'i'} layout="info">
           Your password should be obscure and must be at
           least {config.passwordMinLength} characters long.
         </Box>
         <Form onSubmit={this.handlePasswordSubmit}>
-          <div>
-            <input
-              type="password"
-              autoFocus
-              required
-              placeholder="Password"
-              minLength={config.passwordMinLength}
-              name="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-            />
+          <div className={style.inputs}>
+            <label htmlFor="password">
+              Password
+              <input
+                type="password"
+                autoFocus
+                required
+                minLength={config.passwordMinLength}
+                name="password"
+                value={this.state.password}
+                onChange={this.handlePasswordChange}
+              />
+            </label>
+            <label htmlFor="password2">
+              Confirm password
+              <input
+                type="password"
+                required
+                minLength={config.passwordMinLength}
+                name="password2"
+                value={this.state.password2}
+                onChange={this.handlePasswordChange}
+              />
+            </label>
           </div>
-          <div>
-            <input
-              type="password"
-              required
-              placeholder="Confirm password"
-              minLength={config.passwordMinLength}
-              name="password2"
-              value={this.state.password2}
-              onChange={this.handlePasswordChange}
-            />
-          </div>
-          <div className={style.buttons}>
-            <ButtonLink to={'/register'} inverse icon="left" layout="info">
-              <FontAwesomeIcon icon={faChevronLeft} /> Back
+          <Buttons>
+            <ButtonLink to={'/register'} layout="secondary">
+              Back
             </ButtonLink>
-            <Button type="subbmit" icon="right" layout="info">
-              Next <FontAwesomeIcon icon={faChevronRight} />
+            <Button type="submit" layout="primary">
+              Next
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </div>
     );
@@ -157,14 +157,14 @@ export default class RegisterPage extends FormComponent {
           {config.testnet ? <h3>TESTNET</h3> : ''}
         </header>
         <div className={style.terms}>{config.terms}</div>
-        <div className={style.buttons}>
-          <ButtonLink to={'/register/password'} inverse icon="left" layout="info">
-            <FontAwesomeIcon icon={faChevronLeft} /> Back
+        <Buttons>
+          <ButtonLink to={'/register/password'} layout="secondary">
+            Back
           </ButtonLink>
-          <ButtonLink to={'/register/seed'} icon="right" layout="info">
-            Accept <FontAwesomeIcon icon={faChevronRight} />
+          <ButtonLink to={'/register/seed'} layout="primary">
+            Accept
           </ButtonLink>
-        </div>
+        </Buttons>
       </div>
     );
   }
@@ -173,49 +173,45 @@ export default class RegisterPage extends FormComponent {
     return (
       <div className={style.seedPhrasePage}>
         {this.state.isSubmitted && <LoaderOverlay />}
-        <header>
-          <h1>Mnemonic seed phrase</h1>
-          {config.testnet ? <h3>TESTNET</h3> : ''}
-        </header>
-        <Box title="Warning" layout="warning" icon={faExclamation}>
-          A seed phrase includes all the information needed to recover a wallet.
-          Please write it down on paper and store safely.
-        </Box>
+        <div>
+          <header>
+            <h1>Mnemonic seed phrase</h1>
+            {config.testnet ? <h3>TESTNET</h3> : ''}
+          </header>
+          <Box layout="warning" icon={'!'}>
+            A seed phrase includes all the information needed to recover a wallet.
+            Please write it down on paper and store safely.
+          </Box>
+        </div>
         <Form onSubmit={this.handleSeedPhraseSubmit}>
           <div className={style.refresh}>
-            <Button
+            <button
               onClick={this.handleSeedPhraseRefresh}
-              size="small"
-              inverse
+              className={style.underlined}
             >
               Regenerate phrase
-            </Button>
+            </button>
           </div>
-          <div className={style.dangerContent}>
+          <div>
             <textarea
               value={this.state.seedPhrase}
               readOnly
             />
           </div>
-          <div className={style.buttons}>
+          <Buttons >
             <ButtonLink
               to={'/register/terms'}
-              inverse
-              icon="left"
-              layout="info"
+              layout="secondary"
               disabled={this.state.isSubmitted}
-            >
-              <FontAwesomeIcon icon={faChevronLeft} /> Back
+            >Back
             </ButtonLink>
             <Button
               type="submit"
-              icon="right"
-              layout="info"
+              layout="primary"
               disabled={this.state.isSubmitted}
-            >
-              Save <FontAwesomeIcon icon={faChevronRight} />
+            >Save
             </Button>
-          </div>
+          </Buttons>
         </Form>
       </div>
     );

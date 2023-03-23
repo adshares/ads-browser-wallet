@@ -1,17 +1,18 @@
 .select {
-    background: var(--white);
-    border-radius: 3px;
-    transition: width 0.5s, border 0.5s ease-out ;
-    will-change: width;
-    position: absolute;
-    left: 20%;
-    right: 20%;
-    top: 0;
-    border: 1px solid transparent;
+    /*margin: 1.25rem auto 1.5rem;*/
+}
+
+.optionName {
+    font-size: var(--font-big);
+    margin-bottom: .1em;
+}
+
+.displayBlock {
+    display: block;
 }
 
 .selectActive {
-    box-shadow: var(--shadow-dark);
+    box-shadow: var(--dark);
 }
 
 .scrollableList {
@@ -32,67 +33,60 @@
 }
 
 .option {
-    font-size: 16px;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--white);
-    border: 1px solid transparent;
-    padding: 8px 0;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*background-color: var(--light);*/
+    padding: .5rem 0;
     list-style: none;
     text-transform: capitalize;
-    border-top: 1px dashed var(--gray);
+    border-top: 1px dashed var(--dark);
+    line-height: 1.2;
+
 }
 
 .option:focus,
 .optionLink:focus {
     outline: none;
-    background: var(--grayish-white);
+    /*background: var(--light);*/
 }
 
 .option:not(.optionActive):hover {
-    background: var(--grayish-white);
+    /*background: var(--light);*/
 }
 
 .optionActive {
     margin: 0;
     border: 0;
-    padding-bottom: 4px;
-    display: flex;
-    position: relative;
-    z-index: 11;
-    justify-content: space-between;
-    background: var(--white) !important;
+    /*padding-bottom: 4px;*/
+    /*background: var(--light) !important;*/
 }
 
-.optionName {
-    color: var(--slate-dark);
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: var(--font-big);
-}
-
-.optionAccount {
-    color: var(--slate);
-    font-size: var(--font-small);
-}
+/*.optionAccount {*/
+/*    display: flex;*/
+/*    position: relative;*/
+/*    justify-content: center;*/
+/*}*/
 
 .optionAccount svg {
-    margin-left: 5px;
+    font-size: var(--font-small);
+    margin-left: 0.75rem;
 }
 
-.optionBalance {
-    color: var(--slate);
+:root[data-dark-mode] .optionAccount svg,
+:root[data-dark-mode] .optionList svg {
+    stroke: #fff;
+    fill: #fff;
 }
 
 .optionAdd {
-    padding: 16px;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid var(--blue);
+    border-top: 1px solid var(--dark);
+    width: 60%;
+    margin-inline: auto;
 }
 
 .optionLink {
@@ -105,8 +99,4 @@
 
 .optionLink:hover {
     text-decoration: none;
-}
-
-.optionIcon {
-    color: var(--blue);
 }

@@ -1,84 +1,71 @@
-.page {
-    /*height: 580px;*/
-}
-
 /*.page > div {*/
-    /*height: 460px;*/
+/*    margin-bottom: 1.5rem;*/
 /*}*/
-.pageContainer {
-    max-height: 100%;
-    /*height: 480px;*/
-}
-.section h3 {
-    margin-top: 20px;
-}
 
-.section:first-of-type h3 {
-    margin-top: 0px;
-}
-
-.infoBox {
-    margin-top: 10px;
-    margin-bottom: 40px;
-}
-
-.dangerContent {
-    color: var(--red-dark);
-}
-
-.dangerContent input, .dangerContent textarea {
-    border-color: var(--red-dark);
-    color: var(--red-dark);
+.settingsSection h3 {
+    text-align: left;
 }
 
 .accounts {
     list-style-type: none;
-    margin: 0;
-    margin-bottom: 20px;
     padding: 0;
 }
 
 .accounts li {
-    border-bottom: 1px dashed var(--gray);
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 0.65rem;
 }
+
+
+/*.accounts li {*/
+/*    display: grid;*/
+/*    grid-template-columns: 70% 1fr;*/
+/*    align-items: end;*/
+/*}*/
 
 .accountLabel {
-    display: inline-block;
-    vertical-align: bottom;
-}
-
-.accountLabel * {
-    display: block;
+    text-align: left;
+    border-bottom: 1px solid var(--dark);
+    flex-grow: 1;
 }
 
 .accountLabel small {
-    color: var(--blue-dark);
+    display: block;
+    font-size: var(--font-smaller);
+    line-height: 1.4;
 }
 
 .accountActions {
-    display: inline-block;
-    vertical-align: bottom;
+    padding-bottom: .25rem;
+    min-width: 3.5rem;
 }
 
 .accountActions > * {
-    margin-top: 5px;
-    margin-left: 5px;
-    margin-bottom: 5px;
+    margin-inline: .5rem;
+    cursor: pointer;
 }
 
-.buttons {
-    margin-top: 30px;
-    text-align: center;
+.accountActions > *:hover,
+.accountActions > *:focus {
+    opacity: 0.7;
 }
 
-.buttons > *:first-child {
-    margin-right: 50px;
+.accountActions a:nth-of-type(2) {
+    color: var(--warning);
 }
 
-.list {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.accountActions a:nth-of-type(3) {
+    color: var(--primary);
+}
+
+:root[data-dark-mode] a[title="Edit account"] svg {
+    stroke: #fff;
+    fill: #fff;
+}
+
+a[class*="wide"] {
+    margin-bottom: 1.25rem;
 }
 
 @keyframes rotate {
@@ -107,4 +94,12 @@
     min-width: 30px;
     animation: rotate 1.25s linear infinite;
     color: var(--gray-dark);
+}
+
+#ChangePassword .title {
+    font-size: var(--font-bigger);
+}
+
+.list {
+    display: flex;
 }

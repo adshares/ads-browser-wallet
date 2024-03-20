@@ -1,0 +1,139 @@
+.page h2 {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.description {
+    text-align: justify;
+}
+
+.description a {
+    text-decoration: underline;
+}
+
+.amount {
+    margin-bottom: 25px;
+}
+
+.amount input {
+    width: 40%;
+}
+
+.amount > div {
+    margin-bottom: 10px;
+}
+
+.amount > div > span {
+    display: inline-block;
+    font-size: 30px;
+    line-height: 50px;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.amount > div > small {
+    margin-left: 20px;
+}
+
+.message {
+    margin-top: 40px;
+}
+
+.messageCheckbox {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 90%;
+}
+
+.buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.buttons > *:first-child {
+    margin-right: 50px;
+}
+
+.feeInfoBox > div {
+    margin-top: -15px;
+}
+
+.feeInfo {
+    text-align: center;
+    background: var(--yellow-dark);
+    color: var(--white);
+    padding: 10px;
+    margin: -15px 0 !important;
+    border-radius: 3px;
+    font-size: var(--font-big);
+    position: relative;
+}
+
+.transactionSuccess a {
+    margin: 10px 0;
+    font-size: var(--font-big);
+}
+
+.transactionSuccess small {
+    display: block;
+}
+
+.transactionSuccess small b {
+    display: block;
+    margin-top: 5px;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid var(--white);
+    font-weight: normal;
+ }
+
+.pendingPage > div:not(:first-of-type) {
+    border-top: 1px solid var(--gray);
+    margin: 10px 0;
+    padding: 10px 0;
+}
+
+.pendingPage > div > b {
+    display: inline-block;
+    width: 55%;
+}
+
+.pendingPage > div > span {
+    display: inline-block;
+    width: 45%;
+    text-align: right;
+}
+
+.pendingPage > div > i {
+    display: block;
+    padding: 3px 0;
+}
+
+.availableLinks {
+    margin-bottom: 20px;
+}
+
+.availableLinks > * {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.availableLinks > *:nth-child(odd) {
+
+}
+
+.availableLinks hr {
+    margin-bottom: 18px;
+    border-color: var(--blue-dark);
+    border-style: dashed;
+}
+
+.unwrap svg {
+    transform: rotatey(180deg);
+}

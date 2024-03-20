@@ -1,0 +1,30 @@
+.page {
+    text-align: center;
+    padding: 10px 50px 20px  50px;
+}
+
+.logo {
+    margin: 20px auto 30px auto;
+}
+
+.logo svg {
+    width: 140px;
+}
+
+.logo h1 {
+    margin-top: -20px;
+}
+
+.logo h3 {
+    color: var(--orange-dark);
+    margin: 15px 0;
+}
+
+.links {
+    margin-top: 30px;
+    font-size: var(--font-smaller);
+}
+
+.mainnetLink {
+    color: var(--orange-dark);
+}

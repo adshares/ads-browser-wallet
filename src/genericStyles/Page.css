@@ -1,0 +1,8 @@
+.buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.buttons a:first-child {
+    margin-right: 50px;
+}

@@ -1,0 +1,114 @@
+.page h1 {
+    text-align: center;
+}
+
+.fields {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.fields td {
+    margin: 0;
+    padding: 10px 4px;
+}
+
+.fields > tbody > tr > td {
+    border-bottom: 1px solid var(--gray);
+}
+
+.fields > tbody > tr > td:first-of-type {
+    vertical-align: top;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: var(--font-small);
+    min-width: 64px;
+}
+
+.fields > tbody > tr > td:first-of-type:after {
+    content: ':';
+}
+
+.fields a svg {
+    margin-left: 10px;
+}
+
+.fields code {
+    word-break: break-word;
+}
+
+.fields *[title] {
+    cursor: help;
+}
+
+.wires table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.wires table td {
+    font-weight: normal;
+    padding: 5px;
+}
+
+.wires table tbody tr:nth-child(odd) {
+    background: #eee;
+}
+
+.wires table tbody tr:last-child {
+    border-bottom: 1px solid #eee;
+}
+
+.wires > td:first-of-type {
+    padding-top: 5px;
+}
+
+.wires > td:first-of-type:after {
+    content: '' !important;
+}
+
+.showAdvanced > td {
+    border-bottom: none !important;
+    padding-top: 15px;
+    text-align: right !important;
+}
+
+.showAdvanced > td:first-of-type:after {
+    content: '' !important;
+}
+
+.keys td {
+    vertical-align: middle !important;
+}
+
+.keyLabel * {
+    display: block;
+}
+
+.keyLabel small {
+    color: var(--blue-dark);
+}
+
+.buttons {
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin-top: 20px;
+}
+
+.buttons > * {
+    margin: 0 15px;
+}
+
+.info {
+    text-align: center;
+    padding: 0px 4px 20px 4px;
+    margin: 0;
+    border-bottom: 1px solid var(--gray);
+}
+
+.info > pre {
+    border: 1px solid var(--gray);
+    padding: 4px;
+    white-space: pre-wrap;
+    text-align: left;
+    margin: 0;
+}

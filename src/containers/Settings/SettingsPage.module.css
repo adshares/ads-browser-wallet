@@ -1,0 +1,110 @@
+.page {
+    /*height: 580px;*/
+}
+
+/*.page > div {*/
+    /*height: 460px;*/
+/*}*/
+.pageContainer {
+    max-height: 100%;
+    /*height: 480px;*/
+}
+.section h3 {
+    margin-top: 20px;
+}
+
+.section:first-of-type h3 {
+    margin-top: 0px;
+}
+
+.infoBox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.dangerContent {
+    color: var(--red-dark);
+}
+
+.dangerContent input, .dangerContent textarea {
+    border-color: var(--red-dark);
+    color: var(--red-dark);
+}
+
+.accounts {
+    list-style-type: none;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.accounts li {
+    border-bottom: 1px dashed var(--gray);
+}
+
+.accountLabel {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.accountLabel * {
+    display: block;
+}
+
+.accountLabel small {
+    color: var(--blue-dark);
+}
+
+.accountActions {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.accountActions > * {
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.buttons > *:first-child {
+    margin-right: 50px;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.inputLoader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    pointer-events: all;
+    animation: fade-in 0.1s linear;
+    animation-fill-mode: forwards;
+}
+
+.inputSpinner {
+    min-height: 30px;
+    min-width: 30px;
+    animation: rotate 1.25s linear infinite;
+    color: var(--gray-dark);
+}

@@ -7,7 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-const ReactRefreshTypeScript = require('react-refresh-typescript')
 
 const ASSET_PATH = process.env.ASSET_PATH || '/'
 
@@ -91,23 +90,6 @@ const options = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: require.resolve('ts-loader'),
-            options: {
-              getCustomTransformers: () => ({
-                before: [isDevelopment && ReactRefreshTypeScript()].filter(
-                  Boolean
-                ),
-              }),
-              transpileOnly: isDevelopment,
-            },
-          },
-        ],
-      },
-      {
         test: /\.(js|jsx)$/,
         use: [
           {
@@ -131,6 +113,10 @@ const options = {
     extensions: fileExtensions
       .map((extension) => '.' + extension)
       .concat(['.js', '.jsx', '.css']),
+    fallback: {
+      "stream": require.resolve("stream-browserify"),
+      "buffer": require.resolve("buffer/"),
+    },
   },
   plugins: [
     isDevelopment && new ReactRefreshWebpackPlugin(),
@@ -208,39 +194,6 @@ const options = {
       chunks: ['popup'],
       cache: false,
     }),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     {
-    //       from: 'src/pages/Content/content.styles.css',
-    //       to: path.join(__dirname, 'build'),
-    //       force: true,
-    //     },
-    //   ],
-    // }),
-    // new HtmlWebpackPlugin({
-    //   template: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.html'),
-    //   filename: 'newtab.html',
-    //   chunks: ['newtab'],
-    //   cache: false,
-    // }),
-    // new HtmlWebpackPlugin({
-    //   template: path.join(__dirname, 'src', 'pages', 'Options', 'index.html'),
-    //   filename: 'options.html',
-    //   chunks: ['options'],
-    //   cache: false,
-    // }),
-    // new HtmlWebpackPlugin({
-    //   template: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.html'),
-    //   filename: 'devtools.html',
-    //   chunks: ['devtools'],
-    //   cache: false,
-    // }),
-    // new HtmlWebpackPlugin({
-    //   template: path.join(__dirname, 'src', 'pages', 'Panel', 'index.html'),
-    //   filename: 'panel.html',
-    //   chunks: ['panel'],
-    //   cache: false,
-    // }),
   ].filter(Boolean),
   infrastructureLogging: {
     level: 'info',

@@ -1,10 +1,9 @@
 import React from 'react';
 // import logo from '../../assets/img/logo.svg';
-import Greetings from '../../containers/Greetings/Greetings';
 import './Popup.css';
 import BgClient from '../../utils/background'
 
-const Popup = () => {
+const Popup1 = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -26,4 +25,4 @@ const Popup = () => {
   );
 };
 
-export default Popup;
+export default Popup1;

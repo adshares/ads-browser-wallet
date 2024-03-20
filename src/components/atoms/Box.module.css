@@ -1,0 +1,129 @@
+.box {
+    color: var(--white);
+    padding: 17px;
+    margin: 0 0 30px;
+    border-radius: 12px;
+    background: var(--slate-dark);
+    position: relative;
+}
+
+.box a {
+    color: var(--white)
+}
+
+.box hr {
+    border-color: var(--white);
+}
+
+.box.info {
+    background-color: var(--blue-dark);
+}
+
+.box.success {
+    background-color: var(--green-dark);
+}
+
+.box.warning {
+    background-color: var(--yellow-dark);
+}
+
+.box.danger {
+    background-color: var(--red-dark);
+}
+
+.box.inverse {
+    border: 1px solid var(--slate-dark);
+    color: var(--slate-dark);
+    background-color: var(--white);
+}
+
+.box.inverse a {
+    color: inherit;
+}
+
+.box.inverse hr {
+    border-color: var(--slate-dark);
+}
+
+.box.inverse > .icon {
+    background-color: transparent;
+}
+
+.box.inverse.info {
+    border-color: var(--blue-dark);
+    color: var(--blue-dark);
+}
+
+.box.inverse.info hr {
+    border-color: var(--blue-dark);
+}
+
+.box.inverse.success {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+}
+
+.box.inverse.success hr {
+    border-color: var(--green-dark);
+}
+
+.box.inverse.warning {
+    border-color: var(--yellow-dark);
+    color: var(--yellow-dark);
+}
+
+.box.inverse.warning hr {
+    border-color: var(--yellow-dark);
+}
+
+.box.inverse.danger {
+    border-color: var(--red-dark);
+    color: var(--red-dark);
+}
+
+.box.inverse.danger hr {
+    border-color: var(--red-dark);
+}
+
+.box .content {
+    margin: 0;
+    line-height: 24px;
+    overflow-wrap: break-word;
+}
+
+.box.large > .content {
+     opacity: 0.8;
+ }
+
+.box > h2 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 0 5px 0;
+    line-height: 24px;
+}
+
+.box.hasIcon {
+    padding-left: 80px;
+}
+
+.box > .icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    background-color: rgba(0,0,0,.05);
+}
+
+.box > .icon svg {
+    position: absolute;
+    width: 60px;
+    height: 50px;
+    top: 50%;
+    left: 0;
+    margin-top: -25px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 24px;
+}

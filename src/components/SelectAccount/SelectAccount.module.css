@@ -1,0 +1,112 @@
+.select {
+    background: var(--white);
+    border-radius: 3px;
+    transition: width 0.5s, border 0.5s ease-out ;
+    will-change: width;
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: 0;
+    border: 1px solid transparent;
+}
+
+.selectActive {
+    box-shadow: var(--shadow-dark);
+}
+
+.scrollableList {
+    height: auto;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.optionList {
+    padding: 0;
+    margin: 0;
+    transform: translateY(-64px);
+    transition: transform 0.2s linear;
+}
+
+.optionListActive {
+    transform: translateY(0);
+}
+
+.option {
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--white);
+    border: 1px solid transparent;
+    padding: 8px 0;
+    list-style: none;
+    text-transform: capitalize;
+    border-top: 1px dashed var(--gray);
+}
+
+.option:focus,
+.optionLink:focus {
+    outline: none;
+    background: var(--grayish-white);
+}
+
+.option:not(.optionActive):hover {
+    background: var(--grayish-white);
+}
+
+.optionActive {
+    margin: 0;
+    border: 0;
+    padding-bottom: 4px;
+    display: flex;
+    position: relative;
+    z-index: 11;
+    justify-content: space-between;
+    background: var(--white) !important;
+}
+
+.optionName {
+    color: var(--slate-dark);
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: var(--font-big);
+}
+
+.optionAccount {
+    color: var(--slate);
+    font-size: var(--font-small);
+}
+
+.optionAccount svg {
+    margin-left: 5px;
+}
+
+.optionBalance {
+    color: var(--slate);
+}
+
+.optionAdd {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--blue);
+}
+
+.optionLink {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-transform: none;
+}
+
+.optionLink:hover {
+    text-decoration: none;
+}
+
+.optionIcon {
+    color: var(--blue);
+}

@@ -1,4 +1,7 @@
 import BigNumber from 'bignumber.js';
+import about from './about'
+import terms from './terms'
+import attributions from './attributions'
 
 const config = {
   testnet: false,
@@ -37,9 +40,9 @@ const config = {
   attributionsUrl: 'https://adshares.net/wallet.html#attributions',
   freeCoinsUrl: 'https://github.com/adshares/ads/wiki/How-to-join-the-Testnet#get-free-test-coins',
   unwrapUrl: 'https://wallet.adshares.net/',
-  about: require('./about'),
-  terms: require('./terms'),
-  attributions: require('./attributions'),
+  about,
+  terms,
+  attributions,
   retrieve_account_data_period: 5000,
 };
 

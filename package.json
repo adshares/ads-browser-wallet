@@ -1,18 +1,37 @@
 {
-  "name": "chrome-extension-boilerplate-react",
-  "version": "5.0.4",
-  "description": "A chrome extension boilerplate built with React 18, Webpack 5, and Webpack Dev Server 4",
-  "license": "MIT",
+  "name": "@adshares/ads-browser-wallet",
+  "version": "0.4.10",
+  "display-name": "ADS Wallet",
+  "description": "Secure identity vault for Adshares network.",
+  "private": true,
+  "author": "Adshares <dev@adshares.net>",
+  "license": "GPL-3.0",
+  "keywords": [
+    "adshares",
+    "ads",
+    "wallet",
+    "chrome",
+    "extension"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
+    "url": "https://github.com/adshares/ads-browser-wallet.git"
   },
+  "bugs": {
+    "url": "https://github.com/adshares/ads-browser-wallet/issues"
+  },
+  "homepage": "https://github.com/adshares/ads-browser-wallet#readme",
   "scripts": {
-    "build": "node utils/build.js",
-    "start": "node utils/webserver.js",
+    "dev": "node scripts/webserver.js",
+    "build": "node scripts/build.js",
+    "clean": "rimraf build/ zip/",
+    "lint": "eslint src scripts/*.js",
+    "lint-fix": "eslint src scripts/*.js --fix",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "dependencies": {
+    "bignumber.js": "^9.1.2",
+    "eslint-config-airbnb": "^19.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -1,13 +1,14 @@
 import React from 'react';
-import logo from '../../assets/img/logo.svg';
+// import logo from '../../assets/img/logo.svg';
 import Greetings from '../../containers/Greetings/Greetings';
 import './Popup.css';
+import BgClient from '../../utils/background'
 
 const Popup = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum, ipsa, quos. A assumenda blanditiis cumque, dolores eum ex fugiat ipsa ipsum iste laudantium maiores nam non numquam perferendis quam. Fugit.
         <p>
           Edit <code>src/pages/Popup/Popup.jsx</code> and save to reload.
         </p>
@@ -19,6 +20,7 @@ const Popup = () => {
         >
           Learn React!
         </a>
+        <button onClick={() => BgClient.startSession('secret', (data) => {console.log(data)})}>test</button>
       </header>
     </div>
   );
